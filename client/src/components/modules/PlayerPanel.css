@@ -1,0 +1,31 @@
+.PlayerPanelTop {
+    text-align: center;
+    font-size: x-large;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: aqua;
+}
+
+.PlayerPanelLeft {
+    /* display: inline; */
+    text-align: left;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: blueviolet;
+}
+
+.PlayerPanelRight {
+    /* display: inline; */
+    text-align: left;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: brown;
+}
+
+.Canvas {
+    /* display: inline; */
+    text-align: left;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: white;
+}
