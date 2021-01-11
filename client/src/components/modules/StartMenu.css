@@ -1,0 +1,20 @@
+.StartMenu-button {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 0;
+    border-color: var(--border-color);
+    color: var(--border-color);
+    font-family: var(--font-primary);
+}
+
+.StartMenu-buttonsRow{
+    display: flex;
+    justify-content: space-evenly;
+    width: 65%;
+}
+
+.StartMenu-link {
+    flex-grow: 1;
+    flex-basis: 0;
+    justify-content: space-evenly;
+}

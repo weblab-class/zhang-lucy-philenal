@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Router, Link } from "react-router-dom";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "../../utilities.css";
@@ -53,6 +54,14 @@ class Skeleton extends Component {
           <li>Add a favicon to your website at the path client/dist/favicon.ico</li>
           <li>Update website title in client/dist/index.html</li>
         </ul>
+        {/* <Router>
+          <Link to="/pixeler">
+            <button className="newGameButton" type="button">
+              New Game
+            </button>
+          </Link>
+        </Router> */}
+
       </>
     );
   }

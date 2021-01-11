@@ -31,14 +31,30 @@
   --orange: #ffebd7;
   --yellow: #fafdc7;
   --green: #caf9c5;
+  --light-grey: #bab9b9;
   --grey: #646464;
+  --dark-grey: #4b4b4b;
 
   --xs: 4px;
   --s: 8px;
   --m: 16px;
   --l: 24px;
 
-  --background: rgb(249, 235, 234);
+  --background-color: rgb(249, 235, 234);
+  --border-color: rgb(100, 100, 100);
+  --text-color: rgb(100, 100, 100);
+
+  --font-primary: 'Alata', sans-serif;
+
+  --color-1: rgb(248, 211, 210);
+  --color-2: rgb(252, 235, 217);
+  --color-3: rgb(233, 232, 190);
+  --color-4: rgb(211, 247, 201);
+
+  --pixel-color-unfilled: var(--white);
+  --pixel-color-filled: var(--dark-grey);
+  --pixel-color-hover: var(--light-grey);
+  
 }
 
 body {
@@ -46,11 +62,27 @@ body {
   padding: 0;
   font-family: 'Alata', sans-serif;
   font-weight: 100;
-  background-color: var(--background); 
+  background-color: var(--background-color); 
 }
 
 form {
   flex-grow: 1;
+}
+
+.u-color-1 {
+  background-color: var(--color-1);
+}
+
+.u-color-2 {
+  background-color: var(--color-2);
+}
+
+.u-color-3 {
+  background-color: var(--color-3);
+}
+
+.u-color-4 {
+  background-color: var(--color-4);
 }
 
 .u-flex {
