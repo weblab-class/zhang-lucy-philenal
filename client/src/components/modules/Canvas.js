@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import PixelBlock from "./PixelBlock.js";
 
 import "../../utilities.css";
 import "./Canvas.css";
@@ -34,8 +35,10 @@ class CanvasPanel extends Component {
   render() {
     return (
       <>
-        hi i'm the canvas! paint on me :D
-        <div className="Canvas"> </div>
+        {/* hi i'm the canvas! paint on me :D */}
+        <div className="Canvas">
+          <PixelBlock size={this.state.block_size}/>
+        </div>
       </>
     );
   }

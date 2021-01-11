@@ -31,7 +31,9 @@
   --orange: #ffebd7;
   --yellow: #fafdc7;
   --green: #caf9c5;
+  --light-grey: #bab9b9;
   --grey: #646464;
+  --dark-grey: #4b4b4b;
 
   --xs: 4px;
   --s: 8px;
@@ -48,6 +50,11 @@
   --color-2: rgb(252, 235, 217);
   --color-3: rgb(233, 232, 190);
   --color-4: rgb(211, 247, 201);
+
+  --pixel-color-unfilled: var(--white);
+  --pixel-color-filled: var(--dark-grey);
+  --pixel-color-hover: var(--light-grey);
+  
 }
 
 body {
