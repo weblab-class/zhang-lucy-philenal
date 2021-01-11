@@ -7,6 +7,8 @@
 |
 */
 
+const MY_NAME = "Fluffy Corgi";
+
 const express = require("express");
 
 // import models so we can interact with the database
@@ -18,6 +20,15 @@ const auth = require("./auth");
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
+// TODO: Fix these API's, these are just the nonsocket versions
+const Board = require("./models/board");
+
+router.get("/board", (req, res) => {
+  Board.find({_id: req.query._id}).then((board) => res.send(board));
+});
+
+
+// TODO: Move stuff below socket
 //initialize socket
 const socketManager = require("./server-socket");
 
