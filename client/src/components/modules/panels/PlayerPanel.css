@@ -38,15 +38,25 @@
 
 /* player icon styling */
 
+.PlayerIconContainer {
+    padding: 12px 0px;
+}
 
 .PlayerIconSquare {
-    width: 50px;
-    height: 50px;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
     border-style: solid;
     border-color: var(--grey);
-    color: var(--pink);
+    background-color: var(--pink);
 }
 
-.PlayerOrderSection {
-    padding: var(--m) var(--l);
+.PlayerName {
+    width: 24px;
+    height: 24px;
+    
 }
+.PlayerOrderSection {
+    padding: 0 var(--l);
+}
+
