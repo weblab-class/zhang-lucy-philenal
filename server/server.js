@@ -25,6 +25,7 @@ const session = require("express-session"); // library that stores info about ea
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const path = require("path"); // provide utilities for working with file and directory paths
 
+require("dotenv").config();
 const api = require("./api");
 const auth = require("./auth");
 
@@ -33,9 +34,9 @@ const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "FILL ME IN";
+const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
-const databaseName = "FILL ME IN";
+const databaseName = "pixonary";
 
 // connect to mongodb
 mongoose
