@@ -13,6 +13,8 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  *
  * Proptypes
  * @param {string} size length of each side of the square
+ * @param {string} _id unique ID relative to other pixels in 
+ *                     the same canvas
  */
 class PixelBlock extends Component {
   constructor(props) {

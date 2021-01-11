@@ -14,6 +14,7 @@ const CANVAS_HEIGHT_PX = 500;
 
 const CANVAS_WIDTH_BLOCKS = 10;
 const CANVAS_HEIGHT_BLOCKS = 10;
+const NUM_BLOCKS = CANVAS_WIDTH_BLOCKS * CANVAS_HEIGHT_BLOCKS; 
 
 class CanvasPanel extends Component {
   constructor(props) {
@@ -33,11 +34,26 @@ class CanvasPanel extends Component {
   }
 
   render() {
+    let pixels = []
+    let _id = 0;
+    for (let i = 0; i < CANVAS_HEIGHT_BLOCKS; i++) {
+      // let row = []
+      for (let j = 0; j < CANVAS_WIDTH_BLOCKS; j++) {
+        pixels.push(
+          <div className="Canvas-pixelBlockContainer">
+            <PixelBlock _id={_id} size={this.state.block_size}/>
+          </div>
+        );
+        _id++;
+      }
+      // pixels.push(row);
+    }
+
     return (
       <>
         {/* hi i'm the canvas! paint on me :D */}
         <div className="Canvas">
-          <PixelBlock size={this.state.block_size}/>
+          {pixels}
         </div>
       </>
     );

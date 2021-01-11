@@ -2,5 +2,10 @@
     width: 500px;
     height: 500px;
     background-color: white;
-    /* display: grid; */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Canvas-pixelBlockContainer {
+    display: flex;
 }
