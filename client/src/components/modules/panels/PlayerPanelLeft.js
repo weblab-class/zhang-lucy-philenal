@@ -23,7 +23,7 @@ class PlayerPanelLeft extends Component {
     return (
       <>
         <div className="PlayerPanelLeft">I am the left panel!</div>
-        <PlayerOrder/>
+        {/* <PlayerOrder/> */}
       </>
     );
   }
