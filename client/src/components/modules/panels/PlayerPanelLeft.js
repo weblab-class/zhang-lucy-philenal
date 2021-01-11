@@ -47,29 +47,29 @@ class PlayerPanelLeft extends Component {
   }
 
   render() {
-      let i;
-      let hiddenWord = "";
-      for (i = 0; i < word.length; i++) {
-        hiddenWord += "_ ";
-      }
+    let hiddenWord = "";
+    for (let i = 0; i < word.length; i++) {
+      hiddenWord += "_ ";
+    }
+    let players = []
+    for (let i = 0; i < playersList.length; i++) {
+      players.push(
+        <div className="PlayerPanelLeft-player">
+          {playersList[i].playername}
+        </div>
+      )
+    }
     return (
       <>
-        <div className="PlayerPanelLeft">
-          I am the left panel!
-          <h2>word: </h2>
-          <span class="PlayerOrderSection">{hiddenWord}</span>
-          <h2>guesser:</h2>
-          <div class="PlayerOrderSection">
-          <PlayerIcon
-                  _id={guesser._id}
-                  playername={guesser.playername}
-                />
-          </div>
-          
-          <h2>pixelers:</h2>
-          <PlayerOrder players= {playersList}/>
-          </div>
-        
+        {/* TODO (philena): Make this prettier */}
+        {/* TODO (philena): Add logic to change formatting to indicate whether each user is active pixeler
+            or not */}
+            
+        <div className="PlayerPanelLeft">I am the left panel!
+          <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div>
+          {players}
+          {/* <PlayerOrder players={playersList}/> */}
+        </div>
         
       </>
     );

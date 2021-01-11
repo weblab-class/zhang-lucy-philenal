@@ -26,10 +26,12 @@
     width: 600px;
     height: 100%;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .CanvasContainer {
     width: 500px;
+    height: 500px;
     flex-grow: 1;
     flex-basis: 0;
     padding: 0;
@@ -45,12 +47,12 @@
 }
 
 .PlayerIconSquare {
-    width: 24px;
-    height: 24px;
-    margin-right: 12px;
-    border-style: solid;
-    border-color: var(--grey);
-    background-color: var(--pink);
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 0;
+    border-color: var(--border-color);
+    color: var(--border-color);
+    font-family: var(--font-primary);
 }
 
 .PlayerName {

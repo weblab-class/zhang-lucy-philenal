@@ -1,42 +1,47 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { Link } from "@reach/router";
 
 import "../../utilities.css";
-import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
-// TBD?
-// import "./Guesser.css";
+import "./StartMenu.css";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
-
 /**
- * This is the page view of one of the pixelers
- * TODO: Make a Player.js file with conditional rendering
- * between this Pixeler and the Guesser
- * 
- * @param game_id The ID of the game
- * @param user_id The ID of the particular player
+ * Generic TextEntry component
+ * @param callback callback function to parent component
  */
-class Guesser extends Component {
+class TextEntry extends Component {
   constructor(props) {
     super(props);
+
     // Initialize Default State
-    this.state = {};
+    this.state = {
+        text: "",
+    };
   }
 
   componentDidMount() {
     // remember -- api calls go here!
   }
 
+  onTextChange = (event) => {
+    this.props.callback(event.target.value);
+  }
+
   render() {
     return (
       <>
-        <PlayerPanelTop/>
-        hi you are the guesser!
+        <form>
+        <input
+            type='text'
+            onChange={this.onTextChange}
+        />
+        </form>
       </>
     );
   }
 }
 
-export default Guesser;
+export default TextEntry;

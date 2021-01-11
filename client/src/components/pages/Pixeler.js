@@ -7,18 +7,24 @@ import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import CanvasPanel from "../modules/panels/CanvasPanel";
 
-// TBD?
 import "./Player.css";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+/**
+ * This is the page view of one of the pixelers
+ * TODO: Make a Player.js file with conditional rendering
+ * between this Pixeler and the Guesser
+ * 
+ * @param game_id The ID of the game
+ * @param user_id The ID of the particular player
+ */
 class Pixeler extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
     this.state = {
-      name: "Philena",
     };
   }
 
@@ -35,7 +41,7 @@ class Pixeler extends Component {
             <PlayerPanelLeft/>
           </div>
           <div className="Player-subContainer">
-            <CanvasPanel/>
+            <CanvasPanel canvas_height_blocks={20} canvas_width_blocks={20} />
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>
