@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
-import "../../utilities.css";
+import "../../../utilities.css";
 import "./PlayerPanel.css";
+import Canvas from "../Canvas.js";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
-class PlayerPanelLeft extends Component {
+class CanvasPanel extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
@@ -22,10 +23,14 @@ class PlayerPanelLeft extends Component {
   render() {
     return (
       <>
-        <div className="PlayerPanelLeft">I am the left panel!</div>
+        <div className="CanvasPanel">
+          <div className="CanvasContainer">
+            <Canvas/>
+          </div>
+        </div>
       </>
     );
   }
 }
 
-export default PlayerPanelLeft;
+export default CanvasPanel;
