@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Login from "./pages/Login.js";
-import Skeleton from "./pages/Skeleton.js";
 import Start from "./pages/Start.js";
+import Skeleton from "./pages/Skeleton.js";
+// import Start from "./pages/OldStart.js";
 import JoinGame from "./pages/JoinGame.js";
 import NewGame from "./pages/NewGame.js";
 import Guesser from "./pages/Guesser.js";
@@ -29,12 +29,12 @@ class App extends Component {
 
   componentDidMount() {
     // TODO
-    // get("/api/whoami").then((user) => {
-    //   if (user._id) {
-    //     // they are registed in the database, and currently logged in.
-    //     this.setState({ userId: user._id });
-    //   }
-    // });
+    get("/api/whoami").then((user) => {
+      if (user._id) {
+        // they are registed in the database, and currently logged in.
+        this.setState({ userId: user._id });
+      }
+    });
   }
 
   handleLogin = (res) => {
@@ -44,6 +44,7 @@ class App extends Component {
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
       this.setState({ userId: user._id });
+      this.setState({ userName: res.profileObj.name });
       // TODO: comment back in after sockets
       // post("/api/initsocket", { socketid: socket.id });
     });
@@ -63,14 +64,15 @@ class App extends Component {
           <Skeleton
             path="/skeleton"
           />
-          <Login path="/"
+          <Start path="/"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
+            userName={this.state.userName}
           />
-          <Start path="/start" />
+          {/* <Start path="/start" /> */}
           <JoinGame path="/joingame" />
-          <JoinGame path="/newgame" />
+          <NewGame path="/newgame" />
           <Guesser path="/guesser" />
           <Pixeler path="/pixeler" />
           <NotFound default />

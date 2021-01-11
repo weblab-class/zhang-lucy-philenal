@@ -56,7 +56,7 @@ class PixelBlock extends Component {
             style={{width: this.props.size, height: this.props.size}}
             onMouseOver={this.onHover}
             onMouseLeave={this.onNonHover}
-            onClick={this.onClick}
+            onMouseDown={this.onClick}
         >
         </div>
       </>
