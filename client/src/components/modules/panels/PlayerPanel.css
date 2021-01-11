@@ -1,7 +1,6 @@
 .PlayerPanelTop {
     text-align: center;
     font-size: x-large;
-    margin: 1rem;
     padding: 1rem;
     background-color: aqua;
 }
@@ -9,7 +8,6 @@
 .PlayerPanelLeft {
     height: 100%;
     text-align: left;
-    margin: 1rem;
     padding: 1rem;
     background-color: blueviolet;
 }
@@ -17,16 +15,23 @@
 .PlayerPanelRight {
     height: 100%;
     text-align: left;
-    margin: 1rem;
     padding: 1rem;
     background-color: brown;
 }
 
-.Canvas {
-    text-align: left;
-    margin: 1rem;
+.CanvasPanel {
+    text-align: center;
     padding: 1rem;
-    background-color: white;
+    background-color: yellow;
+    width: 600px;
+    height: 100%;
+    display: flex;
+}
+
+.CanvasContainer {
     width: 500px;
-    height: 100%
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0;
+    margin: 0 auto;
 }

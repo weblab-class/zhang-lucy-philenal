@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
-import "../../utilities.css";
-import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
-// TBD?
-// import "./Guesser.css";
+import "../../../utilities.css";
+import "./PlayerPanel.css";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
-class Guesser extends Component {
+class PlayerPanelLeft extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {
+    };
   }
 
   componentDidMount() {
@@ -23,11 +22,10 @@ class Guesser extends Component {
   render() {
     return (
       <>
-        <PlayerPanelTop/>
-        hi you are the guesser!
+        <div className="PlayerPanelLeft">I am the left panel!</div>
       </>
     );
   }
 }
 
-export default Guesser;
+export default PlayerPanelLeft;

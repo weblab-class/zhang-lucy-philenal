@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "../../utilities.css";
-import PlayerPanelTop from "../modules/PlayerPanelTop";
-import PlayerPanelLeft from "../modules/PlayerPanelLeft";
-import PlayerPanelRight from "../modules/PlayerPanelRight";
-import Canvas from "../modules/Canvas";
+import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
+import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
+import CanvasPanel from "../modules/panels/CanvasPanel";
 
 // TBD?
 import "./Player.css";
@@ -35,7 +35,7 @@ class Pixeler extends Component {
             <PlayerPanelLeft/>
           </div>
           <div className="Player-subContainer">
-            <Canvas/>
+            <CanvasPanel/>
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>
