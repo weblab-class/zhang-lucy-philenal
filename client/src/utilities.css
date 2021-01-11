@@ -23,8 +23,15 @@
   --primary--dim: #6987db;
   --darkgrey: #d4d4d4;
   --medgrey: #e0e0e0;
-  --grey: #f7f7f7;
+ /*  --grey: #f7f7f7; */
   --white: #fff;
+
+  /* our colors */
+  --pink: #ffd1d1;
+  --orange: #ffebd7;
+  --yellow: #fafdc7;
+  --green: #caf9c5;
+  --grey: #646464;
 
   --xs: 4px;
   --s: 8px;
