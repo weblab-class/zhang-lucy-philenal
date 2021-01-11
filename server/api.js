@@ -54,9 +54,9 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.post("/newgame", (req, res) => {
+router.post("/new", (req, res) => {
   const newGame = new Game({
-    _id: 0,
+    _id: req.content.game_id, // TODO: change this
     host_id: req.content.user_id,
     players: [],
   });

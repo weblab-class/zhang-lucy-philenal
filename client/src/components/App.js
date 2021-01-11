@@ -23,7 +23,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: undefined,
+      user_id: undefined,
     };
   }
 
@@ -32,7 +32,7 @@ class App extends Component {
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
+        this.setState({ user_id: user._id });
       }
     });
   }
@@ -43,7 +43,7 @@ class App extends Component {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id });
+      this.setState({ user_id: user._id });
       this.setState({ userName: res.profileObj.name });
       // TODO: comment back in after sockets
       // post("/api/initsocket", { socketid: socket.id });
@@ -53,7 +53,7 @@ class App extends Component {
   handleLogout = () => {
     // TODO
     console.log("logged out")
-    this.setState({ userId: undefined });
+    this.setState({ user_id: undefined });
     post("/api/logout");
   };
 
@@ -67,7 +67,7 @@ class App extends Component {
           <Start path="/"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
-            userId={this.state.userId}
+            user_id={this.state.user_id}
             userName={this.state.userName}
           />
           {/* <Start path="/start" /> */}

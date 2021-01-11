@@ -12,7 +12,7 @@
 
 // /**
 //  * Start page, contains `Join Game` and `New Game` options.
-//  * @param userId
+//  * @param user_id
 //  */
 // class Start extends Component {
 //   constructor(props) {

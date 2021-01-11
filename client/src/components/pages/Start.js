@@ -16,7 +16,7 @@ class Start extends Component {
     // Initialize Default State
     this.state = {
       loggedIn: false,
-      userId: null,
+      user_id: null,
     };
   }
 
@@ -26,16 +26,16 @@ class Start extends Component {
 
   onLogin = (res) => {
     this.props.handleLogin(res);
-    this.setState({userId: "temp", loggedIn: true});
+    this.setState({user_id: "temp", loggedIn: true});
   }
 
   onLogout = (res) => {
     this.props.handleLogout(res);
-    this.setState({userId: null, loggedIn: false});
+    this.setState({user_id: null, loggedIn: false});
   }
 
   render() {
-    if (this.props.userId) {
+    if (this.props.user_id) {
       return (
         <>
           <div>hello, {this.props.userName}!</div>
@@ -55,7 +55,7 @@ class Start extends Component {
           <div className="Login-welcomeMessage">
             login to start:
           </div>
-          {this.props.userId ? (
+          {this.props.user_id ? (
             <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Logout"
