@@ -26,23 +26,23 @@ class StartMenu extends Component {
       <>
         <div className="StartMenu-buttonsRow">
             <div className="StartMenu-linkContainer">
-                <Link to="/" className="StartMenu-link">
+                <Link to="/skeleton" className="StartMenu-link">
                     <button className="StartMenu-button u-color-1">how to play</button>
                 
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/pixeler/" className="StartMenu-link">
+                <Link to="/newgame/" className="StartMenu-link">
                     <button className="StartMenu-button u-color-2">new game</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/guesser/" className="StartMenu-link">
+                <Link to="/joingame/" className="StartMenu-link">
                     <button className="StartMenu-button u-color-3">join game</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/profile/" className="StartMenu-link">
+                <Link to="/pixeler/" className="StartMenu-link">
                     <button className="StartMenu-button u-color-4">my wall</button>
                 </Link>
             </div>

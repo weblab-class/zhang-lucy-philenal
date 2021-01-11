@@ -14,24 +14,66 @@ class Start extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {
+      loggedIn: false,
+      userId: null,
+    };
   }
 
   componentDidMount() {
     // remember -- api calls go here!
   }
 
+  onLogin = (res) => {
+    this.props.handleLogin(res);
+    this.setState({userId: "temp", loggedIn: true});
+  }
+
+  onLogout = (res) => {
+    this.props.handleLogout(res);
+    this.setState({userId: null, loggedIn: false});
+  }
+
   render() {
-    return (
-      <>
-        <div className="Start-title">
-            <PlayerPanelTop/>
-        </div>
-        <div className="Start-startMenu">
-            <StartMenu/>
-        </div>
-      </>
-    );
+    if (this.props.userId) {
+      return (
+        <>
+          <div>hello, {this.props.userName}!</div>
+          <div className="Start-title">
+              <PlayerPanelTop/>
+          </div>
+          <div className="Start-startMenu">
+              <StartMenu/>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          {/* TODO (philena): prettify! maybe center everything?*/}
+          <PlayerPanelTop/>
+          <div className="Login-welcomeMessage">
+            login to start:
+          </div>
+          {this.props.userId ? (
+            <GoogleLogout
+              clientId={GOOGLE_CLIENT_ID}
+              buttonText="Logout"
+              onLogoutSuccess={this.onLogout}
+              onFailure={(err) => console.log(err)}
+            />
+          ) : (
+            <GoogleLogin
+              clientId={GOOGLE_CLIENT_ID}
+              buttonText="Login"
+              onSuccess={this.onLogin}
+              onFailure={(err) => console.log(err)}
+            />
+          )}
+        </>
+      );
+    }
+    
   }
 }
 
