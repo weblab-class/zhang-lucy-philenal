@@ -3,6 +3,8 @@ import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 import Start from "./pages/Start.js";
+import JoinGame from "./pages/JoinGame.js";
+import NewGame from "./pages/NewGame.js";
 import Guesser from "./pages/Guesser.js";
 import Pixeler from "./pages/Pixeler.js";
 
@@ -58,6 +60,8 @@ class App extends Component {
             userId={this.state.userId}
           />
           <Start path="/start" />
+          <JoinGame path="/joingame" />
+          <JoinGame path="/newgame" />
           <Guesser path="/guesser" />
           <Pixeler path="/pixeler" />
           <NotFound default />
