@@ -9,3 +9,7 @@
 .Canvas-pixelBlockContainer {
     display: flex;
 }
+
+.Canvas-footer {
+    display: flex;
+}

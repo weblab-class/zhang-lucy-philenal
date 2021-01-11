@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+/**
+ * This is the page view when the user reaches an invalid URL
+ */
 class NotFound extends Component {
   constructor(props) {
     super(props);
