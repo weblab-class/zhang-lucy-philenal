@@ -54,7 +54,6 @@ class PlayerPanelLeft extends Component {
       }
     return (
       <>
-<<<<<<< HEAD
         <div className="PlayerPanelLeft">
           I am the left panel!
           <h2>word: </h2>
@@ -72,10 +71,6 @@ class PlayerPanelLeft extends Component {
           </div>
         
         
-=======
-        <div className="PlayerPanelLeft">I am the left panel!</div>
-        {/* <PlayerOrder/> */}
->>>>>>> 4de2165d3dde38b675852c7fbdd4584c9ba1378d
       </>
     );
   }
