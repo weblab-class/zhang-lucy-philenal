@@ -22,7 +22,7 @@ class Skeleton extends Component {
   render() {
     return (
       <>
-        {/* {this.props.userId ? (
+        {/* {this.props.user_id ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Logout"
