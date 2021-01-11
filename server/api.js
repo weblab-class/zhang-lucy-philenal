@@ -21,6 +21,7 @@ const auth = require("./auth");
 const router = express.Router();
 
 // TODO: Fix these API's, these are just the nonsocket versions
+const Game = require("./models/game");
 const Board = require("./models/board");
 
 router.get("/board", (req, res) => {
@@ -52,6 +53,16 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.post("/newgame", (req, res) => {
+  const newGame = new Game({
+    _id: 0,
+    host_id: req.content.user_id,
+    players: [],
+  });
+
+  newGame.save().then((game) => res.send(game));
+})
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

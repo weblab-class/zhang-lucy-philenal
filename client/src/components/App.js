@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
+import Login from "./pages/Login.js";
 import Skeleton from "./pages/Skeleton.js";
 import Start from "./pages/Start.js";
 import JoinGame from "./pages/JoinGame.js";
@@ -27,24 +28,30 @@ class App extends Component {
   }
 
   componentDidMount() {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        this.setState({ userId: user._id });
-      }
-    });
+    // TODO
+    // get("/api/whoami").then((user) => {
+    //   if (user._id) {
+    //     // they are registed in the database, and currently logged in.
+    //     this.setState({ userId: user._id });
+    //   }
+    // });
   }
 
   handleLogin = (res) => {
+    // TODO
+    console.log("reeeee");
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
       this.setState({ userId: user._id });
-      post("/api/initsocket", { socketid: socket.id });
+      // TODO: comment back in after sockets
+      // post("/api/initsocket", { socketid: socket.id });
     });
   };
 
   handleLogout = () => {
+    // TODO
+    console.log("logged out")
     this.setState({ userId: undefined });
     post("/api/logout");
   };
@@ -54,7 +61,9 @@ class App extends Component {
       <>
         <Router>
           <Skeleton
-            path="/"
+            path="/skeleton"
+          />
+          <Login path="/"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
