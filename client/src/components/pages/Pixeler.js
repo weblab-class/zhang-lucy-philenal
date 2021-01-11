@@ -31,13 +31,13 @@ class Pixeler extends Component {
       <>
         <PlayerPanelTop/>
         <div className="u-flex">
-          <div className="Player-subContainer">
+          <div className="Player-subPanel">
             <PlayerPanelLeft/>
           </div>
           <div className="Player-subContainer">
             <Canvas/>
           </div>
-          <div className="Player-subContainer">
+          <div className="Player-subPanel">
             <PlayerPanelRight/>
           </div>
         </div>
