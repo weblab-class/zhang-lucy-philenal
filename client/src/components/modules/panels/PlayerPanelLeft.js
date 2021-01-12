@@ -51,14 +51,14 @@ class PlayerPanelLeft extends Component {
     for (let i = 0; i < word.length; i++) {
       hiddenWord += "_ ";
     }
-    let players = []
+    /* let players = []
     for (let i = 0; i < playersList.length; i++) {
       players.push(
         <div className="PlayerPanelLeft-player">
           {playersList[i].playername}
         </div>
       )
-    }
+    } */
     return (
       <>
         {/* TODO (philena): Make this prettier */}
@@ -67,8 +67,8 @@ class PlayerPanelLeft extends Component {
             
         <div className="PlayerPanelLeft">I am the left panel!
           <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div>
-          {players}
-          {/* <PlayerOrder players={playersList}/> */}
+          {/* {players} */}
+          <PlayerOrder players={playersList}/>
         </div>
         
       </>

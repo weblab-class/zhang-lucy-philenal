@@ -42,25 +42,52 @@
 
 /* player icon styling */
 
-.PlayerIconContainer {
+.PlayerIcon-container {
     padding: 12px 0px;
+    display: flex;
+    justify-content: flex-start;
+    /* color: var(--grey); */
 }
 
-.PlayerIconSquare {
-    height: 1.5rem;
-    width: 1.5rem;
+.PlayerIcon-left {
+    display:flex;
+    flex-basis: 0;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.PlayerIcon-right {
+    flex: 1;
+    margin-left: 8px;
+}
+
+.PlayerIcon-order {
+    flex: 1;
+    text-align: center;
+}
+
+.PlayerIcon-icon {
+    flex: 1;
+    /*margin-left: .5rem;*/
+    max-height: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    min-width: 16px;
     border-radius: 0;
     border-color: var(--border-color);
     color: var(--border-color);
     font-family: var(--font-primary);
 }
 
-.PlayerName {
-    width: 24px;
-    height: 24px;
+.PlayerIcon-name {
+    /* width: 24px;
+    height: 24px; */
+    /* position: relative;
+    bottom: .5rem; */
+    margin-left: .5rem;
     
 }
-.PlayerOrderSection {
-    padding: 0 var(--l);
+.PlayerOrder-container {
+    /* padding: 0 var(--l); */
 }
 
