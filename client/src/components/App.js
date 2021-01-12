@@ -3,7 +3,7 @@ import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Start from "./pages/Start.js";
 import Skeleton from "./pages/Skeleton.js";
-// import Start from "./pages/OldStart.js";
+import Lobby from "./pages/Lobby.js";
 import JoinGame from "./pages/JoinGame.js";
 import NewGame from "./pages/NewGame.js";
 import Guesser from "./pages/Guesser.js";
@@ -69,7 +69,7 @@ class App extends Component {
             user_id={this.state.user_id}
             userName={this.state.userName}
           />
-          {/* <Start path="/start" /> */}
+          <Lobby path="/lobby" />
           <JoinGame path="/joingame" />
           <NewGame path="/newgame" />
           <Guesser path="/guesser" />

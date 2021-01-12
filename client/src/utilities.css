@@ -50,6 +50,7 @@
   --color-2: rgb(252, 235, 217);
   --color-3: rgb(233, 232, 190);
   --color-4: rgb(211, 247, 201);
+  --color-error: rgb(249, 55, 55);
 
   --pixel-color-unfilled: var(--white);
   --pixel-color-filled: var(--dark-grey);
@@ -99,8 +100,8 @@ form {
   background-color: var(--color-4);
 }
 
-.u-color-white {
-  background-color: white;
+.u-text-error {
+  color: var(--color-error);
 }
 
 .u-flex {
