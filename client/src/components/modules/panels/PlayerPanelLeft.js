@@ -32,6 +32,8 @@ const guesser = {
   _id: 0
 };
 
+let turn = 0; //whose turn it is -- max is playersList.length-1 (0-indexed)
+
 const word = "hello"
 
 class PlayerPanelLeft extends Component {
@@ -68,7 +70,7 @@ class PlayerPanelLeft extends Component {
         <div className="PlayerPanelLeft">I am the left panel!
           <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div>
           {/* {players} */}
-          <PlayerOrder players={playersList}/>
+          <PlayerOrder players={playersList} turn={turn}/>
         </div>
         
       </>
