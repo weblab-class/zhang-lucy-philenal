@@ -6,10 +6,19 @@
 }
 
 .PlayerPanelLeft {
+    /* position: absolute;
+    margin-right: 50px; */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: right; */
+    /* justify-content: center; */
+    position: absolute;
+    right: var(--s);
+    width: min-content;
     height: 100%;
     text-align: left;
     padding: 1rem;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
 }
 
 .PlayerPanelRight {
@@ -43,12 +52,21 @@
     justify-content: center;
 }
 
+/* word styling */
+h2 > .PlayerPanelLeft-word {
+    color: var(--light-grey);
+}
+.PlayerPanelLeft-hiddenWord {
+    margin-bottom: var(--l);
+}
+
 /* player icon styling */
 
 .PlayerIcon-container {
-    padding: 12px 0px;
+    padding: var(--m) 0px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    width: 120px;
     /* color: var(--grey); */
 }
 
@@ -56,10 +74,13 @@
     background-color: white;
 }
 .PlayerIcon-left {
+    
     display:flex;
     flex-basis: 0;
+    
     flex: 1;
     justify-content: space-between;
+    /* justify-content: flex-end; */
 }
 
 .PlayerIcon-right {
@@ -69,31 +90,33 @@
 
 .PlayerIcon-order {
     flex: 1;
-    text-align: center;
+    text-align: right;
+    margin: 0px 10px;
 }
 
 .PlayerIcon-icon {
     flex: 1;
     /*margin-left: .5rem;*/
-    max-height: 16px;
-    max-width: 16px;
-    min-height: 16px;
-    min-width: 16px;
+    max-height: var(--m);
+    max-width: var(--m);
+    min-height: var(--m);
+    min-width: var(--m);
     border-radius: 0;
     border-color: var(--border-color);
     color: var(--border-color);
     font-family: var(--font-primary);
+    border-width: 1px;
+    border-style: outset;
 }
 
 .PlayerIcon-name {
-    /* width: 24px;
-    height: 24px; */
-    /* position: relative;
-    bottom: .5rem; */
-    margin-left: .5rem;
     
 }
 .PlayerOrder-container {
-    /* padding: 0 var(--l); */
+    
+}
+
+.GuesserIcon-order {
+    visibility: hidden;
 }
 

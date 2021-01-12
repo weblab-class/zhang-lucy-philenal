@@ -4,6 +4,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import "../../../utilities.css";
 import "./PlayerPanel.css";
 import PlayerIcon from "./PlayerIcon.js";
+import GuesserIcon from "./GuesserIcon.js";
 import PlayerOrder from "./PlayerOrder.js";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
@@ -41,6 +42,7 @@ class PlayerPanelLeft extends Component {
     super(props);
     // Initialize Default State
     this.state = {
+      word: word
     };
   }
 
@@ -50,7 +52,7 @@ class PlayerPanelLeft extends Component {
 
   render() {
     let hiddenWord = "";
-    for (let i = 0; i < word.length; i++) {
+    for (let i = 0; i < this.state.word.length; i++) {
       hiddenWord += "_ ";
     }
     /* let players = []
@@ -67,8 +69,14 @@ class PlayerPanelLeft extends Component {
         {/* TODO (philena): Add logic to change formatting to indicate whether each user is active pixeler
             or not */}
             
-        <div className="PlayerPanelLeft">I am the left panel!
-          <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div>
+        <div className="PlayerPanelLeft">
+          <h2>word: <span className="PlayerPanelLeft-word">{this.state.word}</span></h2>
+          
+          
+          {/* <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div> */} {/*  <-- use that for guesser */}
+          <h2>guesser:</h2>
+          <GuesserIcon guessername={guesser.playername} _id={guesser._id} isMyTurn = {turn==playersList.length ? true: false}/>
+          <h2>pixelers:</h2>
           {/* {players} */}
           <PlayerOrder players={playersList} turn={turn}/>
         </div>
