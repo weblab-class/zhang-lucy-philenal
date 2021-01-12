@@ -12,6 +12,31 @@ import { get, post } from "../../utilities";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+const playersList = [
+    {
+    playername: "Lucy",
+    _id: 1
+  },
+  {
+    playername: "Bob",
+    _id: 2
+  },
+  {
+    playername: "Bob",
+    _id: 3
+  },
+  {
+    playername: "Bob",
+    _id: 4
+  }
+  ];
+  
+const host = {
+    playername: "Me",
+    _id: "0"
+  };
+  
+
 /**
  * Lobby page is what the user travels to after making/joining
  * a game. The host can start the game.
@@ -30,33 +55,32 @@ class Lobby extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    get("/api/game/get", {game_id: this.props.game_id})
-  }
-
-  onGameIDEntry = (game_id) => {
-    this.setState({game_id: game_id}, () => {
-      console.log(`Game ID: ${game_id}`)
-    });
-    
-  }
-
-  newGame = (event) => {
-    console.log("calling API rn");
-    // TODO (lucy?): API call to check if game ID is valid, new game if yes
-    post("/api/game/new", {game_id: this.state.game_id})
-    .then((res) => {
-      console.log("new game");
-      console.log(res);
-    });    
+    // get("/api/game/get", {game_id: this.props.game_id})
+    console.log(this.props);
   }
 
   render() {
+    // let playerNames = playersList.map((player) => {player.playername});
+    
+    let players = []
+    for (let i = 0; i < playersList.length; i++) {
+      players.push(
+        <div className="PlayerPanelLeft-player">
+          {playersList[i].playername}
+        </div>
+      )
+    } 
     return (
       <>
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
             <div className="Lobby">
-                Lobby :D
+                Lobby
+                {players}
+                {(this.props.user_id == host._id) ? 
+                    <button className="Lobby-startGame">start game</button> :
+                    <div></div>
+                }
             </div>
 
       </>
