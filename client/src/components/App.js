@@ -39,7 +39,6 @@ class App extends Component {
 
   handleLogin = (res) => {
     // TODO
-    console.log("reeeee");
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {

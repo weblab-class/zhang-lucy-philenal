@@ -54,16 +54,21 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.post("/new", (req, res) => {
+router.post("/game/new", (req, res) => {
   const newGame = new Game({
-    _id: req.content.game_id, // TODO: change this
-    host_id: req.content.user_id,
+    _id: req.body.game_id, // TODO: change this
+    host_id: "hi",//req.content.user_id,
     players: [],
   });
 
   newGame.save().then((game) => res.send(game));
 })
 
+router.get("/game/join", (req, res) => {
+  Game.find({ parent: req.query.parent }).then((game) => {
+    res.send(game);
+  });
+});
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

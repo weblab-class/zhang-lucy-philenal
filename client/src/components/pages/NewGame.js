@@ -38,10 +38,12 @@ class NewGame extends Component {
     
   }
 
-  newGame = () => {
+  newGame = (event) => {
+    console.log("calling API rn");
     // TODO (lucy?): API call to check if game ID is valid, new game if yes
     post("/api/game/new", {game_id: this.state.game_id})
     .then((res) => {
+      console.log("new game");
       console.log(res);
     });    
   }
@@ -55,11 +57,11 @@ class NewGame extends Component {
                 <h1>New Game </h1>
                 <p>Enter a game ID:</p>
                 <TextEntry callback={this.onGameIDEntry}/>
-                <Link to="/" className="NewGame-link">
+                <Link to="/" onClick={this.newGame} className="NewGame-link">
                     <button 
                       className="NewGame-button u-color-1"
-                      onClick={this.newGame}
-                    >join game</button>
+                      // onClick={this.newGame}
+                    >make game</button>
                 </Link>
             </div>
 
