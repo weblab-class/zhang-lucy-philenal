@@ -7,6 +7,10 @@
 |
 */
 
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
+
+
 const MY_NAME = "Fluffy Corgi";
 
 const express = require("express");
@@ -27,7 +31,6 @@ const Board = require("./models/board");
 router.get("/board", (req, res) => {
   Board.find({_id: req.query._id}).then((board) => res.send(board));
 });
-
 
 // TODO: Move stuff below socket
 //initialize socket
@@ -55,17 +58,37 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/game/new", (req, res) => {
+  const newPixels = [];
+  const numPixels = BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS;
+
+  for (let i = 0; i < numPixels; i++) {
+    newPixels.push({color: "none", filled: false});
+  }
+
+  const newBoard = new Board({
+    _id: 0,
+    width: BOARD_WIDTH_BLOCKS,
+    height: BOARD_HEIGHT_BLOCKS,
+    pixels: newPixels,
+  });
+  
   const newGame = new Game({
     _id: req.body.game_id, // TODO: change this
-    host_id: "hi",//req.content.user_id,
+    host_id: req.body.user_id,
     players: [],
+    board: newBoard,
+    started: false,
+    finished: false,
+    wordpack: "default",
+    guesses: [],
+    guesser: null,
   });
 
   newGame.save().then((game) => res.send(game));
 })
 
 router.get("/game/join", (req, res) => {
-  Game.find({ parent: req.query.parent }).then((game) => {
+  Game.find({ game_id: req.query.game_id }).then((game) => {
     res.send(game);
   });
 });
