@@ -1,0 +1,15 @@
+.JoinGame-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.JoinGame-linkContainer {
+    width: min-content;
+   /*  display: flex;
+    flex-direction: column; */
+}
+
+.JoinGame-button {
+    margin: var(--m) 0px;
+}

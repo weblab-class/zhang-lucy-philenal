@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 
 // import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
-// import "./Lobby.css";
+import "./Lobby.css";
 
 import { get, post } from "../../utilities";
 
@@ -83,10 +83,11 @@ class Lobby extends Component {
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
             <div className="Lobby">
-                Your Game ID is: <b>{this.props.game_id}</b>
+                <div className="Lobby-title">Lobby</div>
+                <br></br>game ID: <b>{this.props.game_id}</b><br></br>
                 {players}
                 {(this.props.user_id == host._id) ? 
-                    <button className="Lobby-startGame">start game</button> :
+                    <button className="Lobby-startGame u-color-1">start game</button> :
                     <div></div>
                 }
             </div>

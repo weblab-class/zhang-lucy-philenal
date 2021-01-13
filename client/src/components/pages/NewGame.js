@@ -5,7 +5,7 @@ import { Link, navigate } from "@reach/router";
 
 import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
-// import "./NewGame.css";
+import "./NewGame.css";
 
 import { get, post } from "../../utilities";
 
