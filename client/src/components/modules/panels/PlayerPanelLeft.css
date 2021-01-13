@@ -1,0 +1,68 @@
+/* word styling */
+h2 > .PlayerPanelLeft-word {
+    color: var(--light-grey);
+}
+
+.PlayerPanelLeft-hiddenWord {
+    margin-bottom: var(--l);
+}
+
+/* player icon styling */
+
+.PlayerIcon-container {
+    padding: var(--m) 0px;
+    display: flex;
+    justify-content: flex-end;
+    width: 120px;
+    /* color: var(--grey); */
+}
+
+.PlayerIcon-backgroundWhite {
+    background-color: white;
+}
+.PlayerIcon-left {
+    
+    display:flex;
+    flex-basis: 0;
+    
+    flex: 1;
+    justify-content: space-between;
+    /* justify-content: flex-end; */
+}
+
+.PlayerIcon-right {
+    flex: 1;
+    margin-left: 8px;
+}
+
+.PlayerIcon-order {
+    flex: 1;
+    text-align: right;
+    margin: 0px 10px;
+}
+
+.PlayerIcon-icon {
+    flex: 1;
+    /*margin-left: .5rem;*/
+    max-height: var(--m);
+    max-width: var(--m);
+    min-height: var(--m);
+    min-width: var(--m);
+    border-radius: 0;
+    border-color: var(--border-color);
+    color: var(--border-color);
+    font-family: var(--font-primary);
+    border-width: 1px;
+    border-style: outset;
+}
+
+.PlayerIcon-name {
+    
+}
+.PlayerOrder-container {
+    
+}
+
+.GuesserIcon-order {
+    visibility: hidden;
+}
