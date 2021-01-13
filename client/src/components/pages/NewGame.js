@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { Link, navigate } from "@reach/router";
+import { navigate } from "@reach/router";
 // import { navigate } from "@reach/router"
 
 import TextEntry from "../modules/TextEntry.js";
@@ -48,7 +48,7 @@ class NewGame extends Component {
     .then((res) => {
       console.log("new game");
       console.log(res);
-      navigate("/lobby", {user_id: this.props.user_id, game_id: this.state.game_id});
+      navigate("/lobby", {state: {user_id: this.props.user_id, game_id: this.state.game_id}});
     })
     .catch((err) => {
       console.log("error")
@@ -58,9 +58,6 @@ class NewGame extends Component {
   }
 
   render() {
-    if (false) {
-      return navigate("/pixeler");
-    } else {
     return (
       <>
             {/* TODO (philena) make this pretty! ^_^ */}
@@ -79,7 +76,7 @@ class NewGame extends Component {
             </div>
       </>
     );
-    }
+    
   }
 }
 

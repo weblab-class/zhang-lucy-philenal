@@ -70,7 +70,7 @@ class App extends Component {
             user_id={this.state.user_id}
             userName={this.state.userName}
           />
-          <Lobby path="/lobby" game_id="bobob" user_id="0"/>
+          <Lobby path="/lobby"/>
           <JoinGame path="/joingame" />
           <NewGame path="/newgame" />
           <Guesser path="/guesser" />

@@ -55,14 +55,13 @@ class Lobby extends Component {
   }
 
   componentDidMount() {
+    console.log("State:");
+    console.log(this.props.location.state);
     // remember -- api calls go here!
-    get("/api/game/get", {game_id: this.props.game_id})
+    get("/api/game/get", {game_id: this.props.location.state.game_id})
     .then((res) => {
       console.log(res);
-      this.setState({players: res[0].players})
-      .then(
-        console.log("done!")
-      );
+      this.setState({players: res[0].players});
     })
     .catch((err) => {
       console.log(err);
@@ -86,7 +85,7 @@ class Lobby extends Component {
             {/* TODO add functionality for entering names too */}
             <div className="Lobby">
                 <div className="Lobby-title">Lobby</div>
-                <br></br>game ID: <b>{this.props.game_id}</b><br></br>
+                <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
                 {players}
                 {(this.props.user_id == host._id) ? 
                     <button className="Lobby-startGame u-color-1">start game</button> :

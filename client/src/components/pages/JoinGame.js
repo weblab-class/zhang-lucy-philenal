@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { Link } from "@reach/router";
+import { navigate } from "@reach/router";
 
 import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
@@ -45,13 +45,17 @@ class JoinGame extends Component {
           console.log(`No game found with ID ${this.state.game_id}`)
         );
       } else {
+        // make a copy
         let game = {...res[0]};
-        // console.log(game);
+
+        // add our player TODO: unhardcode
         game.players = game.players.concat([{_id: "aaaaaaaaaaaaa", name: "another fake", googleid: "1234"}]);
+        
         console.log("PUT request");
-        put("/api/game/join", {game: game})
+        put("/api/game/join", {game: game, _id: this.state.game_id})
         .then((res) => {
           console.log(res)
+          navigate("/lobby", {state: {user_id: this.props.user_id, game_id: this.state.game_id}});
         })
         .catch((err) => {
           console.log(err)

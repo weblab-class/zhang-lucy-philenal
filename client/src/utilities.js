@@ -71,7 +71,7 @@ export function put(endpoint, params = {}) {
     body: JSON.stringify(params),
   })
     .then(convertToJSON) // convert result to JSON object
-    .then(data => setPostId(data._id))
+    // .then(data => console.log(data))
     .catch((error) => {
       // give a useful error message
       throw `PUT request to ${endpoint} failed with error:\n${error}`;
