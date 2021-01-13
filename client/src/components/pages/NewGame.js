@@ -44,7 +44,7 @@ class NewGame extends Component {
   newGame = (event) => {
     console.log("calling API rn");
     // TODO (lucy?): API call to check if game ID is valid, new game if yes
-    post("/api/game/new", {game_id: this.state.game_id})
+    post("/api/game/new", {user_id: this.props.user_id, game_id: this.state.game_id})
     .catch((err) => {
       console.log("error")
       console.log(`error: ${err}`);
@@ -53,7 +53,7 @@ class NewGame extends Component {
     .then((res) => {
       console.log("new game");
       console.log(res);
-      navigate("/pixeler", {game_id: this.state.game_id});
+      navigate("/lobby", {user_id: this.props.user_id, game_id: this.state.game_id});
     });    
   }
 

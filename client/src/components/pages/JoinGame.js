@@ -29,6 +29,9 @@ class JoinGame extends Component {
 
   joinGame = () => {
     // TODO (lucy?): API call to check if game ID is valid, joining if yes
+    console.log("PUT request");
+    
+    
   }
 
   render() {
@@ -40,9 +43,7 @@ class JoinGame extends Component {
                 <h1>Join Game </h1>
                 <p>Enter the game ID:</p>
                 <TextEntry callback={this.onGameIDEntry}/>
-                <Link to="/" className="JoinGame-link">
-                    <button className="JoinGame-button u-color-1">join game</button>
-                </Link>
+                <button className="JoinGame-button u-color-1">join game</button>
             </div>
 
       </>

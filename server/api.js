@@ -85,13 +85,22 @@ router.post("/game/new", (req, res) => {
   });
 
   newGame.save().then((game) => res.send(game));
-})
 
-router.get("/game/join", (req, res) => {
-  Game.find({ game_id: req.query.game_id }).then((game) => {
+});
+
+
+router.get("/game/get", (req, res) => {
+  Game.find({ _id: req.query.game_id }).then((game) => {
     res.send(game);
   });
 });
+
+router.put("/game/join", (req, res) => {
+  Game.find({ _id: req.query.game_id }).then((game) => {
+    res.send(game);
+  });
+});
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);

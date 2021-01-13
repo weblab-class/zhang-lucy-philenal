@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 
 // import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
-// import "./Lobby.css";
+// import "./Wall.css";
 
 import { get, post } from "../../utilities";
 
@@ -38,32 +38,23 @@ const host = {
   
 
 /**
- * Lobby page is what the user travels to after making/joining
- * a game. The host can start the game.
+ * Wall page is the page that shows all the correctly guessed images
  * 
  * @param game_id
  * @param user_id 
  */
-class Lobby extends Component {
+class Wall extends Component {
   constructor(props) {
     super(props);
 
     // Initialize Default State
     this.state = {
-      players: [],
     };
   }
 
   componentDidMount() {
     // remember -- api calls go here!
-    // console.log()
-    get("/api/game/get", {game_id: this.props.game_id})
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    // get("/api/game/get", {game_id: this.props.game_id})
     console.log(this.props);
   }
 
@@ -82,13 +73,8 @@ class Lobby extends Component {
       <>
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
-            <div className="Lobby">
-                Your Game ID is: <b>{this.props.game_id}</b>
-                {players}
-                {(this.props.user_id == host._id) ? 
-                    <button className="Lobby-startGame">start game</button> :
-                    <div></div>
-                }
+            <div className="Wall">
+                Wall! will be implemented soon™
             </div>
 
       </>
@@ -96,4 +82,4 @@ class Lobby extends Component {
   }
 }
 
-export default Lobby;
+export default Wall;

@@ -42,7 +42,7 @@ class StartMenu extends Component {
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/pixeler/" className="StartMenu-link">
+                <Link to="/wall/" className="StartMenu-link">
                     <button className="StartMenu-button u-color-4">my wall</button>
                 </Link>
             </div>

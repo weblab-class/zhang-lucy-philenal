@@ -36,7 +36,6 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled) => {
-    console.log(filled);
     if (filled) {
       this.setState({filled_blocks: this.state.filled_blocks + 1}, () => {
         console.log(`pixels filled: ${this.state.filled_blocks}`)
