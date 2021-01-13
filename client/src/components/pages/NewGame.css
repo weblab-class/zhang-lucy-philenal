@@ -1,0 +1,25 @@
+.NewGame-container {
+    border: 0px;
+    border-color: var(--grey);
+    border-style: double;
+    border-width: var(--s);
+    background-color: white;
+    padding: var(--m) var(--l);
+    
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min-content;
+    align-items: flex-start;
+}
+
+.NewGame-linkContainer {
+    width: min-content;
+   /*  display: flex;
+    flex-direction: column; */
+}
+
+.NewGame-button {
+    margin: var(--m) 0px;
+}

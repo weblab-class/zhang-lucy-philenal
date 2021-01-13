@@ -11,7 +11,7 @@ import "./PlayerPanelLeft.css";
  */
 
 /**
- * Component to render a single comment
+ * Component to render a column of players
  *
  * Proptypes
  * @param {PlayerObject[]} players

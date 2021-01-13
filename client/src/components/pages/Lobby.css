@@ -1,0 +1,33 @@
+.Lobby {
+    border: 0px;
+    border-color: var(--grey);
+    border-style: double;
+    border-width: var(--s);
+    background-color: white;
+    padding: var(--m) var(--l);
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+    font-size: var(--l);
+
+    
+}
+
+.Lobby-title {
+    /* text styling */
+    font-size: var(--xl);
+    letter-spacing: 0.1em;
+    /* white */
+    color: #FFFFFF;
+    
+    white-space: nowrap;
+    -webkit-text-stroke-width: 2px;
+  
+    -webkit-text-stroke-color:var(--grey);
+}
+
+.Lobby-startGame {
+    margin: var(--m) 0px;
+    padding: var(--s);
+}
