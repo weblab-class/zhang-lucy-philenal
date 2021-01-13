@@ -56,25 +56,27 @@ class Lobby extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    // console.log()
     get("/api/game/get", {game_id: this.props.game_id})
     .then((res) => {
       console.log(res);
+      this.setState({players: res[0].players})
+      .then(
+        console.log("done!")
+      );
     })
     .catch((err) => {
       console.log(err);
     })
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   render() {
-    // let playerNames = playersList.map((player) => {player.playername});
     
     let players = []
-    for (let i = 0; i < playersList.length; i++) {
+    for (let i = 0; i < this.state.players.length; i++) {
       players.push(
         <div className="PlayerPanelLeft-player">
-          {playersList[i].playername}
+          {this.state.players[i].name}
         </div>
       )
     } 

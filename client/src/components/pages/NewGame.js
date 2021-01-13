@@ -45,16 +45,16 @@ class NewGame extends Component {
     console.log("calling API rn");
     // TODO (lucy?): API call to check if game ID is valid, new game if yes
     post("/api/game/new", {user_id: this.props.user_id, game_id: this.state.game_id})
-    .catch((err) => {
-      console.log("error")
-      console.log(`error: ${err}`);
-      this.setState({error: true});
-    })
     .then((res) => {
       console.log("new game");
       console.log(res);
       navigate("/lobby", {user_id: this.props.user_id, game_id: this.state.game_id});
-    });    
+    })
+    .catch((err) => {
+      console.log("error")
+      console.log(`error: ${err}`);
+      this.setState({error: true});
+    });  
   }
 
   render() {

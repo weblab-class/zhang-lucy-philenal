@@ -71,11 +71,19 @@ router.post("/game/new", (req, res) => {
     height: BOARD_HEIGHT_BLOCKS,
     pixels: newPixels,
   });
-  
+
+  // TODO remove when PUT is figured out
+  const fakeNames = ["fake1", "fake2", "fake3", "fake4"];
+  const fakeIds = ["123", "234", "345", "456"];
+  let fakeUsers = []
+  for (let i = 0; i < fakeIds.length; i++) {
+    fakeUsers.push({name:fakeNames[i], googleid:fakeIds[i]});
+  }
+
   const newGame = new Game({
     _id: req.body.game_id, // TODO: change this
     host_id: req.body.user_id,
-    players: [],
+    players: fakeUsers,
     board: newBoard,
     started: false,
     finished: false,
@@ -96,9 +104,11 @@ router.get("/game/get", (req, res) => {
 });
 
 router.put("/game/join", (req, res) => {
-  Game.find({ _id: req.query.game_id }).then((game) => {
-    res.send(game);
-  });
+  console.log(req.body.game._id);
+  res.send(req.body.game);
+  // Game.find({ _id: req.body.game._id }).then((game) => {
+  //   res.send(game);
+  // });
 });
 
 // anything else falls to this "not found" case

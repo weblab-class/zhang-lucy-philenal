@@ -6,6 +6,8 @@ import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
 import "./JoinGame.css";
 
+import { get, post, put } from "../../utilities";
+
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
@@ -16,6 +18,7 @@ class JoinGame extends Component {
     // Initialize Default State
     this.state = {
       game_id: "",
+      game_not_found: false,
     };
   }
 
@@ -24,13 +27,42 @@ class JoinGame extends Component {
   }
 
   onGameIDEntry = (game_id) => {
-    console.log(`Game ID: ${game_id}`);
+    this.setState({game_id: game_id}, () => {
+      console.log(`Game ID: ${game_id}`)
+    });
   }
 
   joinGame = () => {
-    // TODO (lucy?): API call to check if game ID is valid, joining if yes
-    console.log("PUT request");
-    
+    // TODO (lucy): API call to check if game ID is valid, joining if yes
+    console.log("GET request");
+    get("/api/game/get", {game_id: this.state.game_id})
+    .then((res) => {
+      console.log(this.state.game_id);
+      console.log(res);
+
+      if (res.length == 0) {
+        this.setState({game_not_found: true},
+          console.log(`No game found with ID ${this.state.game_id}`)
+        );
+      } else {
+        let game = {...res[0]};
+        // console.log(game);
+        game.players = game.players.concat([{_id: "aaaaaaaaaaaaa", name: "another fake", googleid: "1234"}]);
+        console.log("PUT request");
+        put("/api/game/join", {game: game})
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+      }
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
     
   }
 
@@ -44,8 +76,16 @@ class JoinGame extends Component {
                   <h1>Join Game </h1>
                   <p>Enter the game ID:</p>
                   <TextEntry callback={this.onGameIDEntry}/>
-                  <button className="JoinGame-button u-color-1">join game</button>
+                  <button onClick={this.joinGame} className="JoinGame-button u-color-1">join game</button>
+                  {(this.state.game_not_found) ? 
+                  <div className="u-text-error">
+                  Game not found, please enter a valid game ID.
+                  </div> :
+                  <div></div>
+                  }
+                  
               </div>
+
             </div>
       </>
     );
