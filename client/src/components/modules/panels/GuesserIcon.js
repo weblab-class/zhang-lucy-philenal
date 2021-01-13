@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 
 import "../../../utilities.css";
-import "./PlayerPanel.css";
+import "./PlayerPanelLeft.css";
 /**
  * Component to render a single comment
  *
@@ -19,7 +19,7 @@ class GuesserIcon extends Component {
         this.state = {
           isMyTurn: this.props.isMyTurn
         };
-      }
+      } 
 
       componentDidMount() {
         // remember -- api calls go here!

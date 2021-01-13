@@ -3,10 +3,11 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "../../../utilities.css";
 import "./PlayerPanel.css";
+import "./PlayerPanelLeft.css";
 import PlayerIcon from "./PlayerIcon.js";
 import GuesserIcon from "./GuesserIcon.js";
 import PlayerOrder from "./PlayerOrder.js";
-
+//TODO: fix responsiveness -- for smaller screens, add margin from left
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 const playersList = [

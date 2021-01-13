@@ -1,0 +1,22 @@
+.PlayerPanelRight-button {
+    height: 100px;
+    width: 100px;
+    border-radius: 0;
+    border-color: var(--border-color);
+    color: var(--border-color);
+    font-family: var(--font-primary);
+}
+
+.PlayerPanelRight-columnBlocks{
+    display: flex;
+    flex-direction: column;
+}
+.PlayerPanelRight-linkContainer {
+    /* flex: 1; */
+    padding: var(--m) 0px;
+}
+.PlayerPanelRight-link {
+    /* flex-grow: 1;
+    flex-basis: 0; */
+    justify-content: space-evenly;
+}

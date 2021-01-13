@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 
 import "../../../utilities.css";
-import "./PlayerPanel.css";
+import "./PlayerPanelLeft.css";
 /**
  * Component to render a single comment
  *

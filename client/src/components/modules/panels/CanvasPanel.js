@@ -37,13 +37,14 @@ class CanvasPanel extends Component {
               canvas_height_blocks={this.props.canvas_height_blocks} 
               canvas_width_blocks={this.props.canvas_width_blocks} 
             />
+            <div className="Canvas-footer">
+              {/* pixels remaining: {this.state.filled_blocks} */}
+              pixels remaining: 5
+            </div>
           </div>
           {/* TODO (philena): Make this prettier */}
           {/* TODO (lucy): Add callback function so we can actually access this.state.filled_blocks */}
-          <div className="Canvas-footer">
-          {/* pixels remaining: {this.state.filled_blocks} */}
-            pixels remaining: 5
-          </div>
+          
         </div>
 
       </>

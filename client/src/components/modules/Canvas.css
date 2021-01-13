@@ -11,5 +11,6 @@
 }
 
 .Canvas-footer {
-    display: flex;
+    margin-top: var(--m);
+    text-align: left;
 }

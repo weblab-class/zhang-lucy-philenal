@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import PlayerIcon from "./PlayerIcon.js";
 import "../../../utilities.css";
-import "./PlayerPanel.css";
+import "./PlayerPanelLeft.css";
 /**
  * @typedef PlayerObject
  * @property {String} _id of player
