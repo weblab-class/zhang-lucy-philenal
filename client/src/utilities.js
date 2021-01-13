@@ -66,7 +66,7 @@ export function post(endpoint, params = {}) {
 // Returns a Promise to a JSON Object.
 export function put(endpoint, params = {}) {
   return fetch(endpoint, {
-    method: "put",
+    method: "PUT",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(params),
   })

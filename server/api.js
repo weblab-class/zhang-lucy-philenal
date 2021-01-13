@@ -9,6 +9,7 @@
 
 const BOARD_WIDTH_BLOCKS = 20;
 const BOARD_HEIGHT_BLOCKS = 20;
+var mongoose = require('mongoose');
 
 
 const MY_NAME = "Fluffy Corgi";
@@ -103,12 +104,23 @@ router.get("/game/get", (req, res) => {
   });
 });
 
+// ??????????????
 router.put("/game/join", (req, res) => {
-  console.log(req.body.game._id);
-  res.send(req.body.game);
-  // Game.find({ _id: req.body.game._id }).then((game) => {
-  //   res.send(game);
-  // });
+  console.log("JOIN");
+  // console.log(req.body.game._id);
+  // console.log(req.body.game);
+  // res.send(req.body.game);
+  Game.findByIdAndUpdate(
+    (req.body.game_id),
+    req.body.game,
+    {new: true},
+    (err, todo) => {
+      console.log(err);
+      console.log(todo);
+    }
+  ).then((game) => {
+    res.send(game);
+  });
 });
 
 // anything else falls to this "not found" case

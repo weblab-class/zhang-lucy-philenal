@@ -35,9 +35,7 @@ class NewGame extends Component {
   }
 
   onGameIDEntry = (game_id) => {
-    this.setState({game_id: game_id}, () => {
-      console.log(`Game ID: ${game_id}`)
-    });
+    this.setState({game_id: game_id});
     
   }
 

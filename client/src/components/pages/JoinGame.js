@@ -27,9 +27,7 @@ class JoinGame extends Component {
   }
 
   onGameIDEntry = (game_id) => {
-    this.setState({game_id: game_id}, () => {
-      console.log(`Game ID: ${game_id}`)
-    });
+    this.setState({game_id: game_id});
   }
 
   joinGame = () => {
@@ -38,7 +36,7 @@ class JoinGame extends Component {
     get("/api/game/get", {game_id: this.state.game_id})
     .then((res) => {
       console.log(this.state.game_id);
-      console.log(res);
+      console.log(res); // list game objects
 
       if (res.length == 0) {
         this.setState({game_not_found: true},
@@ -48,11 +46,11 @@ class JoinGame extends Component {
         // make a copy
         let game = {...res[0]};
 
-        // add our player TODO: unhardcode
-        game.players = game.players.concat([{_id: "aaaaaaaaaaaaa", name: "another fake", googleid: "1234"}]);
+        // add our player TODO: unhardcode 
+        game.players = game.players.concat([{name: "another fake", googleid: "1234"}]);
         
         console.log("PUT request");
-        put("/api/game/join", {game: game, _id: this.state.game_id})
+        put("/api/game/join", {game: game, game_id: this.state.game_id})
         .then((res) => {
           console.log(res)
           navigate("/lobby", {state: {user_id: this.props.user_id, game_id: this.state.game_id}});
