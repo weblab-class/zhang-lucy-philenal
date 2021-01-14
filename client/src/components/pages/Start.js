@@ -10,6 +10,11 @@ import "./Start.css";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+/**
+ * Start is the main page after the user logs in
+ * @param user_id
+ * @param user_name google name
+ */
 class Start extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +27,7 @@ class Start extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    console.log(this.props);
   }
 
   onLogin = (res) => {
@@ -38,12 +44,12 @@ class Start extends Component {
     if (this.props.user_id) {
       return (
         <>
-          <div>hello, {this.props.userName}!</div>
+          <div>hello, {this.props.user_name}!</div>
           <div className="Start-title">
               <PlayerPanelTop/>
           </div>
           <div className="Start-startMenu">
-              <StartMenu/>
+              <StartMenu user_id={this.props.user_id} user_name={this.props.user_name}/>
           </div>
         </>
       );

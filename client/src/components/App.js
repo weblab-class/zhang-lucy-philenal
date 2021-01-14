@@ -31,29 +31,27 @@ class App extends Component {
   componentDidMount() {
     // TODO
     get("/api/whoami").then((user) => {
+      console.log(user);
       if (user._id) {
         // they are registed in the database, and currently logged in.
         this.setState({ user_id: user._id });
+        this.setState({ user_name: user.name });
       }
     });
   }
 
   handleLogin = (res) => {
-    // TODO
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ user_id: user._id });
-      this.setState({ userName: res.profileObj.name });
-      // TODO: comment back in after sockets
+      this.setState({ user_id: user._id, user_name: res.profileObj.name});
       post("/api/initsocket", { socketid: socket.id });
     });
   };
 
   handleLogout = () => {
-    // TODO
     console.log("logged out")
-    this.setState({ user_id: undefined });
+    this.setState({ user_id: undefined, user_name: undefined });
     post("/api/logout");
   };
 
@@ -68,7 +66,7 @@ class App extends Component {
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             user_id={this.state.user_id}
-            userName={this.state.userName}
+            user_name={this.state.user_name}
           />
           <Lobby path="/lobby"/>
           <JoinGame path="/joingame" />

@@ -31,13 +31,10 @@ class JoinGame extends Component {
   }
 
   joinGame = () => {
-    // TODO (lucy): API call to check if game ID is valid, joining if yes
-    console.log("GET request");
     get("/api/game/get", {game_id: this.state.game_id})
     .then((res) => {
       console.log(this.state.game_id);
       console.log(res); // list game objects
-
       if (res.length == 0) {
         this.setState({game_not_found: true},
           console.log(`No game found with ID ${this.state.game_id}`)
@@ -47,13 +44,25 @@ class JoinGame extends Component {
         let game = {...res[0]};
 
         // add our player TODO: unhardcode 
-        game.players = game.players.concat([{name: "another fake", googleid: "1234"}]);
+        game.players = game.players.concat([{
+          name: this.props.location.state.user_name, 
+          googleid: this.props.location.state.user_id, 
+        }]);
         
-        console.log("PUT request");
-        put("/api/game/join", {game: game, game_id: this.state.game_id})
+        put("/api/game/join", 
+        {
+          game: game, 
+          game_id: this.state.game_id
+        })
         .then((res) => {
           console.log(res)
-          navigate("/lobby", {state: {user_id: this.props.user_id, game_id: this.state.game_id}});
+          navigate("/lobby", {state: 
+            {
+              user_id: this.props.location.state.user_id,  
+              user_name: this.props.location.state.user_name,  
+              game_id: this.state.game_id
+            }
+          });
         })
         .catch((err) => {
           console.log(err)
@@ -64,8 +73,6 @@ class JoinGame extends Component {
     .catch((err) => {
       console.log(err);
     });
-
-    
   }
 
   render() {
@@ -73,6 +80,7 @@ class JoinGame extends Component {
       <>
             {/* TODO (philena) make this pretty! ^_^ and also make responsive*/}
             {/* TODO add functionality for entering names too */}
+            <div>hello, {this.props.location.state.user_name}!</div>
             <div className="JoinGame-container">
               <div className="JoinGame-linkContainer">
                   <h1>Join Game </h1>

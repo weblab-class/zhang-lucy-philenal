@@ -32,21 +32,29 @@ class NewGame extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    console.log(this.props);
   }
 
   onGameIDEntry = (game_id) => {
     this.setState({game_id: game_id});
-    
   }
 
   newGame = (event) => {
     console.log("calling API rn");
     // TODO (lucy?): API call to check if game ID is valid, new game if yes
-    post("/api/game/new", {user_id: this.props.user_id, game_id: this.state.game_id})
+    post("/api/game/new", {
+      user_id: this.props.location.state.user_id, 
+      user_name: this.props.location.state.user_name, 
+      game_id: this.state.game_id,
+    })
     .then((res) => {
       console.log("new game");
       console.log(res);
-      navigate("/lobby", {state: {user_id: this.props.user_id, game_id: this.state.game_id}});
+      navigate("/lobby", {state: {
+        user_id: this.props.location.state.user_id,  
+        user_name: this.props.location.state.user_name,  
+        game_id: this.state.game_id
+      }});
     })
     .catch((err) => {
       console.log("error")
@@ -60,7 +68,9 @@ class NewGame extends Component {
       <>
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
+            <div>hello, {this.props.location.state.user_name}!</div>
             <div className="NewGame-container">
+
                 <h1>New Game </h1>
                 <p>Enter a game ID:</p>
                 <TextEntry callback={this.onGameIDEntry}/>

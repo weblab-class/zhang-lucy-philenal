@@ -118,6 +118,7 @@ class Lobby extends Component {
     console.log("host" + this.state.host_id)
     return (
       <>
+            <div>hello, {this.props.location.state.user_name}!</div>
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
             <div className="Lobby">

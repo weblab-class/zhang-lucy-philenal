@@ -77,3 +77,4 @@ export function put(endpoint, params = {}) {
       throw `PUT request to ${endpoint} failed with error:\n${error}`;
     });
 }
+

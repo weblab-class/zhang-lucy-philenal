@@ -26,24 +26,36 @@ class StartMenu extends Component {
       <>
         <div className="StartMenu-buttonsRow">
             <div className="StartMenu-linkContainer">
-                <Link to="/skeleton" className="StartMenu-link">
+                <Link to="/skeleton" state={{
+                  user_id: this.props.user_id,
+                  user_name: this.props.user_name,
+                }}
+                >
                     <button className="StartMenu-button u-color-1">how to play</button>
-                
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/newgame/" className="StartMenu-link">
-                    <button className="StartMenu-button u-color-2">new game</button>
+                <Link to="/newgame" state={{
+                  user_id: this.props.user_id,
+                  user_name: this.props.user_name,
+                }}>
+                  <button className="StartMenu-button u-color-2">new game</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/joingame/" className="StartMenu-link">
-                    <button className="StartMenu-button u-color-3">join game</button>
+                <Link to="/joingame" state={{
+                  user_id: this.props.user_id,
+                  user_name: this.props.user_name,
+                }}>
+                  <button className="StartMenu-button u-color-3">join game</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
-                <Link to="/wall/" className="StartMenu-link">
-                    <button className="StartMenu-button u-color-4">my wall</button>
+                <Link to="/wall" state={{
+                  user_id: this.props.user_id,
+                  user_name: this.props.user_name,
+                }}>
+                  <button className="StartMenu-button u-color-4">wall</button>
                 </Link>
             </div>
         </div>
