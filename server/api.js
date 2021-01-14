@@ -123,6 +123,21 @@ router.put("/game/join", (req, res) => {
   });
 });
 
+router.put("/game/start", (req, res) => { //changes started --> true
+  console.log("START");
+  Game.findByIdAndUpdate(
+    (req.body.game_id),
+    req.body.game,
+    {new: true},
+    (err, todo) => {
+      console.log(err);
+      console.log(todo);
+    }
+  ).then((game) => {
+    res.send(game);
+  });
+});
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
