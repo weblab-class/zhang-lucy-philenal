@@ -7,10 +7,6 @@
 |
 */
 
-// wow incredible how RFC
-const BOARD_WIDTH_BLOCKS = 3;
-const BOARD_HEIGHT_BLOCKS = 3;
-
 var mongoose = require('mongoose');
 
 const express = require("express");
@@ -117,7 +113,7 @@ router.put("/game/join", (req, res) => {
 });
 
 router.put("/game/start", (req, res) => { //changes started --> true
-  const initializedGame = Logic.initializedGame(req.body.game);
+  const initializedGame = Logic.initializeGame(req.body.game);
   Game.findByIdAndUpdate(
     (req.body.game_id),
     initializedGame,

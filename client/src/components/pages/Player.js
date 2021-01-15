@@ -64,8 +64,8 @@ class Player extends Component {
         return (
             <>
                 {this.state.player == "guesser" ? 
-                <Guesser/> :
-                <Pixeler/>}
+                <Guesser game_id={this.location.state.game_id} user_id={this.location.state.user_id}/> :
+                <Pixeler game_id={this.location.state.game_id} user_id={this.location.state.user_id}/>}
             </>
         );
     }

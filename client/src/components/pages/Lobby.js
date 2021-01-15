@@ -65,7 +65,9 @@ class Lobby extends Component {
         host_id: res[0].host_id,
        });
       if (res[0].started === true) {
-        navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
+        navigate("/");
+        // TODO: figure out how to join late
+        // navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
       }
     })
     .catch((err) => {
@@ -89,6 +91,7 @@ class Lobby extends Component {
  
   // TODO: fix this put request
   startGame = () => {
+    console.log("Start game!!");
     get("/api/game/get", {game_id: this.props.location.state.game_id})
     .then((res) => {
       console.log(this.props.location.state.game_id);
@@ -103,45 +106,53 @@ class Lobby extends Component {
       put("/api/game/start", {game: game, game_id: this.props.location.state.game_id})
       .then((res) => {
         console.log(res)
-        navigate("/player", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
+        navigate("/player", {state: {
+          user_id: this.props.location.state.user_id, 
+          game_id: this.props.location.state.game_id,
+         }});
       }).catch((err) => {
         console.log(err)
       });
+
     }).catch((err) => {
       console.log(err);
     });
   }
-  render() {
-    
-    let players = []
-    for (let i = 0; i < this.state.players.length; i++) {
-      players.push(
-        <div className="PlayerPanelLeft-player">
-          {this.state.players[i].name}
-        </div>
-      )
-    } 
-    console.log(this.props.location.state.user_id);
-    console.log("host" + this.state.host_id)
-    return (
-      <>
-            <div>hello, {this.props.location.state.user_name}!</div>
-            <div className="Lobby">
-                <div className="Lobby-title">Lobby</div>
-                <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
-                {players}
-                {(this.props.location.state.user_id === this.state.host_id) ? 
-                    <button 
-                    className="Lobby-startGame u-color-1"
-                    onClick={this.startGame()}>
-                      start game
-                      </button> :
-                    <div></div>
-                }
-            </div>
 
-      </>
-    );
+  render() {
+    if (this.state.players) {
+      let players = []
+      for (let i = 0; i < this.state.players.length; i++) {
+        players.push(
+          <div className="PlayerPanelLeft-player">
+            {this.state.players[i].name}
+          </div>
+        )
+      } 
+      console.log(this.props.location.state.user_id);
+      console.log("host: " + this.state.host_id)
+      return (
+        <>
+              <div>hello, {this.props.location.state.user_name}!</div>
+              <div className="Lobby">
+                  <div className="Lobby-title">Lobby</div>
+                  <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
+                  {players}
+                  {(this.props.location.state.user_id === this.state.host_id) ? 
+                      <button 
+                      className="Lobby-startGame u-color-1"
+                      onClick={this.startGame}>
+                        start game
+                        </button> :
+                      <div></div>
+                  }
+              </div>
+
+        </>
+      );
+    } else {
+      return (<></>);
+    }
   }
 }
 

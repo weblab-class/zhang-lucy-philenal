@@ -48,7 +48,7 @@ class Pixeler extends Component {
     //should change the pixeler screen
     //drawCanvas(update);
   };
-  
+
   componentDidMount() {
     // remember -- api calls go here!
     socket.on("update", (update) => {
@@ -56,7 +56,7 @@ class Pixeler extends Component {
     });
 
     // TODO: unhardcode
-    get("/api/game/canvas", {game_id: "bob"})
+    get("/api/game/canvas", {game_id: this.props.game_id})
     .then((res) => {
       if (res.length == 0) {
         // error with the props idk
@@ -83,7 +83,7 @@ class Pixeler extends Component {
               canvas_height_blocks={this.state.canvas.width} 
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
-              game_id="bob"
+              game_id={this.props.game_id}
             /> : <div></div>} 
           </div>
           <div className="Player-subPanel">

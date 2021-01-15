@@ -4,6 +4,10 @@
 // OH: how does logic.js work overall??
 const Game = require("./models/game");
 
+// wow incredible how RFC
+const BOARD_WIDTH_BLOCKS = 3;
+const BOARD_HEIGHT_BLOCKS = 3;
+
 /* utils here */
 const getRandomOrder = () => { //playersId should be object of (info of user) playing game
     
@@ -141,8 +145,6 @@ const gameState = {
 
 }
 
-
-
 /** game logic */
 
 //TODO: should game state include canvas board??
@@ -165,6 +167,8 @@ const removePlayer = (id) => {
 
 module.exports = {
     newGame,
+    initializeGame,
+    getNextWord,
     gameState,
     addPlayer,
     removePlayer,
