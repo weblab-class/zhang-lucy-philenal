@@ -151,10 +151,10 @@ const gameState = {
 
 /** Adds a player to the game state, initialized*/
 const addPlayer = (id) => {
-    gameState.playersId[id].color = getPlayerColor(id);
-    gameState.playersId[id].isGuesser = false;
-    gameState.playersId[id].order = null;
-    gameState.playersId[id].isMyTurn = false;
+    // gameState.playersId[id].color = getPlayerColor(id);
+    // gameState.playersId[id].isGuesser = false;
+    // gameState.playersId[id].order = null;
+    // gameState.playersId[id].isMyTurn = false;
   };
 
 /** Remove a player from the game state if they DC */
