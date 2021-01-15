@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
 import CanvasPanel from "../modules/panels/CanvasPanel";
+
+import { get, post, put} from "../../utilities";
 // TBD?
 // import "./Guesser.css";
 
@@ -23,7 +26,13 @@ class Guesser extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {
+      canvas: {
+        width: null,
+        height: null,
+        pixels: null,
+      },
+    };
   }
 
   componentDidMount() {
