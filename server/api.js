@@ -7,12 +7,11 @@
 |
 */
 
+// wow incredible how RFC
 const BOARD_WIDTH_BLOCKS = 3;
 const BOARD_HEIGHT_BLOCKS = 3;
+
 var mongoose = require('mongoose');
-
-
-const MY_NAME = "Fluffy Corgi";
 
 const express = require("express");
 
@@ -25,11 +24,9 @@ const auth = require("./auth");
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
-// TODO: Fix these API's, these are just the nonsocket versions
 const Game = require("./models/game");
-// const Board = require("./models/board");
+const Logic = require("./logic");
 
-// TODO: Move stuff below socket
 //initialize socket
 const socketManager = require("./server-socket");
 
@@ -55,35 +52,8 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/game/new", (req, res) => {
-  const newPixels = [];
-  const numPixels = BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS;
-
-  for (let i = 0; i < numPixels; i++) {
-    newPixels.push({id: i, color: "none", filled: false});
-  }
-
-  const newBoard = {
-    _id: 0,
-    width: BOARD_WIDTH_BLOCKS,
-    height: BOARD_HEIGHT_BLOCKS,
-    pixels: newPixels,
-  };
-
-  const newGame = new Game({
-    _id: req.body.game_id, // TODO: change this
-    host_id: req.body.user_id,
-    players: [{name: req.body.user_name, googleid: req.body.user_id}],
-    pixelers: [],
-    board: newBoard,
-    started: false,
-    finished: false,
-    wordpack: "default",
-    guesses: [],
-    guesser: null,
-  });
-
+  const newGame = Logic.newGame(req);
   newGame.save().then((game) => res.send(game));
-
 });
 
 //TODO: update logic when pixeler ends turn, or pixelsLeft = 0
@@ -104,6 +74,8 @@ router.get("/game/canvas", (req, res) => {
 
 router.put("/game/join", (req, res) => {
   // TODO: check that the player hasn't joined already
+
+  
   Game.findByIdAndUpdate(
     (req.body.game_id),
     req.body.game,
@@ -125,10 +97,10 @@ router.put("/game/join", (req, res) => {
 });
 
 router.put("/game/start", (req, res) => { //changes started --> true
-  console.log("START");
+  const initializedGame = Logic.initializedGame(req.body.game);
   Game.findByIdAndUpdate(
     (req.body.game_id),
-    req.body.game,
+    initializedGame,
     {new: true},
     (err, todo) => {
       console.log(err);

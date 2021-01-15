@@ -43,7 +43,8 @@ class JoinGame extends Component {
         // make a copy
         let game = {...res[0]};
 
-        // add our player TODO: unhardcode 
+        // add our player 
+        // TODO: make less sketchy
         game.players = game.players.concat([{
           name: this.props.location.state.user_name, 
           googleid: this.props.location.state.user_id, 

@@ -29,7 +29,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // TODO
     get("/api/whoami").then((user) => {
       console.log(user);
       if (user._id) {

@@ -89,8 +89,6 @@ class Pixeler extends Component {
             <PlayerPanelRight/>
           </div>
         </div>
-        {/* <p>hi you are the pixeler!</p>
-        <p>your name is {this.state.name}</p> */}
       </>
     );
   }

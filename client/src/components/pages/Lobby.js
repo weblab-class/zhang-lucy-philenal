@@ -146,7 +146,7 @@ class Lobby extends Component {
                 {(this.props.location.state.user_id === this.state.host_id) ? 
                     <button 
                     className="Lobby-startGame u-color-1"
-                    onClick={()=> {this.startGame()}}>
+                    onClick={this.startGame()}>
                       start game
                       </button> :
                     <div></div>
