@@ -5,13 +5,8 @@
 
 /* utils here */
 const getRandomOrder = () => { //playersId should be object of (info of user) playing game
-    //makes a new array of players with {_id, playerInfo: }
-    const players = [];
-    Object.keys(gameState.playersId).forEach(key=> players.push({
-      _id: key,
-      playerInfo: gameState.playersId[key]
-    }))
-
+    
+    let players = playersIdToPlayersList();
     // uses the good ole fisher yates theorem to make sure you get random permutation of order (modifies players)
     let i;
     for(i = players.length-1; i > 0; i--){
@@ -26,6 +21,16 @@ const getRandomOrder = () => { //playersId should be object of (info of user) pl
     gameState.players = players
   };
 
+const playersIdToPlayersList = () => {
+  //makes a new array of players with {_id, playerInfo: }
+  const players = [];
+  Object.keys(gameState.playersId).forEach(key=> players.push({
+    _id: key,
+    playerInfo: gameState.playersId[key]
+  }))
+  return players;
+}
+
 //updates turn 
 const changeTurn = () => {
     gameState.players[gameState.turn].isMyTurn = false;
@@ -39,7 +44,7 @@ const changeTurn = () => {
 /* game state */
 const gameState = {
     //fill me in -- not sure whether to key players with id or order
-    
+   /*  games: {}, //object of game objects */
     winner: false, //if guesser correctly guessed --> team won
     players: [], // based off of order
     // order -> {  //what turn you're supposed to go on

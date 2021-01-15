@@ -21,6 +21,10 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * 
  * @param game_id The ID of the game
  * @param user_id The ID of the particular player
+ * 
+  * Proptypes
+ * @param {PlayerObject[]} players
+ * @param {String} word
  */
 class Pixeler extends Component {
   constructor(props) {
@@ -36,7 +40,6 @@ class Pixeler extends Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
     
     // remember -- api calls go here!
     socket.on("update", (update) => {
@@ -51,7 +54,6 @@ class Pixeler extends Component {
     //should change the pixeler screen
     //drawCanvas(update);
   };
-=======
     // TODO: unhardcode
     get("/api/game/canvas", {game_id: "bob"})
     .then((res) => {
@@ -65,7 +67,6 @@ class Pixeler extends Component {
         });
       }
     })
->>>>>>> 13bd7fffaefc1bc2a04c0245028f51e38a00a147
   }
 
   render() {
@@ -74,7 +75,7 @@ class Pixeler extends Component {
         <PlayerPanelTop/>
         <div className="u-flex">
           <div className="Player-subPanel">
-            <PlayerPanelLeft/>
+            <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
           </div>
           <div className="Player-subContainer">
             {(this.state.canvas.width) ?  <CanvasPanel 
