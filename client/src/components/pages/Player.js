@@ -35,8 +35,8 @@ class Player extends Component {
     // TODO: add game started/finished check
     componentDidMount() {
         get("/api/game/players", {
-            game_id: this.props.game_id,
-            user_id: this.props.user_id
+            game_id: this.props.location.state.game_id,
+            user_id: this.props.location.state.user_id
         }).then((res) => {
             console.log(res);
             if (res.length == 0) {
@@ -44,6 +44,7 @@ class Player extends Component {
                 navigate("/");
                 return;
             } else {
+                console.log(`You are the ${res[0]}!`);
                 if (res[0] == "guesser" || res[0] == "pixeler") {
                     this.setState({ player: res[0] });
                 } else {
@@ -64,8 +65,8 @@ class Player extends Component {
         return (
             <>
                 {this.state.player == "guesser" ? 
-                <Guesser game_id={this.location.state.game_id} user_id={this.location.state.user_id}/> :
-                <Pixeler game_id={this.location.state.game_id} user_id={this.location.state.user_id}/>}
+                <Guesser game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id}/> :
+                <Pixeler game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id}/>}
             </>
         );
     }

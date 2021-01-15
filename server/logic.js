@@ -91,7 +91,10 @@ const getNextWord = (gameSchema) => {
 // go in chronological order for now
 // 2. determine words
 const initializeGame = (game) => {
-  game.players = shuffle(game.players);
+  // TODO: comment in when we care
+  // game.players = shuffle(game.players);
+  game.guesser = game.players[0];
+  game.pixelers = game.players.slice(1,game.players.length);
   return game;
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
+import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
@@ -56,7 +57,7 @@ class Pixeler extends Component {
     });
 
     // TODO: unhardcode
-    get("/api/game/canvas", {game_id: this.props.game_id})
+    get("/api/game/canvas", {game_id: "bob"})//this.props.game_id})
     .then((res) => {
       if (res.length == 0) {
         // error with the props idk

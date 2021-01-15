@@ -73,6 +73,7 @@ class Lobby extends Component {
     .catch((err) => {
       console.log(err);
     })
+
     //listens for if players list is changed (if someone joined) and updates players state
     socket.on("players_and_game_id", (players_and_game_id_object) => {
       if (this.props.location.state.game_id === players_and_game_id_object.game_id) { //if the game id sent out is ours
@@ -80,13 +81,15 @@ class Lobby extends Component {
           players: players_and_game_id_object.players,
         })
       }
-    })
+    });
+
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
       if (this.props.location.state.game_id === game_id) { //if game that started is your game_id
-        navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
+        // TODO: maybe
+        navigate("/player", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
       }
-    })
+    });
   }
  
   // TODO: fix this put request
@@ -151,6 +154,7 @@ class Lobby extends Component {
         </>
       );
     } else {
+      console.log(this.state.players);
       return (<></>);
     }
   }
