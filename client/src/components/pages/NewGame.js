@@ -41,26 +41,37 @@ class NewGame extends Component {
 
   newGame = (event) => {
     console.log("calling API rn");
-    // TODO (lucy?): API call to check if game ID is valid, new game if yes
-    post("/api/game/new", {
-      user_id: this.props.location.state.user_id, 
-      user_name: this.props.location.state.user_name, 
-      game_id: this.state.game_id,
-    })
+    // first get request to check if this ID exists
+    get("api/game/get", {game_id: this.state.game_id})
     .then((res) => {
-      console.log("new game");
-      console.log(res);
-      navigate("/lobby", {state: {
-        user_id: this.props.location.state.user_id,  
-        user_name: this.props.location.state.user_name,  
-        game_id: this.state.game_id
-      }});
-    })
-    .catch((err) => {
-      console.log("error")
-      console.log(`error: ${err}`);
-      this.setState({error: true});
-    });  
+      // check that no game with this ID exists
+      if (res.length == 0) {
+        // continue with making new game
+        post("/api/game/new", {
+          user_id: this.props.location.state.user_id, 
+          user_name: this.props.location.state.user_name, 
+          game_id: this.state.game_id,
+        })
+        .then((res) => {
+          console.log("new game");
+          console.log(res);
+          navigate("/lobby", {state: {
+            user_id: this.props.location.state.user_id,  
+            user_name: this.props.location.state.user_name,  
+            game_id: this.state.game_id
+          }});
+        })
+        .catch((err) => {
+          console.log(`error: ${err}`);
+          this.setState({error: true});
+        }); 
+      } else {
+        console.log(`error: ${err}`);
+        this.setState({error: true});
+      }
+      
+    });
+     
   }
 
   render() {
