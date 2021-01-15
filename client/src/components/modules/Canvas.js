@@ -40,6 +40,7 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled, id) => {
+    if (this.props.callback !=null){ //if it isn't null (isGuesser)
     console.log(`Clicked! ${filled}, ${id}`);
     this.props.callback(filled);
     if (filled) {
@@ -80,6 +81,8 @@ class Canvas extends Component {
       .catch((err) => {
         console.log(err);
       });
+    }
+    
   }
 
   componentDidMount() {

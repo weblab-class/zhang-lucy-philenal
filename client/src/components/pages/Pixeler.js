@@ -84,6 +84,7 @@ class Pixeler extends Component {
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id="bob"
+              isGuesser={false}
             /> : <div></div>} 
           </div>
           <div className="Player-subPanel">

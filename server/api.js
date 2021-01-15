@@ -64,15 +64,22 @@ router.get("/game/get", (req, res) => {
   });
 });
 
-router.get("/game/players", (req, res) => {
+router.get("/game/player_status", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((games) => {
     if (games.length == 0) {
       res.send([]);
     } else {
-      res.send({
-        players: games[0].players,
-        guesser: games[0].guesser,
-      });
+      if (games[0].guesser._id == req.body.user_id) {
+        res.send("guesser");
+      } else {
+        for (let i = 0; i < games[0].players.length; i++) {
+          if (games[0].players[i]._id == req.body.user_id) {
+            res.send("pixeler");
+            return; //idk if this is necessary
+          }
+        }
+        res.send("neither")
+      }
     }
   });
 });
@@ -143,12 +150,13 @@ router.put("/game/pixel", (req, res) => {
   });
 
   //shouts the updated pixels + the game id to all connected sockets
-  // TODO: change this idk
-  // socketManager.getIo().emit("pixels_and_game_id", 
-  // {
-  //   pixels: req.body.game.pixels, 
-  //   game_id: req.body.game_id
-  // });
+  //TODO: change this idk
+  socketManager.getIo().emit("board_and_game_id", 
+  {
+    board: req.body.game.board,
+    // pixels: req.body.game.pixels, 
+    game_id: req.body.game_id
+  });
 });
 
 // anything else falls to this "not found" case

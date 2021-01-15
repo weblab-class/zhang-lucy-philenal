@@ -12,6 +12,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * The CanvasPanel is the entire middle panel below the title, containing the Canvas
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
+ * @param isGuesser - Boolean if player is guesser
  * 
  */
 class CanvasPanel extends Component {
@@ -53,7 +54,7 @@ class CanvasPanel extends Component {
               canvas_width_blocks={this.props.canvas_width_blocks} 
               pixels={this.props.canvas_pixels} 
               game_id={this.props.game_id}
-              callback={this.onPixelClicked}
+              callback={this.props.isGuesser ? null: this.onPixelClicked}
             />
             <div className="Canvas-footer">
               {/* pixels remaining: {this.state.num_filled} */}

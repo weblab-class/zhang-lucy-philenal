@@ -8,6 +8,7 @@ import JoinGame from "./pages/JoinGame.js";
 import NewGame from "./pages/NewGame.js";
 import Guesser from "./pages/Guesser.js";
 import Pixeler from "./pages/Pixeler.js";
+import Player from "./pages/Player.js";
 import Wall from "./pages/Wall.js";
 
 import "../utilities.css";
@@ -72,6 +73,7 @@ class App extends Component {
           <NewGame path="/newgame" />
           <Guesser path="/guesser" />
           <Pixeler path="/pixeler" />
+          <Player path="/player" />
           <Wall path="/wall" />
           <NotFound default />
         </Router>

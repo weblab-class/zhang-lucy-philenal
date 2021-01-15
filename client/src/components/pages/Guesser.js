@@ -27,16 +27,30 @@ class Guesser extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      canvas: {
-        width: null,
-        height: null,
-        pixels: null,
-      },
+      //is it bad to set this as state when it's changing based off of pixeler moves
+      canvas: {},
     };
   }
 
   componentDidMount() {
     // remember -- api calls go here!
+    get("/api/game/get", {game_id: "bob"})
+    .then((res) => {
+      this.setState({canvas: res[0].board}, () => {
+        console.log(this.state);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+    socket.on("board_and_game_id", (board_and_game_id) => {
+      if ("bob" === board_and_game_id.game_id) { //if the game id sent out is ours
+        this.setState({
+          canvas: board_and_game_id.board,
+        })
+      }
+    })
   }
 
   render() {
@@ -49,12 +63,20 @@ class Guesser extends Component {
             <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
           </div>
           <div className="Player-subContainer">
-            {(this.state.canvas.width) ?  <CanvasPanel 
+            {/* {(this.state.canvas.width) ?  <CanvasPanel 
               canvas_height_blocks={this.state.canvas.width} 
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id="bob"
-            /> : <div></div>} 
+            /> : <div></div>}  */}
+
+            <CanvasPanel 
+              canvas_height_blocks={this.state.canvas.width} 
+              canvas_width_blocks={this.state.canvas.height} 
+              canvas_pixels={this.state.canvas.pixels}
+              game_id="bob"
+              isGuesser={true}
+            />
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>
