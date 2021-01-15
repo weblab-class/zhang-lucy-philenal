@@ -1,3 +1,11 @@
-.PixelBlock-body {
+.PixelBlock-body-unfilled {
     background-color: var(--pixel-color-unfilled);
+}
+
+.PixelBlock-body-filled {
+    background-color: var(--pixel-color-filled);
+}
+
+.PixelBlock-body-hover {
+    background-color: var(--pixel-color-hover);
 }

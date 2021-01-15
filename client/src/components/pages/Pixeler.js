@@ -9,6 +9,8 @@ import CanvasPanel from "../modules/panels/CanvasPanel";
 
 import "./Player.css";
 
+import { get } from "../../utilities";
+
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
@@ -25,10 +27,16 @@ class Pixeler extends Component {
     super(props);
     // Initialize Default State
     this.state = {
+      canvas: {
+        width: null,
+        height: null,
+        pixels: null,
+      },
     };
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     
     // remember -- api calls go here!
     socket.on("update", (update) => {
@@ -43,6 +51,21 @@ class Pixeler extends Component {
     //should change the pixeler screen
     //drawCanvas(update);
   };
+=======
+    // TODO: unhardcode
+    get("/api/game/canvas", {game_id: "bob"})
+    .then((res) => {
+      if (res.length == 0) {
+        // error with the props idk
+        // TODO? figure out props probably
+        navigate("/");
+      } else {
+        this.setState({canvas: res[0]}, () => {
+          console.log(this.state)
+        });
+      }
+    })
+>>>>>>> 13bd7fffaefc1bc2a04c0245028f51e38a00a147
   }
 
   render() {
@@ -54,7 +77,12 @@ class Pixeler extends Component {
             <PlayerPanelLeft/>
           </div>
           <div className="Player-subContainer">
-            <CanvasPanel canvas_height_blocks={20} canvas_width_blocks={20} />
+            {(this.state.canvas.width) ?  <CanvasPanel 
+              canvas_height_blocks={this.state.canvas.width} 
+              canvas_width_blocks={this.state.canvas.height} 
+              canvas_pixels={this.state.canvas.pixels}
+              game_id="bob"
+            /> : <div></div>} 
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>

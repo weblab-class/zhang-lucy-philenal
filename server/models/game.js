@@ -1,7 +1,8 @@
 
 const mongoose = require("mongoose");
 
-// const BoardSchema = require("./board");
+// TODO: rip how do we not copy these
+// OH
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -11,12 +12,14 @@ const UserSchema = new mongoose.Schema({
 const PixelSchema = new mongoose.Schema({
   color: String,
   filled: Boolean,
+  id: Number,
 });
 
 const BoardSchema  = new mongoose.Schema({
   _id: String,
   width: Number,
   height: Number,
+  num_filled: Number,
   pixels: [{
       type: PixelSchema,
   }],
