@@ -54,6 +54,7 @@ class CanvasPanel extends Component {
               canvas_width_blocks={this.props.canvas_width_blocks} 
               pixels={this.props.canvas_pixels} 
               game_id={this.props.game_id}
+              isGuesser={this.props.isGuesser}
               callback={this.props.isGuesser ? null: this.onPixelClicked}
             />
             <div className="Canvas-footer">

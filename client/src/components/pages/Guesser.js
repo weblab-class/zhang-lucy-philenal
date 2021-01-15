@@ -4,6 +4,8 @@ import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
+import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import CanvasPanel from "../modules/panels/CanvasPanel";
 
 import { get, post, put} from "../../utilities";
@@ -63,20 +65,21 @@ class Guesser extends Component {
             <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
           </div>
           <div className="Player-subContainer">
-            {/* {(this.state.canvas.width) ?  <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} 
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id="bob"
-            /> : <div></div>}  */}
-
-            <CanvasPanel 
+            {(this.state.canvas.width) ?  <CanvasPanel 
               canvas_height_blocks={this.state.canvas.width} 
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id="bob"
               isGuesser={true}
-            />
+            /> : <div></div>} 
+
+           {/*  <CanvasPanel 
+              canvas_height_blocks={this.state.canvas.width} 
+              canvas_width_blocks={this.state.canvas.height} 
+              canvas_pixels={this.state.canvas.pixels}
+              game_id="bob"
+              isGuesser={true}
+            /> */}
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>

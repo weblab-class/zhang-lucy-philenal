@@ -40,6 +40,9 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled, id) => {
+    if (this.props.isGuesser) {
+      return;
+    }
     if (this.props.callback !=null){ //if it isn't null (isGuesser)
     console.log(`Clicked! ${filled}, ${id}`);
     this.props.callback(filled);
@@ -100,6 +103,7 @@ class Canvas extends Component {
             id={this.props.pixels[i].id} 
             filled={this.props.pixels[i].filled}
             size={this.state.block_size}
+            isGuesser={this.props.isGuesser}
             callback={this.onPixelClicked}
           />
         </div>

@@ -27,7 +27,9 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
-
+      if (this.props.isGuesser) {
+        return;
+      }
         // event.target.style.background = (!this.state.filled) ? 
         //   'var(--pixel-color-filled)' : 
         //   'var(--pixel-color-unfilled)'
@@ -37,11 +39,17 @@ class PixelBlock extends Component {
     };
 
     onHover = (event) => {
+      if (this.props.isGuesser) {
+        return;
+      }
       this.setState({hover: true});
         // event.target.style.background = 'var(--pixel-color-hover)';
     };
 
     onNonHover = (event) => {
+      if (this.props.isGuesser) {
+        return;
+      }
       this.setState({hover: false});
 
         // event.target.style.background = (this.state.filled) ? 
