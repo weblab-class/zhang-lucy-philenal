@@ -40,7 +40,7 @@ const GameSchema = new mongoose.Schema({
   word_idx: Number, //DNR, index of current word
   words: [String], //DNR
   guesses: [String],
-  guesser: String,
+  guesser: UserSchema,
 });
 
 // compile model from schema

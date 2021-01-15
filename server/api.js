@@ -64,6 +64,20 @@ router.get("/game/get", (req, res) => {
   });
 });
 
+router.get("/game/players", (req, res) => {
+  Game.find({ _id: req.query.game_id }).then((games) => {
+    if (games.length == 0) {
+      res.send([]);
+    } else {
+      res.send({
+        players: games[0].players,
+        guesser: games[0].guesser,
+      });
+    }
+  });
+});
+
+
 router.get("/game/canvas", (req, res) => {
   // TODO: Check if the user is a pixeler
   console.log("what");
@@ -74,8 +88,7 @@ router.get("/game/canvas", (req, res) => {
 
 router.put("/game/join", (req, res) => {
   // TODO: check that the player hasn't joined already
-
-  
+  // TODO: check that game hasn't started already
   Game.findByIdAndUpdate(
     (req.body.game_id),
     req.body.game,

@@ -58,16 +58,10 @@ class Lobby extends Component {
   }
 
   componentDidMount() {
-    console.log("State:");
-    console.log(this.props.location.state);
-    // remember -- api calls go here!
     get("/api/game/get", {game_id: this.props.location.state.game_id})
     .then((res) => {
-      console.log(res);
-      console.log("HERE IS THE RES " + res[0].host_id);
       this.setState({
         players: res[0].players,
-        // isHost: (this.props.location.state.user_id === res[0].host_id),
         host_id: res[0].host_id,
        });
       if (res[0].started === true) {
@@ -91,11 +85,9 @@ class Lobby extends Component {
         navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
       }
     })
-    // console.log(this.props);
   }
 
   startGame = () => {
-    console.log("GET request");
     get("/api/game/get", {game_id: this.props.location.state.game_id})
     .then((res) => {
       console.log(this.props.location.state.game_id);
@@ -106,7 +98,7 @@ class Lobby extends Component {
 
       // start the game
       game.started = true;
-      console.log("PUT request");
+
       put("/api/game/start", {game: game, game_id: this.props.location.state.game_id})
       .then((res) => {
         console.log(res)
@@ -137,8 +129,6 @@ class Lobby extends Component {
     return (
       <>
             <div>hello, {this.props.location.state.user_name}!</div>
-            {/* TODO (philena) make this pretty! ^_^ */}
-            {/* TODO add functionality for entering names too */}
             <div className="Lobby">
                 <div className="Lobby-title">Lobby</div>
                 <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
