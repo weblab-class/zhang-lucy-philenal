@@ -11,6 +11,7 @@ const getSocketFromSocketID = (socketid) => io.sockets.connected[socketid];
 
 const addUser = (user, socket) => {
   const oldSocket = userToSocketMap[user._id];
+  logic.addPlayer(user._id);
   if (oldSocket && oldSocket.id !== socket.id) {
     // there was an old tab open for this user, force it to disconnect
     // FIXME: is this the behavior you want?
@@ -27,6 +28,14 @@ const removeUser = (user, socket) => {
   if (user) delete userToSocketMap[user._id];
   delete socketToUserMap[socket.id];
   io.emit("activeUsers", { activeUsers: getAllConnectedUsers() });
+};
+
+setInterval(() => {
+  sendGameState();
+}, 1000 / 60);
+
+const sendGameState = () => {
+  io.emit("update", logic.gameState);
 };
 
 module.exports = {

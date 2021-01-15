@@ -29,7 +29,20 @@ class Pixeler extends Component {
   }
 
   componentDidMount() {
+    
     // remember -- api calls go here!
+    socket.on("update", (update) => {
+      this.processUpdate(update);
+    });
+
+  //TODO: update canvas screen/pixeler screen
+  processUpdate = (update) => {
+    if (update.winner) {
+      this.setState({ winner: update.winner });
+    }
+    //should change the pixeler screen
+    //drawCanvas(update);
+  };
   }
 
   render() {

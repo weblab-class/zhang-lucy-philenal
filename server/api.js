@@ -85,6 +85,7 @@ router.post("/game/new", (req, res) => {
     _id: req.body.game_id, // TODO: change this
     host_id: req.body.user_id,
     players: [{name: req.body.user_name, googleid: req.body.user_id}],
+    pixelers: [],
     board: newBoard,
     started: false,
     finished: false,
@@ -97,6 +98,7 @@ router.post("/game/new", (req, res) => {
 
 });
 
+//TODO: update logic when pixeler ends turn, or pixelsLeft = 0
 
 router.get("/game/get", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((game) => {
@@ -116,6 +118,7 @@ router.put("/game/join", (req, res) => {
   ).then((game) => {
     res.send(game);
   });
+  //TODO: (philena) change this to socket room for higher efficiency!!!!
   //shouts the updated players list + the game id to all connected sockets
   socketManager.getIo().emit("players_and_game_id", 
   {
@@ -135,6 +138,7 @@ router.put("/game/start", (req, res) => { //changes started --> true
       console.log(todo);
     }
   ).then((game) => {
+    //TODO: (philena) change this to socket room for higher efficiency!!!!
     //tells everyone that game started!
     socketManager.getIo().emit("game_id_started", req.body.game_id);
     res.send(game);
