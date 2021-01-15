@@ -7,8 +7,8 @@
 |
 */
 
-const BOARD_WIDTH_BLOCKS = 20;
-const BOARD_HEIGHT_BLOCKS = 20;
+const BOARD_WIDTH_BLOCKS = 3;
+const BOARD_HEIGHT_BLOCKS = 3;
 var mongoose = require('mongoose');
 
 
@@ -27,11 +27,7 @@ const router = express.Router();
 
 // TODO: Fix these API's, these are just the nonsocket versions
 const Game = require("./models/game");
-const Board = require("./models/board");
-
-router.get("/board", (req, res) => {
-  Board.find({_id: req.query._id}).then((board) => res.send(board));
-});
+// const Board = require("./models/board");
 
 // TODO: Move stuff below socket
 //initialize socket
@@ -63,23 +59,15 @@ router.post("/game/new", (req, res) => {
   const numPixels = BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS;
 
   for (let i = 0; i < numPixels; i++) {
-    newPixels.push({color: "none", filled: false});
+    newPixels.push({id: i, color: "none", filled: false});
   }
 
-  const newBoard = new Board({
+  const newBoard = {
     _id: 0,
     width: BOARD_WIDTH_BLOCKS,
     height: BOARD_HEIGHT_BLOCKS,
     pixels: newPixels,
-  });
-
-  // TODO remove when PUT is figured out
-  // const fakeNames = ["fake1", "fake2", "fake3", "fake4"];
-  // const fakeIds = ["123", "234", "345", "456"];
-  // let fakeUsers = [{name: req.body.user_name, googleid: req.body.user_id}]
-  // for (let i = 0; i < fakeIds.length; i++) {
-  //   fakeUsers.push({name:fakeNames[i], googleid:fakeIds[i]});
-  // }
+  };
 
   const newGame = new Game({
     _id: req.body.game_id, // TODO: change this
@@ -99,12 +87,21 @@ router.post("/game/new", (req, res) => {
 
 
 router.get("/game/get", (req, res) => {
-  Game.find({ _id: req.query.game_id }).then((game) => {
-    res.send(game);
+  Game.find({ _id: req.query.game_id }).then((games) => {
+    res.send(games);
+  });
+});
+
+router.get("/game/canvas", (req, res) => {
+  // TODO: Check if the user is a pixeler
+  console.log("what");
+  Game.find({ _id: req.query.game_id }).then((games) => {
+    res.send(games.map((g) => g.board));
   });
 });
 
 router.put("/game/join", (req, res) => {
+  // TODO: check that the player hasn't joined already
   Game.findByIdAndUpdate(
     (req.body.game_id),
     req.body.game,
@@ -119,7 +116,7 @@ router.put("/game/join", (req, res) => {
   //shouts the updated players list + the game id to all connected sockets
   socketManager.getIo().emit("players_and_game_id", 
   {
-    players: req.body.game.players, 
+    players: req.body.players, 
     game_id: req.body.game_id
   });
 });
@@ -140,6 +137,29 @@ router.put("/game/start", (req, res) => { //changes started --> true
     res.send(game);
   });
   
+});
+
+router.put("/game/pixel", (req, res) => {
+  // TODO: check that the player is a player and pixeler
+  Game.findByIdAndUpdate(
+    (req.body.game_id),
+    req.body.game,
+    {new: true},
+    (err, todo) => {
+      console.log(err);
+      console.log(todo);
+    }
+  ).then((game) => {
+    res.send(game);
+  });
+
+  //shouts the updated pixels + the game id to all connected sockets
+  // TODO: change this idk
+  // socketManager.getIo().emit("pixels_and_game_id", 
+  // {
+  //   pixels: req.body.game.pixels, 
+  //   game_id: req.body.game_id
+  // });
 });
 
 // anything else falls to this "not found" case

@@ -21,25 +21,32 @@ class PixelBlock extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      filled: false,
+      filled: this.props.filled,
+      hover: false,
     };
   }
 
     onClick = (event) => {
-        event.target.style.background = (!this.state.filled) ? 
-        'var(--pixel-color-filled)' : 
-        'var(--pixel-color-unfilled)'
-        this.setState({filled: !this.state.filled}, () => {this.props.callback(this.state.filled)});
+
+        // event.target.style.background = (!this.state.filled) ? 
+        //   'var(--pixel-color-filled)' : 
+        //   'var(--pixel-color-unfilled)'
+        this.setState({filled: !this.state.filled}, () => {
+          this.props.callback(this.state.filled, this.props.id)
+        });
     };
 
     onHover = (event) => {
-        event.target.style.background = 'var(--pixel-color-hover)';
+      this.setState({hover: true});
+        // event.target.style.background = 'var(--pixel-color-hover)';
     };
 
     onNonHover = (event) => {
-        event.target.style.background = (this.state.filled) ? 
-            'var(--pixel-color-filled)' : 
-            'var(--pixel-color-unfilled)';
+      this.setState({hover: false});
+
+        // event.target.style.background = (this.state.filled) ? 
+        //     'var(--pixel-color-filled)' : 
+        //     'var(--pixel-color-unfilled)';
     };
 
   componentDidMount() {
@@ -49,18 +56,46 @@ class PixelBlock extends Component {
   render() {
     // const myCSS = css`background: ${({ myColor }) => myColor || `black`};`;
     // const MyComponent = styled('div')`${myCSS};`;
-    return (
-      <>
-        <div 
-            className="PixelBlock-body" 
-            style={{width: this.props.size, height: this.props.size}}
-            onMouseOver={this.onHover}
-            onMouseLeave={this.onNonHover}
-            onMouseDown={this.onClick}
-        >
-        </div>
-      </>
-    );
+    if (this.state.hover) {
+      return <div 
+              className="PixelBlock-body-hover" 
+              style={{
+                width: this.props.size, 
+                height: this.props.size,
+              }}
+              onMouseOver={this.onHover}
+              onMouseLeave={this.onNonHover}
+              onMouseDown={this.onClick}
+            ></div>
+    } else {
+      return (
+        <>
+          {(this.state.filled) ? 
+            <div 
+              className="PixelBlock-body-filled" 
+              style={{
+                width: this.props.size, 
+                height: this.props.size,
+              }}
+              onMouseOver={this.onHover}
+              onMouseLeave={this.onNonHover}
+              onMouseDown={this.onClick}
+            ></div> :
+            <div 
+              className="PixelBlock-body-unfilled" 
+              style={{
+                width: this.props.size, 
+                height: this.props.size,
+              }}
+              onMouseOver={this.onHover}
+              onMouseLeave={this.onNonHover}
+              onMouseDown={this.onClick}
+            ></div>
+          }
+        </>
+      );
+    }
+    
   }
 }
 
