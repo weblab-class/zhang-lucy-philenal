@@ -26,7 +26,7 @@ class PlayerPanelRight extends Component {
     return (
       <>
         <div className="PlayerPanelRight">
-         {/*  I am the right panel! */}
+          I am the right panel!
           <div className="PlayerPanelRight-columnBlocks">
             <div className="PlayerPanelRight-linkContainer">
                 <Link to="/skeleton" className="PlayerPanelRight-link">
@@ -50,6 +50,7 @@ class PlayerPanelRight extends Component {
                 </Link>
             </div>
         </div>
+        
         </div>
 
         

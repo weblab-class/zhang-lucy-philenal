@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
@@ -39,13 +40,6 @@ class Pixeler extends Component {
     };
   }
 
-  componentDidMount() {
-    
-    // remember -- api calls go here!
-    socket.on("update", (update) => {
-      this.processUpdate(update);
-    });
-
   //TODO: update canvas screen/pixeler screen
   processUpdate = (update) => {
     if (update.winner) {
@@ -54,6 +48,13 @@ class Pixeler extends Component {
     //should change the pixeler screen
     //drawCanvas(update);
   };
+  
+  componentDidMount() {
+    // remember -- api calls go here!
+    socket.on("update", (update) => {
+      this.processUpdate(update);
+    });
+
     // TODO: unhardcode
     get("/api/game/canvas", {game_id: "bob"})
     .then((res) => {
@@ -89,8 +90,6 @@ class Pixeler extends Component {
             <PlayerPanelRight/>
           </div>
         </div>
-        {/* <p>hi you are the pixeler!</p>
-        <p>your name is {this.state.name}</p> */}
       </>
     );
   }

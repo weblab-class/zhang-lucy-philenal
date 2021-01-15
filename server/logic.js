@@ -1,7 +1,8 @@
-//question: how to make this work with multiple games 
+// OH question: how to make this work with multiple games 
 //if there's only one gameState that is populating all users whose sockets have connected?
 
-//how does logic.js work overall??
+// OH: how does logic.js work overall??
+const Game = require("./models/game");
 
 /* utils here */
 const getRandomOrder = () => { //playersId should be object of (info of user) playing game
@@ -21,6 +22,79 @@ const getRandomOrder = () => { //playersId should be object of (info of user) pl
     gameState.players = players
   };
 
+
+// Credits: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+const shuffle = (array) => {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+// Called by newgame POST
+const newGame = (req) => {
+  const newPixels = [];
+  const numPixels = BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS;
+
+  for (let i = 0; i < numPixels; i++) {
+    newPixels.push({id: i, color: "none", filled: false});
+  }
+
+  const newBoard = {
+    _id: 0,
+    width: BOARD_WIDTH_BLOCKS,
+    height: BOARD_HEIGHT_BLOCKS,
+    pixels: newPixels,
+  };
+
+  const newGame = new Game({
+    _id: req.body.game_id, // TODO: change this
+    host_id: req.body.user_id,
+    players: [{name: req.body.user_name, googleid: req.body.user_id}],
+    board: newBoard,
+    started: false,
+    finished: false,
+    wordpack: "default",
+    word: undefined,
+    word_idx: 0,
+    words: [],
+    guesses: [],
+    guesser: null,
+  });
+
+  return newGame;
+}
+
+// only draw a word that hasn't been drawn yet
+const getNextWord = (gameSchema) => {
+  return words[word_idx];
+}
+
+// Called AFTER startGame
+// 1. determine ordering of guessers/pixelers
+// go in chronological order for now
+// 2. determine words
+const initializeGame = (game) => {
+  game.players = shuffle(game.players);
+  return game;
+}
+
+const getRandomGuesser = (users) => { //users should be object of user objects playing game
+    
+};
+
 const playersIdToPlayersList = () => {
   //makes a new array of players with {_id, playerInfo: }
   const players = [];
@@ -33,15 +107,18 @@ const playersIdToPlayersList = () => {
 
 //updates turn 
 const changeTurn = () => {
-    gameState.players[gameState.turn].isMyTurn = false;
-    gameState.turn +=1;
-    gameState.players[gameState.turn].isMyTurn = true;
+  // prev
+  gameState.players[gameState.turn].isMyTurn = false;
+  gameState.turn +=1;
+  gameState.players[gameState.turn].isMyTurn = true;
 
 }
 
 /* constants here */
 
 /* game state */
+// TODO: I think game state should be the same as GameSchema? -lz
+// OH
 const gameState = {
     //fill me in -- not sure whether to key players with id or order
    /*  games: {}, //object of game objects */
@@ -64,6 +141,8 @@ const gameState = {
 
 }
 
+
+
 /** game logic */
 
 //TODO: should game state include canvas board??
@@ -85,6 +164,7 @@ const removePlayer = (id) => {
 
 
 module.exports = {
+    newGame,
     gameState,
     addPlayer,
     removePlayer,

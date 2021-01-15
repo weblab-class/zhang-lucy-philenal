@@ -42,14 +42,11 @@ class Canvas extends Component {
   onPixelClicked = (filled, id) => {
     console.log(`Clicked! ${filled}, ${id}`);
     this.props.callback(filled);
-    // TODO: api call
     if (filled) {
       this.setState({filled_blocks: this.state.filled_blocks + 1}, () => {
-        // console.log(`pixels filled: ${this.state.filled_blocks}`)
       });
     } else {
       this.setState({filled_blocks: this.state.filled_blocks - 1}, () => {
-        // console.log(`pixels filled: ${this.state.filled_blocks}`)
       });
     }
 
@@ -66,10 +63,6 @@ class Canvas extends Component {
           // add our pixel
           // TODO: fix color
           game.board.pixels[id] = {id: id, _id: res[0].board.pixels[id]._id, color: "none", filled: filled};
-          // console.log(`Pixel: 
-          //           ${game.board.pixels[id]._id} 
-          //           ${game.board.pixels[id].color} 
-          //           ${game.board.pixels[id].filled}`);
           put("/api/game/pixel", 
           {
             game: game, 
