@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
+import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
+import CanvasPanel from "../modules/panels/CanvasPanel";
+
+import { get, post, put} from "../../utilities";
 // TBD?
 // import "./Guesser.css";
 
@@ -22,11 +28,31 @@ class Guesser extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {
+      //is it bad to set this as state when it's changing based off of pixeler moves
+      canvas: {},
+    };
   }
 
   componentDidMount() {
     // remember -- api calls go here!
+    get("/api/game/get", {game_id: "bob"})
+    .then((res) => {
+      this.setState({canvas: res[0].board}, () => {
+        console.log(this.state);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+    socket.on("board_and_game_id", (board_and_game_id) => {
+      if ("bob" === board_and_game_id.game_id) { //if the game id sent out is ours
+        this.setState({
+          canvas: board_and_game_id.board,
+        })
+      }
+    })
   }
 
   render() {
@@ -34,6 +60,31 @@ class Guesser extends Component {
       <>
         <PlayerPanelTop/>
         hi you are the guesser!
+        <div className="u-flex">
+          <div className="Player-subPanel">
+            <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
+          </div>
+          <div className="Player-subContainer">
+            {(this.state.canvas.width) ?  <CanvasPanel 
+              canvas_height_blocks={this.state.canvas.width} 
+              canvas_width_blocks={this.state.canvas.height} 
+              canvas_pixels={this.state.canvas.pixels}
+              game_id="bob"
+              isGuesser={true}
+            /> : <div></div>} 
+
+           {/*  <CanvasPanel 
+              canvas_height_blocks={this.state.canvas.width} 
+              canvas_width_blocks={this.state.canvas.height} 
+              canvas_pixels={this.state.canvas.pixels}
+              game_id="bob"
+              isGuesser={true}
+            /> */}
+          </div>
+          <div className="Player-subPanel">
+            <PlayerPanelRight/>
+          </div>
+        </div>
       </>
     );
   }

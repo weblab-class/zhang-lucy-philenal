@@ -146,12 +146,13 @@ router.put("/game/pixel", (req, res) => {
   });
 
   //shouts the updated pixels + the game id to all connected sockets
-  // TODO: change this idk
-  // socketManager.getIo().emit("pixels_and_game_id", 
-  // {
-  //   pixels: req.body.game.pixels, 
-  //   game_id: req.body.game_id
-  // });
+  //TODO: change this idk
+  socketManager.getIo().emit("board_and_game_id", 
+  {
+    board: req.body.game.board,
+    // pixels: req.body.game.pixels, 
+    game_id: req.body.game_id
+  });
 });
 
 // anything else falls to this "not found" case
