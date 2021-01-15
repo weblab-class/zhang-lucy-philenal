@@ -3,6 +3,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import CanvasPanel from "../modules/panels/CanvasPanel";
 // TBD?
 // import "./Guesser.css";
 
@@ -34,6 +35,22 @@ class Guesser extends Component {
       <>
         <PlayerPanelTop/>
         hi you are the guesser!
+        <div className="u-flex">
+          <div className="Player-subPanel">
+            <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
+          </div>
+          <div className="Player-subContainer">
+            {(this.state.canvas.width) ?  <CanvasPanel 
+              canvas_height_blocks={this.state.canvas.width} 
+              canvas_width_blocks={this.state.canvas.height} 
+              canvas_pixels={this.state.canvas.pixels}
+              game_id="bob"
+            /> : <div></div>} 
+          </div>
+          <div className="Player-subPanel">
+            <PlayerPanelRight/>
+          </div>
+        </div>
       </>
     );
   }
