@@ -14,30 +14,6 @@ import { get, post, put} from "../../utilities";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
-/* const playersList = [
-    {
-    playername: "Lucy",
-    _id: 1
-  },
-  {
-    playername: "Bob",
-    _id: 2
-  },
-  {
-    playername: "Bob",
-    _id: 3
-  },
-  {
-    playername: "Bob",
-    _id: 4
-  }
-  ];
-  
-const host = {
-    playername: "Me",
-    _id: "0"
-  }; */
-  
 
 /**
  * Lobby page is what the user travels to after making/joining

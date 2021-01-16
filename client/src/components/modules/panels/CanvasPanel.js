@@ -43,6 +43,10 @@ class CanvasPanel extends Component {
     }
   }
 
+  endTurn = () => {
+    //get and then post
+    //TODO: write this function -- also change the isGuesser param to canvas to isPixelersTurn
+  }
 
   render() {
     return (
@@ -60,6 +64,7 @@ class CanvasPanel extends Component {
             <div className="Canvas-footer">
               {/* pixels remaining: {this.state.num_filled} */}
               pixels filled: {this.state.num_filled}
+              <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>
             </div>
           </div>
           {/* TODO (philena): Make this prettier */}
