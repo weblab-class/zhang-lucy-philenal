@@ -7,7 +7,7 @@ import "../../../utilities.css";
 import "./PlayerPanel.css";
 import "./PlayerPanelRight.css";
 
-import { put} from "../../../utilities";
+import { get, put} from "../../../utilities";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
@@ -23,6 +23,14 @@ class PlayerPanelRight extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    get("api/game/get", {game_id: this.props.game_id})
+    .then((res) => {
+      if (res.length == 0) {
+        console.log("rip");
+      } else {
+        this.setState({guesses: res[0].guesses});
+      }
+    })
   }
 
   onGuessEntry = (guess) => {
@@ -32,9 +40,13 @@ class PlayerPanelRight extends Component {
   }
 
   submitGuess = () => {
-
     let the_guess = this.state.guess;
-    this.setState({clear: true, guess: "", guesses: this.state.guesses.concat([the_guess]),  });
+    this.setState({
+      clear: true, // lolrip
+      guess: "", 
+      guesses: this.state.guesses.concat([the_guess]),  
+    });
+
     console.log(`Submitting guess for ${the_guess}...`);
     put("api/game/guess", {
       game_id: this.props.game_id,
@@ -79,7 +91,7 @@ class PlayerPanelRight extends Component {
           </div>
           {(!this.props.isGuesser) &&
           <div className="PlayerPanelRight-guesser">
-            <div class="PlayerPanelRight-guessTextEntryContainer">
+            <div className="PlayerPanelRight-guessTextEntryContainer">
               <TextEntry 
                 clear={this.state.clear}
                 cleared={this.textCleared}

@@ -13,15 +13,14 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Game = require("./models/game");
+const Logic = require("./logic");
 
 // import authentication library
 const auth = require("./auth");
 
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
-
-const Game = require("./models/game");
-const Logic = require("./logic");
 
 //initialize socket
 const socketManager = require("./server-socket");
@@ -67,6 +66,12 @@ router.post("/game/endTurn", (req, res) => {
     })
   })
   
+});
+
+router.get("/user/get", (req, res) => {
+  User.find({ _id: req.query.user_id }).then((users) => {
+    res.send(users);
+  });
 });
 
 // TODO: kill this bad function lol

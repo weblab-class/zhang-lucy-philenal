@@ -6,6 +6,7 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 
 import "../../utilities.css";
 import "./Start.css";
+import { get } from "../../utilities";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
@@ -27,7 +28,8 @@ class Start extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    console.log(this.props);
+    // console.log(this.props);
+
   }
 
   onLogin = (res) => {
@@ -56,11 +58,13 @@ class Start extends Component {
     } else {
       return (
         <>
-          {/* TODO (philena): prettify! maybe center everything?*/}
-          <PlayerPanelTop/>
-          <div className="Login-welcomeMessage">
-            login to start:
+          <div className="Start-title">
+            <PlayerPanelTop/>
           </div>
+          {/* <div className="Start-loginWelcomeMessage">
+            login to with Google:
+          </div> */}
+          <div className="Start-loginButtonContainer">
           {this.props.user_id ? (
             <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
@@ -71,11 +75,12 @@ class Start extends Component {
           ) : (
             <GoogleLogin
               clientId={GOOGLE_CLIENT_ID}
-              buttonText="Login"
+              buttonText="login to start"
               onSuccess={this.onLogin}
               onFailure={(err) => console.log(err)}
             />
           )}
+          </div>
         </>
       );
     }
