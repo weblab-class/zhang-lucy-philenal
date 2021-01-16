@@ -96,8 +96,10 @@ class Pixeler extends Component {
         <>
           <PlayerPanelTop/>
           {/* {"TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id} */}
-          {console.log("is it my turn " + (this.state.pixelers[this.props.turn].googleid === this.props.user_id))}
-          {console.log("turn id " + this.state.pixelers[this.props.turn].googleid + "user id " + this.props.user_id)}
+          {this.props.turn < this.state.pixelers.length ? 
+          console.log("is it my turn " + (this.state.pixelers[this.props.turn].googleid === this.props.user_id)): 
+          console.log("guesser's turn")}
+          {/* {console.log("turn id " + this.state.pixelers[this.props.turn].googleid + "user id " + this.props.user_id)} */}
           <div className="u-flex">
             <div className="Player-subPanel">
               <PlayerPanelLeft 
@@ -112,7 +114,7 @@ class Pixeler extends Component {
                 canvas_width_blocks={this.state.canvas.height} 
                 canvas_pixels={this.state.canvas.pixels}
                 game_id={this.props.game_id}
-                isMyTurn={this.state.pixelers[this.props.turn].googleid==this.props.user_id}
+                isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn].googleid===this.props.user_id}
                 isGuesser={false} //change to make more secure
               /> : <div></div>} 
             </div>

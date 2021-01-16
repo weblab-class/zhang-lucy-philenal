@@ -49,13 +49,16 @@ class CanvasPanel extends Component {
   endTurn = () => {
     //get and then post
     //TODO: write this function -- also change the isGuesser param to canvas to isMyTurn
-    post("/api/game/endTurn",
-    {
-      game_id: this.props.game_id
-    }).then((game) =>
-    {
-      console.log("You ended your turn. Now the turn number is " + game.turn)
-    })
+    if (this.props.game_id){
+      post("/api/game/endTurn",
+      {
+        game_id: this.props.game_id
+      }).then((game) =>
+      {
+        console.log("You ended your turn. Now the turn number is " + game.turn)
+      })
+    }
+    
   }
 
   render() {

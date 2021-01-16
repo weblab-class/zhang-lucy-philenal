@@ -27,7 +27,7 @@ const word = "hello"
  *
  * Proptypes
  * @param {UserObject[]} pixelers
- * @param {Number} turn - what turn number (1, players.length) game is on
+ * @param {Number} turn - what turn number (0, pixelers.length) game is on
  * @param {User} guesser
  * @param {Boolean} isGuesser
  * @param {String} word* - only if isGuesser=false
