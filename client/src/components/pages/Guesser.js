@@ -46,7 +46,6 @@ class Guesser extends Component {
         canvas: res[0].board, 
         pixelers: res[0].pixelers, 
         guesser: res[0].guesser}, () => {
-        console.log("THIS IS THE GUESSER CONSOLE LOG: " + this.state);
       });
     })
     .catch((err) => {
@@ -63,6 +62,7 @@ class Guesser extends Component {
   }
 
   onCorrectGuess = (word) => {
+    console.log("guesser callback");
     this.setState({word: word});
   }
 
@@ -73,21 +73,18 @@ class Guesser extends Component {
     return (
       <>
         <PlayerPanelTop/>
-        hi you are the guesser!
         <div className="u-flex">
           <div className="Player-subPanel">
             {(this.state.pixelers) && 
             <PlayerPanelLeft 
-              // game_id={this.props.game_id}
-              // user_id={this.props.user_id}
               players={this.state.players} 
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
+              word={this.state.word}
               wordLength={5}//this.state.word.length} 
               // TODO^^^^^^ very not SFB
               turn={this.state.turn}
               isGuesser={true}
-              // guesser={{name: "peter"}}
               />
             }
           </div>

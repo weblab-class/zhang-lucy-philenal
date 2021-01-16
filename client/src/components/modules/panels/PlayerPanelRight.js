@@ -32,19 +32,19 @@ class PlayerPanelRight extends Component {
   }
 
   submitGuess = () => {
-    let guess = this.state.guess;
-    this.setState({guess: "", guesses: this.state.guesses.concat([guess]),  });
 
-    console.log(`Submitting guess for ${guess}...`);
+    let the_guess = this.state.guess;
+    this.setState({clear: true, guess: "", guesses: this.state.guesses.concat([the_guess]),  });
+    console.log(`Submitting guess for ${the_guess}...`);
     put("api/game/guess", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
-      guess: guess,
+      guess: the_guess,
     }).then((res) => {
       console.log(res);
       if(res.message == "correct") {
         console.log("correct!!");
-        this.props.callback(guess);
+        this.props.callback(the_guess);
       } else {
         console.log(res);
         console.log("incorrect");
@@ -53,6 +53,10 @@ class PlayerPanelRight extends Component {
     }).catch((err) => {
       console.log(err);
     })
+  }
+
+  textCleared = () => {
+    this.setState({clear: false});
   }
 
   render() {
@@ -76,7 +80,11 @@ class PlayerPanelRight extends Component {
           {(!this.props.isGuesser) &&
           <div className="PlayerPanelRight-guesser">
             <div class="PlayerPanelRight-guessTextEntryContainer">
-              <TextEntry className="PlayerPanelRightguessTextEntry" callback={this.onGuessEntry}/>
+              <TextEntry 
+                clear={this.state.clear}
+                cleared={this.textCleared}
+                className="PlayerPanelRight-guessTextEntry" 
+                callback={this.onGuessEntry}/>
             </div>
             <button 
               className="PlayerPanelRight-submitGuessButton u-color-1"

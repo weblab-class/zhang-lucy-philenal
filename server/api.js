@@ -134,13 +134,17 @@ router.put("/game/join", (req, res) => {
 router.put("/game/guess", (req, res) => {
   console.log(req.body);
   Game.find({ _id: req.body.game_id }).then((games) => {
-    console.log(games);
-    // TODO: add guesser check
-    if (games.length == 0 ){//|| req.body.user_id != games[0].guesser.googleid ) {
+    const noGamesFound = games.length == 0;
+    const emptyGuess = req.body.guess.length == 0;
+    // TODO:  put this back in
+    const invalidUser = false;//req.body.user_id != games[0].guesser.googleid;
+    
+    if (noGamesFound || emptyGuess || invalidUser ) {
       res.status(400).send({ msg: "you are not allowed to guess here" });
     } else {
       let game = {...games[0]};
-      game.guesses = game.guesses.concat([req.body.guess]);
+      console.log(game._doc.guesses);
+      game._doc.guesses = game._doc.guesses.concat([req.body.guess]);
       Game.findByIdAndUpdate(
         (req.body.game_id),
         game,

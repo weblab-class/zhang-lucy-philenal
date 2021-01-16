@@ -74,7 +74,7 @@ class PlayerPanelLeft extends Component {
         <div className="PlayerPanelLeft">
           <h2>word: 
             <span className="PlayerPanelLeft-word">
-              {this.state.word}
+              {(this.props.word.length > 0) ? this.props.word : this.state.word}
             </span>
           </h2>
           <h2>guesser:</h2>

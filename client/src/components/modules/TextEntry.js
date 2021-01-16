@@ -15,7 +15,9 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 class TextEntry extends Component {
   constructor(props) {
     super(props);
-
+    if (this.props.clear) {
+      this.props.cleared();
+    }
     // Initialize Default State
     this.state = {
         text: "",
@@ -24,6 +26,14 @@ class TextEntry extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    if (this.props.clear) {
+      this.props.cleared();
+    }
+  }
+
+  clear = () => {
+    console.log("clearing...");
+    this.setState({text: ""});
   }
 
   onTextChange = (event) => {
@@ -31,6 +41,7 @@ class TextEntry extends Component {
   }
 
   render() {
+
     return (
       <>
         <form>
