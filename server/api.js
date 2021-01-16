@@ -69,6 +69,7 @@ router.post("/game/endTurn", (req, res) => {
   
 });
 
+// TODO: kill this bad function lol
 router.get("/game/get", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((games) => {
     res.send(games);
@@ -98,24 +99,6 @@ router.get("/game/player_status", (req, res) => {
     }
   });
 });
-
-router.put("/game/guess", (req, res) => {
-  console.log(req.body);
-  Game.find({ _id: req.body.game_id }).then((games) => {
-    console.log(games);
-    // TODO: add guesser check
-    if (games.length == 0 ){//|| req.body.user_id != games[0].guesser.googleid ) {
-      res.status(400).send({ msg: "you are not allowed to guess here" });
-    } else {
-      if (games[0].word == req.body.guess) {
-        res.send({message: "correct"});
-      } else {
-        res.send({message: "incorrect"});
-      }
-    }
-
-  })
-})
 
 router.get("/game/canvas", (req, res) => {
   // TODO: Check if the user is a pixeler
@@ -147,6 +130,35 @@ router.put("/game/join", (req, res) => {
     game_id: req.body.game_id
   });
 });
+
+router.put("/game/guess", (req, res) => {
+  console.log(req.body);
+  Game.find({ _id: req.body.game_id }).then((games) => {
+    console.log(games);
+    // TODO: add guesser check
+    if (games.length == 0 ){//|| req.body.user_id != games[0].guesser.googleid ) {
+      res.status(400).send({ msg: "you are not allowed to guess here" });
+    } else {
+      let game = {...games[0]};
+      game.guesses = game.guesses.concat([req.body.guess]);
+      Game.findByIdAndUpdate(
+        (req.body.game_id),
+        game,
+        {new: true},
+        (err, todo) => {
+          console.log(err);
+          console.log(todo);
+        }
+      ).then(() => {
+        if (games[0].word == req.body.guess) {
+          res.send({message: "correct"});
+        } else {
+          res.send({message: "incorrect"});
+        }
+      });
+    }
+  })
+})
 
 router.put("/game/start", (req, res) => { //changes started --> true
   const initializedGame = Logic.initializeGame(req.body.game);

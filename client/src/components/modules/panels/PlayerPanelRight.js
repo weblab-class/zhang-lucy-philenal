@@ -17,6 +17,7 @@ class PlayerPanelRight extends Component {
     super(props);
     // Initialize Default State
     this.state = {
+      guesses: ["bob","candy","cat"]
     };
   }
 
@@ -25,12 +26,14 @@ class PlayerPanelRight extends Component {
   }
 
   onGuessEntry = (guess) => {
-    this.setState({guess: guess});
+    this.setState({
+      guess: guess,
+    });
   }
 
   submitGuess = () => {
     let guess = this.state.guess;
-    this.setState({guess: ""});
+    this.setState({guess: "", guesses: this.state.guesses.concat([guess]),  });
 
     console.log(`Submitting guess for ${guess}...`);
     put("api/game/guess", {
@@ -53,16 +56,33 @@ class PlayerPanelRight extends Component {
   }
 
   render() {
+    // TODO: cap the number of guesses
+    let guesses = []
+    for (let i = 0; i < this.state.guesses.length; i++) {
+      guesses.push(
+        <div 
+          className="PlayerPanelRight-chatMessage"
+        >{this.state.guesses[i]}
+        </div>
+      )
+    }
     return (
       <>
         <div className="PlayerPanelRight">
-          <div className="PlayerPanelRight-chatBox"></div>
+          Guesses
+          <div className="PlayerPanelRight-chatBox">
+            {guesses}
+          </div>
           {(!this.props.isGuesser) &&
-          <div><TextEntry callback={this.onGuessEntry}/>
+          <div className="PlayerPanelRight-guesser">
+            <div class="PlayerPanelRight-guessTextEntryContainer">
+              <TextEntry className="PlayerPanelRightguessTextEntry" callback={this.onGuessEntry}/>
+            </div>
             <button 
-              className="NewGame-button u-color-1"
+              className="PlayerPanelRight-submitGuessButton u-color-1"
               onClick={this.submitGuess}
-            >guess</button></div> 
+            >guess</button>
+          </div> 
           }
           {/* <div className="PlayerPanelRight-columnBlocks">
             <div className="PlayerPanelRight-linkContainer">
