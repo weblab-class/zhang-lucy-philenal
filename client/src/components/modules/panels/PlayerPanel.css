@@ -28,6 +28,14 @@
     /* background-color: brown; */
 }
 
+.PlayerPanelRight-chatBox {
+    height: 500px;
+    background-color: rgb(255, 246, 232);
+    margin: 1rem 0 ;
+    padding: 2rem;
+    text-align: left;
+}
+
 .CanvasPanel {
     text-align: center;
     padding: 1rem;

@@ -57,9 +57,17 @@ class PlayerPanelLeft extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {
-      word: word
-    };
+    // TODO: add wordlen as a param
+    if (this.props.isGuesser) {
+      this.state = {
+        word: "-----"
+      };
+    } else {
+      this.state = {
+        word: word
+      };
+    }
+
   }
 
   componentDidMount() {
@@ -71,14 +79,6 @@ class PlayerPanelLeft extends Component {
     for (let i = 0; i < this.state.word.length; i++) {
       hiddenWord += "_ ";
     }
-    /* let players = []
-    for (let i = 0; i < players.length; i++) {
-      players.push(
-        <div className="PlayerPanelLeft-player">
-          {players[i].playername}
-        </div>
-      )
-    } */
     return (
       <>
         {/* TODO (philena): Make this prettier */}

@@ -31,6 +31,7 @@ class Guesser extends Component {
     this.state = {
       //is it bad to set this as state when it's changing based off of pixeler moves
       canvas: {},
+      word: "",
     };
   }
 
@@ -55,6 +56,10 @@ class Guesser extends Component {
     })
   }
 
+  onCorrectGuess = (word) => {
+    this.setState({word: word});
+  }
+
   render() {
     return (
       <>
@@ -62,19 +67,29 @@ class Guesser extends Component {
         hi you are the guesser!
         <div className="u-flex">
           <div className="Player-subPanel">
-            <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
+            <PlayerPanelLeft 
+              players={this.props.players} 
+              word={this.props.word}
+              isGuesser={true}
+              />
           </div>
           <div className="Player-subContainer">
-            {(this.state.canvas.width) ?  <CanvasPanel 
+            {(this.state.canvas.width) &&  
+            <CanvasPanel 
               canvas_height_blocks={this.state.canvas.width} 
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id={this.props.game_id}
               isGuesser={true}
-            /> : <div></div>} 
+              word={this.state.word}
+            /> } 
           </div>
           <div className="Player-subPanel">
-            <PlayerPanelRight/>
+            <PlayerPanelRight
+            game_id={this.props.game_id}
+            user_id={this.props.user_id}
+            callback={this.onCorrectGuess}
+            />
           </div>
         </div>
       </>

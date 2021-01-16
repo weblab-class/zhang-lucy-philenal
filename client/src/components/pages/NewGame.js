@@ -40,7 +40,6 @@ class NewGame extends Component {
   }
 
   newGame = (event) => {
-    console.log("calling API rn");
     // first get request to check if this ID exists
     get("api/game/get", {game_id: this.state.game_id})
     .then((res) => {

@@ -71,7 +71,7 @@ const newGame = (req) => {
     started: false,
     finished: false,
     wordpack: "default",
-    word: undefined,
+    word: "bobby",
     word_idx: 0,
     words: [],
     guesses: [],

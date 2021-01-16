@@ -71,7 +71,7 @@ class App extends Component {
           <Lobby path="/lobby"/>
           <JoinGame path="/joingame" />
           <NewGame path="/newgame" />
-          <Guesser path="/guesser" />
+          <Guesser path="/guesser" game_id="bob"/>
           <Pixeler path="/pixeler" />
           <Player path="/player" />
           <Wall path="/wall" />
