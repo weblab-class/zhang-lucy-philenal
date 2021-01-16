@@ -42,17 +42,17 @@ class PlayerOrder extends Component {
           )
         }*/
           const playerIcons = this.props.pixelers.map((pixeler, index) => {
-          let isMyTurn = false;
-          if (this.props.turn == index){
-            isMyTurn = true;
-          } 
+          // let isMyTurn = false;
+          // if (this.props.turn == index){
+          //   isMyTurn = true;
+          // } 
           return (
           <PlayerIcon
             _id={pixeler._id}
             key={pixeler._id} //react needs unique key identifier or else won't compile
             playername={pixeler.name}
             order={index+1}
-            isMyTurn = {isMyTurn}
+            isMyTurn = {index===this.props.turn}
           />
         ); 
           });

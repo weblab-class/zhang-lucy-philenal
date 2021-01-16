@@ -23,6 +23,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * 
  * @param game_id The ID of the game
  * @param user_id The ID of the particular player
+ * @param {Number} turn
  */
 class Guesser extends Component {
   constructor(props) {
@@ -58,31 +59,38 @@ class Guesser extends Component {
   }
 
   render() {
-    return (
-      <>
-        <PlayerPanelTop/>
-        hi you are the guesser!
-        {console.log("name of guesser: " + this.state.guesser.name)}
-        {this.state.guesser.name}
-        <div className="u-flex">
-          <div className="Player-subPanel">
-            <PlayerPanelLeft guesser={this.state.guesser} pixelers={this.state.pixelers} word={this.props.word}/>
+    if (this.state.pixelers.length == 0){
+      return (<div></div>)
+    } else {
+      return (
+        <>
+        
+          <PlayerPanelTop/>
+          hi you are the guesser!
+          {console.log("name of guesser: " + this.state.guesser.name)}
+          {this.state.guesser.name}
+          <div className="u-flex">
+            <div className="Player-subPanel">
+              <PlayerPanelLeft guesser={this.state.guesser} pixelers={this.state.pixelers} word={this.props.word} turn={this.props.turn}/>
+            </div>
+            <div className="Player-subContainer">
+              {(this.state.canvas.width) ?  <CanvasPanel 
+                canvas_height_blocks={this.state.canvas.width} 
+                canvas_width_blocks={this.state.canvas.height} 
+                canvas_pixels={this.state.canvas.pixels}
+                game_id={this.props.game_id}
+                isMyTurn={this.state.pixelers.length==this.props.turn} //make this more secure
+                isGuesser= {true} //make this more secure
+              /> : <div></div>} 
+            </div>
+            <div className="Player-subPanel">
+              <PlayerPanelRight/>
+            </div>
           </div>
-          <div className="Player-subContainer">
-            {(this.state.canvas.width) ?  <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} 
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id={this.props.game_id}
-              isGuesser={true} //make this more secure
-            /> : <div></div>} 
-          </div>
-          <div className="Player-subPanel">
-            <PlayerPanelRight/>
-          </div>
-        </div>
-      </>
-    );
+        </>
+      );
+    }
+    
   }
 }
 

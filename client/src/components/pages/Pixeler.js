@@ -27,6 +27,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
   * Proptypes
  * @param {PlayerObject[]} players
  * @param {String} word
+ * @param {Number} turn
  */
 class Pixeler extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class Pixeler extends Component {
   };
 
   componentDidMount() {
+    
     // remember -- api calls go here!
     socket.on("update", (update) => {
       this.processUpdate(update);
@@ -79,31 +81,45 @@ class Pixeler extends Component {
         });
       }
     })
+    
   }
 
   render() {
-    return (
-      <>
-        <PlayerPanelTop/>
-        <div className="u-flex">
-          <div className="Player-subPanel">
-            <PlayerPanelLeft guesser={this.state.guesser} pixelers={this.state.pixelers} word={this.props.word}/>
+    /* console.log("TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id) */
+    console.log("turn number " + this.props.turn);
+    console.log("user id " + this.props.user_id);
+    
+    if (this.state.pixelers.length == 0){
+      return (<div></div>)
+    } else{
+      return (
+        <>
+          <PlayerPanelTop/>
+          {/* {"TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id} */}
+          {console.log("is it my turn " + (this.state.pixelers[this.props.turn].googleid === this.props.user_id))}
+          {console.log("turn id " + this.state.pixelers[this.props.turn].googleid + "user id " + this.props.user_id)}
+          <div className="u-flex">
+            <div className="Player-subPanel">
+              <PlayerPanelLeft guesser={this.state.guesser} pixelers={this.state.pixelers} word={this.props.word} turn={this.props.turn} />
+            </div>
+            <div className="Player-subContainer">
+              {(this.state.canvas.width) ?  <CanvasPanel 
+                canvas_height_blocks={this.state.canvas.width} 
+                canvas_width_blocks={this.state.canvas.height} 
+                canvas_pixels={this.state.canvas.pixels}
+                game_id={this.props.game_id}
+                isMyTurn={this.state.pixelers[this.props.turn].googleid==this.props.user_id}
+                isGuesser={false} //change to make more secure
+              /> : <div></div>} 
+            </div>
+            <div className="Player-subPanel">
+              <PlayerPanelRight/>
+            </div>
           </div>
-          <div className="Player-subContainer">
-            {(this.state.canvas.width) ?  <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} 
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id={this.props.game_id}
-              isGuesser={false}
-            /> : <div></div>} 
-          </div>
-          <div className="Player-subPanel">
-            <PlayerPanelRight/>
-          </div>
-        </div>
-      </>
-    );
+        </>
+      );
+    }
+    
   }
 }
 

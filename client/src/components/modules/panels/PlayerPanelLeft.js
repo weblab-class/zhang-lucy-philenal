@@ -13,31 +13,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 
 //hardcoded variables
 
-/* const players = [
-  {
-  playername: "Lucy",
-  _id: 1
-},
-{
-  playername: "Bob",
-  _id: 2
-},
-{
-  playername: "Bob",
-  _id: 3
-},
-{
-  playername: "Bob",
-  _id: 4
-}
-];
- */
-/* const guesser = {
-  playername: "Me",
-  _id: 0
-}; */
-
-let turn = 0; //whose turn it is -- max is players.length-1 (0-indexed)
+/* let turn = 0; */ //whose turn it is -- max is players.length-1 (0-indexed)
 
 const word = "hello"
 
@@ -58,6 +34,7 @@ class PlayerPanelLeft extends Component {
     super(props);
     // Initialize Default State
     this.state = {
+      // turn: 0,
       word: word
     };
   }
@@ -92,9 +69,9 @@ class PlayerPanelLeft extends Component {
           {/* <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div> */} {/*  <-- use that for guesser */}
           <h2>guesser:</h2>
           
-          <GuesserIcon guesser_name={this.props.guesser.name} _id={this.props.guesser._id} isMyTurn = {turn===this.props.pixelers.length ? true: false}/>
+          <GuesserIcon guesser_name={this.props.guesser.name} _id={this.props.guesser._id} isMyTurn = {this.props.turn===this.props.pixelers.length ? true: false}/>
           <h2>pixelers:</h2>
-          <PlayerOrder pixelers={this.props.pixelers} turn={turn}/>
+          <PlayerOrder pixelers={this.props.pixelers} turn={this.props.turn}/>
         </div>
         
       </>

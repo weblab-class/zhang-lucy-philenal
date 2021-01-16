@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { socket } from "../../client-socket.js";
 import { navigate } from "@reach/router";
 
 import "../../utilities.css";
@@ -18,7 +19,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * This is the page view of a player, either Pixeler or Guesser
  * 
  * @param game_id The ID of the game
- * @param user_id The ID of the particular player
+ * @param user_id The google ID of the particular player
  * 
   * Proptypes
  * @param {PlayerObject[]} players
@@ -30,6 +31,7 @@ class Player extends Component {
         // Initialize Default State
         this.state = {
             error: false,
+            turn: 0,
         };
     }
 
@@ -59,6 +61,17 @@ class Player extends Component {
         }).catch((err) => {
             console.log(err);
         });
+
+        //listens for turn change, updates turn
+        socket.on("endedTurn", (endedTurn)=>{
+            if (this.props.game_id === endedTurn.game_id)
+            {
+                this.setState({
+                    turn: endedTurn.turn
+                });
+            };
+            
+        })
     }
 
     render() {
@@ -68,8 +81,8 @@ class Player extends Component {
         return (
             <>
                 {this.state.player == "guesser" ? 
-                <Guesser game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id}/> :
-                <Pixeler game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id}/>}
+                <Guesser game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
+                <Pixeler game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
             </>
         );
     }

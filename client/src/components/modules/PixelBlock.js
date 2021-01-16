@@ -27,7 +27,7 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
-      if (this.props.isGuesser) {
+      if (this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
         // event.target.style.background = (!this.state.filled) ? 
@@ -39,7 +39,7 @@ class PixelBlock extends Component {
     };
 
     onHover = (event) => {
-      if (this.props.isGuesser) {
+      if (this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
       this.setState({hover: true});
@@ -47,7 +47,7 @@ class PixelBlock extends Component {
     };
 
     onNonHover = (event) => {
-      if (this.props.isGuesser) {
+      if (this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
       this.setState({hover: false});

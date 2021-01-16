@@ -40,7 +40,7 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled, id) => {
-    if (this.props.isGuesser) {
+    if (this.props.isGuesser || !this.props.isMyTurn) {
       return;
     }
     if (this.props.callback !=null){ //if it isn't null (isGuesser)
@@ -104,6 +104,7 @@ class Canvas extends Component {
             filled={this.props.pixels[i].filled}
             size={this.state.block_size}
             isGuesser={this.props.isGuesser}
+            isMyTurn={this.props.isMyTurn}
             callback={this.onPixelClicked}
           />
         </div>
