@@ -38,6 +38,8 @@ class Pixeler extends Component {
         height: null,
         pixels: null,
       },
+      pixelers: [],
+      guesser: null,
     };
   }
 
@@ -55,9 +57,18 @@ class Pixeler extends Component {
     socket.on("update", (update) => {
       this.processUpdate(update);
     });
+    get("/api/game/get", {game_id: this.props.game_id})
+    .then((res) => {
+      this.setState({canvas: res[0].board, pixelers: res[0].pixelers, guesser: res[0].guesser}, () => {
+        console.log("THIS IS THE PIXELER CONSOLE LOG: " + this.state);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 
     // TODO: unhardcode
-    get("/api/game/canvas", {game_id: "bob"})//this.props.game_id})
+    get("/api/game/canvas", {game_id: this.props.game_id})//this.props.game_id})
     .then((res) => {
       if (res.length == 0) {
         // error with the props idk
@@ -77,7 +88,7 @@ class Pixeler extends Component {
         <PlayerPanelTop/>
         <div className="u-flex">
           <div className="Player-subPanel">
-            <PlayerPanelLeft players={this.props.players} word={this.props.word}/>
+            <PlayerPanelLeft guesser={this.state.guesser} pixelers={this.state.pixelers} word={this.props.word}/>
           </div>
           <div className="Player-subContainer">
             {(this.state.canvas.width) ?  <CanvasPanel 
