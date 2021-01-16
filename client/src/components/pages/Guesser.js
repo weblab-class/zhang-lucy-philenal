@@ -36,7 +36,7 @@ class Guesser extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    get("/api/game/get", {game_id: "bob"})
+    get("/api/game/get", {game_id: this.props.game_id})
     .then((res) => {
       this.setState({canvas: res[0].board}, () => {
         console.log(this.state);
@@ -47,7 +47,7 @@ class Guesser extends Component {
     })
 
     socket.on("board_and_game_id", (board_and_game_id) => {
-      if ("bob" === board_and_game_id.game_id) { //if the game id sent out is ours
+      if (this.props.game_id === board_and_game_id.game_id) { //if the game id sent out is ours
         this.setState({
           canvas: board_and_game_id.board,
         })
@@ -69,17 +69,9 @@ class Guesser extends Component {
               canvas_height_blocks={this.state.canvas.width} 
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
-              game_id="bob"
+              game_id={this.props.game_id}
               isGuesser={true}
             /> : <div></div>} 
-
-           {/*  <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} 
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id="bob"
-              isGuesser={true}
-            /> */}
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>

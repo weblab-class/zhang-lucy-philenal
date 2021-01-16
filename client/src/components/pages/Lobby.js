@@ -58,8 +58,9 @@ class Lobby extends Component {
   }
 
   componentDidMount() {
-    get("/api/game/get", {game_id: this.props.location.state.game_id})
-    .then((res) => {
+    get("/api/game/get", {
+      game_id: this.props.location.state.game_id
+    }).then((res) => {
       this.setState({
         players: res[0].players,
         host_id: res[0].host_id,
@@ -110,7 +111,7 @@ class Lobby extends Component {
       .then((res) => {
         console.log(res)
         navigate("/player", {state: {
-          user_id: this.props.location.state.user_id, 
+          user_id: this.props.location.state._id, 
           game_id: this.props.location.state.game_id,
          }});
       }).catch((err) => {
