@@ -8,7 +8,7 @@ import "./PlayerPanelLeft.css";
  * Component to render a single comment
  *
  * Proptypes
- * @param {String} guessername
+ * @param {String} guesser_name
  * @param {String} _id
  * @param {Boolean} isMyTurn
  */
@@ -43,7 +43,7 @@ class GuesserIcon extends Component {
                 
                 <span className="PlayerIcon-right">
                     {/* later on we will pass props */}
-                    {this.props.guessername}
+                    {this.props.guesser_name}
                     {/* Lucy */}
                     
                 </span>

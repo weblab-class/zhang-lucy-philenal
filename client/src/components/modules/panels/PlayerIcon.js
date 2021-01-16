@@ -12,13 +12,13 @@ import "./PlayerPanelLeft.css";
  * @param {String} playername
  * @param {String} _id
  * @param {Boolean} isMyTurn
+ * @param {Number} order
  */
 
 class PlayerIcon extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          isMyTurn: this.props.isMyTurn
         };
       }
 
@@ -35,7 +35,7 @@ class PlayerIcon extends Component {
         } */
 
         return (
-            <div className={this.state.isMyTurn ? 'PlayerIcon-backgroundWhite PlayerIcon-container': 'PlayerIcon-container'}> {/* turns white if it's your turn */}
+            <div className={this.props.isMyTurn ? 'PlayerIcon-backgroundWhite PlayerIcon-container': 'PlayerIcon-container'}> {/* turns white if it's your turn */}
                 <div className="PlayerIcon-left u-flex-alignCenter">
                   <div className="PlayerIcon-order">{this.props.order}</div>
                   <div className="PlayerIcon-icon u-color-1">

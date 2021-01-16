@@ -53,6 +53,21 @@ router.post("/game/new", (req, res) => {
 });
 
 //TODO: update logic when pixeler ends turn, or pixelsLeft = 0
+//
+router.post("/game/endTurn", (req, res) => {
+  Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
+    game.turn +=1; //adds turn
+    return game.save().then((updatedGame) => { //updates game document and then shouts the change
+      socketManager.getIo().emit("endedTurn", 
+      {
+        turn: updatedGame.turn, 
+        game_id: updatedGame._id,
+      });
+      res.send(updatedGame);
+    })
+  })
+  
+});
 
 router.get("/game/get", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((games) => {

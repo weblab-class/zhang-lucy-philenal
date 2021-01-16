@@ -5,16 +5,16 @@ import PlayerIcon from "./PlayerIcon.js";
 import "../../../utilities.css";
 import "./PlayerPanelLeft.css";
 /**
- * @typedef PlayerObject
+ * @typedef UserObject
  * @property {String} _id of player
- * @property {String} playername of the player
+ * @property {String} name of the player
  */
 
 /**
  * Component to render a column of players
  *
  * Proptypes
- * @param {PlayerObject[]} players
+ * @param {UserObject[]} pixelers
  * @param {Number} turn
  */
 
@@ -41,18 +41,18 @@ class PlayerOrder extends Component {
           />
           )
         }*/
-          const playerIcons = this.props.players.map((player, index) => {
-          let isMyTurn = false;
-          if (this.props.turn == index){
-            isMyTurn = true;
-          } 
+          const playerIcons = this.props.pixelers.map((pixeler, index) => {
+          // let isMyTurn = false;
+          // if (this.props.turn == index){
+          //   isMyTurn = true;
+          // } 
           return (
           <PlayerIcon
-            _id={player._id}
-            key={player._id} //react needs unique key identifier or else won't compile
-            playername={player.playername}
+            _id={pixeler._id}
+            key={pixeler._id} //react needs unique key identifier or else won't compile
+            playername={pixeler.name}
             order={index+1}
-            isMyTurn = {isMyTurn}
+            isMyTurn = {index===this.props.turn}
           />
         ); 
           });

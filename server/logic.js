@@ -70,6 +70,8 @@ const newGame = (req) => {
     board: newBoard,
     started: false,
     finished: false,
+    round: null,
+    turn: null,
     wordpack: "default",
     word: "bobby",
     word_idx: 0,
@@ -98,9 +100,7 @@ const initializeGame = (game) => {
   return game;
 }
 
-const getRandomGuesser = (users) => { //users should be object of user objects playing game
-    
-};
+
 
 const playersIdToPlayersList = () => {
   //makes a new array of players with {_id, playerInfo: }

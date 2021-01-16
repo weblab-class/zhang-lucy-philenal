@@ -35,6 +35,8 @@ const GameSchema = new mongoose.Schema({
   board: BoardSchema,
   started: Boolean,
   finished: Boolean,
+  round: Number, 
+  turn: Number, //whose turn (0 index)
   wordpack: String,
   word: String, //DNR for guesser
   word_idx: Number, //DNR, index of current word

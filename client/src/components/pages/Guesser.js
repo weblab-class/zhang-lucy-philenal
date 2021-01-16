@@ -23,6 +23,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * 
  * @param game_id The ID of the game
  * @param user_id The ID of the particular player
+ * @param {Number} turn
  */
 class Guesser extends Component {
   constructor(props) {
@@ -32,6 +33,8 @@ class Guesser extends Component {
       //is it bad to set this as state when it's changing based off of pixeler moves
       canvas: {},
       word: "",
+      // pixelers: [],
+      // guesser: {},
     };
   }
 
@@ -39,14 +42,17 @@ class Guesser extends Component {
     // remember -- api calls go here!
     get("/api/game/get", {game_id: this.props.game_id})
     .then((res) => {
-      this.setState({canvas: res[0].board}, () => {
-        console.log(this.state);
+      this.setState({
+        canvas: res[0].board, 
+        pixelers: res[0].pixelers, 
+        guesser: res[0].guesser}, () => {
+        console.log("THIS IS THE GUESSER CONSOLE LOG: " + this.state);
       });
     })
     .catch((err) => {
       console.log(err);
     })
-
+    //TODO: unhardcode game id for guesser
     socket.on("board_and_game_id", (board_and_game_id) => {
       if (this.props.game_id === board_and_game_id.game_id) { //if the game id sent out is ours
         this.setState({
@@ -61,17 +67,29 @@ class Guesser extends Component {
   }
 
   render() {
+    // if (this.state.pixelers.length == 0){
+    //   return (<div></div>)
+    // } 
     return (
       <>
         <PlayerPanelTop/>
         hi you are the guesser!
         <div className="u-flex">
           <div className="Player-subPanel">
+            {(this.state.pixelers) && 
             <PlayerPanelLeft 
-              players={this.props.players} 
-              word={this.props.word}
+              // game_id={this.props.game_id}
+              // user_id={this.props.user_id}
+              players={this.state.players} 
+              pixelers={this.state.pixelers} 
+              guesser={this.state.guesser} 
+              wordLength={5}//this.state.word.length} 
+              // TODO^^^^^^ very not SFB
+              turn={this.state.turn}
               isGuesser={true}
+              // guesser={{name: "peter"}}
               />
+            }
           </div>
           <div className="Player-subContainer">
             {(this.state.canvas.width) &&  
