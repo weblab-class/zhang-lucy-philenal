@@ -63,12 +63,17 @@ class Player extends Component {
         });
 
         //listens for turn change, updates turn
-        socket.on("endedTurn", (endedTurn)=>{
-            if (this.props.game_id === endedTurn.game_id)
+        socket.on("endedTurn", (updatedGame)=>{
+            console.log("the socket for ending turn worked");
+            console.log("props game id: " + this.props.game_id);
+            console.log("updated game id: " + updatedGame.game_id);
+            if (this.props.game_id === updatedGame.game_id)
             {
                 this.setState({
-                    turn: endedTurn.turn
-                });
+                    turn: updatedGame.turn
+                }, ()=> {
+                    console.log("the updated turn is " + this.state.turn);
+                })
             };
             
         })

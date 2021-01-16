@@ -61,7 +61,7 @@ router.post("/game/endTurn", (req, res) => {
       socketManager.getIo().emit("endedTurn", 
       {
         turn: updatedGame.turn, 
-        game_id: req.body.game_id
+        game_id: updatedGame._id,
       });
       res.send(updatedGame);
     })
