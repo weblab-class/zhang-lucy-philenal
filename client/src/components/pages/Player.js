@@ -31,7 +31,7 @@ class Player extends Component {
         // Initialize Default State
         this.state = {
             error: false,
-            turn: 0,
+            turn: 0, //TODO: if turn exceeds number of players .. ?
         };
     }
 
@@ -65,9 +65,9 @@ class Player extends Component {
         //listens for turn change, updates turn
         socket.on("endedTurn", (updatedGame)=>{
             console.log("the socket for ending turn worked");
-            console.log("props game id: " + this.props.game_id);
+            console.log("props game id: " + this.props.location.state.game_id);
             console.log("updated game id: " + updatedGame.game_id);
-            if (this.props.game_id === updatedGame.game_id)
+            if (this.props.location.state.game_id === updatedGame.game_id)
             {
                 this.setState({
                     turn: updatedGame.turn
