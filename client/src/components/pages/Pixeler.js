@@ -39,7 +39,7 @@ class Pixeler extends Component {
         pixels: null,
       },
       pixelers: [],
-      guesser: null,
+      guesser: {},
     };
   }
 
@@ -68,12 +68,7 @@ class Pixeler extends Component {
     })
 
     // TODO: unhardcode
-<<<<<<< HEAD
-    get("/api/game/canvas", {game_id: this.props.game_id})//this.props.game_id})
-=======
-    get("/api/game/canvas", {game_id: this.props.game_id})
->>>>>>> acb62eb1b1dca831fadd6c35d1d72be29261a9df
-    .then((res) => {
+    get("/api/game/canvas", {game_id: this.props.game_id}).then((res) => {
       if (res.length == 0) {
         // error with the props idk
         // TODO? figure out props probably

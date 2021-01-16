@@ -32,7 +32,7 @@ class Guesser extends Component {
       //is it bad to set this as state when it's changing based off of pixeler moves
       canvas: {},
       pixelers: [],
-      guesser: null,
+      guesser: {},
     };
   }
 
@@ -62,6 +62,8 @@ class Guesser extends Component {
       <>
         <PlayerPanelTop/>
         hi you are the guesser!
+        {console.log("name of guesser: " + this.state.guesser.name)}
+        {this.state.guesser.name}
         <div className="u-flex">
           <div className="Player-subPanel">
             <PlayerPanelLeft guesser={this.state.guesser} pixelers={this.state.pixelers} word={this.props.word}/>
@@ -72,11 +74,7 @@ class Guesser extends Component {
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id={this.props.game_id}
-<<<<<<< HEAD
-              isGuesser={true} //TODO make this more secure
-=======
-              isGuesser={true}
->>>>>>> acb62eb1b1dca831fadd6c35d1d72be29261a9df
+              isGuesser={true} //make this more secure
             /> : <div></div>} 
           </div>
           <div className="Player-subPanel">

@@ -92,9 +92,9 @@ class PlayerPanelLeft extends Component {
           {/* <div className="PlayerPanelLeft-hiddenWord">{hiddenWord}</div> */} {/*  <-- use that for guesser */}
           <h2>guesser:</h2>
           
-          {/* <GuesserIcon guesser_name={this.props.guesser.name} _id={this.props.guesser._id} isMyTurn = {turn===this.props.pixelers.length ? true: false}/>
+          <GuesserIcon guesser_name={this.props.guesser.name} _id={this.props.guesser._id} isMyTurn = {turn===this.props.pixelers.length ? true: false}/>
           <h2>pixelers:</h2>
-          <PlayerOrder pixelers={this.props.pixelers} turn={turn}/> */}
+          <PlayerOrder pixelers={this.props.pixelers} turn={turn}/>
         </div>
         
       </>
