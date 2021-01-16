@@ -62,7 +62,6 @@ class Guesser extends Component {
   }
 
   onCorrectGuess = (word) => {
-    console.log("guesser callback");
     this.setState({word: word});
   }
 

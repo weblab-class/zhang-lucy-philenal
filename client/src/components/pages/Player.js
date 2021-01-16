@@ -30,6 +30,7 @@ class Player extends Component {
         super(props);
         // Initialize Default State
         this.state = {
+            player: null,
             error: false,
             turn: 0, //TODO: if turn exceeds number of players .. ?
         };
@@ -51,6 +52,7 @@ class Player extends Component {
             } else {
                 console.log(`You are the ${res.status}!`);
                 if (res.status == "guesser" || res.status == "pixeler") {
+                    console.log(this.state.error)
                     this.setState({ player: res.status });
                 } else {
                     console.log("error");
@@ -80,16 +82,20 @@ class Player extends Component {
     }
 
     render() {
-        if (this.state.error) {
+        if (this.state.error) { //if there's error 
             return(<><Start/></>);
+        } else if (this.state.player==null) { //if state hasn't been altered for player yet
+            return (<div></div>)
+        } else {
+            return (
+                <>
+                    {this.state.player == "guesser" ? 
+                    <Guesser game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
+                    <Pixeler game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
+                </>
+            );
         }
-        return (
-            <>
-                {this.state.player == "guesser" ? 
-                <Guesser game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
-                <Pixeler game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
-            </>
-        );
+        
     }
 }
 

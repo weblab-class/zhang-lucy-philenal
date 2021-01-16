@@ -124,16 +124,17 @@ router.put("/game/join", (req, res) => {
       console.log(err);
       console.log(todo);
     }
-  ).then((game) => {
-    res.send(game);
+  ).then((updatedGame) => {
+    socketManager.getIo().emit("players_and_game_id", 
+    {
+      players: updatedGame.players, 
+      game_id: updatedGame._id
+    });
+    res.send(updatedGame);
   });
   //TODO: (philena) change this to socket room for higher efficiency!!!!
   //shouts the updated players list + the game id to all connected sockets
-  socketManager.getIo().emit("players_and_game_id", 
-  {
-    players: req.body.players, 
-    game_id: req.body.game_id
-  });
+ 
 });
 
 router.put("/game/guess", (req, res) => {

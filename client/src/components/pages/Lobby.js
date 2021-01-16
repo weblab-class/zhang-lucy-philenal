@@ -56,6 +56,8 @@ class Lobby extends Component {
       if (this.props.location.state.game_id === players_and_game_id_object.game_id) { //if the game id sent out is ours
         this.setState({
           players: players_and_game_id_object.players,
+        }, ()=>{
+          console.log("updated players " + this.state.players);
         })
       }
     });
@@ -81,7 +83,7 @@ class Lobby extends Component {
       let game = {...res[0]};
 
       // start the game
-      game.started = true;
+      game.started = true; //TODO: make this more secure
 
       put("/api/game/start", {game: game, game_id: this.props.location.state.game_id})
       .then((res) => {
