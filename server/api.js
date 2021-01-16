@@ -61,20 +61,24 @@ router.get("/game/get", (req, res) => {
 });
 
 router.get("/game/player_status", (req, res) => {
+  console.log(req);
   Game.find({ _id: req.query.game_id }).then((games) => {
+    console.log("player status");
+    console.log(games);
     if (games.length == 0) {
       res.send([]);
     } else {
-      if (games[0].guesser._id == req.body.user_id) {
-        res.send("guesser");
+      console.log(`USER: ${req.query.user_id}`);
+      if (games[0].guesser.googleid == req.query.user_id) {
+        res.send({status: "guesser"});
       } else {
         for (let i = 0; i < games[0].players.length; i++) {
-          if (games[0].players[i]._id == req.body.user_id) {
-            res.send("pixeler");
+          if (games[0].players[i].googleid == req.query.user_id) {
+            res.send({status: "pixeler"});
             return; //idk if this is necessary
           }
         }
-        res.send("neither")
+        res.send({status: "neither"});
       }
     }
   });
@@ -114,6 +118,8 @@ router.put("/game/join", (req, res) => {
 
 router.put("/game/start", (req, res) => { //changes started --> true
   const initializedGame = Logic.initializeGame(req.body.game);
+  console.log("init game");
+  console.log(initializedGame);
   Game.findByIdAndUpdate(
     (req.body.game_id),
     initializedGame,

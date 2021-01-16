@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 
@@ -34,9 +35,11 @@ class Player extends Component {
 
     // TODO: add game started/finished check
     componentDidMount() {
-        get("/api/game/players", {
+        
+        console.log(this.props);
+        get("/api/game/player_status", {
             game_id: this.props.location.state.game_id,
-            user_id: this.props.location.state.user_id
+            user_id: this.props.location.state.user_id,
         }).then((res) => {
             console.log(res);
             if (res.length == 0) {
@@ -44,9 +47,9 @@ class Player extends Component {
                 navigate("/");
                 return;
             } else {
-                console.log(`You are the ${res[0]}!`);
-                if (res[0] == "guesser" || res[0] == "pixeler") {
-                    this.setState({ player: res[0] });
+                console.log(`You are the ${res.status}!`);
+                if (res.status == "guesser" || res.status == "pixeler") {
+                    this.setState({ player: res.status });
                 } else {
                     console.log("error");
                     this.setState({ error: true });

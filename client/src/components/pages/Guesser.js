@@ -72,16 +72,12 @@ class Guesser extends Component {
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id={this.props.game_id}
+<<<<<<< HEAD
               isGuesser={true} //TODO make this more secure
-            /> : <div></div>} 
-
-           {/*  <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} 
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id="bob"
+=======
               isGuesser={true}
-            /> */}
+>>>>>>> acb62eb1b1dca831fadd6c35d1d72be29261a9df
+            /> : <div></div>} 
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight/>
