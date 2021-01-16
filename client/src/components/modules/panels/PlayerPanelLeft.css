@@ -66,3 +66,35 @@ h2 > .PlayerPanelLeft-word {
 .GuesserIcon-order {
     visibility: hidden;
 }
+
+.PlayerPanelRight-guesser {
+    display: flex;
+
+}
+
+
+.PlayerPanelRight-chatBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: auto 0.5rem;
+}
+
+.PlayerPanelRight-chatMessage {
+    margin: 0;
+    padding: 0.25rem;
+}
+
+.PlayerPanelRight-guessTextEntry {
+    width: 4rem;
+}
+
+.PlayerPanelRight-guessTextEntryContainer {
+        /* display: flex; */
+}
+
+.PlayerPanelRight-submitGuessButton {
+    /* display: flex; */
+    margin:  0 1rem;
+}
