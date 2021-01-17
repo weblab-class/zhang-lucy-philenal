@@ -76,9 +76,12 @@ router.post("/user/leave", (req, res) => {
 
   // TODO: update host
   const filter2 = { _id: req.body.game_id };
-  const update2 = {$pull:{ players: { 
-    _id: req.body.user_id 
-  }}};
+  const update2 = {
+    $pull:{ 
+      players: { _id: req.body.user_id },
+      pixelers: { _id: req.body.user_id }
+    }
+  };
 
   Game.findOneAndUpdate(
     filter2, 
@@ -89,6 +92,18 @@ router.post("/user/leave", (req, res) => {
       console.log(game);
       res.send({"success": true});
   });
+
+  Game.findOne(filter2, 
+    function (err, game) {
+    game.guesser = game.guesser._id == req.body.game_id ? null : game.guesser;
+    game.save(function (err) {
+        if(err) {
+            console.error('ERROR!');
+        }
+    });
+});
+
+
 });
 
 //TODO: update logic when pixeler ends turn, or pixelsLeft = 0

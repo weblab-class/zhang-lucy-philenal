@@ -29,55 +29,56 @@ class Start extends Component {
 
   componentDidMount() {
     // TODO: figure out if we need to do duplicate calls of this
-    get("/api/whoami").then((user) => {
-      // console.log("whoami");
-      console.log(user);
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        this.setState({ user_id: user._id });
-        this.setState({ user_name: user.name });
+    console.log(this.props);
+    // get("/api/whoami").then((user) => {
+    //   // console.log("whoami");
+    //   console.log(user);
+    //   if (user._id) {
+    //     // they are registed in the database, and currently logged in.
+    //     this.setState({ user_id: user._id });
+    //     this.setState({ user_name: user.name });
         
-        get("/api/game/player_status", {
-          // game_id: this.props.location.state.game_id,
-          user_id: user._id,
-      }).then((res) => {
-          console.log(res);
-          if (res.length == 0) {
-              // TODO? figure out props probably
-              navigate("/");
-          } else {
-              console.log(`You are the ${res.status}!`);
-              if (res.status == "guesser" || res.status == "pixeler") {
-                  console.log(this.state.error)
-                  this.setState({ player: res.status });
-                  navigate("/player", {state: 
-                    {
-                      user_id: user._id,  
-                      // user_name: this.props.location.state.user_name,  
-                      game_id: res.game_id,
-                    }
-                  });
-              } else {
-                  console.log("error");
-                  this.setState({ error: true });
-                  navigate("/");
-              }
-          }
-      }).catch((err) => {
-          console.log(err);
-      });
+    //     get("/api/game/player_status", {
+    //       // game_id: this.props.location.state.game_id,
+    //       user_id: user._id,
+    //   }).then((res) => {
+    //       console.log(res);
+    //       if (res.length == 0) {
+    //           // TODO? figure out props probably
+    //           navigate("/");
+    //       } else {
+    //           console.log(`You are the ${res.status}!`);
+    //           if (res.status == "guesser" || res.status == "pixeler") {
+    //               console.log(this.state.error)
+    //               this.setState({ player: res.status });
+    //               navigate("/player", {state: 
+    //                 {
+    //                   user_id: user._id,  
+    //                   // user_name: this.props.location.state.user_name,  
+    //                   game_id: res.game_id,
+    //                 }
+    //               });
+    //           } else {
+    //               console.log("error");
+    //               this.setState({ error: true });
+    //               navigate("/");
+    //           }
+    //       }
+    //   }).catch((err) => {
+    //       console.log(err);
+    //   });
 
-      }
-      // if (user.game_id) {
-      //   // they are already in a game
-      //   console.log(user);
-      //   navigate("/lobby", {state: {
-      //     user_id: this.state.user_id,  
-      //     user_name: this.state.user_name,  
-      //     game_id: user.game_id,
-      //   }});
-      // }
-    });
+    //   }
+    //   // if (user.game_id) {
+    //   //   // they are already in a game
+    //   //   console.log(user);
+    //   //   navigate("/lobby", {state: {
+    //   //     user_id: this.state.user_id,  
+    //   //     user_name: this.state.user_name,  
+    //   //     game_id: user.game_id,
+    //   //   }});
+    //   // }
+    // });
   }
 
   onLogin = (res) => {

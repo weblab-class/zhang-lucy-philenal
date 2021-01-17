@@ -13,6 +13,7 @@ const PixelSchema = new mongoose.Schema({
   color: String,
   filled: Boolean,
   id: Number,
+  key: Number,
 });
 
 const BoardSchema  = new mongoose.Schema({

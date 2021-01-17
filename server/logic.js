@@ -53,7 +53,7 @@ const newGame = (req) => {
   const numPixels = BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS;
 
   for (let i = 0; i < numPixels; i++) {
-    newPixels.push({id: i, color: "none", filled: false});
+    newPixels.push({key: i, id: i, color: "none", filled: false});
   }
 
   const newBoard = {

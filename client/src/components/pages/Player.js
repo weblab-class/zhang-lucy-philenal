@@ -28,6 +28,10 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 class Player extends Component {
     constructor(props) {
         super(props);
+
+        if (!this.props.location.state || !this.props.location.state.user_id) {
+            navigate("/");
+        }
         // Initialize Default State
         this.state = {
             player: null,

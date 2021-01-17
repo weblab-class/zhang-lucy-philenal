@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
+import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
@@ -70,7 +71,7 @@ class Guesser extends Component {
   leaveGame = () => {
     post("/api/user/leave", {
       user_id: this.props.user_id,
-      game_id: this.props.game_id,
+      // game_id: this.props.game_id,
     }).then((res) => {
       if (res.success) { 
         navigate("/");
