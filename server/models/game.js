@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   name: String,
-  googleid: String,
+  _id: String,
 });
 
 const PixelSchema = new mongoose.Schema({

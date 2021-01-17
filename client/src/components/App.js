@@ -7,6 +7,7 @@ import Lobby from "./pages/Lobby.js";
 import JoinGame from "./pages/JoinGame.js";
 import NewGame from "./pages/NewGame.js";
 import Guesser from "./pages/Guesser.js";
+import GameAlreadyStarted from "./pages/GameAlreadyStarted.js";
 import Pixeler from "./pages/Pixeler.js";
 import Player from "./pages/Player.js";
 import Wall from "./pages/Wall.js";
@@ -16,6 +17,7 @@ import "../utilities.css";
 import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
+// import GameAlreadyStarted from "./modules/panels/GameAlreadyStarted.js";
 
 /**
  * Define the "App" component as a class.
@@ -31,6 +33,7 @@ class App extends Component {
 
   componentDidMount() {
     get("/api/whoami").then((user) => {
+      console.log("whoami");
       console.log(user);
       if (user._id) {
         // they are registed in the database, and currently logged in.
@@ -60,7 +63,7 @@ class App extends Component {
       <>
         <Router>
           <Skeleton
-            path="/skeleton"
+            path="/howtoplay"
           />
           <Start path="/"
             handleLogin={this.handleLogin}
@@ -72,6 +75,7 @@ class App extends Component {
           <JoinGame path="/joingame" />
           <NewGame path="/newgame" />
           <Guesser path="/guesser" game_id="bob"/>
+          <GameAlreadyStarted path="/gamealreadystarted"/>
           <Pixeler path="/pixeler" />
           <Player path="/player" />
           <Wall path="/wall" />

@@ -66,7 +66,10 @@ const newGame = (req) => {
   const newGame = new Game({
     _id: req.body.game_id, // TODO: change this
     host_id: req.body.user_id,
-    players: [{name: req.body.user_name, googleid: req.body.user_id}],
+    players: [{
+      name: req.body.user_name, 
+      _id: req.body.user_id
+    }],
     board: newBoard,
     started: false,
     finished: false,

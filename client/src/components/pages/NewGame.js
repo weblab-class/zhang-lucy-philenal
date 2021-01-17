@@ -39,6 +39,7 @@ class NewGame extends Component {
     this.setState({game_id: game_id});
   }
 
+  // TODO (lucy): get rid of GET request
   newGame = (event) => {
     // first get request to check if this ID exists
     get("api/game/get", {game_id: this.state.game_id})
@@ -79,6 +80,8 @@ class NewGame extends Component {
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
             <div>hello, {this.props.location.state.user_name}!</div>
+            <button onClick={()=>{navigate('/')}}>back</button>
+
             <div className="NewGame-container">
 
                 <h1>New Game </h1>

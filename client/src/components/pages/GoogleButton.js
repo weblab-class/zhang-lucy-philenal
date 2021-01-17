@@ -70,7 +70,7 @@ class GoogleButton extends Component {
             onClick={renderProps.onClick}
             className="Start-googleButton u-pointer"
             >
-              (logout)
+              logout
             </span>
           )}
         /></div>:

@@ -7,6 +7,7 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import "../../utilities.css";
 import "./Start.css";
 import { get } from "../../utilities";
+import { navigate } from "@reach/router";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
@@ -27,14 +28,32 @@ class Start extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
-    // console.log(this.props);
-
+    // TODO: figure out if we need to do duplicate calls of this
+    get("/api/whoami").then((user) => {
+      // console.log("whoami");
+      console.log(user);
+      if (user._id) {
+        // they are registed in the database, and currently logged in.
+        this.setState({ user_id: user._id });
+        this.setState({ user_name: user.name });
+      }
+      if (user.game_id) {
+        // they are already in a game
+        this.setState({ game_id: user.game_id}, () => {
+          navigate("/lobby", {state: {
+            user_id: this.state.user_id,  
+            user_name: this.state.user_name,  
+            game_id: this.state.game_id,
+          }});
+        })
+      }
+    });
   }
 
   onLogin = (res) => {
     this.props.handleLogin(res);
     this.setState({user_id: "temp", loggedIn: true});
+    // console.log("logged in...");
   }
 
   onLogout = (res) => {
@@ -57,7 +76,7 @@ class Start extends Component {
                 onClick={renderProps.onClick}
                 className="Start-googleButton u-pointer"
                 >
-                  (logout)
+                  logout
                 </span>
               )}
             /></div>
@@ -65,7 +84,9 @@ class Start extends Component {
               <PlayerPanelTop/>
           </div>
           <div className="Start-startMenu">
-              <StartMenu user_id={this.props.user_id} user_name={this.props.user_name}/>
+              <StartMenu 
+                user_id={this.props.user_id} 
+                user_name={this.props.user_name}/>
           </div>
         </>
       );

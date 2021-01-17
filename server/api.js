@@ -47,15 +47,54 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/game/new", (req, res) => {
+  const filter = { _id: req.body.user_id };
+  const update = { game_id: req.body.game_id };
+  User.findOneAndUpdate(filter, update, {
+    new: true,
+  }).then((res)=>{
+    console.log(res);
+  });
+
   const newGame = Logic.newGame(req);
   newGame.save().then((game) => res.send(game));
+});
+
+router.post("/user/leave", (req, res) => {
+  console.log("what");
+  // console.log(_id==mongoose.Types.ObjectId(req.body.user_id));
+  const filter = { _id: req.body.user_id };
+  const update = { game_id: null };
+  User.findOneAndUpdate(
+    filter, 
+    update, {
+    new: true}
+  ).then((res) => {
+    console.log("hello");
+    console.log(res);
+  });
+
+  const filter2 = { _id: req.body.game_id };
+  const update2 = {$pull:{ players: { 
+    // _id: "5ffcb8ff8898b40b9057f1d4"
+    _id: req.body.user_id 
+  }}};
+
+  Game.findOneAndUpdate(
+    filter2, 
+    update2, 
+    {"new": true},
+    ).then((game)=>{
+      console.log("here");
+      console.log(game);
+      res.send({"success": true});
+  });
 });
 
 //TODO: update logic when pixeler ends turn, or pixelsLeft = 0
 //
 router.post("/game/endTurn", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
-    game.turn +=1; //adds turn
+    game.turn += 1; //adds turn
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("endedTurn", 
       {
@@ -69,7 +108,9 @@ router.post("/game/endTurn", (req, res) => {
 });
 
 router.get("/user/get", (req, res) => {
-  User.find({ _id: req.query.user_id }).then((users) => {
+  console.log(req.query);
+  
+  User.find({ _id: mongoose.Types.ObjectId(req.query.user_id) }).then((users) => {
     res.send(users);
   });
 });
@@ -90,11 +131,11 @@ router.get("/game/player_status", (req, res) => {
       res.send([]);
     } else {
       console.log(`USER: ${req.query.user_id}`);
-      if (games[0].guesser.googleid == req.query.user_id) {
+      if (games[0].guesser._id == req.query.user_id) {
         res.send({status: "guesser"});
       } else {
         for (let i = 0; i < games[0].players.length; i++) {
-          if (games[0].players[i].googleid == req.query.user_id) {
+          if (games[0].players[i]._id == req.query.user_id) {
             res.send({status: "pixeler"});
             return; //idk if this is necessary
           }
@@ -107,7 +148,7 @@ router.get("/game/player_status", (req, res) => {
 
 router.get("/game/canvas", (req, res) => {
   // TODO: Check if the user is a pixeler
-  console.log("what");
+  // console.log("what");
   Game.find({ _id: req.query.game_id }).then((games) => {
     res.send(games.map((g) => g.board));
   });
@@ -143,7 +184,7 @@ router.put("/game/guess", (req, res) => {
     const noGamesFound = games.length == 0;
     const emptyGuess = req.body.guess.length == 0;
     // TODO:  put this back in
-    const invalidUser = false;//req.body.user_id != games[0].guesser.googleid;
+    const invalidUser = false;//req.body.user_id != games[0].guesser._id;
     
     if (noGamesFound || emptyGuess || invalidUser ) {
       res.status(400).send({ msg: "you are not allowed to guess here" });

@@ -43,6 +43,15 @@ class Lobby extends Component {
         host_id: res[0].host_id,
        });
       if (res[0].started === true) {
+        console.log("started...");
+        if (res[0].players.contains(this.props.location.state.user_id)) {
+          navigate("/player", {state: {
+            user_id: this.props.location.state.user_id, 
+            game_id: this.props.location.state.game_id
+          }});
+        } else {
+          
+        }
         navigate("/");
         // TODO: figure out how to join late
         // navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
@@ -67,7 +76,10 @@ class Lobby extends Component {
     socket.on("game_id_started", (game_id) => {
       if (this.props.location.state.game_id === game_id) { //if game that started is your game_id
         // TODO: maybe
-        navigate("/player", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
+        navigate("/player", {state: {
+          user_id: this.props.location.state.user_id, 
+          game_id: this.props.location.state.game_id
+        }});
       }
     });
   }
@@ -102,6 +114,17 @@ class Lobby extends Component {
     });
   }
 
+  leaveGame = () => {
+    post("/api/user/leave", {
+      user_id: this.props.location.state.user_id,
+      game_id: this.props.location.state.game_id,
+    }).then((res) => {
+      if (res.success) { 
+        navigate("/");
+      }
+    })
+  }
+
   render() {
     if (this.state.players) {
       let players = []
@@ -118,6 +141,7 @@ class Lobby extends Component {
         <> 
               {/* <div><GoogleButton/></div> */}
               <div>hello, {this.props.location.state.user_name}!</div>
+              <button onClick={this.leaveGame}>leave game</button>
               <div className="Lobby">
                   <div className="Lobby-title">Lobby</div>
                   <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>

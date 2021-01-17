@@ -41,7 +41,7 @@ class PlayerPanelLeft extends Component {
     super(props);
     // Initialize Default State
     // TODO: add wordlen as a param
-    
+    console.log(this.props);
     if (this.props.isGuesser) {
       let hiddenWord = "";
       for (let i = 0; i < this.props.wordLength; i++) {

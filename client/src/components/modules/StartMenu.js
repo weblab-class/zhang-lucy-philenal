@@ -26,7 +26,7 @@ class StartMenu extends Component {
       <>
         <div className="StartMenu-buttonsRow">
             <div className="StartMenu-linkContainer">
-                <Link to="/skeleton" state={{
+                <Link to="/howtoplay" state={{
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}

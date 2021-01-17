@@ -1,0 +1,12 @@
+.GameAlreadyStarted-container {
+    text-align: center;
+    font-size: medium;
+    padding: 1rem;
+    margin: 1rem;
+    /* width: 30vw; */
+    /* width: min-content; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

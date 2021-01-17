@@ -30,6 +30,7 @@ class JoinGame extends Component {
     this.setState({game_id: game_id});
   }
 
+  // TODO (lucy): such bad code ahhhh
   joinGame = () => {
     get("/api/game/get", {game_id: this.state.game_id})
     .then((res) => {
@@ -47,7 +48,7 @@ class JoinGame extends Component {
         // TODO: make less sketchy
         game.players = game.players.concat([{
           name: this.props.location.state.user_name, 
-          googleid: this.props.location.state.user_id, 
+          _id: this.props.location.state.user_id, 
         }]);
         
         put("/api/game/join", 
@@ -82,6 +83,7 @@ class JoinGame extends Component {
             {/* TODO (philena) make this pretty! ^_^ and also make responsive*/}
             {/* TODO add functionality for entering names too */}
             <div>hello, {this.props.location.state.user_name}!</div>
+            <button onClick={()=>{navigate('/')}}>back</button>           
             <div className="JoinGame-container">
               <div className="JoinGame-linkContainer">
                   <h1>Join Game </h1>

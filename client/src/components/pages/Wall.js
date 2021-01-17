@@ -8,34 +8,10 @@ import "../../utilities.css";
 
 import { get, post } from "../../utilities";
 
+import { navigate } from "@reach/router";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
-const playersList = [
-    {
-    playername: "Lucy",
-    _id: 1
-  },
-  {
-    playername: "Bob",
-    _id: 2
-  },
-  {
-    playername: "Bob",
-    _id: 3
-  },
-  {
-    playername: "Bob",
-    _id: 4
-  }
-  ];
-  
-const host = {
-    playername: "Me",
-    _id: "0"
-  };
-  
 
 /**
  * Wall page is the page that shows all the correctly guessed images
@@ -59,16 +35,6 @@ class Wall extends Component {
   }
 
   render() {
-    // let playerNames = playersList.map((player) => {player.playername});
-    
-    let players = []
-    for (let i = 0; i < playersList.length; i++) {
-      players.push(
-        <div className="PlayerPanelLeft-player">
-          {playersList[i].playername}
-        </div>
-      )
-    } 
     return (
       <>
             {/* TODO (philena) make this pretty! ^_^ */}
@@ -76,6 +42,8 @@ class Wall extends Component {
             <div className="Wall">
                 Wall! will be implemented soon™
             </div>
+            <button onClick={()=>{navigate('/')}}>back</button>
+
 
       </>
     );

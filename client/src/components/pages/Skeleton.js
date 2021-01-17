@@ -4,6 +4,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "../../utilities.css";
 import "./Skeleton.css";
+import { navigate } from "@reach/router";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
@@ -37,7 +38,8 @@ class Skeleton extends Component {
             onFailure={(err) => console.log(err)}
           />
         )} */}
-        <h1>Good luck on your project :)</h1>
+        <button onClick={()=>{navigate('/')}}>back</button>
+        <h1>How to Play</h1>
         <h2> What we provide in this skeleton</h2>
         <ul>
           <li>Google Auth (Skeleton.js & auth.js)</li>

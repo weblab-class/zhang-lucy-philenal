@@ -118,7 +118,7 @@ class PlayerPanelRight extends Component {
           }
           {/* <div className="PlayerPanelRight-columnBlocks">
             <div className="PlayerPanelRight-linkContainer">
-                <Link to="/skeleton" className="PlayerPanelRight-link">
+                <Link to="/howtoplay" className="PlayerPanelRight-link">
                     <button className="PlayerPanelRight-button u-color-1">settings</button>
                 
                 </Link>
