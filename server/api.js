@@ -124,23 +124,25 @@ router.get("/game/get", (req, res) => {
 });
 
 router.get("/game/player_status", (req, res) => {
-  console.log(req);
+  console.log("player status...");
+  console.log(req.query);
   User.find({_id: req.query.user_id}).then((users) => {
     if (users.length == 0 || !users[0].game_id) {
       res.send({status:"not in game"});
     } else {
       Game.find({ _id: users[0].game_id }).then((games) => {
+        console.log("found games:");
         console.log(games);
         if (games.length == 0) {
           res.send({status:"not in game"});
         } else {
           console.log(`USER: ${req.query.user_id}`);
           if (games[0].guesser._id == req.query.user_id) {
-            res.send({status: "guesser"});
+            res.send({ game_id: games[0]._id, status: "guesser" });
           } else {
             for (let i = 0; i < games[0].players.length; i++) {
               if (games[0].players[i]._id == req.query.user_id) {
-                res.send({status: "pixeler"});
+                res.send({ game_id: games[0]._id, status: "pixeler" });
               }
             }
             res.send({status:"not in game"});

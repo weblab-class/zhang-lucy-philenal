@@ -38,24 +38,25 @@ class Player extends Component {
 
     // TODO: add game started/finished check
     componentDidMount() {
-        if (!this.props.user_id) {
+        console.log(this.props);
+        if (!this.props.location.state.user_id) {
             navigate("/")
         }
-        // console.log(this.props);
         
         get("/api/game/player_status", {
-            // game_id: this.props.location.state.game_id,
             user_id: this.props.location.state.user_id,
         }).then((res) => {
             console.log(res);
             if (res.length == 0) {
                 // TODO? figure out props probably
+                console.log(res);
                 navigate("/");
             } else {
                 console.log(`You are the ${res.status}!`);
                 if (res.status == "guesser" || res.status == "pixeler") {
                     console.log(this.state.error)
                     this.setState({ player: res.status });
+                    this.setState({ game_id: res.game_id });
                 } else {
                     console.log("error");
                     this.setState({ error: true });
@@ -84,16 +85,17 @@ class Player extends Component {
     }
 
     render() {
+        console.log(this.state);
         if (this.state.error) { //if there's error 
             return(<><Start/></>);
-        } else if (this.state.player==null) { //if state hasn't been altered for player yet
+        } else if (!this.state.player || !this.state.game_id) { //if state hasn't been altered for player yet
             return (<div></div>)
         } else {
             return (
-                <>
+                <> 
                     {this.state.player == "guesser" ? 
-                    <Guesser game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
-                    <Pixeler game_id={this.props.location.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
+                    <Guesser game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
+                    <Pixeler game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
                 </>
             );
         }
