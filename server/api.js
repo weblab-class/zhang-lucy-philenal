@@ -28,6 +28,7 @@ const socketManager = require("./server-socket");
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
+  console.log(req.user);
   if (!req.user) {
     // not logged in
     return res.send({});
@@ -73,9 +74,9 @@ router.post("/user/leave", (req, res) => {
     console.log(res);
   });
 
+  // TODO: update host
   const filter2 = { _id: req.body.game_id };
   const update2 = {$pull:{ players: { 
-    // _id: "5ffcb8ff8898b40b9057f1d4"
     _id: req.body.user_id 
   }}};
 
@@ -124,26 +125,33 @@ router.get("/game/get", (req, res) => {
 
 router.get("/game/player_status", (req, res) => {
   console.log(req);
-  Game.find({ _id: req.query.game_id }).then((games) => {
-    console.log("player status");
-    console.log(games);
-    if (games.length == 0) {
-      res.send([]);
+  User.find({_id: req.query.user_id}).then((users) => {
+    if (users.length == 0 || !users[0].game_id) {
+      res.send({status:"not in game"});
     } else {
-      console.log(`USER: ${req.query.user_id}`);
-      if (games[0].guesser._id == req.query.user_id) {
-        res.send({status: "guesser"});
-      } else {
-        for (let i = 0; i < games[0].players.length; i++) {
-          if (games[0].players[i]._id == req.query.user_id) {
-            res.send({status: "pixeler"});
-            return; //idk if this is necessary
+      Game.find({ _id: users[0].game_id }).then((games) => {
+        console.log(games);
+        if (games.length == 0) {
+          res.send({status:"not in game"});
+        } else {
+          console.log(`USER: ${req.query.user_id}`);
+          if (games[0].guesser._id == req.query.user_id) {
+            res.send({status: "guesser"});
+          } else {
+            for (let i = 0; i < games[0].players.length; i++) {
+              if (games[0].players[i]._id == req.query.user_id) {
+                res.send({status: "pixeler"});
+              }
+            }
+            res.send({status:"not in game"});
           }
         }
-        res.send({status: "neither"});
-      }
+      });
+
     }
-  });
+  })
+
+
 });
 
 router.get("/game/canvas", (req, res) => {
@@ -155,6 +163,14 @@ router.get("/game/canvas", (req, res) => {
 });
 
 router.put("/game/join", (req, res) => {
+  const filter = { _id: req.body.user_id };
+  const update = { game_id: req.body.game_id };
+  User.findOneAndUpdate(filter, update, {
+    new: true,
+  }).then((res)=>{
+    console.log(res);
+  });
+
   // TODO: check that the player hasn't joined already
   // TODO: check that game hasn't started already
   Game.findByIdAndUpdate(

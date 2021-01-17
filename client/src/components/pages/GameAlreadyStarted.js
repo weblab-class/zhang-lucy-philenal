@@ -21,10 +21,6 @@ class GameAlreadyStarted extends Component {
     // remember -- api calls go here!
   }
 
-  goBack = () => {
-    navigate("/");
-  }
-
   render() {
     // TODO (LHF): make this prettier (add margin in between)
     return (
@@ -35,7 +31,7 @@ class GameAlreadyStarted extends Component {
         <div className="GameAlreadyStarted-container">
             Hi! Sorry, but the game that you have tried to joined has already started.
             <button
-                onClick={this.goBack}
+                onClick={()=>{navigate("/")}}
             >go back</button>
         </div>
       </>

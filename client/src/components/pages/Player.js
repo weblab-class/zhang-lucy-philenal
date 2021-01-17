@@ -38,17 +38,19 @@ class Player extends Component {
 
     // TODO: add game started/finished check
     componentDidMount() {
+        if (!this.props.user_id) {
+            navigate("/")
+        }
+        // console.log(this.props);
         
-        console.log(this.props);
         get("/api/game/player_status", {
-            game_id: this.props.location.state.game_id,
+            // game_id: this.props.location.state.game_id,
             user_id: this.props.location.state.user_id,
         }).then((res) => {
             console.log(res);
             if (res.length == 0) {
                 // TODO? figure out props probably
                 navigate("/");
-                return;
             } else {
                 console.log(`You are the ${res.status}!`);
                 if (res.status == "guesser" || res.status == "pixeler") {

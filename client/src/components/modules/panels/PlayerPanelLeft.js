@@ -36,6 +36,7 @@ const word = "hello"
  * @param {String} user_id - we can get all of the above from this
  * @param {String} game_id
  */
+
 class PlayerPanelLeft extends Component {
   constructor(props) {
     super(props);
@@ -49,12 +50,12 @@ class PlayerPanelLeft extends Component {
       }
       
       this.state = {
-        word: hiddenWord,
+        wordText: hiddenWord,
         error: false,
       };
     } else {
       this.state = {
-        word: word,
+        wordText: word,
         error: false,
       };
     }
@@ -65,6 +66,7 @@ class PlayerPanelLeft extends Component {
     
   }
 
+
   render() {
 
 
@@ -72,9 +74,10 @@ class PlayerPanelLeft extends Component {
       <>
         {(!this.state.error && this.props.guesser) && 
         <div className="PlayerPanelLeft">
+          <button onClick={this.props.leaveGame}>leave game</button>
           <h2>word: 
             <span className="PlayerPanelLeft-word">
-              {(this.state.word.length > 0) ? this.props.word : this.state.word}
+              {(this.props.word) ? this.props.word : this.state.wordText}
             </span>
           </h2>
           <h2>guesser:</h2>

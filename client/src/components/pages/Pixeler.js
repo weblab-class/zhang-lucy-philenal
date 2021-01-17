@@ -95,6 +95,17 @@ class Pixeler extends Component {
     
   }
 
+  leaveGame = () => {
+    post("/api/user/leave", {
+      user_id: this.props.user_id,
+      game_id: this.props.game_id,
+    }).then((res) => {
+      if (res.success) { 
+        navigate("/");
+      }
+    })
+  }
+
   render() {
     /* console.log("TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id) */
     console.log("turn number " + this.props.turn);
@@ -117,7 +128,9 @@ class Pixeler extends Component {
                 guesser={this.state.guesser} 
                 pixelers={this.state.pixelers} 
                 word={this.props.word} 
-                turn={this.props.turn} />
+                turn={this.props.turn} 
+                leaveGame={this.leaveGame}
+                />
             </div>
             <div className="Player-subContainer">
               {(this.state.canvas.width) ?  <CanvasPanel 
@@ -130,7 +143,8 @@ class Pixeler extends Component {
               /> : <div></div>} 
             </div>
             <div className="Player-subPanel">
-              <PlayerPanelRight/>
+              <PlayerPanelRight
+              isGuesser={false}/>
             </div>
           </div>
         </>

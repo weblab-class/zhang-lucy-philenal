@@ -21,7 +21,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * TODO: Make a Player.js file with conditional rendering
  * between this Pixeler and the Guesser
  * 
- * @param game_id The ID of the game
+ * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
  * @param {Number} turn
  */
@@ -67,6 +67,18 @@ class Guesser extends Component {
     this.setState({word: word});
   }
 
+  leaveGame = () => {
+    post("/api/user/leave", {
+      user_id: this.props.user_id,
+      game_id: this.props.game_id,
+    }).then((res) => {
+      if (res.success) { 
+        navigate("/");
+      }
+    })
+  }
+
+
   render() {
     // if (this.state.pixelers.length == 0){
     //   return (<div></div>)
@@ -86,6 +98,7 @@ class Guesser extends Component {
               // TODO^^^^^^ very not SFB
               turn={this.state.turn}
               isGuesser={true}
+              leaveGame={this.leaveGame}
               />
             }
           </div>

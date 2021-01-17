@@ -116,30 +116,6 @@ class PlayerPanelRight extends Component {
             >guess</button>
           </div> 
           }
-          {/* <div className="PlayerPanelRight-columnBlocks">
-            <div className="PlayerPanelRight-linkContainer">
-                <Link to="/howtoplay" className="PlayerPanelRight-link">
-                    <button className="PlayerPanelRight-button u-color-1">settings</button>
-                
-                </Link>
-            </div>
-            <div className="PlayerPanelRight-linkContainer">
-                <Link to="/newgame/" className="PlayerPanelRight-link">
-                    <button className="PlayerPanelRight-button u-color-2">how to play</button>
-                </Link>
-            </div>
-            <div className="PlayerPanelRight-linkContainer">
-                <Link to="/joingame/" className="PlayerPanelRight-link">
-                    <button className="PlayerPanelRight-button u-color-3">my wall</button>
-                </Link>
-            </div>
-            <div className="PlayerPanelRight-linkContainer">
-                <Link to="/newgame/" className="PlayerPanelRight-link">
-                    <button className="PlayerPanelRight-button u-color-4">new game</button>
-                </Link>
-            </div>
-        </div>
-         */}
         </div>
 
         

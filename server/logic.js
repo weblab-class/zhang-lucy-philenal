@@ -77,6 +77,7 @@ const newGame = (req) => {
     turn: null,
     wordpack: "default",
     word: "bobby",
+    word_length: 5,
     word_idx: 0,
     words: [],
     guesses: [],

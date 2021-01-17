@@ -39,13 +39,13 @@ class Start extends Component {
       }
       if (user.game_id) {
         // they are already in a game
-        this.setState({ game_id: user.game_id}, () => {
-          navigate("/lobby", {state: {
-            user_id: this.state.user_id,  
-            user_name: this.state.user_name,  
-            game_id: this.state.game_id,
-          }});
-        })
+        console.log(user);
+        navigate("/lobby", {state: {
+          user_id: this.state.user_id,  
+          user_name: this.state.user_name,  
+          game_id: user.game_id,
+        }});
+        // this.setState({ game_id: user.game_id}, () => {})
       }
     });
   }

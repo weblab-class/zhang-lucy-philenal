@@ -44,7 +44,7 @@ class Lobby extends Component {
        });
       if (res[0].started === true) {
         console.log("started...");
-        if (res[0].players.contains(this.props.location.state.user_id)) {
+        if (res[0].players.includes({_id: this.props.location.state.user_id})) {
           navigate("/player", {state: {
             user_id: this.props.location.state.user_id, 
             game_id: this.props.location.state.game_id
