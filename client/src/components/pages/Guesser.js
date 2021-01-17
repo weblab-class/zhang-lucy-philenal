@@ -51,11 +51,13 @@ class Guesser extends Component {
     .catch((err) => {
       console.log(err);
     })
+
     //TODO: unhardcode game id for guesser
-    socket.on("board_and_game_id", (board_and_game_id) => {
-      if (this.props.game_id === board_and_game_id.game_id) { //if the game id sent out is ours
+    //listens for updated canvas
+    socket.on("board_and_game_id", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
-          canvas: board_and_game_id.board,
+          canvas: updatedGame.board,
         })
       }
     })
@@ -94,7 +96,8 @@ class Guesser extends Component {
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id={this.props.game_id}
-              isGuesser={true}
+              isMyTurn={true} //TODO: unhardcode, make more secure
+              isGuesser={true} //TODO: unhardcode
               word={this.state.word}
             /> } 
           </div>

@@ -56,9 +56,11 @@ class Pixeler extends Component {
   componentDidMount() {
     
     // remember -- api calls go here!
+    //TODO: can delete if we don't use logic.js ??
     socket.on("update", (update) => {
       this.processUpdate(update);
     });
+
     get("/api/game/get", {game_id: this.props.game_id})
     .then((res) => {
       this.setState({canvas: res[0].board, pixelers: res[0].pixelers, guesser: res[0].guesser}, () => {
@@ -79,6 +81,15 @@ class Pixeler extends Component {
         this.setState({canvas: res[0]}, () => {
           console.log(this.state)
         });
+      }
+    })
+
+    //listens for updated canvas
+    socket.on("board_and_game_id", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        this.setState({
+          canvas: updatedGame.board,
+        })
       }
     })
     

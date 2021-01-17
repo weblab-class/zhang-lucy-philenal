@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-
+import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./PixelBlock.css";
 
@@ -12,6 +12,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * user is able to place
  *
  * Proptypes
+ * @param game_id
  * @param {string} size length of each side of the square
  * @param {string} _id unique ID relative to other pixels in the same canvas
  * @param {function} callback callback function for canvas
@@ -59,6 +60,16 @@ class PixelBlock extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    socket.on("board_and_game_id", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        if (this.props.id === updatedGame.pixel_id) { //if the change was made to this pixel
+          console.log("this pixel is changed -- socket works for PixelBlock!");
+          this.setState({
+           filled: updatedGame.pixel_id_filled
+          })
+        }
+      }
+    })
   }
 
   render() {

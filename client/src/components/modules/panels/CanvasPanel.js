@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-
+import { socket } from "../../../client-socket.js";
 import "./PlayerPanel.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
@@ -36,6 +36,18 @@ class CanvasPanel extends Component {
   }
 
   componentDidMount() {
+
+    socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        if (!this.props.isMyTurn) { 
+          this.setState({
+            num_filled: updatedGame.board.num_filled,
+          })
+        }
+      }
+    })
+
+    
   }
 
   onPixelClicked = (filled) => {

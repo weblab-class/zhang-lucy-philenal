@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import PixelBlock from "./PixelBlock.js";
-
+import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Canvas.css";
 import board from "../../../../server/models/board.js";
@@ -20,7 +20,7 @@ const CANVAS_HEIGHT_PX = 500;
 
 /**
  * The Canvas is the main game board, where pixelers can fill pixels
- * 
+ * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
  * 
@@ -69,6 +69,8 @@ class Canvas extends Component {
           game.board.pixels[id] = {id: id, _id: res[0].board.pixels[id]._id, color: "none", filled: filled};
           put("/api/game/pixel", 
           {
+            pixel_id: id,
+            pixel_id_filled: filled,
             game: game, 
             game_id: this.props.game_id
           })
@@ -90,6 +92,13 @@ class Canvas extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    socket.on("board_and_game_id", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        this.setState({
+          filled_blocks: updatedGame.board.num_filled,
+        })
+      }
+    })
   }
 
   render() {
@@ -100,6 +109,7 @@ class Canvas extends Component {
       pixels.push(
         <div className="Canvas-pixelBlockContainer">
           <PixelBlock 
+            game_id={this.props.game_id}
             id={this.props.pixels[i].id} 
             filled={this.props.pixels[i].filled}
             size={this.state.block_size}
