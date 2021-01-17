@@ -3,6 +3,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
 import { Link } from "@reach/router";
 import { navigate } from "@reach/router";
+import { GoogleButton } from "./GoogleButton.js";
 
 // import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
@@ -114,7 +115,8 @@ class Lobby extends Component {
       console.log(this.props.location.state.user_id);
       console.log("host: " + this.state.host_id)
       return (
-        <>
+        <> 
+              {/* <div><GoogleButton/></div> */}
               <div>hello, {this.props.location.state.user_name}!</div>
               <div className="Lobby">
                   <div className="Lobby-title">Lobby</div>

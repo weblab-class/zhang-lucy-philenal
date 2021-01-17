@@ -66,6 +66,7 @@ class Canvas extends Component {
   
           // add our pixel
           // TODO: fix color
+          game.board.num_filled = this.state.filled_blocks;
           game.board.pixels[id] = {id: id, _id: res[0].board.pixels[id]._id, color: "none", filled: filled};
           put("/api/game/pixel", 
           {

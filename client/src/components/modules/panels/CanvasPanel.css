@@ -1,0 +1,8 @@
+.CanvasPanel-button {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 0;
+    border-color: var(--border-color);
+    color: var(--border-color);
+    font-family: var(--font-primary);
+}

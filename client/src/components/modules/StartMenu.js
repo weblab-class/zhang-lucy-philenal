@@ -31,7 +31,7 @@ class StartMenu extends Component {
                   user_name: this.props.user_name,
                 }}
                 >
-                    <button className="StartMenu-button u-color-1">how to play</button>
+                    <button className="StartMenu-button u-color-1 u-pointer">how to play</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
@@ -39,7 +39,7 @@ class StartMenu extends Component {
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}>
-                  <button className="StartMenu-button u-color-2">new game</button>
+                  <button className="StartMenu-button u-color-2 u-pointer">new game</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
@@ -47,7 +47,7 @@ class StartMenu extends Component {
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}>
-                  <button className="StartMenu-button u-color-3">join game</button>
+                  <button className="StartMenu-button u-color-3 u-pointer">join game</button>
                 </Link>
             </div>
             <div className="StartMenu-linkContainer">
@@ -55,7 +55,7 @@ class StartMenu extends Component {
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}>
-                  <button className="StartMenu-button u-color-4">wall</button>
+                  <button className="StartMenu-button u-color-4 u-pointer">wall</button>
                 </Link>
             </div>
         </div>

@@ -50,3 +50,6 @@ webpack.config.js
 ```
 
 ## Good luck on your project :)
+
+## resources used:
+## to style google login/logout button: https://stackoverflow.com/questions/55023073/react-google-login-inline-styling 

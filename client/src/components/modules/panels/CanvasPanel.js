@@ -21,7 +21,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 class CanvasPanel extends Component {
   constructor(props) {
     super(props);
-
+    //TODO: fix the pixels filled!!
     let num_filled = 0;
     for (let i = 0; i < this.props.canvas_pixels.length; i++) {
       if (this.props.canvas_pixels[i].filled) {

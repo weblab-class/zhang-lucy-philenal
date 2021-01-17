@@ -46,7 +46,21 @@ class Start extends Component {
     if (this.props.user_id) {
       return (
         <>
-          <div>hello, {this.props.user_name}!</div>
+          <div>hello, {this.props.user_name}! 
+          <GoogleLogout
+              clientId={GOOGLE_CLIENT_ID}
+              buttonText="Logout"
+              onLogoutSuccess={this.onLogout}
+              onFailure={(err) => console.log(err)}
+              render={(renderProps) => (
+              <span
+                onClick={renderProps.onClick}
+                className="Start-googleButton u-pointer"
+                >
+                  (logout)
+                </span>
+              )}
+            /></div>
           <div className="Start-title">
               <PlayerPanelTop/>
           </div>
