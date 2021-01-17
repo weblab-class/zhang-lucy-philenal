@@ -39,9 +39,7 @@ class Wall extends Component {
       <>
             {/* TODO (philena) make this pretty! ^_^ */}
             {/* TODO add functionality for entering names too */}
-            <div className="Wall">
-                Wall! will be implemented soon™
-            </div>
+            <h1>Wall of Fame</h1>
             <button onClick={()=>{navigate('/')}}>back</button>
 
 
