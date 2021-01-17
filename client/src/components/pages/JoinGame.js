@@ -10,7 +10,13 @@ import { get, put } from "../../utilities";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
+/**
+ * JoinGame page asks the user to enter a unique ID, then joins
+ * a game with said ID. 
+ * Props are passed down from the Link in StartMenu, so we should use this.props.location.state.___ to reference.
+ * @param user_id 
+ * @param user_name google name
+ */
 class JoinGame extends Component {
   constructor(props) {
     super(props);

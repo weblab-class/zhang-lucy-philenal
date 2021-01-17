@@ -11,6 +11,9 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 /**
  * Generic TextEntry component
  * @param callback callback function to parent component
+ * @param clear boolean that says if you can clear the text
+ * @param cleared calls the textCleared function to set clear: false
+ * @param className the styling
  */
 class TextEntry extends Component {
   constructor(props) {

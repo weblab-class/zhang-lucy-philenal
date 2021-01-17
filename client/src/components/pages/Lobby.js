@@ -20,8 +20,9 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * Lobby page is what the user travels to after making/joining
  * a game. The host can start the game.
  * 
- * @param game_id
- * @param user_id 
+ * @param game_id created in NewGame by the host (what the host inputted)
+ * @param user_id google id
+ * @param user_name google name
  */
 class Lobby extends Component {
   constructor(props) {

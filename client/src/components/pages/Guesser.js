@@ -17,9 +17,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 
 
 /**
- * This is the page view of one of the pixelers
- * TODO: Make a Player.js file with conditional rendering
- * between this Pixeler and the Guesser
+ * This is the page view of the Guesser
  * 
  * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
@@ -90,7 +88,7 @@ class Guesser extends Component {
           <div className="Player-subPanel">
             {(this.state.pixelers) && 
             <PlayerPanelLeft 
-              players={this.state.players} 
+              /* players={this.state.players}  */
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
               word={this.state.word}
@@ -111,7 +109,7 @@ class Guesser extends Component {
               game_id={this.props.game_id}
               isMyTurn={true} //TODO: unhardcode, make more secure
               isGuesser={true} //TODO: unhardcode
-              word={this.state.word}
+              /* word={this.state.word} */
             /> } 
           </div>
           <div className="Player-subPanel">

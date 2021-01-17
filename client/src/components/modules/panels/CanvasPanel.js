@@ -15,6 +15,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
+ * @param canvas_pixels array of pixel objects in the canvas
  * @param isGuesser - Boolean if player is guesser
  * @param isMyTurn - Boolean if it is player's turn
  */

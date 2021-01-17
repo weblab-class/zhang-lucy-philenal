@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   name: String,
   _id: String,
+  game_id: String,
+  googleid: String,
 });
 
 const PixelSchema = new mongoose.Schema({

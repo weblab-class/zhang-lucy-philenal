@@ -14,6 +14,8 @@ import { get, put} from "../../../utilities";
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 /**
+ * PlayerPanelRight is the right side of the Player page, should contain a guessing 
+ * for the guesser and a settings bar
  * Proptypes
  * @param game_id
  * @param user_id google name
