@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { Link } from "@reach/router";
+import { socket } from "../../../client-socket.js";
 
 import TextEntry from "../TextEntry.js";
 import "../../../utilities.css";
@@ -12,12 +13,18 @@ import { get, put} from "../../../utilities";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+/**
+ * Proptypes
+ * @param game_id
+ * @param user_id google name
+ * @param callback function (onCorrectGuess)
+ */
 class PlayerPanelRight extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
     this.state = {
-      guesses: ["bob","candy","cat"]
+      guesses: []
     };
   }
 
@@ -30,6 +37,11 @@ class PlayerPanelRight extends Component {
       } else {
         this.setState({guesses: res[0].guesses});
       }
+    })
+    socket.on("guess", (guesses) => {
+      this.setState({
+        guesses: guesses.guesses,
+      })
     })
   }
 

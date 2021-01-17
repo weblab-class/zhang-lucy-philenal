@@ -159,7 +159,11 @@ router.put("/game/guess", (req, res) => {
           console.log(err);
           console.log(todo);
         }
-      ).then(() => {
+      ).then((updatedGame) => {
+        socketManager.getIo().emit("guess", 
+        {
+          guesses: updatedGame._doc.guesses
+        });
         if (games[0].word == req.body.guess) {
           res.send({message: "correct"});
         } else {
