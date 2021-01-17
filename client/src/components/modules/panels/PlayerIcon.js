@@ -10,7 +10,7 @@ import "./PlayerPanelLeft.css";
  *
  * Proptypes
  * @param {String} playername
- * @param {String} _id
+ * @param {String} _id don't necessarily need this?
  * @param {Boolean} isMyTurn
  * @param {Number} order
  */

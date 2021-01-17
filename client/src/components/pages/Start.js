@@ -13,9 +13,13 @@ import { navigate } from "@reach/router";
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 /**
- * Start is the main page after the user logs in
- * @param user_id
+ * Start is the main page after the user logs in. Contains the StartMenu component
+ * 
+ * (props passed from google login/logout)
+ * @param user_id google id
  * @param user_name google name
+ * @param handleLogin function
+ * @param handleLogout function
  */
 class Start extends Component {
   constructor(props) {

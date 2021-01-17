@@ -32,7 +32,9 @@ const word = "hello"
  * @param {Boolean} isGuesser
  * @param {String} word* - only if isGuesser=false
  * @param {Number} wordLength* - only if isGuesser=true
+ * @param leaveGame callback function
  * 
+ * DIDNT ADD THE PROPS BELOW!!! THESE ARE NOT ACTUAL PROPS
  * @param {String} user_id - we can get all of the above from this
  * @param {String} game_id
  */

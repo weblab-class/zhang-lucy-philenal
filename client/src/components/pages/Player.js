@@ -16,7 +16,7 @@ import Pixeler from "./Pixeler";
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 /**
- * This is the page view of a player, either Pixeler or Guesser
+ * This is the page view of a player, either Pixeler or Guesser. Keeps track of turn number.
  * 
  * @param game_id The ID of the game
  * @param user_id The google ID of the particular player

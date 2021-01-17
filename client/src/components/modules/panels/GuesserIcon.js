@@ -5,11 +5,11 @@ import React, { Component } from "react";
 import "../../../utilities.css";
 import "./PlayerPanelLeft.css";
 /**
- * Component to render a single comment
+ * Component to show the guesser icon + name
  *
  * Proptypes
  * @param {String} guesser_name
- * @param {String} _id
+ * @param {String} _id don't necessarily need this?
  * @param {Boolean} isMyTurn
  */
 

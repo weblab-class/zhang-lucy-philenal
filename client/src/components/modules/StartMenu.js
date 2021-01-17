@@ -8,6 +8,11 @@ import "./StartMenu.css";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
+/**
+ * StartMenu is contained in the Start.js page. It has buttons that go to New Game, Join Game, Wall, Rules.
+ * @param user_id google id
+ * @param user_name google name
+ */
 class StartMenu extends Component {
   constructor(props) {
     super(props);
