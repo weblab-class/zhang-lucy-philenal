@@ -6,7 +6,7 @@ import TextEntry from "../modules/TextEntry.js";
 import "../../utilities.css";
 import "./JoinGame.css";
 
-import { get, put } from "../../utilities";
+import { post } from "../../utilities";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
@@ -20,6 +20,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 class JoinGame extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
 
     // Initialize Default State
     this.state = {
@@ -36,52 +37,29 @@ class JoinGame extends Component {
     this.setState({game_id: game_id});
   }
 
-  // TODO (lucy): such bad code ahhhh
   joinGame = () => {
-    get("/api/game/get", {game_id: this.state.game_id})
-    .then((res) => {
-      console.log(this.state.game_id);
-      console.log(res); // list game objects
-      if (res.length == 0) {
-        this.setState({game_not_found: true},
-          console.log(`No game found with ID ${this.state.game_id}`)
-        );
-      } else {
-        // make a copy
-        let game = {...res[0]};
-
-        // add our player 
-        // TODO: make less sketchy
-        game.players = game.players.concat([{
-          name: this.props.location.state.user_name, 
-          _id: this.props.location.state.user_id, 
-        }]);
-        
-        put("/api/game/join", 
-        {
-          game: game, 
-          game_id: this.state.game_id
-        })
-        .then((res) => {
-          console.log(res)
-          navigate("/lobby", {state: 
-            {
-              user_id: this.props.location.state.user_id,  
-              user_name: this.props.location.state.user_name,  
-              game_id: this.state.game_id
-            }
-          });
-        })
-        .catch((err) => {
-          console.log(err)
+    post("api/game/join", {
+      game_id: this.state.game_id,
+      user_id: this.props.location.state.user_id,
+      user_name: this.props.location.state.user_name,
+    }).then((res) => {
+      if (res.status == "success") {
+        console.log(res);
+        navigate("/lobby", {state: 
+          {
+            user_id: this.props.location.state.user_id,  
+            user_name: this.props.location.state.user_name,  
+            game_id: this.state.game_id
+          }
         });
+      } else {
+        console.log("error, can't join game");
       }
-
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.log(err);
     });
   }
+
 
   render() {
     return (

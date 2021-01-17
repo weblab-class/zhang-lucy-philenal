@@ -179,7 +179,7 @@ router.get("/game/canvas", (req, res) => {
   });
 });
 
-router.put("/game/join", (req, res) => {
+router.post("/game/join", (req, res) => {
   const filter = { _id: req.body.user_id };
   const update = { game_id: req.body.game_id };
   User.findOneAndUpdate(filter, update, {
@@ -188,23 +188,39 @@ router.put("/game/join", (req, res) => {
     console.log(res);
   });
 
-  // TODO: check that the player hasn't joined already
-  // TODO: check that game hasn't started already
-  Game.findByIdAndUpdate(
-    (req.body.game_id),
-    req.body.game,
-    {new: true},
-    (err, todo) => {
-      console.log(err);
-      console.log(todo);
-    }
-  ).then((updatedGame) => {
-    socketManager.getIo().emit("players_and_game_id", 
-    {
-      players: updatedGame.players, 
-      game_id: updatedGame._id
-    });
-    res.send(updatedGame);
+  console.log(req.body);
+  Game.findOne({_id: req.body.game_id}, 
+    function (err, game) {
+      // if player not already in game
+      if (game.players) {
+        let filteredPlayers = game.players.filter((p) => {p && (p._id == req.body.user_id)});
+        console.log("filter");
+        console.log(filteredPlayers);
+        if (filteredPlayers.length == 0) {
+          game.players = game.players.concat([{
+            _id: req.body.user_id, 
+            name: req.body.user_name,
+            game_id: req.body.game_id,
+          }]);
+        }
+      }
+      
+      game.save(function (err) {
+        if(err) {
+          console.log(err);
+            console.error('ERROR!');
+        }
+      })
+    }).then((updatedGame) => {
+      // TODO: Fix this
+      console.log("updateds");
+      console.log(updatedGame);
+      socketManager.getIo().emit("players_and_game_id", 
+      {
+        players: updatedGame.players, 
+        game_id: updatedGame._id
+      });
+      res.send({status: "success"});
   });
   //TODO: (philena) change this to socket room for higher efficiency!!!!
   //shouts the updated players list + the game id to all connected sockets

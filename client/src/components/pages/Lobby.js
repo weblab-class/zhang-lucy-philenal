@@ -39,6 +39,7 @@ class Lobby extends Component {
     get("/api/game/get", {
       game_id: this.props.location.state.game_id
     }).then((res) => {
+      console.log(res);
       this.setState({
         players: res[0].players,
         host_id: res[0].host_id,
@@ -88,8 +89,9 @@ class Lobby extends Component {
   // TODO: fix this put request
   startGame = () => {
     console.log("Start game!!");
-    get("/api/game/get", {game_id: this.props.location.state.game_id})
-    .then((res) => {
+    get("/api/game/get", {
+      game_id: this.props.location.state.game_id
+    }).then((res) => {
       console.log(this.props.location.state.game_id);
       console.log(res); // list game objects
 
