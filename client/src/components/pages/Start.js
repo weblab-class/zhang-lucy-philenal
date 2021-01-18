@@ -9,7 +9,7 @@ import "./Start.css";
 import { get } from "../../utilities";
 import { navigate } from "@reach/router";
 
-
+const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
  * Start is the main page after the user logs in. Contains the StartMenu component
  * 
