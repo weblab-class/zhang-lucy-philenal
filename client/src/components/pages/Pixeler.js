@@ -140,8 +140,8 @@ class Pixeler extends Component {
               <PlayerPanelLeft 
                 guesser={this.state.guesser} 
                 pixelers={this.state.pixelers} 
-                word={this.state.word} 
-                turn={this.state.turn} 
+                word={this.props.word} 
+                turn={this.props.turn} 
                 leaveGame={this.leaveGame}
                 />
             </div>

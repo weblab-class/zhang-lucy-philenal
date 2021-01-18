@@ -21,7 +21,9 @@ import { get, post, put} from "../../utilities";
  * @param user_id The ID of the particular player
  * @param {Number} turn
  * @param {Number} wordListLength
- * @param {Number} wordLength
+ * @param {String} hiddenWord is "_ _ _ " if not guessed correctly, but shows actual word if guessed correctly
+ * @param {Callback} onCorrectGuess function
+ * @param {Boolean} correctGuess
  */
 class Guesser extends Component {
   constructor(props) {
@@ -62,10 +64,10 @@ class Guesser extends Component {
     })
   }
 
-  onCorrectGuess = (word) => {
+/*   onCorrectGuess = (word) => {
     this.setState({word: word});
     this.setState({correctGuess: true});
-  }
+  } */
 
   leaveGame = () => {
     console.log(this.props);
@@ -94,10 +96,10 @@ class Guesser extends Component {
               /* players={this.state.players}  */
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
-              word={this.state.word}
-              wordLength={this.props.wordLength}//this.state.word.length} 
+              word={this.props.hiddenWord}
+              /* wordLength={this.props.wordLength} *///this.state.word.length} 
               // TODO^^^^^^ very not SFB
-              turn={this.state.turn}
+              turn={this.props.turn}
               isGuesser={true}
               leaveGame={this.leaveGame}
               />
@@ -113,14 +115,14 @@ class Guesser extends Component {
               user_id={this.props.user_id}
               isMyTurn={true} //TODO: unhardcode, make more secure
               isGuesser={true} //TODO: unhardcode
-              correctGuess={this.state.correctGuess}
+              correctGuess={this.props.correctGuess}
             /> } 
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight
               game_id={this.props.game_id}
               user_id={this.props.user_id}
-              callback={this.onCorrectGuess}
+              callback={this.props.callback}
               isGuesser={true}
             />
           </div>

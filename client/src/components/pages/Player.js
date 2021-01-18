@@ -36,10 +36,12 @@ class Player extends Component {
             error: false,
             word: null,
             wordListLength: null,
+            hiddenWord: null,
+            correctGuess: false, //unhardcode??
             turn: 0, //TODO: if turn exceeds number of players .. ?
         };
     }
-
+    
     // TODO: add game started/finished check
     componentDidMount() {
         console.log(this.props);
@@ -49,7 +51,8 @@ class Player extends Component {
         get("/api/game/get", {
             game_id: this.props.location.state.game_id,
         }).then((res) => {
-            this.setState({word: res[0].word, wordListLength: res[0].words.length});
+            //creates the hidden word and sets state
+            this.setState({word: res[0].word, wordListLength: res[0].words.length, hiddenWord: this.hideWord(res[0].word.length)});
         })
 
         get("/api/game/player_status", {
@@ -98,25 +101,40 @@ class Player extends Component {
             {
                 this.setState({
                     word: updatedGame.game.word,
+                    hiddenWord: this.hideWord(updatedGame.game.word.length),
                 }, ()=> {
-                    console.log("the updated word is " + this.state.word);
+                    console.log("the updated word is " + this.state.word + " with hidden word " + this.state.hiddenWord);
                 })
             };
         })
     }
+
+    //hides the word
+    hideWord = (wordLength) => {
+        let hiddenWord = "";
+            for (let i = 0; i < wordLength; i++) {
+                hiddenWord += "_ ";
+            }
+        return hiddenWord;
+    }
+
+    onCorrectGuess = (word) => {
+        this.setState({hiddenWord: word});
+        this.setState({correctGuess: true});
+      }
 
     render() {
         console.log(this.state);
         console.log(this.props);
         if (this.state.error) { //if there's error 
             return(<><Start/></>);
-        } else if (!this.state.player || !this.state.game_id || !this.state.word) { //if state hasn't been altered for player yet
+        } else if (!this.state.player || !this.state.game_id || !this.state.word || !this.state.hiddenWord) { //if state hasn't been altered for player yet
             return (<div></div>)
         } else {
             return (
                 <> 
                     {this.state.player == "guesser" ? 
-                    <Guesser wordLength={this.state.word.length} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
+                    <Guesser callback={this.onCorrectGuess} hiddenWord={this.state.hiddenWord} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
                     <Pixeler word={this.state.word} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
                 </>
             );
