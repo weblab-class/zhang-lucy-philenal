@@ -86,10 +86,6 @@ class PlayerPanelRight extends Component {
     
   }
 
-  textCleared = () => {
-    this.setState({clear: false});
-  }
-
   render() {
     // TODO: cap the number of guesses
     let guesses = []
@@ -112,8 +108,7 @@ class PlayerPanelRight extends Component {
           <div className="PlayerPanelRight-guesser">
             <div className="PlayerPanelRight-guessTextEntryContainer">
               <TextEntry 
-                clear={this.state.clear}
-                cleared={this.textCleared}
+                guessesEntry={true} //TODO: unhardcode later?
                 className="PlayerPanelRight-guessTextEntry" 
                 callback={this.onGuessEntry}
                 onSubmit={this.submitGuess}/>

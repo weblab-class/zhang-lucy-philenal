@@ -10,10 +10,10 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 
 /**
  * Generic TextEntry component
- * @param callback callback function to parent component
- * @param clear boolean that says if you can clear the text
- * @param cleared calls the textCleared function to set clear: false
+ * @param callback callback function to parent component (onGuessEntry --> sets state of guess in parent)
+ * @param guessesEntry (OPTIONAL) {Booolean} if textEntry came from PlayerPanelRight.js for guesses input
  * @param className the styling
+ * @param onSubmit submitGuess() --> api calls to document guess in PlayerPanelRight.js
  */
 class TextEntry extends Component {
   constructor(props) {
@@ -29,24 +29,18 @@ class TextEntry extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    if (this.props.clear) {
-      this.props.cleared();
-    }
+ 
   }
 
-  clear = () => {
-    console.log("clearing...");
-    this.setState({text: ""});
-  }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.callback(event.target.value).then(()=>{
-      this.props.onSubmit && this.props.onSubmit(this.state.text);
-      this.setState({
-        text: "",
-      });
-    })
+    this.props.callback(this.state.text);
+
+    this.props.onSubmit && this.props.onSubmit(this.state.text);
+    this.setState({
+      text: "",
+    });
     
   };
 
@@ -68,14 +62,16 @@ class TextEntry extends Component {
             value={this.state.text}
             onChange={this.onTextChange}
         />
-        <button
+        {/* if this textEntry is for guesses, show the button to submit */}
+        {this.props.guessesEntry ? <button
           type="submit"
           className="NewPostInput-button u-pointer"
           value="Submit"
           onClick={this.handleSubmit}
         >
           Submit
-        </button>
+        </button>: <div></div>}
+        
         </form>
       </>
     );
