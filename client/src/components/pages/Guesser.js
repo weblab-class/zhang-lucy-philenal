@@ -41,8 +41,9 @@ class Guesser extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    get("/api/game/get", {game_id: this.props.game_id})
-    .then((res) => {
+    get("/api/game/get", {
+      game_id: this.props.game_id
+    }).then((res) => {
       this.setState({
         canvas: res[0].board, 
         pixelers: res[0].pixelers, 
@@ -119,9 +120,10 @@ class Guesser extends Component {
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight
-            game_id={this.props.game_id}
-            user_id={this.props.user_id}
-            callback={this.onCorrectGuess}
+              game_id={this.props.game_id}
+              user_id={this.props.user_id}
+              callback={this.onCorrectGuess}
+              isGuesser={true}
             />
           </div>
         </div>
