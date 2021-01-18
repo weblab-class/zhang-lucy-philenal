@@ -8,8 +8,8 @@
 */
 
 // lol please centralize this
-const BOARD_WIDTH_BLOCKS = 20;
-const BOARD_HEIGHT_BLOCKS = 20;
+const BOARD_WIDTH_BLOCKS = 3;
+const BOARD_HEIGHT_BLOCKS = 3;
 
 var mongoose = require('mongoose');
 
@@ -232,7 +232,7 @@ router.post("/game/join", (req, res) => {
     {_id: req.body.game_id}, 
     function (err, game) {
       // if player not already in game
-      if (game.players) {
+      if (game && game.players) {
         let filteredPlayers = game.players.filter((p) => {p && (p._id == req.body.user_id)});
         console.log("filter");
         console.log(filteredPlayers);
@@ -243,24 +243,40 @@ router.post("/game/join", (req, res) => {
             game_id: req.body.game_id,
           }]);
         }
-      }
       
-      game.save(function (err) {
-        if(err) {
-          console.log(err);
-            console.error('ERROR!');
-        }
-      })
-    }).then((updatedGame) => {
-      // TODO: Fix this
-      console.log("updateds");
-      console.log(updatedGame);
-      socketManager.getIo().emit("players_and_game_id", 
-      {
-        players: updatedGame.players, 
-        game_id: updatedGame._id
-      });
-      res.send({status: "success"});
+        game.save(
+        //   function (err) {
+        //   if(err) {
+        //     console.log(err);
+        //       console.error('ERROR!');
+        //   }
+        // }
+        ).then((res) => {
+          console.log("HIIIIIIIIIIIIIIIII");
+          console.log(res);
+          socketManager.getIo().emit("players_and_game_id", 
+          {
+            players: res.players, 
+            game_id: res._id
+          });
+
+        }).catch((err) => {console.log(err)});
+      }
+    },
+    ).then(()=>{res.send({status:"success"})})
+  //   .then((updatedGame) => {
+  //     // TODO: Fix this
+  //     console.log("updateds");
+  //     console.log(updatedGame);
+  //     socketManager.getIo().emit("players_and_game_id", 
+  //     {
+  //       players: updatedGame.players, 
+  //       game_id: updatedGame._id
+  //     });
+  //     res.send({status: "success"});
+  // })
+  .catch((err) => {
+    console.log(err);
   });
   //TODO: (philena) change this to socket room for higher efficiency!!!!
   //shouts the updated players list + the game id to all connected sockets
@@ -369,16 +385,19 @@ router.post("/board/clear_pixels", (req, res) => {
       }
       console.log(game);
       // if (game && game.board) {
-        game.board.num_filled = 0;
-        for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
-          game.board.pixels[i].color = "none";
-          game.board.pixels[i].filled = false;
-        }
-        game.save(function (err) {
-          if(err) {
-              console.error('ERROR!');
-          }
-        });
+      game.board.num_filled = 0;
+      for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
+        game.board.pixels[i].color = "none";
+        game.board.pixels[i].filled = false;
+      }
+      game.save().then((res) => {
+        socketManager.getIo().emit("cleared_canvas", 
+          {
+            board: res.board, 
+            pixels: res.board.pixels, 
+            _id: res._id, 
+          });
+      });
     }
   ).then((updatedGame) => {
     // TODO: Fix this
@@ -387,7 +406,7 @@ router.post("/board/clear_pixels", (req, res) => {
     socketManager.getIo().emit("cleared_canvas", 
     {
       board: updatedGame.board, 
-      pixels: updatedGame.board.pixels, 
+      // pixels: updatedGame.board.pixels, 
       _id: updatedGame._id, 
     });
     res.send({board: updatedGame.board});

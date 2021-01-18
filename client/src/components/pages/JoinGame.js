@@ -37,11 +37,13 @@ class JoinGame extends Component {
   }
 
   joinGame = () => {
+    console.log("u clickd the join game button");
     post("api/game/join", {
       game_id: this.state.game_id,
       user_id: this.props.location.state.user_id,
       user_name: this.props.location.state.user_name,
     }).then((res) => {
+      console.log(res);
       if (res.status == "success") {
         console.log(res);
         navigate("/lobby", {state: 
