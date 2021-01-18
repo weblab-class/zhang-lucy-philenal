@@ -6,7 +6,7 @@ import "../../utilities.css";
 import "./Canvas.css";
 import board from "../../../../server/models/board.js";
 
-import { get, put } from "../../utilities";
+import { get, post, put } from "../../utilities";
 
 
 
@@ -90,34 +90,53 @@ class Canvas extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
+    get("/api/game/canvas", {game_id: this.props.game_id
+    }).then((res) => {
+      if (res && res.length > 0) {
+        this.setState({pixels: res[0].pixels});
+      }
+    }).catch((err) => {
+      console.log(err);
+    })  
+
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
           filled_blocks: updatedGame.board.num_filled,
         })
       }
-    })
+    });
+
+    socket.on("cleared_canvas", (updatedGame) => {
+      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+        console.log("cleareddd");
+        this.setState({
+          filled_blocks: updatedGame.board.num_filled,
+          pixels: updatedGame.pixels,
+        },()=>{console.log(this.state)})
+      }
+    });
   }
 
   render() {
-    // TODO: make this API called
     let pixels = [];
-    console.log(this.props.pixels);
-    for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
-      pixels.push(
-        <div className="Canvas-pixelBlockContainer">
-          <PixelBlock 
-            game_id={this.props.game_id}
-            id={this.props.pixels[i].id} 
-            filled={this.props.pixels[i].filled}
-            size={this.state.block_size}
-            isGuesser={this.props.isGuesser}
-            isMyTurn={this.props.isMyTurn}
-            callback={this.onPixelClicked}
-          />
-        </div>
-      );
+    if (this.state.pixels) {
+      console.log(this.state.pixels);
+      for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
+        pixels.push(
+          <div className="Canvas-pixelBlockContainer">
+            <PixelBlock 
+              game_id={this.props.game_id}
+              id={this.state.pixels[i].id} 
+              filled={this.state.pixels[i].filled}
+              size={this.state.block_size}
+              isGuesser={this.props.isGuesser}
+              isMyTurn={this.props.isMyTurn}
+              callback={this.onPixelClicked}
+            />
+          </div>
+        );
+      }
     }
 
     return (
