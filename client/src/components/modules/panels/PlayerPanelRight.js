@@ -26,7 +26,8 @@ class PlayerPanelRight extends Component {
     super(props);
     // Initialize Default State
     this.state = {
-      guesses: []
+      guesses: [],
+      guess: null
     };
   }
 
@@ -54,35 +55,35 @@ class PlayerPanelRight extends Component {
   }
 
   submitGuess = () => {
-    let the_guess = this.state.guess;
-    this.setState({
-      clear: true, // lolrip
-      guess: "", 
-      guesses: this.state.guesses.concat([the_guess]),  
-    });
-
-    console.log(`Submitting guess for ${the_guess}...`);
-    put("api/game/guess", {
-      game_id: this.props.game_id,
-      user_id: this.props.user_id,
-      guess: the_guess,
-    }).then((res) => {
-      console.log(res);
-      if(res.message == "correct") {
-        console.log("correct!!");
-        this.props.callback(the_guess);
-      } else {
+    if (this.state.guess){
+      console.log(this.state.guess + " is the guess");
+      let the_guess = this.state.guess;
+      this.setState({
+        clear: true, // lolrip
+        guess: "", 
+        guesses: this.state.guesses.concat([the_guess]),  
+      });
+  
+      console.log(`Submitting guess for ${the_guess}...`);
+      put("api/game/guess", {
+        game_id: this.props.game_id,
+        user_id: this.props.user_id,
+        guess: the_guess,
+      }).then((res) => {
         console.log(res);
-        console.log("incorrect");
-        // TODO: maybe hints if they are close?
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
-
-  textCleared = () => {
-    this.setState({clear: false});
+        if(res.message == "correct") {
+          console.log("correct!!");
+          this.props.callback(the_guess);
+        } else {
+          console.log(res);
+          console.log("incorrect");
+          // TODO: maybe hints if they are close?
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
+    
   }
 
   render() {
@@ -107,15 +108,15 @@ class PlayerPanelRight extends Component {
           <div className="PlayerPanelRight-guesser">
             <div className="PlayerPanelRight-guessTextEntryContainer">
               <TextEntry 
-                clear={this.state.clear}
-                cleared={this.textCleared}
+                guessesEntry={true} //TODO: unhardcode later?
                 className="PlayerPanelRight-guessTextEntry" 
-                callback={this.onGuessEntry}/>
+                callback={this.onGuessEntry}
+                onSubmit={this.submitGuess}/>
             </div>
-            <button 
+            {/* <button 
               className="PlayerPanelRight-submitGuessButton u-color-1"
               onClick={this.submitGuess}
-            >guess</button>
+            >guess</button> */}
           </div> 
           }
         </div>
