@@ -241,38 +241,41 @@ router.post("/game/join", (req, res) => {
 
 router.put("/game/guess", (req, res) => {
   console.log(req.body);
-  Game.find({ _id: req.body.game_id }).then((games) => {
+  Game.find({ _id: req.body.game_id })
+  .then((games) => {
     const noGamesFound = games.length == 0;
     const emptyGuess = req.body.guess.length == 0;
     // TODO:  put this back in
-    const invalidUser = false;//req.body.user_id != games[0].guesser._id;
+    const invalidUser = req.body.user_id != games[0].guesser._id;
     
     if (noGamesFound || emptyGuess || invalidUser ) {
       res.status(400).send({ msg: "you are not allowed to guess here" });
-    } else {
-      let game = {...games[0]};
-      console.log(game._doc.guesses);
-      game._doc.guesses = game._doc.guesses.concat([req.body.guess]);
-      Game.findByIdAndUpdate(
-        (req.body.game_id),
-        game,
-        {new: true},
-        (err, todo) => {
-          console.log(err);
-          console.log(todo);
-        }
-      ).then((updatedGame) => {
-        socketManager.getIo().emit("guess", 
-        {
-          guesses: updatedGame._doc.guesses
-        });
-        if (games[0].word == req.body.guess) {
-          res.send({message: "correct"});
+    }
+    Game.findOne(
+      {_id: req.body.game_id},
+      function (err, game) {
+        if (game && game.guesses) {
+          let correct = req.body.guess == game.word;
+          game.guesses = game.guesses.concat([req.body.guess])
+          game.num_correct += 1;
+          // TODO: increment turn/word
+          game.save(function (err) {
+            if(err) {
+              console.log(err);
+                console.error('ERROR!');
+            }
+          })
+          if (correct) {
+            res.send({message: "correct"});
+          } else {
+            res.send({message: "incorrect"});
+          }
         } else {
-          res.send({message: "incorrect"});
+          res.send({message: "invalid game"});
         }
       });
-    }
+  }).catch((err) => {
+    console.log(err);
   })
 })
 

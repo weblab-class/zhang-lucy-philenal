@@ -5,8 +5,8 @@
 const Game = require("./models/game");
 
 // wow incredible how RFC
-const BOARD_WIDTH_BLOCKS = 3;
-const BOARD_HEIGHT_BLOCKS = 3;
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
 
 /* utils here */
 const getRandomOrder = () => { //playersId should be object of (info of user) playing game
@@ -25,7 +25,6 @@ const getRandomOrder = () => { //playersId should be object of (info of user) pl
     //sets players in the gameState to the new, ordered players list
     gameState.players = players
   };
-
 
 // Credits: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 const shuffle = (array) => {
@@ -82,6 +81,8 @@ const newGame = (req) => {
     words: [],
     guesses: [],
     guesser: null,
+    num_correct: 0,
+    num_incorrect: 0,
   });
 
   return newGame;
