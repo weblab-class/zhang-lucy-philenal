@@ -83,6 +83,7 @@ h2 {
 button {
     font-family: 'Alata', sans-serif;
     color: var(--text-color);
+    cursor: pointer;
   }
 form {
   flex-grow: 1;

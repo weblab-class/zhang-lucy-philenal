@@ -303,17 +303,24 @@ router.put("/game/guess", (req, res) => {
           game.guesses = game.guesses.concat([req.body.guess])
           game.num_correct += 1;
           // TODO: increment turn/word
-          game.save(function (err) {
+          game.save(/* function (err) {
             if(err) {
               console.log(err);
                 console.error('ERROR!');
             }
-          })
-          if (correct) {
-            res.send({message: "correct"});
-          } else {
-            res.send({message: "incorrect"});
-          }
+          } */).then((updatedGame) => {
+            if (correct) {
+              res.send({message: "correct"});
+            } else {
+              res.send({message: "incorrect"});
+            }
+            socketManager.getIo().emit("guesses", 
+            {
+              guesses: updatedGame.guesses,
+              game_id: updatedGame._id
+            })
+          });
+          
         } else {
           res.send({message: "invalid game"});
         }

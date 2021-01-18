@@ -39,10 +39,12 @@ class PlayerPanelRight extends Component {
         this.setState({guesses: res[0].guesses});
       }
     })
-    socket.on("guess", (guesses) => {
-      this.setState({
-        guesses: guesses.guesses,
-      })
+    socket.on("guesses", (guesses) => {
+      if (this.props.game_id === guesses.game_id){
+        this.setState({
+          guesses: guesses.guesses,
+        })
+      }
     })
   }
 
