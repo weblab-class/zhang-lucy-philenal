@@ -69,7 +69,8 @@ class Lobby extends Component {
         this.setState({
           players: players_and_game_id_object.players,
         }, ()=>{
-          console.log("updated players " + this.state.players);
+          console.log("updated players ");
+          console.log(this.state.players);
         })
       }
     });

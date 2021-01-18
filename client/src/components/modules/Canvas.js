@@ -114,7 +114,7 @@ class Canvas extends Component {
         console.log("cleareddd");
         this.setState({
           filled_blocks: updatedGame.board.num_filled,
-          pixels: updatedGame.pixels,
+          pixels: updatedGame.board.pixels,
         },()=>{console.log(this.state)})
       }
     });
@@ -123,7 +123,8 @@ class Canvas extends Component {
   render() {
     let pixels = [];
     if (this.state.pixels) {
-      console.log(this.state.pixels);
+      // let filledPixels = this.state.pixels.map((p)=>{p.filled});
+      // console.log(filledPixels);
       for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">
