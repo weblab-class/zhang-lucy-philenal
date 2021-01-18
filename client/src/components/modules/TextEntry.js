@@ -11,7 +11,6 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
 /**
  * Generic TextEntry component
  * @param callback callback function to parent component (onGuessEntry --> sets state of guess in parent)
- * @param guessesEntry (OPTIONAL) {Booolean} if textEntry came from PlayerPanelRight.js for guesses input
  * @param className the styling
  * @param onSubmit submitGuess() --> api calls to document guess in PlayerPanelRight.js
  */
@@ -24,6 +23,7 @@ class TextEntry extends Component {
     // Initialize Default State
     this.state = {
         text: "",
+        disableButton: false,
     };
   }
 
@@ -31,7 +31,6 @@ class TextEntry extends Component {
     // remember -- api calls go here!
  
   }
-
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -41,11 +40,20 @@ class TextEntry extends Component {
     this.setState({
       text: "",
     });
-    
   };
 
+  onCorrectGuess = (event) => {
+    // TODO
+  }
+
+  onKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      console.log('enter press here! ')
+      this.handleSubmit(event);
+    }
+  }
+
   onTextChange = (event) => {
-    
     this.setState({
       text: event.target.value,
     })
@@ -61,17 +69,8 @@ class TextEntry extends Component {
             type='text'
             value={this.state.text}
             onChange={this.onTextChange}
+            onKeyPress={this.onKeyPress}
         />
-        {/* if this textEntry is for guesses, show the button to submit */}
-        {this.props.guessesEntry ? <button
-          type="submit"
-          className="NewPostInput-button u-pointer"
-          value="Submit"
-          onClick={this.handleSubmit}
-        >
-          Submit
-        </button>: <div></div>}
-        
         </form>
       </>
     );

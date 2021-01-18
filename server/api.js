@@ -62,6 +62,7 @@ router.post("/game/new", (req, res) => {
 
 router.post("/user/leave", (req, res) => {
   console.log("what");
+  console.log(req.body);
   // console.log(_id==mongoose.Types.ObjectId(req.body.user_id));
   const filter = { _id: req.body.user_id };
   const update = { game_id: null };
@@ -91,17 +92,27 @@ router.post("/user/leave", (req, res) => {
       console.log("here");
       console.log(game);
       res.send({"success": true});
+  }).catch((err) => {
+    console.log("Error with user/leave");
+    console.log(err);
   });
 
   Game.findOne(filter2, 
     function (err, game) {
-    game.guesser = game.guesser._id == req.body.game_id ? null : game.guesser;
-    game.save(function (err) {
-        if(err) {
-            console.error('ERROR!');
-        }
-    });
-});
+      console.log(game);
+      game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
+      game.save(function (err) {
+          if(err) {
+              console.error('ERROR!');
+          }
+      });
+    }
+  ).then((res) => {
+    console.log(res);
+  }).catch((err) => {
+    console.log("Error with user/leave");
+    console.log(err);
+  });
 
 
 });
@@ -210,7 +221,8 @@ router.post("/game/join", (req, res) => {
   });
 
   console.log(req.body);
-  Game.findOne({_id: req.body.game_id}, 
+  Game.findOne(
+    {_id: req.body.game_id}, 
     function (err, game) {
       // if player not already in game
       if (game.players) {
@@ -250,52 +262,70 @@ router.post("/game/join", (req, res) => {
 
 router.put("/game/guess", (req, res) => {
   console.log(req.body);
-  Game.find({ _id: req.body.game_id }).then((games) => {
+  Game.find({ _id: req.body.game_id })
+  .then((games) => {
     const noGamesFound = games.length == 0;
     const emptyGuess = req.body.guess.length == 0;
     // TODO:  put this back in
-    const invalidUser = false;//req.body.user_id != games[0].guesser._id;
+    const invalidUser = req.body.user_id != games[0].guesser._id;
     
     if (noGamesFound || emptyGuess || invalidUser ) {
       res.status(400).send({ msg: "you are not allowed to guess here" });
-    } else {
-      let game = {...games[0]};
-      console.log(game._doc.guesses);
-      game._doc.guesses = game._doc.guesses.concat([req.body.guess]);
-      Game.findByIdAndUpdate(
-        (req.body.game_id),
-        game,
-        {new: true},
-        (err, todo) => {
-          console.log(err);
-          console.log(todo);
-        }
-      ).then((updatedGame) => {
-        socketManager.getIo().emit("guess", 
-        {
-          guesses: updatedGame._doc.guesses
-        });
-        if (games[0].word == req.body.guess) {
-          res.send({message: "correct"});
+    }
+    Game.findOne(
+      {_id: req.body.game_id},
+      function (err, game) {
+        if (game && game.guesses) {
+          let correct = req.body.guess == game.word;
+          game.guesses = game.guesses.concat([req.body.guess])
+          game.num_correct += 1;
+          // TODO: increment turn/word
+          game.save(function (err) {
+            if(err) {
+              console.log(err);
+                console.error('ERROR!');
+            }
+          })
+          if (correct) {
+            res.send({message: "correct"});
+          } else {
+            res.send({message: "incorrect"});
+          }
         } else {
-          res.send({message: "incorrect"});
+          res.send({message: "invalid game"});
         }
       });
-    }
+  }).catch((err) => {
+    console.log(err);
   })
 })
 
 router.put("/game/start", (req, res) => { //changes started --> true
-  const initializedGame = Logic.initializeGame(req.body.game);
-  console.log("init game");
-  console.log(initializedGame);
-  Game.findByIdAndUpdate(
-    (req.body.game_id),
-    initializedGame,
-    {new: true},
-    (err, todo) => {
-      console.log(err);
-      console.log(todo);
+  // const initializedGame = Logic.initializeGame(req.body.game);
+  // console.log("init game");
+  // console.log(initializedGame);
+  // Game.findByIdAndUpdate(
+  //   (req.body.game_id),
+  //   initializedGame,
+  //   {new: true},
+  //   (err, todo) => {
+  //     console.log(err);
+  //     console.log(todo);
+  //   }
+  Game.findOne(
+    {_id: req.body.game_id},
+    function(err, game) {
+      console.log(game);
+      game.guesser = game.players[0];
+      game.pixelers = game.players.slice(1,game.players.length);
+      game.started = true;
+
+      game.save(function (err) {
+        if(err) {
+          console.log(err);
+            console.error('ERROR! :(((');
+        }
+      });
     }
   ).then((game) => {
     //TODO: (philena) change this to socket room for higher efficiency!!!!

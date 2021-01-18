@@ -109,6 +109,7 @@ class Player extends Component {
 
     render() {
         console.log(this.state);
+        console.log(this.props);
         if (this.state.error) { //if there's error 
             return(<><Start/></>);
         } else if (!this.state.player || !this.state.game_id) { //if state hasn't been altered for player yet

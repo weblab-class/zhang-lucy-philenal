@@ -1,4 +1,4 @@
-.CanvasPanel-button {
+/* .CanvasPanel-button {
     height: 5rem;
     width: 5rem;
     border-radius: 0;
@@ -6,3 +6,16 @@
     color: var(--border-color);
     font-family: var(--font-primary);
 }
+
+.CanvasPanel-footer {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.CanvasPanel-child {
+
+}
+ */

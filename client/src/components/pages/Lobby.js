@@ -88,32 +88,16 @@ class Lobby extends Component {
  
   // TODO: fix this put request
   startGame = () => {
-    console.log("Start game!!");
-    get("/api/game/get", {
+    put("/api/game/start", {
       game_id: this.props.location.state.game_id
     }).then((res) => {
-      console.log(this.props.location.state.game_id);
-      console.log(res); // list game objects
-
-      // make a copy
-      let game = {...res[0]};
-
-      // start the game
-      game.started = true; //TODO: make this more secure
-
-      put("/api/game/start", {game: game, game_id: this.props.location.state.game_id})
-      .then((res) => {
-        console.log(res)
-        navigate("/player", {state: {
-          user_id: this.props.location.state._id, 
-          game_id: this.props.location.state.game_id,
-         }});
-      }).catch((err) => {
-        console.log(err)
-      });
-
+      console.log(res)
+      navigate("/player", {state: {
+        user_id: this.props.location.state.user_id, 
+        game_id: this.props.location.state.game_id,
+        }});
     }).catch((err) => {
-      console.log(err);
+      console.log(err)
     });
   }
 

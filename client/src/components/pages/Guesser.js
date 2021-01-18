@@ -66,12 +66,14 @@ class Guesser extends Component {
 
   onCorrectGuess = (word) => {
     this.setState({word: word});
+    this.setState({correctGuess: true});
   }
 
   leaveGame = () => {
+    console.log(this.props);
     post("/api/user/leave", {
       user_id: this.props.user_id,
-      // game_id: this.props.game_id,
+      game_id: this.props.game_id,
     }).then((res) => {
       if (res.success) { 
         navigate("/");
@@ -112,7 +114,7 @@ class Guesser extends Component {
               game_id={this.props.game_id}
               isMyTurn={true} //TODO: unhardcode, make more secure
               isGuesser={true} //TODO: unhardcode
-              /* word={this.state.word} */
+              correctGuess={this.state.correctGuess}
             /> } 
           </div>
           <div className="Player-subPanel">
