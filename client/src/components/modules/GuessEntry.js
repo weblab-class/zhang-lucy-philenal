@@ -24,7 +24,7 @@ class GuessEntry extends Component {
     this.state = {
         text: "",
         disableButton: false,
-        areYouSure: true,
+        areYouSure: false,
     };
   }
 
