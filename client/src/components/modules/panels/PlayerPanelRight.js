@@ -3,7 +3,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { Link } from "@reach/router";
 import { socket } from "../../../client-socket.js";
 
-import TextEntry from "../TextEntry.js";
+import GuessEntry from "../GuessEntry.js";
 import "../../../utilities.css";
 import "./PlayerPanel.css";
 import "./PlayerPanelRight.css";
@@ -107,8 +107,7 @@ class PlayerPanelRight extends Component {
           {(!this.props.isGuesser) &&
           <div className="PlayerPanelRight-guesser">
             <div className="PlayerPanelRight-guessTextEntryContainer">
-              <TextEntry 
-                guessesEntry={true} //TODO: unhardcode later?
+              <GuessEntry 
                 className="PlayerPanelRight-guessTextEntry" 
                 callback={this.onGuessEntry}
                 onSubmit={this.submitGuess}/>

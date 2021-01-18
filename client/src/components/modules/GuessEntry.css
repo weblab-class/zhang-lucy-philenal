@@ -1,0 +1,25 @@
+.GuessEntry-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+.GuessEntry-child {
+    flex-basis: auto;
+}
+
+.GuessEntry-quitConfirmationContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+    background-color: blanchedalmond;
+    margin-top: .25rem;
+    padding: 0.25rem;
+}
+
+.GuessEntry-quitConfirmationChild {
+
+}
