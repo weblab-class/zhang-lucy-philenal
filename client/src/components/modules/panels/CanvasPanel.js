@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
 import "./PlayerPanel.css";
+import "./CanvasPanel.css";
+import "../Canvas.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
 import { post } from "../../../utilities";
@@ -72,6 +74,15 @@ class CanvasPanel extends Component {
     
   }
 
+  nextWord = () => {
+    post("api/game/nextWord", 
+    {
+      game_id: this.props.game_id
+    }).then((game) => {
+      console.log("Next word is " + game.word)
+    })
+  }
+
   render() {
     return (
       <>
@@ -99,6 +110,11 @@ class CanvasPanel extends Component {
               </div>
               <div className="CanvasPanel-child">
                 {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
+              
+              {/* Philena's changes */}
+                <button className="Canvas-footer-button u-pointer" onClick={this.nextWord}>
+                  next word
+                </button>
               </div>
 
             </div>

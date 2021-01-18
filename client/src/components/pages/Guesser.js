@@ -20,6 +20,8 @@ import { get, post, put} from "../../utilities";
  * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
  * @param {Number} turn
+ * @param {Number} wordListLength
+ * @param {Number} wordLength
  */
 class Guesser extends Component {
   constructor(props) {
@@ -36,8 +38,9 @@ class Guesser extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    get("/api/game/get", {game_id: this.props.game_id})
-    .then((res) => {
+    get("/api/game/get", {
+      game_id: this.props.game_id
+    }).then((res) => {
       this.setState({
         canvas: res[0].board, 
         pixelers: res[0].pixelers, 
@@ -92,7 +95,7 @@ class Guesser extends Component {
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
               word={this.state.word}
-              wordLength={5}//this.state.word.length} 
+              wordLength={this.props.wordLength}//this.state.word.length} 
               // TODO^^^^^^ very not SFB
               turn={this.state.turn}
               isGuesser={true}
@@ -114,9 +117,10 @@ class Guesser extends Component {
           </div>
           <div className="Player-subPanel">
             <PlayerPanelRight
-            game_id={this.props.game_id}
-            user_id={this.props.user_id}
-            callback={this.onCorrectGuess}
+              game_id={this.props.game_id}
+              user_id={this.props.user_id}
+              callback={this.onCorrectGuess}
+              isGuesser={true}
             />
           </div>
         </div>

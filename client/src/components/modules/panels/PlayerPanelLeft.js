@@ -16,7 +16,7 @@ import { get } from "../../../utilities";
 
 /* let turn = 0; */ //whose turn it is -- max is players.length-1 (0-indexed)
 
-const word = "hello"
+// const word = "hello"
 
 
 /**
@@ -54,7 +54,7 @@ class PlayerPanelLeft extends Component {
       };
     } else {
       this.state = {
-        wordText: word,
+        wordText: this.props.word,
         error: false,
       };
     }

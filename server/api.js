@@ -134,6 +134,27 @@ router.post("/game/endTurn", (req, res) => {
   
 });
 
+
+//updates game with next word in list
+//TODO: if no other word left in list, don't do this??
+//TODO: save the previous game image in game schema
+//TODO: make nextWord random using Logic.getNextWord()
+router.post("/game/nextWord", (req, res) => {
+  Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
+    game.word_idx += 1; //moves to next idx of words
+    game.word = game.words[game.word_idx]; //moves to next word
+    game.players = Logic.rotatePlayers(game.players) //rotates players
+    return game.save().then((updatedGame) => { //updates game document and then shouts the change
+      socketManager.getIo().emit("nextWord", 
+      {
+        game: updatedGame,
+        game_id: updatedGame._id,
+      });
+      res.send(updatedGame);
+    })
+  })
+});
+
 router.get("/user/get", (req, res) => {
   console.log(req.query);
   

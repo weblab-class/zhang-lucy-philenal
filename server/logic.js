@@ -8,6 +8,9 @@ const Game = require("./models/game");
 const BOARD_WIDTH_BLOCKS = 20;
 const BOARD_HEIGHT_BLOCKS = 20;
 
+// hardcoded wordpacks
+const wordPacks = {"default": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby"]};
+
 /* utils here */
 const getRandomOrder = () => { //playersId should be object of (info of user) playing game
     
@@ -46,6 +49,16 @@ const shuffle = (array) => {
   return array;
 }
 
+const rotatePlayers = (array) => {
+  const first = array[0];
+  for (let i=0; i < array.length-1; i++){ //rotates by shifting order up (4 --> 3)
+    array[i] = array[(i+1)%array.length]
+  }
+  array[array.length-1] = first;
+
+  return array
+}
+
 // Called by newgame POST
 const newGame = (req) => {
   const newPixels = [];
@@ -75,10 +88,10 @@ const newGame = (req) => {
     round: null,
     turn: null,
     wordpack: "default",
-    word: "bobby",
-    word_length: 5,
+    word: wordPacks["default"][0],
+    word_length: wordPacks["default"][0].length,
     word_idx: 0,
-    words: [],
+    words: wordPacks["default"],
     guesses: [],
     guesser: null,
     num_correct: 0,
@@ -88,6 +101,7 @@ const newGame = (req) => {
   return newGame;
 }
 
+//TODO: make this random!!
 // only draw a word that hasn't been drawn yet
 const getNextWord = (gameSchema) => {
   return words[word_idx];
@@ -181,4 +195,5 @@ module.exports = {
     gameState,
     addPlayer,
     removePlayer,
+    rotatePlayers
   };

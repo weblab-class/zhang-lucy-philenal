@@ -24,6 +24,7 @@ import { get, post } from "../../utilities";
   * Proptypes
  * @param {PlayerObject[]} players
  * @param {String} word
+ * @param {Number} wordListLength
  * @param {Number} turn
  */
 class Pixeler extends Component {
@@ -62,6 +63,7 @@ class Pixeler extends Component {
     .then((res) => {
       this.setState({
         canvas: res[0].board, 
+        word: res[0].word, 
         pixelers: res[0].pixelers, 
         guesser: res[0].guesser}, () => {
         console.log("THIS IS THE PIXELER CONSOLE LOG: " + this.state);
@@ -144,9 +146,10 @@ class Pixeler extends Component {
             </div>
             <div className="Player-subPanel">
               <PlayerPanelRight
-              game_id={this.props.game_id}
-              user_id={this.props.user_id}
-              isGuesser={false}/>
+                game_id={this.props.game_id}
+                user_id={this.props.user_id}
+                isGuesser={false}
+              />
             </div>
           </div>
         </>
