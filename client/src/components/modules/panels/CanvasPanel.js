@@ -48,7 +48,16 @@ class CanvasPanel extends Component {
           })
         }
       }
-    })
+    });
+
+
+    socket.on("cleared_canvas", (updatedGame) => {
+      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+        this.setState({
+          num_filled: updatedGame.board.num_filled,
+        });
+      }
+    });
 
     
   }
@@ -84,6 +93,8 @@ class CanvasPanel extends Component {
       console.log("Next word is " + game.word)
     })
   }
+
+  
 
   render() {
     return (
