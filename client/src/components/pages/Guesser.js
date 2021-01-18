@@ -109,10 +109,11 @@ class Guesser extends Component {
           <div className="Player-subContainer">
             {(this.state.canvas.width) &&  
             <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} 
+              canvas_height_blocks={this.state.canvas.width} // TODO: remove
               canvas_width_blocks={this.state.canvas.height} 
               canvas_pixels={this.state.canvas.pixels}
               game_id={this.props.game_id}
+              user_id={this.props.user_id}
               isMyTurn={true} //TODO: unhardcode, make more secure
               isGuesser={true} //TODO: unhardcode
               correctGuess={this.state.correctGuess}

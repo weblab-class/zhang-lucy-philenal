@@ -93,8 +93,9 @@ class CanvasPanel extends Component {
             <Canvas 
               canvas_height_blocks={this.props.canvas_height_blocks} 
               canvas_width_blocks={this.props.canvas_width_blocks} 
-              pixels={this.props.canvas_pixels} 
+              // pixels={this.props.canvas_pixels} 
               game_id={this.props.game_id}
+              user_id={this.props.user_id}
               isGuesser={this.props.isGuesser}
               isMyTurn={this.props.isMyTurn}
               callback={this.props.isGuesser ? null: this.onPixelClicked}
@@ -111,13 +112,21 @@ class CanvasPanel extends Component {
                 {this.props.correctGuess && <span style={{color: "#25e859"}}>correct!</span>}
               </div>
               <div className="CanvasPanel-child">
-                {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
+                {(this.props.isMyTurn && !this.props.isGuesser) && 
+                <div>
+                <button 
+                  onClick={this.endTurn} 
+                  className="CanvasPanel-button u-color-1"
+                >end turn</button>
                 <button 
                   className="Canvas-footer-button u-pointer" 
                   onClick={this.props.clearCanvas}
                 >
                   clear canvas
                 </button>
+                </div>
+                }
+                
                 <button className="Canvas-footer-button u-pointer" onClick={this.nextWord}>
                   next word
                 </button>

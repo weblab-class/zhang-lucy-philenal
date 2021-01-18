@@ -211,7 +211,7 @@ router.get("/game/player_status", (req, res) => {
 });
 
 router.get("/game/canvas", (req, res) => {
-  // TODO: Check if the user is a pixeler
+  // TODO: Check if the user is in the game
   // console.log("what");
   Game.find({ _id: req.query.game_id }).then((games) => {
     res.send(games.map((g) => g.board));
@@ -387,6 +387,7 @@ router.post("/board/clear_pixels", (req, res) => {
     socketManager.getIo().emit("cleared_canvas", 
     {
       board: updatedGame.board, 
+      pixels: updatedGame.board.pixels, 
       _id: updatedGame._id, 
     });
     res.send({board: updatedGame.board});
