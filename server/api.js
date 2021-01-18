@@ -265,17 +265,19 @@ router.put("/game/guess", (req, res) => {
 })
 
 router.put("/game/start", (req, res) => { //changes started --> true
-  const initializedGame = Logic.initializeGame(req.body.game);
-  console.log("init game");
-  console.log(initializedGame);
-  Game.findByIdAndUpdate(
-    (req.body.game_id),
-    initializedGame,
-    {new: true},
-    (err, todo) => {
-      console.log(err);
-      console.log(todo);
-    }
+  // const initializedGame = Logic.initializeGame(req.body.game);
+  // console.log("init game");
+  // console.log(initializedGame);
+  // Game.findByIdAndUpdate(
+  //   (req.body.game_id),
+  //   initializedGame,
+  //   {new: true},
+  //   (err, todo) => {
+  //     console.log(err);
+  //     console.log(todo);
+  //   }
+  Game.findOne(
+    
   ).then((game) => {
     //TODO: (philena) change this to socket room for higher efficiency!!!!
     //tells everyone that game started!

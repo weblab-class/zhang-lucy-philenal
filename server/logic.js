@@ -101,6 +101,7 @@ const initializeGame = (game) => {
   // game.players = shuffle(game.players);
   game.guesser = game.players[0];
   game.pixelers = game.players.slice(1,game.players.length);
+  game.started = true;
   return game;
 }
 
