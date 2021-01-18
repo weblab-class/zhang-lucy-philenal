@@ -66,7 +66,16 @@ class PixelBlock extends Component {
           })
         }
       }
-    })
+    });
+
+    socket.on("cleared_canvas", (updatedGame) => {
+      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+        console.log("cleareddd");
+        this.setState({
+          filled: false,
+        },()=>{console.log(this.state)})
+      }
+    });
   }
 
   render() {
