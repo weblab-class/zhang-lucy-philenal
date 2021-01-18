@@ -67,9 +67,10 @@ class Guesser extends Component {
   }
 
   leaveGame = () => {
+    console.log(this.props);
     post("/api/user/leave", {
       user_id: this.props.user_id,
-      // game_id: this.props.game_id,
+      game_id: this.props.game_id,
     }).then((res) => {
       if (res.success) { 
         navigate("/");
@@ -110,7 +111,6 @@ class Guesser extends Component {
               game_id={this.props.game_id}
               isMyTurn={true} //TODO: unhardcode, make more secure
               isGuesser={true} //TODO: unhardcode
-              /* word={this.state.word} */
             /> } 
           </div>
           <div className="Player-subPanel">

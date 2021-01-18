@@ -88,11 +88,12 @@ class Lobby extends Component {
  
   // TODO: fix this put request
   startGame = () => {
-    put("/api/game/start", {game_id: this.props.location.state.game_id})
-    .then((res) => {
+    put("/api/game/start", {
+      game_id: this.props.location.state.game_id
+    }).then((res) => {
       console.log(res)
       navigate("/player", {state: {
-        user_id: this.props.location.state._id, 
+        user_id: this.props.location.state.user_id, 
         game_id: this.props.location.state.game_id,
         }});
     }).catch((err) => {

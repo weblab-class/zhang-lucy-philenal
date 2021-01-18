@@ -11,7 +11,7 @@ import CanvasPanel from "../modules/panels/CanvasPanel";
 
 import "./Player.css";
 
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
@@ -63,7 +63,10 @@ class Pixeler extends Component {
 
     get("/api/game/get", {game_id: this.props.game_id})
     .then((res) => {
-      this.setState({canvas: res[0].board, pixelers: res[0].pixelers, guesser: res[0].guesser}, () => {
+      this.setState({
+        canvas: res[0].board, 
+        pixelers: res[0].pixelers, 
+        guesser: res[0].guesser}, () => {
         console.log("THIS IS THE PIXELER CONSOLE LOG: " + this.state);
       });
     })
@@ -127,23 +130,25 @@ class Pixeler extends Component {
               <PlayerPanelLeft 
                 guesser={this.state.guesser} 
                 pixelers={this.state.pixelers} 
-                word={this.props.word} 
-                turn={this.props.turn} 
+                word={this.state.word} 
+                turn={this.state.turn} 
                 leaveGame={this.leaveGame}
                 />
             </div>
             <div className="Player-subContainer">
-              {(this.state.canvas.width) ?  <CanvasPanel 
+              {(this.state.canvas.width) &&  <CanvasPanel 
                 canvas_height_blocks={this.state.canvas.width} 
                 canvas_width_blocks={this.state.canvas.height} 
                 canvas_pixels={this.state.canvas.pixels}
                 game_id={this.props.game_id}
                 isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn]._id===this.props.user_id}
                 isGuesser={false} //change to make more secure
-              /> : <div></div>} 
+              />} 
             </div>
             <div className="Player-subPanel">
               <PlayerPanelRight
+              game_id={this.props.game_id}
+              user_id={this.props.user_id}
               isGuesser={false}/>
             </div>
           </div>

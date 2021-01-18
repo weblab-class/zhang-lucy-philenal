@@ -62,6 +62,7 @@ router.post("/game/new", (req, res) => {
 
 router.post("/user/leave", (req, res) => {
   console.log("what");
+  console.log(req.body);
   // console.log(_id==mongoose.Types.ObjectId(req.body.user_id));
   const filter = { _id: req.body.user_id };
   const update = { game_id: null };
@@ -91,17 +92,27 @@ router.post("/user/leave", (req, res) => {
       console.log("here");
       console.log(game);
       res.send({"success": true});
+  }).catch((err) => {
+    console.log("Error with user/leave");
+    console.log(err);
   });
 
   Game.findOne(filter2, 
     function (err, game) {
-    game.guesser = game.guesser._id == req.body.game_id ? null : game.guesser;
-    game.save(function (err) {
-        if(err) {
-            console.error('ERROR!');
-        }
-    });
-});
+      console.log(game);
+      game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
+      game.save(function (err) {
+          if(err) {
+              console.error('ERROR!');
+          }
+      });
+    }
+  ).then((res) => {
+    console.log(res);
+  }).catch((err) => {
+    console.log("Error with user/leave");
+    console.log(err);
+  });
 
 
 });
@@ -189,7 +200,8 @@ router.post("/game/join", (req, res) => {
   });
 
   console.log(req.body);
-  Game.findOne({_id: req.body.game_id}, 
+  Game.findOne(
+    {_id: req.body.game_id}, 
     function (err, game) {
       // if player not already in game
       if (game.players) {
@@ -277,7 +289,20 @@ router.put("/game/start", (req, res) => { //changes started --> true
   //     console.log(todo);
   //   }
   Game.findOne(
-    
+    {_id: req.body.game_id},
+    function(err, game) {
+      console.log(game);
+      game.guesser = game.players[0];
+      game.pixelers = game.players.slice(1,game.players.length);
+      game.started = true;
+
+      game.save(function (err) {
+        if(err) {
+          console.log(err);
+            console.error('ERROR! :(((');
+        }
+      });
+    }
   ).then((game) => {
     //TODO: (philena) change this to socket room for higher efficiency!!!!
     //tells everyone that game started!
