@@ -7,6 +7,10 @@
 |
 */
 
+// lol please centralize this
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
+
 var mongoose = require('mongoose');
 
 const express = require("express");
@@ -176,28 +180,31 @@ router.get("/game/player_status", (req, res) => {
   User.find({_id: req.query.user_id}).then((users) => {
     if (users.length == 0 || !users[0].game_id) {
       res.send({status:"not in game"});
-    } else {
-      Game.find({ _id: users[0].game_id }).then((games) => {
-        console.log("found games:");
-        console.log(games);
-        if (games.length == 0) {
-          res.send({status:"not in game"});
-        } else {
-          console.log(`USER: ${req.query.user_id}`);
-          if (games[0].guesser._id == req.query.user_id) {
-            res.send({ game_id: games[0]._id, status: "guesser" });
-          } else {
-            for (let i = 0; i < games[0].players.length; i++) {
-              if (games[0].players[i]._id == req.query.user_id) {
-                res.send({ game_id: games[0]._id, status: "pixeler" });
-              }
-            }
-            res.send({status:"not in game"});
-          }
-        }
-      });
+      return;
+    } 
+    Game.find({ _id: users[0].game_id 
+    }).then((games) => {
+      console.log("found games:");
+      console.log(games);
+      if (games.length == 0) {
+        res.send({status:"not in game"});
+        return;
+      } 
+      console.log(`USER: ${req.query.user_id}`);
+      if (games[0].guesser && games[0].guesser._id == req.query.user_id) {
+        res.send({ game_id: games[0]._id, status: "guesser" });
+        return;
+      } 
 
-    }
+      for (let i = 0; i < games[0].players.length; i++) {
+        if (games[0].players[i]._id == req.query.user_id) {
+          res.send({ game_id: games[0]._id, status: "pixeler" });
+        }
+      }
+      res.send({status:"not in game"});
+    }).catch((err) => {
+      console.log(err);
+    });
   })
 
 
@@ -300,18 +307,7 @@ router.put("/game/guess", (req, res) => {
   })
 })
 
-router.put("/game/start", (req, res) => { //changes started --> true
-  // const initializedGame = Logic.initializeGame(req.body.game);
-  // console.log("init game");
-  // console.log(initializedGame);
-  // Game.findByIdAndUpdate(
-  //   (req.body.game_id),
-  //   initializedGame,
-  //   {new: true},
-  //   (err, todo) => {
-  //     console.log(err);
-  //     console.log(todo);
-  //   }
+router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
     function(err, game) {
@@ -362,6 +358,42 @@ router.put("/game/pixel", (req, res) => {
   //TODO: change this idk
 
 });
+
+router.post("/board/clear_pixels", (req, res) => {
+  console.log(req.body);
+  Game.findOne({_id: req.body.game_id},
+    function(err, game) {
+      if (!game || !game.board) {
+        res.status(400).send({ msg: "game not found" });
+        return;
+      }
+      console.log(game);
+      // if (game && game.board) {
+        game.board.num_filled = 0;
+        for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
+          game.board.pixels[i].color = "none";
+          game.board.pixels[i].filled = false;
+        }
+        game.save(function (err) {
+          if(err) {
+              console.error('ERROR!');
+          }
+        });
+    }
+  ).then((updatedGame) => {
+    // TODO: Fix this
+    console.log("updated game!!!");
+    console.log(updatedGame);
+    socketManager.getIo().emit("cleared_canvas", 
+    {
+      board: updatedGame.board, 
+      _id: updatedGame._id, 
+    });
+    res.send({board: updatedGame.board});
+  }).catch((err) => {
+    console.log(err);
+  });
+})
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

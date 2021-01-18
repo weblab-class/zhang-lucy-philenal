@@ -111,6 +111,17 @@ class Pixeler extends Component {
     })
   }
 
+  clearCanvas = () => {
+    post("/api/board/clear_pixels", {game_id: this.props.game_id
+    }).then((res) => {
+      if (res && res.board) {
+        this.setState({pixels: res.board.pixels});
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
     /* console.log("TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id) */
     console.log("turn number " + this.props.turn);
@@ -144,7 +155,8 @@ class Pixeler extends Component {
                 canvas_pixels={this.state.canvas.pixels}
                 game_id={this.props.game_id}
                 isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn]._id===this.props.user_id}
-                isGuesser={false} //change to make more secure
+                isGuesser={false}
+                clearCanvas={this.clearCanvas}
               />} 
             </div>
             <div className="Player-subPanel">

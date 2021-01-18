@@ -6,7 +6,7 @@ import "../../utilities.css";
 import "./Canvas.css";
 import board from "../../../../server/models/board.js";
 
-import { get, put } from "../../utilities";
+import { get, post, put } from "../../utilities";
 
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
@@ -99,7 +99,17 @@ class Canvas extends Component {
           filled_blocks: updatedGame.board.num_filled,
         })
       }
-    })
+    });
+
+    socket.on("cleared_canvas", (updatedGame) => {
+      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+
+        this.setState({
+          filled_blocks: updatedGame.board.num_filled,
+          pixels: updatedGame.board.pixels,
+        })
+      }
+    });
   }
 
   render() {

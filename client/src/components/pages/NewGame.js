@@ -68,7 +68,7 @@ class NewGame extends Component {
           this.setState({error: true});
         }); 
       } else {
-        console.log(`error: ${err}`);
+        console.log(`error`);
         this.setState({error: true});
       }
       

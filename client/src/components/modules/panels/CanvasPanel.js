@@ -112,8 +112,12 @@ class CanvasPanel extends Component {
               </div>
               <div className="CanvasPanel-child">
                 {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
-              
-              {/* Philena's changes */}
+                <button 
+                  className="Canvas-footer-button u-pointer" 
+                  onClick={this.props.clearCanvas}
+                >
+                  clear canvas
+                </button>
                 <button className="Canvas-footer-button u-pointer" onClick={this.nextWord}>
                   next word
                 </button>
