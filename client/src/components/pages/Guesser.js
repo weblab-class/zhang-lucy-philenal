@@ -64,6 +64,7 @@ class Guesser extends Component {
 
   onCorrectGuess = (word) => {
     this.setState({word: word});
+    this.setState({correctGuess: true});
   }
 
   leaveGame = () => {
@@ -111,6 +112,7 @@ class Guesser extends Component {
               game_id={this.props.game_id}
               isMyTurn={true} //TODO: unhardcode, make more secure
               isGuesser={true} //TODO: unhardcode
+              correctGuess={this.state.correctGuess}
             /> } 
           </div>
           <div className="Player-subPanel">

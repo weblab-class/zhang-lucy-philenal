@@ -24,6 +24,7 @@ class TextEntry extends Component {
     // Initialize Default State
     this.state = {
         text: "",
+        disableButton: false,
     };
   }
 
@@ -31,7 +32,6 @@ class TextEntry extends Component {
     // remember -- api calls go here!
  
   }
-
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -41,8 +41,11 @@ class TextEntry extends Component {
     this.setState({
       text: "",
     });
-    
   };
+
+  onCorrectGuess = (event) => {
+    // TODO
+  }
 
   onTextChange = (event) => {
     
@@ -63,14 +66,15 @@ class TextEntry extends Component {
             onChange={this.onTextChange}
         />
         {/* if this textEntry is for guesses, show the button to submit */}
-        {this.props.guessesEntry ? <button
+        {this.props.guessesEntry && <button
           type="submit"
           className="NewPostInput-button u-pointer"
           value="Submit"
           onClick={this.handleSubmit}
+          disabled={this.state.disableButton}
         >
           Submit
-        </button>: <div></div>}
+        </button>}
         
         </form>
       </>

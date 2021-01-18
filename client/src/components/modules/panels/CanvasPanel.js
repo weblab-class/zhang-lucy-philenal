@@ -88,12 +88,21 @@ class CanvasPanel extends Component {
               isMyTurn={this.props.isMyTurn}
               callback={this.props.isGuesser ? null: this.onPixelClicked}
             />
-            <div className="Canvas-footer">
+            <div className="CanvasPanel-footer">
               {/* pixels remaining: {this.state.num_filled} */}
-              pixels filled: {this.state.num_filled}
+              <div className="CanvasPanel-child">
+                pixels filled: {this.state.num_filled}
+              </div>
               {console.log(this.props.isMyTurn && !this.props.isGuesser)}
               {/* if it's your turn and you're not the guesser, then show the end turn button */}
-              {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
+              
+              <div className="CanvasPanel-child">
+                {this.props.correctGuess && <span style={{color: "#25e859"}}>correct!</span>}
+              </div>
+              <div className="CanvasPanel-child">
+                {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
+              </div>
+
             </div>
           </div>
           {/* TODO (philena): Make this prettier */}
