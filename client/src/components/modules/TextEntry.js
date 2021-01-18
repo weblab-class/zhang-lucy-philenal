@@ -39,7 +39,22 @@ class TextEntry extends Component {
     this.setState({text: ""});
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.callback(event.target.value).then(()=>{
+      this.props.onSubmit && this.props.onSubmit(this.state.text);
+      this.setState({
+        text: "",
+      });
+    })
+    
+  };
+
   onTextChange = (event) => {
+    
+    this.setState({
+      text: event.target.value,
+    })
     this.props.callback(event.target.value);
   }
 
@@ -50,8 +65,17 @@ class TextEntry extends Component {
         <form>
         <input
             type='text'
+            value={this.state.text}
             onChange={this.onTextChange}
         />
+        <button
+          type="submit"
+          className="NewPostInput-button u-pointer"
+          value="Submit"
+          onClick={this.handleSubmit}
+        >
+          Submit
+        </button>
         </form>
       </>
     );
