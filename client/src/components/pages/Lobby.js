@@ -73,6 +73,7 @@ class Lobby extends Component {
 
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
+      console.log("started socket works! and props game id " + this.props.location.state.game_id + " and game id " + game_id);
       if (this.props.location.state.game_id === game_id) { //if game that started is your game_id
         // TODO: maybe
         navigate("/player", {state: {
@@ -88,7 +89,7 @@ class Lobby extends Component {
     put("/api/game/start", {
       game_id: this.props.location.state.game_id
     }).then((res) => {
-      console.log(res)
+      console.log("this is right before we navigate to /player " + res)
       navigate("/player", {state: {
         user_id: this.props.location.state.user_id, 
         game_id: this.props.location.state.game_id,

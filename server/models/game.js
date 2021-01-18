@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   name: String,
   _id: String,
   game_id: String,
+  guessed_imgs: [String], // board id's  
   googleid: String,
 });
 

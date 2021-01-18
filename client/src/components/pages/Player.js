@@ -110,7 +110,7 @@ class Player extends Component {
         console.log(this.props);
         if (this.state.error) { //if there's error 
             return(<><Start/></>);
-        } else if (!this.state.player || !this.state.game_id) { //if state hasn't been altered for player yet
+        } else if (!this.state.player || !this.state.game_id || !this.state.word) { //if state hasn't been altered for player yet
             return (<div></div>)
         } else {
             return (

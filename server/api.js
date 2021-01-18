@@ -327,24 +327,25 @@ router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
     function(err, game) {
-      console.log(game);
+      console.log("my start api " + game);
       game.guesser = game.players[0];
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
 
-      game.save(function (err) {
+      game.save(/* function (err) {
         if(err) {
           console.log(err);
             console.error('ERROR! :(((');
         }
-      });
-    }
-  ).then((game) => {
-    //TODO: (philena) change this to socket room for higher efficiency!!!!
-    //tells everyone that game started!
-    socketManager.getIo().emit("game_id_started", req.body.game_id);
-    res.send(game);
-  });
+      } */).then((updatedGame) => {
+            //TODO: (philena) change this to socket room for higher efficiency!!!!
+            //tells everyone that game started!
+            console.log("before socket manager start");
+            socketManager.getIo().emit("game_id_started", req.body.game_id);
+            res.send(updatedGame);
+          });
+    });
+ 
   
 });
 
