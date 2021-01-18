@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
 import "./PlayerPanel.css";
+import "./CanvasPanel.css";
+import "../Canvas.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
 import { post } from "../../../utilities";
@@ -74,6 +76,15 @@ class CanvasPanel extends Component {
     
   }
 
+  nextWord = () => {
+    post("api/game/nextWord", 
+    {
+      game_id: this.props.game_id
+    }).then((game) => {
+      console.log("Next word is " + game.word)
+    })
+  }
+
   render() {
     return (
       <>
@@ -90,10 +101,17 @@ class CanvasPanel extends Component {
             />
             <div className="Canvas-footer">
               {/* pixels remaining: {this.state.num_filled} */}
-              pixels filled: {this.state.num_filled}
-              {console.log(this.props.isMyTurn && !this.props.isGuesser)}
-              {/* if it's your turn and you're not the guesser, then show the end turn button */}
-              {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
+              <div>
+                pixels filled: {this.state.num_filled}
+                {console.log(this.props.isMyTurn && !this.props.isGuesser)}
+                {/* if it's your turn and you're not the guesser, then show the end turn button */}
+                {(this.props.isMyTurn && !this.props.isGuesser) ? <button onClick={this.endTurn} className="CanvasPanel-button u-color-1">end turn</button>: <div></div>}
+              </div>
+              <div>
+                <button className="Canvas-footer-button u-pointer" onClick={this.nextWord}>
+                  next word
+                </button>
+              </div>
             </div>
           </div>
           {/* TODO (philena): Make this prettier */}

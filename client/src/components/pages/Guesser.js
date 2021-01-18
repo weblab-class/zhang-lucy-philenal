@@ -23,6 +23,8 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
  * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
  * @param {Number} turn
+ * @param {Number} wordListLength
+ * @param {Number} wordLength
  */
 class Guesser extends Component {
   constructor(props) {
@@ -93,7 +95,7 @@ class Guesser extends Component {
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
               word={this.state.word}
-              wordLength={5}//this.state.word.length} 
+              wordLength={this.props.wordLength}//this.state.word.length} 
               // TODO^^^^^^ very not SFB
               turn={this.state.turn}
               isGuesser={true}

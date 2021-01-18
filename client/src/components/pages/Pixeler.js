@@ -27,6 +27,7 @@ const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.goo
   * Proptypes
  * @param {PlayerObject[]} players
  * @param {String} word
+ * @param {Number} wordListLength
  * @param {Number} turn
  */
 class Pixeler extends Component {

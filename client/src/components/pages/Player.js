@@ -16,14 +16,14 @@ import Pixeler from "./Pixeler";
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 /**
- * This is the page view of a player, either Pixeler or Guesser. Keeps track of turn number.
+ * This is the page view of a player, either Pixeler or Guesser. Keeps track of turn number, word, and wordlistlength.
  * 
  * @param game_id The ID of the game
  * @param user_id The google ID of the particular player
  * 
   * Proptypes
  * @param {PlayerObject[]} players
- * @param {String} word
+ * @param {String} word make it not a prop??
  */
 class Player extends Component {
     constructor(props) {
@@ -36,6 +36,8 @@ class Player extends Component {
         this.state = {
             player: null,
             error: false,
+            word: null,
+            wordListLength: null,
             turn: 0, //TODO: if turn exceeds number of players .. ?
         };
     }
@@ -46,7 +48,12 @@ class Player extends Component {
         if (!this.props.location.state.user_id) {
             navigate("/")
         }
-        
+        get("/api/game/get", {
+            game_id: this.props.location.state.game_id,
+        }).then((res) => {
+            this.setState({word: res[0].word, wordListLength: res[0].words.length});
+        })
+
         get("/api/game/player_status", {
             user_id: this.props.location.state.user_id,
         }).then((res) => {
@@ -70,7 +77,7 @@ class Player extends Component {
         }).catch((err) => {
             console.log(err);
         });
-
+        
         //listens for turn change, updates turn
         socket.on("endedTurn", (updatedGame)=>{
             console.log("the socket for ending turn worked");
@@ -86,6 +93,18 @@ class Player extends Component {
             };
             
         })
+
+        //listens for next word, updates word
+        socket.on("nextWord", (updatedGame) =>{
+            if (this.props.location.state.game_id === updatedGame.game_id)
+            {
+                this.setState({
+                    word: updatedGame.game.word,
+                }, ()=> {
+                    console.log("the updated word is " + this.state.word);
+                })
+            };
+        })
     }
 
     render() {
@@ -98,8 +117,8 @@ class Player extends Component {
             return (
                 <> 
                     {this.state.player == "guesser" ? 
-                    <Guesser game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
-                    <Pixeler game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
+                    <Guesser wordLength={this.state.word.length} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
+                    <Pixeler word={this.state.word} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
                 </>
             );
         }
