@@ -13,9 +13,6 @@ import "./Player.css";
 
 import { get, post } from "../../utilities";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
 /**
  * This is the page view of one of the pixelers
  * TODO: Make a Player.js file with conditional rendering

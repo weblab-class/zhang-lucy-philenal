@@ -4,9 +4,6 @@ import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./PixelBlock.css";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
 /**
  * PixelBlock is a single block within the canvas, the pixels that the
  * user is able to place

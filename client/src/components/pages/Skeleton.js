@@ -7,7 +7,7 @@ import "./Skeleton.css";
 import { navigate } from "@reach/router";
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 
 class Skeleton extends Component {
   constructor(props) {

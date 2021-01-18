@@ -13,9 +13,6 @@ import { get, post, put} from "../../utilities";
 // TBD?
 // import "./Guesser.css";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
-
 
 /**
  * This is the page view of the Guesser

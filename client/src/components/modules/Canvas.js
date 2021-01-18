@@ -9,8 +9,6 @@ import board from "../../../../server/models/board.js";
 import { get, put } from "../../utilities";
 
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 // TODO: Un-hardcode, have this be read in as a prop
 const CANVAS_WIDTH_PX = 500;

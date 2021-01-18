@@ -7,8 +7,6 @@ import Canvas from "../Canvas.js";
 import { post } from "../../../utilities";
 
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 /**
  * The CanvasPanel is the entire middle panel below the title, containing the Canvas

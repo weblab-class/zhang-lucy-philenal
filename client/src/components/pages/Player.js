@@ -12,8 +12,6 @@ import Start from "./Start";
 import Guesser from "./Guesser";
 import Pixeler from "./Pixeler";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
 /**
  * This is the page view of a player, either Pixeler or Guesser. Keeps track of turn number.
