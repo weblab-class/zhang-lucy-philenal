@@ -50,6 +50,7 @@ class Wall extends Component {
   render() {
     let pictures = []
     let hw = [3,20];
+    let titles = ["cat", "frog"];
     for (let i = 0; i < this.state.pictures.length; i++) {
       // let picture = this.state.pictures[i];
       pictures.push(
@@ -60,7 +61,7 @@ class Wall extends Component {
           pixels={this.state.pictures[i]}
           />
           <div className="Wall-pictureCaption">
-            title
+            {titles[i]}
           </div>
           
         </div>
