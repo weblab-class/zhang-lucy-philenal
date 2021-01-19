@@ -20,6 +20,7 @@ const CANVAS_HEIGHT_PX = 500;
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
+ * @param {String} background color of pixel in hex
  * 
  */
 class Canvas extends Component {
@@ -64,11 +65,17 @@ class Canvas extends Component {
           // add our pixel
           // TODO: fix color
           game.board.num_filled = this.state.filled_blocks;
-          game.board.pixels[id] = {id: id, _id: res[0].board.pixels[id]._id, color: "none", filled: filled};
+          game.board.pixels[id] = 
+          {
+            id: id, _id: res[0].board.pixels[id]._id, 
+            color: filled ? this.props.background: "none", //if it has been filled, change it to the color chosen
+            filled: filled
+          };
           put("/api/game/pixel", 
           {
             pixel_id: id,
             pixel_id_filled: filled,
+            pixel_color: this.props.background,
             game: game, 
             game_id: this.props.game_id
           })
@@ -126,6 +133,7 @@ class Canvas extends Component {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">
             <PixelBlock 
+              background={this.props.background}
               game_id={this.props.game_id}
               id={this.state.pixels[i].id} 
               filled={this.state.pixels[i].filled}

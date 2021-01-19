@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { GithubPicker } from 'react-color';
+import reactCSS from 'reactcss';
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
 import "./PlayerPanel.css";
@@ -33,6 +35,8 @@ class CanvasPanel extends Component {
     // Initialize Default State
     this.state = {
       num_filled: num_filled,
+      background: '#B80000',
+      colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
     };
   }
 
@@ -59,6 +63,12 @@ class CanvasPanel extends Component {
 
     
   }
+
+  /* color switcher */
+  handleChangeComplete = (color, event) => {
+    this.setState({ background: color.hex });
+  };
+  /* end of color switcher */
 
   onPixelClicked = (filled) => {
     if (filled) {
@@ -115,6 +125,7 @@ class CanvasPanel extends Component {
         <div className="CanvasPanel">
           <div className="CanvasContainer">
             <Canvas 
+              background={this.state.background}
               canvas_height_blocks={this.props.canvas_height_blocks} 
               canvas_width_blocks={this.props.canvas_width_blocks} 
               // pixels={this.props.canvas_pixels} 
@@ -129,9 +140,16 @@ class CanvasPanel extends Component {
               <div className="CanvasPanel-child">
                 pixels filled: {this.state.num_filled}
               </div>
+
               {console.log(this.props.isMyTurn && !this.props.isGuesser)}
               {/* if it's your turn and you're not the guesser, then show the end turn button */}
               
+              {/* color switcher */}
+              <div>
+              <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />
+              </div>
+              
+
               <div className="CanvasPanel-child">
                 {this.props.correctGuess && <span style={{color: "#25e859"}}>correct!</span>}
               </div>

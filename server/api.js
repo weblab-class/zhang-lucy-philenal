@@ -406,10 +406,12 @@ router.put("/game/pixel", (req, res) => {
       console.log(todo);
     }
   ).then((updatedGame) => {
+    console.log("new pixels " + updatedGame.board.pixels);
     socketManager.getIo().emit("board_and_game_id", 
     {
       pixel_id: req.body.pixel_id,
       pixel_id_filled: req.body.pixel_id_filled,
+      pixel_color: req.body.pixel_color,
       board: updatedGame.board,
       // pixels: req.body.game.pixels, 
       game_id: updatedGame._id
