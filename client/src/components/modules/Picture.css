@@ -1,0 +1,13 @@
+.Picture {
+    width: 200px;
+    height: 200px;
+    border:1px black;
+    display: flex;
+    flex-wrap: wrap;
+    /* margin: 1rem; */
+}
+
+.Picture-pixelBlockContainer {
+    width: auto;
+    height: auto;
+}

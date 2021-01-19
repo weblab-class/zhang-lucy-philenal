@@ -4,7 +4,6 @@ import PixelBlock from "./PixelBlock.js";
 import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Canvas.css";
-import board from "../../../../server/models/board.js";
 
 import { get, post, put } from "../../utilities";
 

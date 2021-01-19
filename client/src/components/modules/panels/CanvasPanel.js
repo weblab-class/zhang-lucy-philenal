@@ -72,13 +72,30 @@ class CanvasPanel extends Component {
     //get and then post
     //TODO: write this function -- also change the isGuesser param to canvas to isMyTurn
     if (this.props.game_id){
+      // end turn
       post("/api/game/endTurn",
       {
         game_id: this.props.game_id
       }).then((game) =>
       {
         console.log("You ended your turn. Now the turn number is " + game.turn)
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      // save canvas to each user and to canvas db
+      post("/api/board/save", {
+        user_ids: [],
+        img_id: null,
+        game_id: this.props.game_id,
+
+      }).then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
       })
+
+
     }
     
   }
@@ -91,8 +108,6 @@ class CanvasPanel extends Component {
       console.log("Next word is " + game.word)
     })
   }
-
-  
 
   render() {
     return (

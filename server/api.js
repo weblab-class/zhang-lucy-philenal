@@ -18,6 +18,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Game = require("./models/game");
+const Board = require("./models/board");
 const Logic = require("./logic");
 
 // import authentication library
@@ -63,6 +64,45 @@ router.post("/game/new", (req, res) => {
   const newGame = Logic.newGame(req);
   newGame.save().then((game) => res.send(game));
 });
+
+/**
+ * Takes in a list of users, a board, and saves them to the user's
+ * wall of fame/shame
+ */
+router.post("/board/save", (req, res) => {
+  // update all users
+  // for (let i = 0; i < req.body.user_ids.length; i++) {
+  //   const filter = { _id: req.body.user_ids[i] };
+  //   User.findOne(filter,
+  //     // new: true,
+  //     function(err, user) {
+  //       if (user.guessed_imgs) {
+  //         user.guessed_imgs = user.guessed_imgs.concat([req.body.img_id]);
+  //       } else {
+  //         user.guessed_imgs = [req.body.img_id];
+  //       }
+  //   }).then((res)=>{
+  //     console.log(res);
+  //   });
+  // }
+  
+  Game.find({ _id: req.body.game_id }).then((games) => {
+    if (games.length == 0) {
+      res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
+      return;
+    }
+    let board = new Board({
+      _id: games[0].board._id,
+      width: games[0].board.width,
+      height: games[0].board.height,
+      pixels: games[0].board.pixels,
+    });
+    // let board = Board(games[0].board);
+    board.save().then((board) => {res.send(board)});
+  });
+
+});
+
 
 router.post("/user/leave", (req, res) => {
   console.log("what");
@@ -137,7 +177,6 @@ router.post("/game/endTurn", (req, res) => {
   })
   
 });
-
 
 //updates game with next word in list
 //TODO: if no other word left in list, don't do this??
