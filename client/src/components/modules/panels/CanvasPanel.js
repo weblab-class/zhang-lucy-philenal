@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SketchPicker } from 'react-color';
+import { GithubPicker } from 'react-color';
 import reactCSS from 'reactcss';
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
@@ -35,13 +35,8 @@ class CanvasPanel extends Component {
     // Initialize Default State
     this.state = {
       num_filled: num_filled,
-      displayColorPicker: false,
-      color: {
-        r: '241',
-        g: '112',
-        b: '19',
-        a: '1',
-      },
+      background: '#B80000',
+      colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
     };
   }
 
@@ -69,19 +64,10 @@ class CanvasPanel extends Component {
     
   }
 
-  /* beginning of color switcher */
-  handleClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker })
+  /* color switcher */
+  handleChangeComplete = (color, event) => {
+    this.setState({ background: color.hex });
   };
-
-  handleClose = () => {
-    this.setState({ displayColorPicker: false })
-  };
-
-  handleChange = (color) => {
-    this.setState({ color: color.rgb })
-  };
-
   /* end of color switcher */
 
   onPixelClicked = (filled) => {
@@ -119,41 +105,12 @@ class CanvasPanel extends Component {
   
 
   render() {
-    /* color switch */
-    const styles = reactCSS({
-      'default': {
-        color: {
-          width: '36px',
-          height: '14px',
-          borderRadius: '2px',
-          background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
-        },
-        swatch: {
-          padding: '5px',
-          background: '#fff',
-          borderRadius: '1px',
-          boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
-          display: 'inline-block',
-          cursor: 'pointer',
-        },
-        popover: {
-          position: 'absolute',
-          zIndex: '2',
-        },
-        cover: {
-          position: 'fixed',
-          top: '0px',
-          right: '0px',
-          bottom: '0px',
-          left: '0px',
-        },
-      },
-    });
     return (
       <>
         <div className="CanvasPanel">
           <div className="CanvasContainer">
             <Canvas 
+              background={this.state.background}
               canvas_height_blocks={this.props.canvas_height_blocks} 
               canvas_width_blocks={this.props.canvas_width_blocks} 
               // pixels={this.props.canvas_pixels} 
@@ -169,20 +126,15 @@ class CanvasPanel extends Component {
                 pixels filled: {this.state.num_filled}
               </div>
 
-              {/* color switcher */}
-              <div>
-              <div style={ styles.swatch } onClick={ this.handleClick }>
-                <div style={ styles.color } />
-              </div>
-              { this.state.displayColorPicker ? <div style={ styles.popover }>
-                <div style={ styles.cover } onClick={ this.handleClose }/>
-                <SketchPicker color={ this.state.color } onChange={ this.handleChange } />
-              </div> : null }
-            </div>
-
               {console.log(this.props.isMyTurn && !this.props.isGuesser)}
               {/* if it's your turn and you're not the guesser, then show the end turn button */}
               
+              {/* color switcher */}
+              <div>
+              <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />
+              </div>
+              
+
               <div className="CanvasPanel-child">
                 {this.props.correctGuess && <span style={{color: "#25e859"}}>correct!</span>}
               </div>

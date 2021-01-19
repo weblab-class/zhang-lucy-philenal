@@ -13,6 +13,7 @@ import "./PixelBlock.css";
  * @param {string} size length of each side of the square
  * @param {string} _id unique ID relative to other pixels in the same canvas
  * @param {function} callback callback function for canvas
+ * @param {String} background color of pixel in hex
  */
 class PixelBlock extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class PixelBlock extends Component {
     this.state = {
       filled: this.props.filled,
       hover: false,
+      background: this.props.background,
     };
   }
 
@@ -31,7 +33,11 @@ class PixelBlock extends Component {
         // event.target.style.background = (!this.state.filled) ? 
         //   'var(--pixel-color-filled)' : 
         //   'var(--pixel-color-unfilled)'
-        this.setState({filled: !this.state.filled}, () => {
+        this.setState(
+          {
+            filled: !this.state.filled, 
+            background: this.props.background //sets color to the color chosen
+          }, () => {
           this.props.callback(this.state.filled, this.props.id)
         });
     };
@@ -62,7 +68,8 @@ class PixelBlock extends Component {
         if (this.props.id === updatedGame.pixel_id) { //if the change was made to this pixel
           console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
-           filled: updatedGame.pixel_id_filled
+           filled: updatedGame.pixel_id_filled,
+           background: updatedGame.pixel_color,
           })
         }
       }
@@ -87,6 +94,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
+                backgroundColor: this.props.background.concat("7F"), //this changes depending on color chosen
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}
@@ -101,6 +109,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
+                backgroundColor: this.state.background, //comes from the api/socket call
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}
