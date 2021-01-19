@@ -1,13 +1,41 @@
 .StartMenu-button {
     height: 5rem;
     width: 5rem;
-    border-radius: 0;
+    border-radius: 5px;
     /* border-style: solid;
     border-width: 5px; */
-    border-color: var(--border-color);
-    color: var(--border-color);
+    border-color: white;
     font-family: var(--font-primary);
+    margin-bottom: var(--s);
 }
+
+
+/* used Animista */
+.StartMenu-button:hover {
+    -webkit-animation: scale-up-center 0.4s ease-out both;
+    animation: scale-up-center 0.4s ease-out both;
+}
+
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+    100% {
+      -webkit-transform: scale(1.05);
+              transform: scale(1.05);
+    }
+  }
+  @keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+    100% {
+      -webkit-transform: scale(1.05);
+              transform: scale(1.05);
+    }
+  }
 
 .StartMenu-buttonsRow{
     display: flex;
@@ -19,4 +47,9 @@
     flex-grow: 1;
     flex-basis: 0;
     justify-content: space-evenly;
+}
+
+.StartMenu-linkContainer {
+  display: flex;
+  flex-direction: column;
 }

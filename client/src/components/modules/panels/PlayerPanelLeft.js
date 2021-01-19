@@ -45,7 +45,7 @@ class PlayerPanelLeft extends Component {
     if (this.props.isGuesser) {
       let hiddenWord = "";
       for (let i = 0; i < this.props.wordLength; i++) {
-        hiddenWord += "_ ";
+        hiddenWord += " _";
       }
       
       this.state = {

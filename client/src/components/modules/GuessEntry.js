@@ -83,6 +83,7 @@ class GuessEntry extends Component {
                         onKeyPress={this.onKeyPress}
                     />
                 </div>
+                <div className="GuessEntry-buttonContainer">
                 <div className="GuessEntry-child">
                     <button
                         type="submit"
@@ -103,6 +104,8 @@ class GuessEntry extends Component {
                     >give up
                     </button>
                 </div>
+                </div>
+                
             {/* </form> */}
         </div>
         {this.state.areYouSure && 

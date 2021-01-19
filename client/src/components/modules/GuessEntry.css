@@ -1,12 +1,22 @@
 .GuessEntry-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-around;
+    border-width: var(--s);
+    padding: 1rem;
+}
+
+.GuessEntry-buttonContainer {
+    margin-top: var(--s);
+    display: flex;
+    justify-content: space-between;
 }
 
 .GuessEntry-child {
     flex-basis: auto;
+    display: inline-block;
+
 }
 
 .GuessEntry-quitConfirmationContainer {

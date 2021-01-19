@@ -130,7 +130,7 @@ class CanvasPanel extends Component {
               {/* if it's your turn and you're not the guesser, then show the end turn button */}
               
               {/* color switcher */}
-              <div>
+              <div className="CanvasPanel-palette">
               <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />
               </div>
               

@@ -4,6 +4,12 @@
     background-color: white;
     display: flex;
     flex-wrap: wrap;
+
+    border: solid;
+    border-width: var(--s);
+    border-color: white;
+    border-radius: var(--s);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
 }
 
 .Canvas-pixelBlockContainer {

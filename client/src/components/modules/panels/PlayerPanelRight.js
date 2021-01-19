@@ -100,9 +100,15 @@ class PlayerPanelRight extends Component {
     return (
       <>
         <div className="PlayerPanelRight">
-          Guesses {this.props.isGuesser}
+          {this.props.isGuesser}
           <div className="PlayerPanelRight-chatBox">
+            <h2>
+            guesses
+            </h2>
+            <section scrollbar>
             {guesses}
+            </section>
+            
           </div>
           {(this.props.isGuesser) &&
           <div className="PlayerPanelRight-guesser">

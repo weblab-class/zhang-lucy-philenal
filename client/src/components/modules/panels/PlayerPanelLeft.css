@@ -1,6 +1,7 @@
 /* word styling */
 h2 > .PlayerPanelLeft-word {
-    color: var(--light-grey);
+    /* color: var(--light-grey); */
+    margin-left: var(--s);
 }
 
 .PlayerPanelLeft-hiddenWord {
@@ -19,6 +20,7 @@ h2 > .PlayerPanelLeft-word {
 
 .PlayerIcon-backgroundWhite {
     background-color: white;
+    padding: var(--s);
 }
 .PlayerIcon-left {
     
@@ -48,12 +50,21 @@ h2 > .PlayerPanelLeft-word {
     max-width: var(--m);
     min-height: var(--m);
     min-width: var(--m);
-    border-radius: 0;
-    border-color: var(--border-color);
-    color: var(--border-color);
+
+    color: var(--text-color);
     font-family: var(--font-primary);
+
+    border-style: solid;
+    border-radius: 2px;
+    border-width: 2px;
+    border-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+
+
+   /*  border-color: var(--border-color);
+    
     border-width: 1px;
-    border-style: outset;
+    border-style: outset; */
 }
 
 .PlayerIcon-name {

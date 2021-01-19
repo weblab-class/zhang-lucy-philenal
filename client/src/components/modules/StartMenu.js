@@ -34,32 +34,36 @@ class StartMenu extends Component {
                   user_name: this.props.user_name,
                 }}
                 >
-                    <button className="StartMenu-button u-color-1 u-pointer">how to play</button>
+                    <button className="StartMenu-button u-color-1 u-pointer"></button>
                 </Link>
+                how to play
             </div>
             <div className="StartMenu-linkContainer">
                 <Link to="/newgame" state={{
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}>
-                  <button className="StartMenu-button u-color-2 u-pointer">new game</button>
+                  <button className="StartMenu-button u-color-2 u-pointer"></button>
                 </Link>
+                new game
             </div>
             <div className="StartMenu-linkContainer">
                 <Link to="/joingame" state={{
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}>
-                  <button className="StartMenu-button u-color-3 u-pointer">join game</button>
+                  <button className="StartMenu-button u-color-3 u-pointer"></button>
                 </Link>
+                join game
             </div>
             <div className="StartMenu-linkContainer">
                 <Link to="/wall" state={{
                   user_id: this.props.user_id,
                   user_name: this.props.user_name,
                 }}>
-                  <button className="StartMenu-button u-color-4 u-pointer">wall</button>
+                  <button className="StartMenu-button u-color-4 u-pointer"></button>
                 </Link>
+                wall
             </div>
         </div>
       </>

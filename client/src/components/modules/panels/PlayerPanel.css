@@ -1,6 +1,14 @@
 .PlayerPanelTop {
     text-align: center;
-    font-size: x-large;
+    font-size: 70px;
+    letter-spacing: 0.1em;
+  /* white */
+    color: white;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    -webkit-text-stroke-width: 0.2px;
+
+    -webkit-text-stroke-color:var(white);
     padding: 1rem;
     /* background-color: aqua; */
 }
@@ -14,7 +22,7 @@
     /* justify-content: center; */
     position: absolute;
     right: var(--s);
-    width: min-content;
+    width: 250px;
     height: 100%;
     text-align: left;
     padding: 1rem;
@@ -27,13 +35,22 @@
     padding: 1rem;
     /* background-color: brown; */
 }
-
+section {
+    overflow: auto;
+}
 .PlayerPanelRight-chatBox {
-    height: 500px;
+    height: 200px;
+    width: 200px;
     background-color: rgb(255, 246, 232);
     margin: 1rem 0 ;
     padding: 1rem;
     text-align: left;
+    
+    border: solid;
+    border-width: var(--s);
+    border-color: rgb(255, 246, 232);
+    border-radius: var(--s);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
 }
 
 .CanvasPanel {
@@ -48,6 +65,9 @@
     flex-wrap: wrap;
 }
 
+.CanvasPanel-palette {
+    margin: var(--m);
+}
 /* @media (max-width: ){
 
 } */
@@ -63,12 +83,14 @@
     justify-content: center;
 }
 .CanvasPanel-button {
-    height: 5rem;
-    width: 5rem;
+    height: 50px;
+    width: 50px;
     border-radius: 0;
-    border-color: var(--border-color);
+    border-color: var(--color-1);
+    
+    /* border-color: var(--border-color);
     color: var(--border-color);
-    font-family: var(--font-primary);
+    font-family: var(--font-primary); */
 }
 
 .CanvasPanel-footer {
@@ -80,7 +102,7 @@
 }
 
 .CanvasPanel-child {
-
+    margin: var(--m);
 }
 
 /* .Canv */

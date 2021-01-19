@@ -30,6 +30,7 @@
   --orange: #ffebd7;
   --yellow: #fafdc7;
   --green: #caf9c5;
+  --button-color: #efefef;
   --light-grey: #bab9b9;
   --grey: #646464;
   --dark-grey: #4b4b4b;
@@ -63,15 +64,15 @@ body {
   padding: 0;
   font-family: 'Alata', sans-serif;
   font-weight: 100;
-  background-color: var(--background-color); 
-  color: var(--text-color);
+  background-color: var(--light-grey); 
+  color: white;
 }
 
 h2 {
 
   letter-spacing: 0.1em;
   /* white */
-  color: #FFFFFF;
+  color: var(--text-color);
   
   white-space: nowrap;
   -webkit-text-stroke-width: 0.2px;
@@ -84,6 +85,12 @@ button {
     font-family: 'Alata', sans-serif;
     color: var(--text-color);
     cursor: pointer;
+    border: solid;
+
+    border-width: .5em;
+    border-color: var(--button-color);
+    border-radius: var(--s);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
   }
 form {
   flex-grow: 1;
