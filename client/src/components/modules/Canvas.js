@@ -37,7 +37,7 @@ class Canvas extends Component {
     };
   }
 
-  onPixelClicked = (filled, id) => {
+  onPixelClicked = (filled, id, actualColor) => {
     if (this.props.isGuesser || !this.props.isMyTurn) {
       return;
     }
@@ -68,14 +68,14 @@ class Canvas extends Component {
           game.board.pixels[id] = 
           {
             id: id, _id: res[0].board.pixels[id]._id, 
-            color: filled ? color: "none", //if it has been filled, change it to the color chosen
+            color: filled ? actualColor: "none", //if it has been filled, change it to the color chosen
             filled: filled
           };
           put("/api/game/pixel", 
           {
             pixel_id: id,
             pixel_id_filled: filled,
-            pixel_color: color,
+            pixel_color: actualColor,
             game: game, 
             game_id: this.props.game_id
           })
@@ -134,6 +134,7 @@ class Canvas extends Component {
           <div className="Canvas-pixelBlockContainer">
             <PixelBlock 
               game_id={this.props.game_id}
+              actualColor={this.state.pixels[i].color}
               id={this.state.pixels[i].id} 
               filled={this.state.pixels[i].filled}
               size={this.state.block_size}
