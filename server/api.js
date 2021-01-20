@@ -86,7 +86,7 @@ router.post("/board/save", (req, res) => {
   //   });
   // }
   
-  Game.find({ _id: req.body.game_id }).then((games) => {
+/*   Game.find({ _id: req.body.game_id }).then((games) => {
     if (games.length == 0) {
       res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
       return;
@@ -99,7 +99,7 @@ router.post("/board/save", (req, res) => {
     });
     // let board = Board(games[0].board);
     board.save().then((board) => {res.send(board)});
-  });
+  }); */
 
 });
 
@@ -187,6 +187,7 @@ router.post("/game/nextWord", (req, res) => {
     game.word_idx += 1; //moves to next idx of words
     game.word = game.words[game.word_idx]; //moves to next word
     game.players = Logic.rotatePlayers(game.players) //rotates players
+    game.turn = 0; //resets game, people restart
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {

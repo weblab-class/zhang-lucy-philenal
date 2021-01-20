@@ -102,8 +102,9 @@ class Player extends Component {
                 this.setState({
                     word: updatedGame.game.word,
                     hiddenWord: this.hideWord(updatedGame.game.word.length),
+                    turn: updatedGame.game.turn,
                 }, ()=> {
-                    console.log("the updated word is " + this.state.word + " with hidden word " + this.state.hiddenWord);
+                    console.log("the turn is " + this.state.turn + " the updated word is " + this.state.word + " with hidden word " + this.state.hiddenWord);
                 })
             };
         })
