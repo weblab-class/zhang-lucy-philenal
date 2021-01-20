@@ -22,7 +22,7 @@ class PixelBlock extends Component {
       filled: this.props.filled,
       hover: false,
       chosenColor: "#F898A4", //what the user chooses from palette
-      actualColor: "#FFFFFF", //actual pixel background
+      actualColor: this.props.actualColor, //actual pixel background
       clicked: false, 
     };
   }
@@ -40,7 +40,7 @@ class PixelBlock extends Component {
             clicked: true,
             filled: !this.state.filled, 
           }, () => {
-          this.props.callback(this.state.filled, this.props.id)
+          this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
         });
     };
 
@@ -66,12 +66,14 @@ class PixelBlock extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
+    
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (this.props.id === updatedGame.pixel_id) { //if the change was made to this pixel
           console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
            filled: updatedGame.pixel_id_filled,
+           actualColor: updatedGame.pixel_color,
           })
         }
       }

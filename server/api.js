@@ -433,6 +433,7 @@ router.put("/game/pixel", (req, res) => {
 
 });
 
+
 router.post("/board/clear_pixels", (req, res) => {
   console.log(req.body);
   Game.findOne({_id: req.body.game_id},
