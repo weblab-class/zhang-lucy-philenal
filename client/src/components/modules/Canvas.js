@@ -68,14 +68,14 @@ class Canvas extends Component {
           game.board.pixels[id] = 
           {
             id: id, _id: res[0].board.pixels[id]._id, 
-            color: filled ? this.props.background: "none", //if it has been filled, change it to the color chosen
+            color: filled ? color: "none", //if it has been filled, change it to the color chosen
             filled: filled
           };
           put("/api/game/pixel", 
           {
             pixel_id: id,
             pixel_id_filled: filled,
-            pixel_color: this.props.background,
+            pixel_color: color,
             game: game, 
             game_id: this.props.game_id
           })
@@ -133,7 +133,6 @@ class Canvas extends Component {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">
             <PixelBlock 
-              background={this.props.background}
               game_id={this.props.game_id}
               id={this.state.pixels[i].id} 
               filled={this.state.pixels[i].filled}

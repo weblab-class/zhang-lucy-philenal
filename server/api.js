@@ -395,6 +395,15 @@ router.put("/game/start", (req, res) => {
   
 });
 
+router.post("/game/color", (req, res) => {
+  console.log(typeof req.body.color);
+  socketManager.getIo().emit("color", 
+          {
+            game_id: req.body.game_id,
+            background: req.body.color,
+          });
+});
+
 router.put("/game/pixel", (req, res) => {
   // TODO: check that the player is a player and pixeler
   Game.findByIdAndUpdate(

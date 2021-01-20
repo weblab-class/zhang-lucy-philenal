@@ -13,7 +13,6 @@ import "./PixelBlock.css";
  * @param {string} size length of each side of the square
  * @param {string} _id unique ID relative to other pixels in the same canvas
  * @param {function} callback callback function for canvas
- * @param {String} background color of pixel in hex
  */
 class PixelBlock extends Component {
   constructor(props) {
@@ -22,7 +21,9 @@ class PixelBlock extends Component {
     this.state = {
       filled: this.props.filled,
       hover: false,
-      background: this.props.background,
+      chosenColor: "#F898A4", //what the user chooses from palette
+      actualColor: "#FFFFFF", //actual pixel background
+      clicked: false, 
     };
   }
 
@@ -35,8 +36,9 @@ class PixelBlock extends Component {
         //   'var(--pixel-color-unfilled)'
         this.setState(
           {
+            actualColor: this.state.chosenColor,
+            clicked: true,
             filled: !this.state.filled, 
-            background: this.props.background //sets color to the color chosen
           }, () => {
           this.props.callback(this.state.filled, this.props.id)
         });
@@ -54,6 +56,7 @@ class PixelBlock extends Component {
       if (this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
+      console.log("I'm not hovering!");
       this.setState({hover: false});
 
         // event.target.style.background = (this.state.filled) ? 
@@ -69,9 +72,17 @@ class PixelBlock extends Component {
           console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
            filled: updatedGame.pixel_id_filled,
-           background: updatedGame.pixel_color,
           })
         }
+      }
+    });
+
+    //listens for if the user clicks on a color, and changes our background state to that color
+    socket.on("color", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        this.setState({
+          chosenColor: updatedGame.background,
+        },()=>{console.log("this is my chosen color right now " + this.state.chosenColor)})
       }
     });
 
@@ -88,17 +99,18 @@ class PixelBlock extends Component {
   render() {
     // const myCSS = css`background: ${({ myColor }) => myColor || `black`};`;
     // const MyComponent = styled('div')`${myCSS};`;
+    console.log(this.state.actualColor + " is my color right now");
     if (this.state.hover) {
       return <div 
               className="PixelBlock-body-hover" 
               style={{
                 width: this.props.size, 
                 height: this.props.size,
-                backgroundColor: this.props.background.concat("7F"), //this changes depending on color chosen
+                backgroundColor: this.state.chosenColor.concat("7F"), //this changes depending on color chosen
               }}
-              // onMouseOver={this.onHover}
-              // onMouseLeave={this.onNonHover}
-              // onMouseDown={this.onClick}
+              onMouseOver={this.onHover}
+              onMouseLeave={this.onNonHover}
+              onMouseDown={this.onClick}
             ></div>
     } else {
       return (
@@ -109,7 +121,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
-                backgroundColor: this.state.background, //comes from the api/socket call
+                backgroundColor: this.state.actualColor, //my actual color
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}
@@ -120,6 +132,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
+                backgroundColor: "white"
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}
