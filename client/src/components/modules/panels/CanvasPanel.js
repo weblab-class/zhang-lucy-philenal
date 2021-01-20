@@ -35,7 +35,7 @@ class CanvasPanel extends Component {
     // Initialize Default State
     this.state = {
       num_filled: num_filled,
-      background: '#B80000',
+      background: '#F898A4',
       colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
     };
   }
@@ -66,7 +66,14 @@ class CanvasPanel extends Component {
 
   /* color switcher */
   handleChangeComplete = (color, event) => {
-    this.setState({ background: color.hex });
+    /* this.setState({ background: color.hex }); */
+    console.log("is it my turn? " + this.props.isMyTurn);
+    if (this.props.isMyTurn){ //if it's user's turn, then they can change color
+      post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
+        console.log("it's my turn and i'm changing the color")
+      })
+    }
+    
   };
   /* end of color switcher */
 
@@ -82,13 +89,30 @@ class CanvasPanel extends Component {
     //get and then post
     //TODO: write this function -- also change the isGuesser param to canvas to isMyTurn
     if (this.props.game_id){
+      // end turn
       post("/api/game/endTurn",
       {
         game_id: this.props.game_id
       }).then((game) =>
       {
         console.log("You ended your turn. Now the turn number is " + game.turn)
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      // save canvas to each user and to canvas db
+      post("/api/board/save", {
+        user_ids: [],
+        img_id: null,
+        game_id: this.props.game_id,
+
+      }).then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
       })
+
+
     }
     
   }
@@ -101,8 +125,6 @@ class CanvasPanel extends Component {
       console.log("Next word is " + game.word)
     })
   }
-
-  
 
   render() {
     return (
