@@ -19,7 +19,7 @@ h2 > .PlayerPanelLeft-word {
 }
 
 .PlayerIcon-backgroundWhite {
-    background-color: white;
+    background-color: var(--text-color);
     padding: var(--s);
 }
 .PlayerIcon-left {

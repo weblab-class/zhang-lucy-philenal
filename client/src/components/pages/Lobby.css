@@ -1,9 +1,9 @@
 .Lobby {
     border: 0px;
-    border-color: var(--grey);
+    /* border-color: var(--grey);
     border-style: double;
     border-width: var(--s);
-    background-color: white;
+    background-color: white; */
     padding: var(--m) var(--l);
     margin: 15vh auto;
     display: flex;
