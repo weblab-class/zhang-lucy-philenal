@@ -8,8 +8,8 @@
 */
 
 // lol please centralize this
-const BOARD_WIDTH_BLOCKS = 3;
-const BOARD_HEIGHT_BLOCKS = 3;
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
 
 var mongoose = require('mongoose');
 

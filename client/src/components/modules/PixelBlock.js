@@ -34,14 +34,26 @@ class PixelBlock extends Component {
         // event.target.style.background = (!this.state.filled) ? 
         //   'var(--pixel-color-filled)' : 
         //   'var(--pixel-color-unfilled)'
-        this.setState(
-          {
-            actualColor: this.state.chosenColor,
-            clicked: true,
-            filled: !this.state.filled, 
-          }, () => {
-          this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
-        });
+        if (this.state.chosenColor == this.state.actualColor) {
+          this.setState(
+            {
+              actualColor: this.state.chosenColor,
+              clicked: true,
+              filled: false, 
+            }, () => {
+            this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+          });
+        } else {
+          this.setState(
+            {
+              actualColor: this.state.chosenColor,
+              clicked: true,
+              filled: true, 
+            }, () => {
+            this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+          });
+        }
+
     };
 
     onHover = (event) => {
@@ -56,7 +68,7 @@ class PixelBlock extends Component {
       if (this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
-      console.log("I'm not hovering!");
+      // console.log("I'm not hovering!");
       this.setState({hover: false});
 
         // event.target.style.background = (this.state.filled) ? 
