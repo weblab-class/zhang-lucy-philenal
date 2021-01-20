@@ -36,8 +36,12 @@ class JoinGame extends Component {
     this.setState({game_id: game_id});
   }
 
+  onEnterKeyPress = (game_id) => {
+    this.setState({game_id: game_id}, ()=>{this.joinGame()});
+  }
+
   joinGame = () => {
-    console.log("u clickd the join game button");
+    console.log("join game!");
     post("api/game/join", {
       game_id: this.state.game_id,
       user_id: this.props.location.state.user_id,
@@ -73,7 +77,10 @@ class JoinGame extends Component {
               <div className="JoinGame-linkContainer">
                   <h1>Join Game </h1>
                   <p>Enter the game ID:</p>
-                  <TextEntry callback={this.onGameIDEntry}/>
+                  <TextEntry 
+                    callback={this.onGameIDEntry}
+                    onEnterKeyPress={this.onEnterKeyPress}
+                  />
                   <button onClick={this.joinGame} className="JoinGame-button u-color-1">join game</button>
                   {(this.state.game_not_found) ? 
                   <div className="u-text-error">

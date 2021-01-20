@@ -38,6 +38,10 @@ class NewGame extends Component {
   onGameIDEntry = (game_id) => {
     this.setState({game_id: game_id});
   }
+  
+  onEnterKeyPress = (game_id) => {
+    this.setState({game_id: game_id}, ()=>{this.newGame()});
+  }
 
   // TODO (lucy): get rid of GET request
   newGame = (event) => {
@@ -86,7 +90,10 @@ class NewGame extends Component {
 
                 <h1>New Game </h1>
                 <p>Enter a game ID:</p>
-                <TextEntry callback={this.onGameIDEntry}/>
+                <TextEntry 
+                  callback={this.onGameIDEntry}
+                  onEnterKeyPress={this.onEnterKeyPress}
+                />
                     <button 
                       className="NewGame-button u-color-1"
                       onClick={this.newGame}

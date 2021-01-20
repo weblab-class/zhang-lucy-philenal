@@ -144,9 +144,11 @@ class CanvasPanel extends Component {
             />
             <div className="CanvasPanel-footer">
               {/* pixels remaining: {this.state.num_filled} */}
+              {(this.props.isMyTurn && !this.props.isGuesser) && 
               <div className="CanvasPanel-child">
                 pixels filled: {this.state.num_filled}
               </div>
+              }
 
               {console.log(this.props.isMyTurn && !this.props.isGuesser)}
               {/* if it's your turn and you're not the guesser, then show the end turn button */}
