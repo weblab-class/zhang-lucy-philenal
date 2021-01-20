@@ -8,8 +8,8 @@
 */
 
 // lol please centralize this
-const BOARD_WIDTH_BLOCKS = 3;
-const BOARD_HEIGHT_BLOCKS = 3;
+const BOARD_WIDTH_BLOCKS = 2;
+const BOARD_HEIGHT_BLOCKS = 2;
 
 var mongoose = require('mongoose');
 
@@ -86,20 +86,20 @@ router.post("/board/save", (req, res) => {
   //   });
   // }
   
-/*   Game.find({ _id: req.body.game_id }).then((games) => {
-    if (games.length == 0) {
-      res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
-      return;
-    }
-    let board = new Board({
-      _id: games[0].board._id,
-      width: games[0].board.width,
-      height: games[0].board.height,
-      pixels: games[0].board.pixels,
-    });
-    // let board = Board(games[0].board);
-    board.save().then((board) => {res.send(board)});
-  }); */
+  // Game.find({ _id: req.body.game_id }).then((games) => {
+  //   if (games.length == 0) {
+  //     res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
+  //     return;
+  //   }
+  //   let board = new Board({
+  //     _id: games[0].board._id,
+  //     width: games[0].board.width,
+  //     height: games[0].board.height,
+  //     pixels: games[0].board.pixels,
+  //   });
+  //   // let board = Board(games[0].board);
+  //   board.save().then((board) => {res.send(board)});
+  // });
 
 });
 
@@ -166,6 +166,7 @@ router.post("/user/leave", (req, res) => {
 router.post("/game/endTurn", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     game.turn += 1; //adds turn
+
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("endedTurn", 
       {
@@ -182,17 +183,23 @@ router.post("/game/endTurn", (req, res) => {
 //TODO: if no other word left in list, don't do this??
 //TODO: save the previous game image in game schema
 //TODO: make nextWord random using Logic.getNextWord()
-router.post("/game/nextWord", (req, res) => {
+router.post("/game/nextRound", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     game.word_idx += 1; //moves to next idx of words
     game.word = game.words[game.word_idx]; //moves to next word
     game.players = Logic.rotatePlayers(game.players) //rotates players
+    game.guesser = game.players[0];
+    game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
         game_id: updatedGame._id,
+        turn: updatedGame.turn,
+        players: updatedGame.players,
+        pixelers: updatedGame.pixelers,
+        guesser: updatedGame.guesser,
       });
       res.send(updatedGame);
     })
@@ -207,12 +214,16 @@ router.get("/user/get", (req, res) => {
   });
 });
 
-// TODO: kill this bad function lol
+// TODO: kill this bad function lol (lucy)
 router.get("/game/get", (req, res) => {
+  // CHECK THAT THE PERSON IS 1) IN GAME 2) A PIXELER
   Game.find({ _id: req.query.game_id }).then((games) => {
+    /// DO NOT SEND WORD
     res.send(games);
   });
 });
+
+
 
 router.get("/game/player_status", (req, res) => {
   console.log("player status...");
@@ -343,12 +354,7 @@ router.put("/game/guess", (req, res) => {
           game.guesses = game.guesses.concat([req.body.guess])
           game.num_correct += 1;
           // TODO: increment turn/word
-          game.save(/* function (err) {
-            if(err) {
-              console.log(err);
-                console.error('ERROR!');
-            }
-          } */).then((updatedGame) => {
+          game.save().then((updatedGame) => {
             if (correct) {
               res.send({message: "correct"});
             } else {
@@ -397,7 +403,7 @@ router.put("/game/start", (req, res) => {
 });
 
 router.post("/game/color", (req, res) => {
-  console.log(typeof req.body.color);
+  // console.log(typeof req.body.color);
   socketManager.getIo().emit("color", 
           {
             game_id: req.body.game_id,
@@ -416,7 +422,7 @@ router.put("/game/pixel", (req, res) => {
       console.log(todo);
     }
   ).then((updatedGame) => {
-    console.log("new pixels " + updatedGame.board.pixels);
+    // console.log("new pixels " + updatedGame.board.pixels);
     socketManager.getIo().emit("board_and_game_id", 
     {
       pixel_id: req.body.pixel_id,
@@ -433,8 +439,7 @@ router.put("/game/pixel", (req, res) => {
   //TODO: change this idk
 
 });
-
-
+      
 router.post("/board/clear_pixels", (req, res) => {
   console.log(req.body);
   Game.findOne({_id: req.body.game_id},

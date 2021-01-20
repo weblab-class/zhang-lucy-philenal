@@ -95,6 +95,7 @@ h2 > .PlayerPanelLeft-word {
 .PlayerPanelRight-chatMessage {
     margin: 0;
     padding: 0.25rem;
+    color: var(--text-color);
 }
 
 .PlayerPanelRight-guessTextEntry {

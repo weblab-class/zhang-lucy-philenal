@@ -48,11 +48,17 @@ class Player extends Component {
         if (!this.props.location.state.user_id) {
             navigate("/")
         }
+
+        // TODO (lucy): BAD FUNCTION
         get("/api/game/get", {
             game_id: this.props.location.state.game_id,
         }).then((res) => {
             //creates the hidden word and sets state
-            this.setState({word: res[0].word, wordListLength: res[0].words.length, hiddenWord: this.hideWord(res[0].word.length)});
+            this.setState({
+                word: res[0].word, //// TODO: HIDE THIS FROM GUESSER
+                wordListLength: res[0].words.length, 
+                hiddenWord: this.hideWord(res[0].word.length,
+            )});
         })
 
         get("/api/game/player_status", {
@@ -81,30 +87,44 @@ class Player extends Component {
         
         //listens for turn change, updates turn
         socket.on("endedTurn", (updatedGame)=>{
-            console.log("the socket for ending turn worked");
-            console.log("props game id: " + this.props.location.state.game_id);
-            console.log("updated game id: " + updatedGame.game_id);
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
-                this.setState({
-                    turn: updatedGame.turn
-                }, ()=> {
+                this.setState({turn: updatedGame.turn}, ()=> {
                     console.log("the updated turn is " + this.state.turn);
                 })
             };
             
         })
 
-        //listens for next word, updates word
+        // listens for next word, updates word
+        // also listens for player status?
         socket.on("nextWord", (updatedGame) =>{
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
                 this.setState({
-                    word: updatedGame.game.word,
+                    // word: updatedGame.game.word,
                     hiddenWord: this.hideWord(updatedGame.game.word.length),
-                    turn: updatedGame.game.turn,
+                    turn: updatedGame.turn,
+                    players: updatedGame.players,
+                    pixelers: updatedGame.pixelers,
+                    guesser: updatedGame.guesser,
                 }, ()=> {
-                    console.log("the turn is " + this.state.turn + " the updated word is " + this.state.word + " with hidden word " + this.state.hiddenWord);
+                    console.log("the turn is " + 
+                    this.state.turn + " the updated word is " + 
+                    this.state.word + " with hidden word " + 
+                    this.state.hiddenWord);
+                    if (this.state.guesser._id == this.props.location.state.user_id) {
+                        console.log("you are the guesser!");
+                        this.setState({player: "guesser"});
+                    } else {
+                        for (let i = 0; i < this.state.pixelers.length; i++) {
+                            if(this.state.pixelers[i].id == this.props.location.state.user_id) {
+                                this.setState({player: "pixeler"});
+                                return;
+                            }
+                        }
+                        this.setState({player: "neither"});
+                    }
                 })
             };
         })
@@ -135,8 +155,18 @@ class Player extends Component {
             return (
                 <> 
                     {this.state.player == "guesser" ? 
-                    <Guesser callback={this.onCorrectGuess} hiddenWord={this.state.hiddenWord} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn} /> :
-                    <Pixeler word={this.state.word} wordListLength={this.state.wordListLength} game_id={this.state.game_id} user_id={this.props.location.state.user_id} turn={this.state.turn}/>}
+                    <Guesser 
+                        callback={this.onCorrectGuess} 
+                        hiddenWord={this.state.hiddenWord} 
+                        wordListLength={this.state.wordListLength} 
+                        game_id={this.state.game_id} 
+                        user_id={this.props.location.state.user_id} 
+                        turn={this.state.turn} /> :
+                    <Pixeler 
+                        wordListLength={this.state.wordListLength} 
+                        game_id={this.state.game_id} 
+                        user_id={this.props.location.state.user_id} 
+                        turn={this.state.turn}/>}
                 </>
             );
         }

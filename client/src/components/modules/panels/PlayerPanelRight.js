@@ -105,9 +105,12 @@ class PlayerPanelRight extends Component {
             <h2>
             guesses
             </h2>
-            <section scrollbar>
-            {guesses}
-            </section>
+            {/* <div style={{overflow: "auto"}}> */}
+              <section scrollbar>
+              {guesses}
+              </section>
+            {/* </div> */}
+            
             
           </div>
           {(this.props.isGuesser) &&

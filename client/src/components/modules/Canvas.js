@@ -127,8 +127,8 @@ class Canvas extends Component {
     let pixels = [];
     if (this.state.pixels) {
       // let filledPixels = this.state.pixels.map((p)=>{p.filled});
-      console.log("re-rendering");
-      console.log(this.state.pixels);
+      // console.log("re-rendering");
+      // console.log(this.state.pixels);
       for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">

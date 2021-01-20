@@ -23,7 +23,7 @@ import { get, post } from "../../utilities";
  * 
   * Proptypes
  * @param {PlayerObject[]} players
- * @param {String} word
+ * ~~@param {String} word~~
  * @param {Number} wordListLength
  * @param {Number} turn
  */
@@ -59,6 +59,7 @@ class Pixeler extends Component {
       this.processUpdate(update);
     });
 
+    // TODO: LUCY CHANGE
     get("/api/game/get", {game_id: this.props.game_id})
     .then((res) => {
       this.setState({
@@ -140,7 +141,7 @@ class Pixeler extends Component {
               <PlayerPanelLeft 
                 guesser={this.state.guesser} 
                 pixelers={this.state.pixelers} 
-                word={this.props.word} 
+                word={this.state.word} 
                 turn={this.props.turn} 
                 leaveGame={this.leaveGame}
                 />

@@ -5,8 +5,8 @@
 const Game = require("./models/game");
 
 // wow incredible how RFC
-const BOARD_WIDTH_BLOCKS = 3;
-const BOARD_HEIGHT_BLOCKS = 3;
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
 const wordPacks = {"default": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby"]};
@@ -50,13 +50,13 @@ const shuffle = (array) => {
 }
 
 const rotatePlayers = (array) => {
-  const first = array[0];
-  for (let i=0; i < array.length-1; i++){ //rotates by shifting order up (4 --> 3)
-    array[i] = array[(i+1)%array.length]
+  const output = [array[array.length-1]];
+  
+  for ( let i = 0; i < array.length - 1; i++) {
+    output.push(array[i]);
   }
-  array[array.length-1] = first;
 
-  return array
+  return output;
 }
 
 // Called by newgame POST

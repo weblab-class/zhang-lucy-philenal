@@ -32,7 +32,7 @@ class TextEntry extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.callback(this.state.text);
+    this.props.onEnterKeyPress(this.state.text);
 
     this.props.onSubmit && this.props.onSubmit(this.state.text);
     this.setState({
