@@ -35,6 +35,7 @@ class PixelBlock extends Component {
         //   'var(--pixel-color-filled)' : 
         //   'var(--pixel-color-unfilled)'
         if (this.state.chosenColor == this.state.actualColor) {
+          console.log("filled");
           this.setState(
             {
               actualColor: this.state.chosenColor,
@@ -44,6 +45,7 @@ class PixelBlock extends Component {
             this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
           });
         } else {
+          console.log("unfilled");
           this.setState(
             {
               actualColor: this.state.chosenColor,
@@ -113,7 +115,7 @@ class PixelBlock extends Component {
   render() {
     // const myCSS = css`background: ${({ myColor }) => myColor || `black`};`;
     // const MyComponent = styled('div')`${myCSS};`;
-    console.log(this.state.actualColor + " is my color right now");
+    // console.log(this.state.actualColor + " is my color right now");
     if (this.state.hover) {
       return <div 
               className="PixelBlock-body-hover" 

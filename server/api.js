@@ -86,20 +86,20 @@ router.post("/board/save", (req, res) => {
   //   });
   // }
   
-  Game.find({ _id: req.body.game_id }).then((games) => {
-    if (games.length == 0) {
-      res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
-      return;
-    }
-    let board = new Board({
-      _id: games[0].board._id,
-      width: games[0].board.width,
-      height: games[0].board.height,
-      pixels: games[0].board.pixels,
-    });
-    // let board = Board(games[0].board);
-    board.save().then((board) => {res.send(board)});
-  });
+  // Game.find({ _id: req.body.game_id }).then((games) => {
+  //   if (games.length == 0) {
+  //     res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
+  //     return;
+  //   }
+  //   let board = new Board({
+  //     _id: games[0].board._id,
+  //     width: games[0].board.width,
+  //     height: games[0].board.height,
+  //     pixels: games[0].board.pixels,
+  //   });
+  //   // let board = Board(games[0].board);
+  //   board.save().then((board) => {res.send(board)});
+  // });
 
 });
 

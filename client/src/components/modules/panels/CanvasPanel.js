@@ -155,7 +155,6 @@ class CanvasPanel extends Component {
               </div>
               }
 
-              {console.log(this.props.isMyTurn && !this.props.isGuesser)}
               {/* if it's your turn and you're not the guesser, then show the end turn button */}
               
               {/* color switcher */}
