@@ -57,12 +57,12 @@ section {
     text-align: center;
     padding: 1rem;
     /* background-color: yellow; */
-    width: 600px;
+    width: 520px;
     height: 600px;
     /* height: 100%; */
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .CanvasPanel-palette {
@@ -71,9 +71,23 @@ section {
 /* @media (max-width: ){
 
 } */
-.CanvasContainer {
+
+.CanvasPanel-bigBigContainer {
+    position: static;
+    height: 80vh;
     width: 500px;
-    height: 500px;
+
+}
+
+.CanvasPanel-bigContainer {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.CanvasPanel-canvasContainer {
+    width: 520px;
+    height: 520px;
     flex-grow: 1;
     flex-basis: 0;
     padding: 0;
@@ -81,7 +95,27 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
+
+
+.CanvasPanel-canvasOverlay {
+    width: 520px;
+    height: 520px;
+    color: var(--text-color);
+    z-index: 10;
+    position: absolute;
+    top: 260px;
+    left: 0;
+    /* TODO: maybe not hardcode idk
+    justify-content: center;
+    display: flex; */
+
+
+}
+
 .CanvasPanel-button {
     height: 50px;
     width: 50px;
@@ -99,6 +133,10 @@ section {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
+    /* background-color: aqua; */
+    z-index: 20;
+    margin-top: 32rem; 
+    /* TODO: fix */
 }
 
 .CanvasPanel-child {

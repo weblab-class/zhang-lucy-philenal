@@ -1,19 +1,21 @@
 const mongoose = require("mongoose");
 
-//define a comment schema for the database
 const PixelSchema = new mongoose.Schema({
   color: String,
   filled: Boolean,
+  id: Number,
+  key: Number,
 });
 
 const BoardSchema  = new mongoose.Schema({
-    _id: String,
-    width: Number,
-    height: Number,
-    pixels: [{
-        type: PixelSchema,
-    }],
-})
+  _id: String,
+  width: Number,
+  height: Number,
+  num_filled: Number,
+  pixels: [{
+      type: PixelSchema,
+  }],
+});
 
 // compile model from schema
-// module.exports = mongoose.model("board", BoardSchema);
+module.exports = mongoose.model("board", BoardSchema);

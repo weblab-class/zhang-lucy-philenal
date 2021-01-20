@@ -25,10 +25,12 @@ class PlayerPanelRight extends Component {
     // Initialize Default State
     this.state = {
       guesses: [],
-      guess: null
+      guess: null,
+      turn: null,
     };
   }
 
+  // TODO: LUCY
   componentDidMount() {
     // remember -- api calls go here!
     get("api/game/get", {game_id: this.props.game_id})
@@ -36,7 +38,10 @@ class PlayerPanelRight extends Component {
       if (res.length == 0) {
         console.log("rip");
       } else {
-        this.setState({guesses: res[0].guesses});
+        this.setState({
+          guesses: res[0].guesses,
+          turn: res[0].turn,
+        });
       }
     })
     socket.on("guesses", (guesses) => {
@@ -106,7 +111,7 @@ class PlayerPanelRight extends Component {
             guesses
             </h2>
             {/* <div style={{overflow: "auto"}}> */}
-              <section scrollbar>
+              <section >
               {guesses}
               </section>
             {/* </div> */}
@@ -117,9 +122,11 @@ class PlayerPanelRight extends Component {
           <div className="PlayerPanelRight-guesser">
             <div className="PlayerPanelRight-guessTextEntryContainer">
               <GuessEntry 
+                game_id={this.props.game_id}
                 className="PlayerPanelRight-guessTextEntry" 
                 callback={this.onGuessEntry}
-                onSubmit={this.submitGuess}/>
+                onSubmit={this.submitGuess}
+                />
             </div>
             {/* <button 
               className="PlayerPanelRight-submitGuessButton u-color-1"

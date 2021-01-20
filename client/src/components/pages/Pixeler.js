@@ -52,7 +52,6 @@ class Pixeler extends Component {
   };
 
   componentDidMount() {
-    
     // remember -- api calls go here!
     //TODO: can delete if we don't use logic.js ??
     socket.on("update", (update) => {

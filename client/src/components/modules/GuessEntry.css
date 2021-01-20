@@ -31,5 +31,9 @@
 }
 
 .GuessEntry-quitConfirmationChild {
-
+    color: var(--text-color);
 }
+
+/* .GuessEntry-button disabled{
+
+} */

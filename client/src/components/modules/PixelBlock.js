@@ -28,12 +28,9 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
-      if (this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
-        // event.target.style.background = (!this.state.filled) ? 
-        //   'var(--pixel-color-filled)' : 
-        //   'var(--pixel-color-unfilled)'
         if (this.state.chosenColor == this.state.actualColor) {
           console.log("filled");
           this.setState(
@@ -48,7 +45,7 @@ class PixelBlock extends Component {
           console.log("unfilled");
           this.setState(
             {
-              actualColor: this.state.chosenColor,
+              actualColor: "none",
               clicked: true,
               filled: true, 
             }, () => {
@@ -59,23 +56,17 @@ class PixelBlock extends Component {
     };
 
     onHover = (event) => {
-      if (this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
       this.setState({hover: true});
-        // event.target.style.background = 'var(--pixel-color-hover)';
     };
 
     onNonHover = (event) => {
-      if (this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
-      // console.log("I'm not hovering!");
       this.setState({hover: false});
-
-        // event.target.style.background = (this.state.filled) ? 
-        //     'var(--pixel-color-filled)' : 
-        //     'var(--pixel-color-unfilled)';
     };
 
   componentDidMount() {
@@ -104,12 +95,23 @@ class PixelBlock extends Component {
 
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
-        console.log("cleareddd");
         this.setState({
           filled: false,
-        },()=>{console.log(this.state)})
+          color: "none",
+        },()=>{})
       }
     });
+
+    socket.on("nextWord", (updatedGame) =>{
+      if (this.props.game_id === updatedGame.game_id) {
+        // clear the canvas
+        this.setState({
+          filled: false,
+          color: "none",
+        });
+      }
+    });
+
   }
 
   render() {

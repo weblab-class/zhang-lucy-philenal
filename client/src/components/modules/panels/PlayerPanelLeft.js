@@ -58,13 +58,11 @@ class PlayerPanelLeft extends Component {
         error: false,
       };
     }
-
   }
 
   componentDidMount() {
     
   }
-
 
   render() {
 

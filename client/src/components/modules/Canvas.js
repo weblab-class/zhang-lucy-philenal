@@ -34,6 +34,7 @@ class Canvas extends Component {
     this.state = {
       block_size: block_size,
       filled_blocks: 0,
+      canvasDisabled: false,
     };
   }
 
@@ -121,6 +122,13 @@ class Canvas extends Component {
         },()=>{console.log(this.state)})
       }
     });
+
+    socket.on("correct_guess", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        this.setState({canvasDisabled: true});
+      }
+    });
+
   }
 
   render() {
@@ -141,6 +149,7 @@ class Canvas extends Component {
               isGuesser={this.props.isGuesser}
               isMyTurn={this.props.isMyTurn}
               callback={this.onPixelClicked}
+              disabled={this.state.canvasDisabled}
             />
           </div>
         );

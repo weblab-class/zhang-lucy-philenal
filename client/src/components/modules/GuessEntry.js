@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { Link } from "@reach/router";
+import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import "./GuessEntry.css";
@@ -23,12 +24,26 @@ class GuessEntry extends Component {
         text: "",
         disableButton: false,
         areYouSure: false,
+        showGiveUp: false,
     };
   }
 
   componentDidMount() {
     // remember -- api calls go here!
- 
+    socket.on("endedTurn", (updatedGame)=>{
+      if (this.props.game_id === updatedGame.game_id)
+      {
+          this.setState({turn: updatedGame.turn}, ()=> {
+              console.log("the updated turn is " + this.state.turn);
+            if (this.state.turn == updatedGame.players.length - 1) {
+              this.setState({showGiveUp: true});
+            }
+          });
+         
+      }
+  
+      
+    })
   }
 
   handleSubmit = (event) => {
@@ -60,13 +75,28 @@ class GuessEntry extends Component {
   }
 
   onQuitConfirmation = (event) => {
-      this.setState({
-          areYouSure: true,
-      })
+    this.setState({
+        areYouSure: true,
+    });
   }
 
   onQuit = (event) => {
-      // TODO!!
+    post("api/game/nextRound", 
+    {
+      game_id: this.props.game_id
+    }).then((game) => {
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      console.log("Next word is " + game.word);
+    });
+
+    post("/api/board/clear_pixels", {game_id: this.props.game_id
+    }).then((res) => {
+      if (res && res.board) {
+        this.setState({pixels: res.board.pixels});
+      }
+    }).catch((err) => {
+      console.log(err);
+    });      
   }
 
   render() {
@@ -87,23 +117,24 @@ class GuessEntry extends Component {
                 <div className="GuessEntry-child">
                     <button
                         type="submit"
-                        className="NewPostInput-button u-pointer"
+                        className="GuessEntry-button u-pointer"
                         value="Submit"
                         onClick={this.handleSubmit}
                         disabled={this.state.disableButton}
                     >submit
                     </button>
                 </div>
+                {this.state.showGiveUp &&
                 <div className="GuessEntry-child">
                     <button
                         type="submit"
-                        className="NewPostInput-button u-pointer"
+                        className="GuessEntry-button u-pointer"
                         value="Submit"
                         onClick={this.onQuitConfirmation}
                         disabled={this.state.areYouSure}
                     >give up
                     </button>
-                </div>
+                </div>}
                 </div>
                 
             {/* </form> */}

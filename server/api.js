@@ -70,6 +70,7 @@ router.post("/game/new", (req, res) => {
  * wall of fame/shame
  */
 router.post("/board/save", (req, res) => {
+  res.send({status: "good"});
   // update all users
   // for (let i = 0; i < req.body.user_ids.length; i++) {
   //   const filter = { _id: req.body.user_ids[i] };
@@ -165,12 +166,16 @@ router.post("/user/leave", (req, res) => {
 //
 router.post("/game/endTurn", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
-    game.turn += 1; //adds turn
+    // loop back if last player has gone already
+    if (game.turn < game.players.length - 1) {
+      game.turn += 1; //adds turn
+    }
 
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("endedTurn", 
       {
         turn: updatedGame.turn, 
+        players: updatedGame.players, 
         game_id: updatedGame._id,
       });
       res.send(updatedGame);
@@ -180,18 +185,35 @@ router.post("/game/endTurn", (req, res) => {
 });
 
 //updates game with next word in list
-//TODO: if no other word left in list, don't do this??
-//TODO: save the previous game image in game schema
+//TODO: if no other word left in list, don't do this?? => end game
 //TODO: make nextWord random using Logic.getNextWord()
 router.post("/game/nextRound", (req, res) => {
+  // TODO: if guess was incorrect/quit, overlay should be something sad
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
-    game.word_idx += 1; //moves to next idx of words
-    game.word = game.words[game.word_idx]; //moves to next word
-    game.players = Logic.rotatePlayers(game.players) //rotates players
+    // get the next word
+    game.word_idx += 1;
+    game.word = game.words[game.word_idx]; 
+
+    //rotates players
+    game.players = Logic.rotatePlayers(game.players) 
     game.guesser = game.players[0];
     game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
-    return game.save().then((updatedGame) => { //updates game document and then shouts the change
+
+    //TODO: save the previous game image in game schema
+    let newBoard = new Board({
+      // _id: game.board._id,
+      width: game.board.width,
+      height: game.board.height,
+      pixels: game.board.pixels,
+    });
+
+    console.log("BOARD");
+    console.log(newBoard);
+    newBoard.save();//.then((board) => {res.send(board)});
+    
+
+    game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
@@ -250,6 +272,7 @@ router.get("/game/player_status", (req, res) => {
       for (let i = 0; i < games[0].players.length; i++) {
         if (games[0].players[i]._id == req.query.user_id) {
           res.send({ game_id: games[0]._id, status: "pixeler" });
+          return;
         }
       }
       res.send({status:"not in game"});
@@ -349,27 +372,31 @@ router.put("/game/guess", (req, res) => {
     Game.findOne(
       {_id: req.body.game_id},
       function (err, game) {
-        if (game && game.guesses) {
-          let correct = req.body.guess == game.word;
-          game.guesses = game.guesses.concat([req.body.guess])
-          game.num_correct += 1;
-          // TODO: increment turn/word
-          game.save().then((updatedGame) => {
-            if (correct) {
-              res.send({message: "correct"});
-            } else {
-              res.send({message: "incorrect"});
-            }
-            socketManager.getIo().emit("guesses", 
-            {
-              guesses: updatedGame.guesses,
-              game_id: updatedGame._id
-            })
-          });
-          
-        } else {
-          res.send({message: "invalid game"});
+        let invalidGame = !game || !game.guesses;
+        if (invalidGame) {
+          res.status(404).res.send({message: "invalid game"});
         }
+        let correct = req.body.guess == game.word;
+        game.guesses = game.guesses.concat([req.body.guess])
+        game.num_correct += 1;
+        // TODO: increment turn/word
+        game.save().then((updatedGame) => {
+          if (correct) {
+            res.send({message: "correct"});
+            socketManager.getIo().emit("correct_guess", {
+              game_id: updatedGame._id
+            });
+          } else {
+            res.send({message: "incorrect"});
+          }
+          socketManager.getIo().emit("guesses", 
+          {
+            guesses: updatedGame.guesses,
+            game_id: updatedGame._id
+          });
+        });
+          
+
       });
   }).catch((err) => {
     console.log(err);
@@ -466,8 +493,8 @@ router.post("/board/clear_pixels", (req, res) => {
     }
   ).then((updatedGame) => {
     // TODO: Fix this
-    console.log("updated game!!!");
-    console.log(updatedGame);
+    // console.log("updated game!!!");
+    // console.log(updatedGame);
     socketManager.getIo().emit("cleared_canvas", 
     {
       board: updatedGame.board, 

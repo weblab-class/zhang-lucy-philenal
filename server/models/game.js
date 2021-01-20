@@ -27,7 +27,7 @@ const BoardSchema  = new mongoose.Schema({
   pixels: [{
       type: PixelSchema,
   }],
-})
+});
 
 // DNR = Do Not Return (TODO)
 //define a game schema for the database

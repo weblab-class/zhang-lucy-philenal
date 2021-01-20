@@ -34,6 +34,7 @@ class CanvasPanel extends Component {
 
     // Initialize Default State
     this.state = {
+      overlayText: "",
       num_filled: num_filled,
       background: '#F898A4',
       colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
@@ -41,7 +42,6 @@ class CanvasPanel extends Component {
   }
 
   componentDidMount() {
-
     socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (!this.props.isMyTurn) { 
@@ -52,7 +52,6 @@ class CanvasPanel extends Component {
       }
     });
 
-
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
         this.setState({
@@ -61,6 +60,13 @@ class CanvasPanel extends Component {
       }
     });
 
+    socket.on("correct_guess", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        this.setState({
+          overlayText: "correct!",
+        });
+      }
+    });
     
   }
 
@@ -117,12 +123,17 @@ class CanvasPanel extends Component {
     
   }
 
+  updateOverlayText = (text) => {
+    this.setState({overlayText: text});
+  }
+
   nextWord = () => {
     post("api/game/nextRound", 
     {
       game_id: this.props.game_id
     }).then((game) => {
-      console.log("Next word is " + game.word)
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      console.log("Next word is " + game.word);
     });
 
     post("/api/board/clear_pixels", {game_id: this.props.game_id
@@ -140,20 +151,29 @@ class CanvasPanel extends Component {
     return (
       <>
         <div className="CanvasPanel">
-          <div className="CanvasContainer">
-            <Canvas 
-              background={this.state.background}
-              canvas_height_blocks={this.props.canvas_height_blocks} 
-              canvas_width_blocks={this.props.canvas_width_blocks} 
-              // pixels={this.props.canvas_pixels} 
-              game_id={this.props.game_id}
-              user_id={this.props.user_id}
-              isGuesser={this.props.isGuesser}
-              isMyTurn={this.props.isMyTurn}
-              callback={this.props.isGuesser ? null: this.onPixelClicked}
-            />
-            <div className="CanvasPanel-footer">
-              {/* pixels remaining: {this.state.num_filled} */}
+          <div className="CanvasPanel-bigBigContainer">
+            <div className="CanvasPanel-bigContainer">
+              <div className="CanvasPanel-canvasContainer">
+                <Canvas 
+                  background={this.state.background}
+                  canvas_height_blocks={this.props.canvas_height_blocks} 
+                  canvas_width_blocks={this.props.canvas_width_blocks} 
+                  game_id={this.props.game_id}
+                  user_id={this.props.user_id}
+                  isGuesser={this.props.isGuesser}
+                  isMyTurn={this.props.isMyTurn}
+                  callback={this.props.isGuesser ? null: this.onPixelClicked}
+                  // updateOverlayText={this.updateOverlayText}
+                />
+              </div>
+              <div className="CanvasPanel-canvasOverlay">
+                {this.state.overlayText}
+              </div>
+          </div>
+          
+           
+          </div>
+          <div className="CanvasPanel-footer">
               {(this.props.isMyTurn && !this.props.isGuesser) && 
               <div>
                 <div className="CanvasPanel-child">
@@ -164,41 +184,42 @@ class CanvasPanel extends Component {
                 </div>                
               </div>
               }
-
-              {/* if it's your turn and you're not the guesser, then show the end turn button */}
-              
-              {/* color switcher */}
-              
-
               <div className="CanvasPanel-child">
                 {this.props.correctGuess && <span style={{color: "#25e859"}}>correct!</span>}
               </div>
               <div className="CanvasPanel-child">
                 {(this.props.isMyTurn && !this.props.isGuesser) && 
-                <div>
+              <div>
+              <div className="CanvasPanel-child">
                 <button 
                   onClick={this.endTurn} 
-                  className="CanvasPanel-button u-color-1"
-                >end turn</button>
+                  className="Canvas-footer-button u-pointer" 
+                >end turn
+                </button>
+              </div>
+              <div className="CanvasPanel-child">
                 <button 
                   className="Canvas-footer-button u-pointer" 
                   onClick={this.props.clearCanvas}
                 >
                   clear canvas
                 </button>
-                </div>
+              </div>
+              </div>
+
                 }
                 
-                <button className="Canvas-footer-button u-pointer" onClick={this.nextWord}>
-                  next word
-                </button>
+                {this.props.isGuesser &&
+                  <button 
+                    className="Canvas-footer-button u-pointer" 
+                    onClick={this.nextWord}
+                  >
+                    next word
+                  </button>
+                }
               </div>
 
             </div>
-          </div>
-          {/* TODO (philena): Make this prettier */}
-          {/* TODO (lucy): Add callback function so we can actually access this.state.num_filled */}
-          
         </div>
 
       </>
