@@ -5,7 +5,7 @@ import PixelBlock from "./PixelBlock.js";
 import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Canvas.css";
-
+import { drawCanvas } from "../../canvasManager";
 import { get, post, put } from "../../utilities";
 
 
@@ -111,34 +111,35 @@ class Canvas extends Component {
   };
   /* end of color switcher */
   render() {
-    let pixels = [];
-    if (this.state.pixels) {
-      // let filledPixels = this.state.pixels.map((p)=>{p.filled});
-      // console.log("re-rendering");
-      // console.log(this.state.pixels);
-      for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
-        pixels.push(
-          <div className="Canvas-pixelBlockContainer">
-            <PixelBlock 
-              hoverColor={this.state.color}
-              game_id={this.props.game_id}
-              actualColor={this.state.pixels[i].color}
-              id={this.state.pixels[i].id} 
-              filled={this.state.pixels[i].filled}
-              size={this.state.block_size}
-              isGuesser={this.props.isGuesser}
-              isMyTurn={this.props.isMyTurn}
-              /* callback={this.onPixelClicked} */
-              disabled={this.state.canvasDisabled}
-            />
-          </div>
-        );
-      }
-    }
+    // let pixels = [];
+    // if (this.state.pixels) {
+    //   // let filledPixels = this.state.pixels.map((p)=>{p.filled});
+    //   // console.log("re-rendering");
+    //   // console.log(this.state.pixels);
+    //   for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
+    //     pixels.push(
+    //       <div className="Canvas-pixelBlockContainer">
+    //         <PixelBlock 
+    //           hoverColor={this.state.color}
+    //           game_id={this.props.game_id}
+    //           actualColor={this.state.pixels[i].color}
+    //           id={this.state.pixels[i].id} 
+    //           filled={this.state.pixels[i].filled}
+    //           size={this.state.block_size}
+    //           isGuesser={this.props.isGuesser}
+    //           isMyTurn={this.props.isMyTurn}
+    //           /* callback={this.onPixelClicked} */
+    //           disabled={this.state.canvasDisabled}
+    //         />
+    //       </div>
+    //     );
+    //   }
+    // }
     return (
       <>
         <div className="Canvas">
-          {pixels}
+          {/* {pixels} */}
+          <canvas id="game-canvas" width="800" height="800" />
         </div>
         <div style={{margin: "auto"}}>
           <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />

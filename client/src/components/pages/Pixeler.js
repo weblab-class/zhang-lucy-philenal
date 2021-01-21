@@ -9,6 +9,7 @@ import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import CanvasPanel from "../modules/panels/CanvasPanel";
 
+
 import "./Player.css";
 
 import { get, post } from "../../utilities";
