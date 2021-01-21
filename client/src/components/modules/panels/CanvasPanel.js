@@ -36,7 +36,7 @@ class CanvasPanel extends Component {
     this.state = {
       overlayText: "",
       num_filled: num_filled,
-      background: '#F898A4',
+      color: '#F898A4',
       colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
     };
   }
@@ -72,7 +72,7 @@ class CanvasPanel extends Component {
 
   /* color switcher */
   handleChangeComplete = (color, event) => {
-    /* this.setState({ background: color.hex }); */
+    /* this.setState({ color: color.hex }); */
     console.log(`is it my turn? ${this.props.isMyTurn}`);
     if (this.props.isMyTurn){ //if it's user's turn, then they can change color
       post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
@@ -155,7 +155,7 @@ class CanvasPanel extends Component {
             <div className="CanvasPanel-bigContainer">
               <div className="CanvasPanel-canvasContainer">
                 <Canvas 
-                  background={this.state.background}
+                  color={this.state.color}
                   canvas_height_blocks={this.props.canvas_height_blocks} 
                   canvas_width_blocks={this.props.canvas_width_blocks} 
                   game_id={this.props.game_id}

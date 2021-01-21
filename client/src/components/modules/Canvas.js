@@ -20,7 +20,7 @@ const CANVAS_HEIGHT_PX = 500;
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
- * @param {String} background color of pixel in hex
+ * @param {String} color color of pixel in hex
  * 
  */
 class Canvas extends Component {
@@ -141,6 +141,7 @@ class Canvas extends Component {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">
             <PixelBlock 
+              hoverColor={this.props.color}
               game_id={this.props.game_id}
               actualColor={this.state.pixels[i].color}
               id={this.state.pixels[i].id} 

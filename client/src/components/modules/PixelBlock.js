@@ -13,6 +13,8 @@ import "./PixelBlock.css";
  * @param {string} size length of each side of the square
  * @param {string} _id unique ID relative to other pixels in the same canvas
  * @param {function} callback callback function for canvas
+ * @param actualColor the actual pixel background
+ * @param hoverColor the color you hover iwth
  */
 class PixelBlock extends Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class PixelBlock extends Component {
     this.state = {
       filled: this.props.filled,
       hover: false,
-      chosenColor: "#F898A4", //what the user chooses from palette
+      chosenColor: this.props.hoverColor, //what the user chooses from palette
       actualColor: this.props.actualColor, //actual pixel background
       clicked: false, 
     };
