@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { GithubPicker } from 'react-color';
 import PixelBlock from "./PixelBlock.js";
 import { socket } from "../../client-socket.js";
 import "../../utilities.css";
@@ -35,68 +36,14 @@ class Canvas extends Component {
       block_size: block_size,
       filled_blocks: 0,
       canvasDisabled: false,
+      pixels: null,
+      color: '#F898A4',
+      colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
     };
   }
 
-  onPixelClicked = (filled, id, actualColor) => {
-    if (this.props.isGuesser || !this.props.isMyTurn) {
-      return;
-    }
-    if (this.props.callback !=null){ //if it isn't null (isGuesser)
-    console.log(`Clicked! ${filled}, ${id}`);
-    this.props.callback(filled);
-    if (filled) {
-      this.setState({filled_blocks: this.state.filled_blocks + 1}, () => {
-      });
-    } else {
-      this.setState({filled_blocks: this.state.filled_blocks - 1}, () => {
-      });
-    }
-
-      get("/api/game/get", {game_id: this.props.game_id})
-      .then((res) => {
-        if (res.length == 0) {
-          this.setState({game_not_found: true},
-            console.log(`No game found with ID ${this.props.game_id}`)
-          );
-        } else {
-          // make a copy
-          let game = {...res[0]};
-  
-          // add our pixel
-          // TODO: fix color
-          game.board.num_filled = this.state.filled_blocks;
-          game.board.pixels[id] = 
-          {
-            id: id, _id: res[0].board.pixels[id]._id, 
-            color: filled ? actualColor: "none", //if it has been filled, change it to the color chosen
-            filled: filled
-          };
-          put("/api/game/pixel", 
-          {
-            pixel_id: id,
-            pixel_id_filled: filled,
-            pixel_color: actualColor,
-            game: game, 
-            game_id: this.props.game_id
-          })
-          .then((res) => {
-            // console.log("response");
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err)
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-    
-  }
-
   componentDidMount() {
+    //gets the pixels
     get("/api/game/canvas", {game_id: this.props.game_id
     }).then((res) => {
       if (res && res.length > 0) {
@@ -106,22 +53,38 @@ class Canvas extends Component {
       console.log(err);
     })  
 
+    //updates the pixels
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
           filled_blocks: updatedGame.board.num_filled,
+          pixels: updatedGame.board.pixels,
         })
+      }
+    });
+    
+    socket.on("nextWord", (updatedGame) =>{
+      if (this.props.game_id === updatedGame.game_id) {
+        // clear the canvas
+        this.setState({
+          pixels: updatedGame.board.pixels,
+        });
       }
     });
 
     socket.on("cleared_canvas", (updatedGame) => {
-      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         console.log("cleareddd");
         this.setState({
           pixels: updatedGame.board.pixels,
-        },()=>{console.log(this.state)})
-      }
-    });
+        },()=>{
+          /* for (let i=0; i < this.state.pixels.length; i ++){
+            if (this.state.pixels[i].color != "none"){
+              console.log("I HATE THIS " + this.state.pixels[i].color);
+            }
+          } */
+        });
+  }});
 
     socket.on("correct_guess", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
@@ -130,7 +93,23 @@ class Canvas extends Component {
     });
 
   }
-
+  /* color switcher */
+  handleChangeComplete = (color, event) => {
+    /* this.setState({ color: color.hex }); */
+    console.log(`is it my turn? ${this.props.isMyTurn}`);
+    if (this.props.isMyTurn){ //if it's user's turn, then they can change color
+      this.setState({
+        color: color.hex,
+      }, () => {
+        post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
+          console.log("it's my turn and i'm changing the color")
+        })
+      });
+      
+    }
+    
+  };
+  /* end of color switcher */
   render() {
     let pixels = [];
     if (this.state.pixels) {
@@ -141,7 +120,7 @@ class Canvas extends Component {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">
             <PixelBlock 
-              hoverColor={this.props.color}
+              hoverColor={this.state.color}
               game_id={this.props.game_id}
               actualColor={this.state.pixels[i].color}
               id={this.state.pixels[i].id} 
@@ -149,18 +128,20 @@ class Canvas extends Component {
               size={this.state.block_size}
               isGuesser={this.props.isGuesser}
               isMyTurn={this.props.isMyTurn}
-              callback={this.onPixelClicked}
+              /* callback={this.onPixelClicked} */
               disabled={this.state.canvasDisabled}
             />
           </div>
         );
       }
     }
-
     return (
       <>
         <div className="Canvas">
           {pixels}
+        </div>
+        <div style={{margin: "auto"}}>
+          <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />
         </div>
       </>
     );

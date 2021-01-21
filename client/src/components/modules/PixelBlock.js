@@ -4,6 +4,7 @@ import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./PixelBlock.css";
 
+import { get, post, put } from "../../utilities.js";
 /**
  * PixelBlock is a single block within the canvas, the pixels that the
  * user is able to place
@@ -33,27 +34,78 @@ class PixelBlock extends Component {
       if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
-        if (this.state.chosenColor == this.state.actualColor) {
-          console.log("filled with " + this.state.chosenColor);
-          this.setState(
-            {
-              actualColor: this.state.chosenColor,
-              clicked: true,
-              filled: false, 
-            }, () => {
-            this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
-          });
+      //when you click, the pixel takes on that chosen color from the palette
+      this.setState({
+        actualColor: this.props.hoverColor,
+        clicked: true,
+        filled: true,
+      }, ()=> {
+
+        //sends info to api, where socket will send info to other ppl
+        get("/api/game/get", {game_id: this.props.game_id})
+      .then((res) => {
+        if (res.length == 0) {
+          this.setState({game_not_found: true},
+            console.log(`No game found with ID ${this.props.game_id}`)
+          );
         } else {
-          console.log("unfilled");
-          this.setState(
-            {
-              actualColor: "none",
-              clicked: true,
-              filled: true, 
-            }, () => {
-            this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+          // make a copy
+          let game = {...res[0]};
+          // add our pixel
+          // TODO: fix color
+          game.board.num_filled = game.board.num_filled + 1;
+          game.board.pixels[this.props.id] = 
+          {
+            id: this.props.id,
+            _id: res[0].board.pixels[this.props.id]._id, 
+            color: this.state.actualColor, //if it has been filled, change it to the color chosen
+            filled: this.state.filled,
+          };
+          put("/api/game/pixel", 
+          {
+            pixel_id: this.props.id,
+            pixel_id_filled: this.state.filled,
+            pixel_color: this.state.actualColor,
+            game: game, 
+            game_id: this.props.game_id
+          })
+          .then((res) => {
+            // console.log("response");
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err)
           });
         }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      });
+
+      
+    
+        // if (this.state.chosenColor == this.state.actualColor) {
+        //   console.log("filled with " + this.state.chosenColor);
+        //   this.setState(
+        //     {
+        //       actualColor: this.state.chosenColor,
+        //       clicked: true,
+        //       filled: false, 
+        //     }, () => {
+        //     this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+        //   });
+        // } else {
+        //   console.log("unfilled");
+        //   this.setState(
+        //     {
+        //       actualColor: "none",
+        //       clicked: true,
+        //       filled: true, 
+        //     }, () => {
+        //     this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+        //   });
+        // }
 
     };
 
@@ -87,32 +139,22 @@ class PixelBlock extends Component {
     });
 
     //listens for if the user clicks on a color, and changes our background state to that color
-    socket.on("color", (updatedGame) => {
+    /* socket.on("color", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
           chosenColor: updatedGame.background,
         },()=>{console.log("this is my chosen color right now " + this.state.chosenColor)})
       }
-    });
+    }); */
 
-    socket.on("cleared_canvas", (updatedGame) => {
+ /*    socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
         this.setState({
           filled: false,
           color: "none",
         },()=>{})
       }
-    });
-
-    socket.on("nextWord", (updatedGame) =>{
-      if (this.props.game_id === updatedGame.game_id) {
-        // clear the canvas
-        this.setState({
-          filled: false,
-          color: "none",
-        });
-      }
-    });
+    }); */
 
   }
 
@@ -126,7 +168,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
-                backgroundColor: this.state.chosenColor.concat("7F"), //this changes depending on color chosen
+                backgroundColor: this.props.hoverColor.concat("7F"), //this changes depending on color chosen
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}
@@ -152,7 +194,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
-                backgroundColor: "white"
+                backgroundColor: "#FFFFFF"
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}

@@ -96,7 +96,7 @@ class Pixeler extends Component {
     })
     
   }
-
+  
   leaveGame = () => {
     post("/api/user/leave", {
       user_id: this.props.user_id,
@@ -108,16 +108,6 @@ class Pixeler extends Component {
     })
   }
 
-  clearCanvas = () => {
-    post("/api/board/clear_pixels", {game_id: this.props.game_id
-    }).then((res) => {
-      if (res && res.board) {
-        this.setState({pixels: res.board.pixels});
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
 
   render() {
     /* console.log("TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id) */

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GithubPicker } from 'react-color';
+
 import reactCSS from 'reactcss';
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
@@ -36,8 +36,7 @@ class CanvasPanel extends Component {
     this.state = {
       overlayText: "",
       num_filled: num_filled,
-      color: '#F898A4',
-      colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
+      
     };
   }
 
@@ -51,6 +50,7 @@ class CanvasPanel extends Component {
         }
       }
     });
+
 
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
@@ -70,26 +70,13 @@ class CanvasPanel extends Component {
     
   }
 
-  /* color switcher */
-  handleChangeComplete = (color, event) => {
-    /* this.setState({ color: color.hex }); */
-    console.log(`is it my turn? ${this.props.isMyTurn}`);
-    if (this.props.isMyTurn){ //if it's user's turn, then they can change color
-      post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
-        console.log("it's my turn and i'm changing the color")
-      })
-    }
-    
-  };
-  /* end of color switcher */
-
-  onPixelClicked = (filled) => {
+  /* onPixelClicked = (filled) => {
     if (filled) {
       this.setState({num_filled: this.state.num_filled + 1});
     } else {
       this.setState({num_filled: this.state.num_filled - 1});
     }
-  }
+  } */
 
   endTurn = () => {
     //get and then post
@@ -128,6 +115,8 @@ class CanvasPanel extends Component {
   }
 
   nextWord = () => {
+    this.updateOverlayText("");
+    //clears the pixels on next round, introduces new word
     post("api/game/nextRound", 
     {
       game_id: this.props.game_id
@@ -135,16 +124,15 @@ class CanvasPanel extends Component {
       console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       console.log("Next word is " + game.word);
     });
+  }
 
+  clearCanvas = () => {
     post("/api/board/clear_pixels", {game_id: this.props.game_id
     }).then((res) => {
-      if (res && res.board) {
-        this.setState({pixels: res.board.pixels});
-      }
+      console.log("cleARED CANVAS");
     }).catch((err) => {
       console.log(err);
     })
-
   }
 
   render() {
@@ -155,7 +143,6 @@ class CanvasPanel extends Component {
             <div className="CanvasPanel-bigContainer">
               <div className="CanvasPanel-canvasContainer">
                 <Canvas 
-                  color={this.state.color}
                   canvas_height_blocks={this.props.canvas_height_blocks} 
                   canvas_width_blocks={this.props.canvas_width_blocks} 
                   game_id={this.props.game_id}
@@ -181,7 +168,7 @@ class CanvasPanel extends Component {
                   pixels filled: {this.state.num_filled}
                 </div>
                 <div className="CanvasPanel-child">
-                <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />
+                
                 </div>                
               </div>
               }
@@ -201,7 +188,7 @@ class CanvasPanel extends Component {
               <div className="CanvasPanel-child">
                 <button 
                   className="Canvas-footer-button u-pointer" 
-                  onClick={this.props.clearCanvas}
+                  onClick={this.clearCanvas}
                 >
                   clear canvas
                 </button>

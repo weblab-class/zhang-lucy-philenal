@@ -8,8 +8,8 @@
 */
 
 // lol please centralize this
-const BOARD_WIDTH_BLOCKS = 2;
-const BOARD_HEIGHT_BLOCKS = 2;
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
 
 var mongoose = require('mongoose');
 
@@ -200,45 +200,41 @@ router.post("/game/nextRound", (req, res) => {
     game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
 
-    //TODO: save the previous game image in game schema
-  //   let newBoard = new Board({
-  //     // _id: game.board._id,
-  //     width: game.board.width,
-  //     height: game.board.height,
-  //     pixels: game.board.pixels,
-  //   });
+    game.board.num_filled = 0;
+    for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
+      game.board.pixels[i].color = "#FFFFFF";
+      game.board.pixels[i].filled = false;
+    }
 
-  //   /* console.log("BOARD"); */
-  //   /* console.log(newBoard); */
-  //   newBoard.save().then((board) => {
-  //     console.log("THIS IS THE BOARD " + board);
-  //   }).then(()=>game.save()
-  //   ).then((updatedGame) => { //updates game document and then shouts the change
-  //     socketManager.getIo().emit("nextWord", 
-  //     {
-  //       game: updatedGame,
-  //       game_id: updatedGame._id,
-  //       turn: updatedGame.turn,
-  //       players: updatedGame.players,
-  //       pixelers: updatedGame.pixelers,
-  //       guesser: updatedGame.guesser,
-  //     });
-  //     res.send(updatedGame);
-  //   })
-  // })
-  game.save().then((updatedGame) => { //updates game document and then shouts the change
+
+    // //TODO: save the previous game image in game schema
+    // let newBoard = new Board({
+    //   // _id: game.board._id,
+    //   width: game.board.width,
+    //   height: game.board.height,
+    //   pixels: game.board.pixels,
+    // });
+
+    // console.log("BOARD");
+    // console.log(newBoard);
+    // newBoard.save();//.then((board) => {res.send(board)});
+    
+
+    game.save().then((updatedGame) => { //updates game document and then shouts the change
+      console.log(updatedGame.board.pixels)
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
         game_id: updatedGame._id,
         turn: updatedGame.turn,
+        pixels: updatedGame.board.pixels,
         players: updatedGame.players,
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
       });
       res.send(updatedGame);
-    });
-});
+    })
+  })
 });
 
 router.get("/user/get", (req, res) => {
@@ -462,7 +458,7 @@ router.put("/game/pixel", (req, res) => {
       console.log(todo);
     }
   ).then((updatedGame) => {
-    console.log("new pixel color " + req.body.pixel_color);
+    console.log("new pixel color" + req.body.pixel_color);
     socketManager.getIo().emit("board_and_game_id", 
     {
       pixel_id: req.body.pixel_id,
@@ -481,44 +477,66 @@ router.put("/game/pixel", (req, res) => {
 });
       
 router.post("/board/clear_pixels", (req, res) => {
-  console.log(req.body);
-  Game.findOne({_id: req.body.game_id},
-    function(err, game) {
-      if (!game || !game.board) {
-        res.status(400).send({ msg: "game not found" });
-        return;
-      }
-      console.log(game);
-      // if (game && game.board) {
-      game.board.num_filled = 0;
-      for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
-        game.board.pixels[i].color = "none";
-        game.board.pixels[i].filled = false;
-      }
-      game.save().then((res) => {
-        socketManager.getIo().emit("cleared_canvas", 
-          {
-            board: res.board, 
-            pixels: res.board.pixels, 
-            _id: res._id, 
-          });
-      });
+  Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
+    
+    game.board.num_filled = 0;
+    for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
+      game.board.pixels[i].color = "#FFFFFF";
+      game.board.pixels[i].filled = false;
     }
-  ).then((updatedGame) => {
-    // TODO: Fix this
-    // console.log("updated game!!!");
-    // console.log(updatedGame);
-    socketManager.getIo().emit("cleared_canvas", 
-    {
-      board: updatedGame.board, 
-      // pixels: updatedGame.board.pixels, 
-      _id: updatedGame._id, 
-    });
-    res.send({board: updatedGame.board});
+
+    game.save().then((updatedGame) => { //updates game document and then shouts the change
+      console.log(updatedGame.board.pixels)
+      socketManager.getIo().emit("cleared_canvas", 
+      {
+        board: updatedGame.board,
+        game_id: updatedGame._id,
+        pixels: updatedGame.board.pixels,
+      });
+      res.send(updatedGame);
+    })
   }).catch((err) => {
-    console.log(err);
-  });
-})
+      console.log(err);
+    });
+  // console.log(req.body);
+  // Game.findOne({_id: req.body.game_id},
+  //   function(err, game) {
+  //     if (!game || !game.board) {
+  //       res.status(400).send({ msg: "game not found" });
+  //       return;
+  //     }
+      
+  //     // if (game && game.board) {
+  //     game.board.num_filled = 0;
+  //     for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
+  //       game.board.pixels[i].color = "#FFFFFF";
+  //       game.board.pixels[i].filled = false;
+  //     }
+  //     socketManager.getIo().emit("cleared_canvas", 
+  //         {
+  //           board: game.board, 
+  //           pixels: game.board.pixels, 
+  //           _id: game._id, 
+  //         });
+  //     game.save().then((res) => {
+        
+  //     });
+  //   }
+  // ).then((updatedGame) => {
+  //   // TODO: Fix this
+  //   // console.log("updated game!!!");
+  //   // console.log(updatedGame);
+  //   /* socketManager.getIo().emit("cleared_canvas", 
+  //   {
+  //     board: updatedGame.board, 
+  //     // pixels: updatedGame.board.pixels, 
+  //     _id: updatedGame._id, 
+  //   }); */
+  //   res.send({board: updatedGame.board});
+  // }).catch((err) => {
+  //   console.log(err);
+  // });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

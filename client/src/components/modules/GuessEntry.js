@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { Link } from "@reach/router";
 import { socket } from "../../client-socket.js";
+import { get, post, put } from "../../utilities.js";
 
 import "../../utilities.css";
 import "./GuessEntry.css";
