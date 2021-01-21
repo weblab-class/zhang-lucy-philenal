@@ -201,19 +201,32 @@ router.post("/game/nextRound", (req, res) => {
     game.turn = 0; //resets game, people restart
 
     //TODO: save the previous game image in game schema
-    let newBoard = new Board({
-      // _id: game.board._id,
-      width: game.board.width,
-      height: game.board.height,
-      pixels: game.board.pixels,
-    });
+  //   let newBoard = new Board({
+  //     // _id: game.board._id,
+  //     width: game.board.width,
+  //     height: game.board.height,
+  //     pixels: game.board.pixels,
+  //   });
 
-    /* console.log("BOARD"); */
-    /* console.log(newBoard); */
-    newBoard.save().then((board) => {
-      console.log("THIS IS THE BOARD " + board);
-    }).then(()=>game.save()
-    ).then((updatedGame) => { //updates game document and then shouts the change
+  //   /* console.log("BOARD"); */
+  //   /* console.log(newBoard); */
+  //   newBoard.save().then((board) => {
+  //     console.log("THIS IS THE BOARD " + board);
+  //   }).then(()=>game.save()
+  //   ).then((updatedGame) => { //updates game document and then shouts the change
+  //     socketManager.getIo().emit("nextWord", 
+  //     {
+  //       game: updatedGame,
+  //       game_id: updatedGame._id,
+  //       turn: updatedGame.turn,
+  //       players: updatedGame.players,
+  //       pixelers: updatedGame.pixelers,
+  //       guesser: updatedGame.guesser,
+  //     });
+  //     res.send(updatedGame);
+  //   })
+  // })
+  game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
@@ -224,8 +237,8 @@ router.post("/game/nextRound", (req, res) => {
         guesser: updatedGame.guesser,
       });
       res.send(updatedGame);
-    })
-  })
+    });
+});
 });
 
 router.get("/user/get", (req, res) => {
