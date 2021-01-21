@@ -32,7 +32,7 @@ class PixelBlock extends Component {
         return;
       }
         if (this.state.chosenColor == this.state.actualColor) {
-          console.log("filled");
+          console.log("filled with " + this.state.chosenColor);
           this.setState(
             {
               actualColor: this.state.chosenColor,

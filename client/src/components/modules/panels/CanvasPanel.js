@@ -166,7 +166,8 @@ class CanvasPanel extends Component {
                   // updateOverlayText={this.updateOverlayText}
                 />
               </div>
-              <div className="CanvasPanel-canvasOverlay">
+              {/* if text is nothing, get rid of block */}
+              <div className={this.state.overlayText !=="" ?'CanvasPanel-canvasOverlay': 'CanvasPanel-canvasOverlay CanvasPanel-hidden'}>
                 {this.state.overlayText}
               </div>
           </div>

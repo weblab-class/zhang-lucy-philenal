@@ -208,12 +208,12 @@ router.post("/game/nextRound", (req, res) => {
       pixels: game.board.pixels,
     });
 
-    console.log("BOARD");
-    console.log(newBoard);
-    newBoard.save();//.then((board) => {res.send(board)});
-    
-
-    game.save().then((updatedGame) => { //updates game document and then shouts the change
+    /* console.log("BOARD"); */
+    /* console.log(newBoard); */
+    newBoard.save().then((board) => {
+      console.log("THIS IS THE BOARD " + board);
+    }).then(()=>game.save()
+    ).then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
@@ -449,7 +449,7 @@ router.put("/game/pixel", (req, res) => {
       console.log(todo);
     }
   ).then((updatedGame) => {
-    // console.log("new pixels " + updatedGame.board.pixels);
+    console.log("new pixel color " + req.body.pixel_color);
     socketManager.getIo().emit("board_and_game_id", 
     {
       pixel_id: req.body.pixel_id,

@@ -19,3 +19,7 @@
 
 }
  */
+
+ .CanvasPanel-hidden {
+     display: none;
+ }
