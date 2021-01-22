@@ -444,8 +444,9 @@ router.post("/game/color", (req, res) => {
   socketManager.getIo().emit("clicked", 
           {
             location: req.body.location, 
-            game_id: req.body.game_id,
+            game_id: req.body.location.game_id,
           });
+  console.log(" I EMITTED ?");
 });
 
 router.put("/game/pixel", (req, res) => {

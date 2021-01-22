@@ -8,13 +8,18 @@ const NUM_PIXELS = 20;
 export function draw(ctx, location) {
     
   console.log("MY LOCATOIN " + location.x + "y is " + location.y)
-
-  post("/api/game/color", {
-    location: location, 
-    game_id: location.game_id
-}).then(()=> {
-    console.log("it's my turn and i'm changing the color")
-  })
+  console.log("REEEEEEEEEEEEE " + location.isMyTurn + "AM I GUESSER " + location.isGuesser)
+  if (location.isMyTurn && !location.isGuesser){ //only the person whose turn it is can change pixels and emit
+    console.log("REEEEEEEEE2");
+    post("/api/game/color", {
+      location: location, 
+      game_id: location.game_id
+  }).then(()=> {
+      console.log("it's my turn and i'm changing the color")
+    }).catch((err)=> {
+      console.log("ERRORRR " + err)
+    })
+  }
 
   ctx.fillStyle = location.color;
   ctx.save();
@@ -61,7 +66,7 @@ export function usePersistentCanvas() {
     if (location) {
         let mousePos;
         if (location.isMyTurn && !location.isGuesser) { //if it's my turn, then return the relative location since the location i get is a pure location
-            mousePos = { x: Math.floor(location.x - rect.left), y: Math.floor(location.y - rect.top), color: location.color, game_id: location.game_id }
+            mousePos = { x: Math.floor(location.x - rect.left), y: Math.floor(location.y - rect.top), color: location.color, game_id: location.game_id, isMyTurn: location.isMyTurn, isGuesser: location.isGuesser }
         } else { //if i'm just a listener, i got a relative position from socket,
             mousePos = location;
         }
