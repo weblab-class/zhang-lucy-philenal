@@ -8,12 +8,10 @@ const NUM_PIXELS = 20;
 export function draw(ctx, location) {
     
   console.log("MY LOCATOIN " + location.x + "y is " + location.y)
-  console.log("REEEEEEEEEEEEE " + location.isMyTurn + "AM I GUESSER " + location.isGuesser)
   if (location.isMyTurn && !location.isGuesser){ //only the person whose turn it is can change pixels and emit
     console.log("REEEEEEEEE2");
     post("/api/game/color", {
-      location: location, 
-      game_id: location.game_id
+      location: location
   }).then(()=> {
       console.log("it's my turn and i'm changing the color")
     }).catch((err)=> {

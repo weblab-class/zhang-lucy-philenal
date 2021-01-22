@@ -16,22 +16,18 @@ function NewCanvas(props) {
   function handleCanvasClick(e, color) {
     if (props.isMyTurn && !props.isGuesser) { //only set state if it's ur turn and ure not guesser 
       let location = { x: Math.floor(e.clientX), y: Math.floor(e.clientY), color: color, game_id: props.game_id, isMyTurn: props.isMyTurn, isGuesser: props.isGuesser}
-      //haven't actually tested this out yet ... but if no change in location, don't do anything
-      //this is to avoid unnecessary rerendering/posts
-      /* if (location1 != location){ */
-        console.log("I AM SETTING LOCATION")
-        setLocation(location)
-      /* } */
+      console.log("I AM SETTING LOCATION")
+      setLocation(location)
     }
-    
   }
-  socket.on("clicked", (clicked) => {
-    console.log("SOCKET WORKSSS")
-      if (clicked.game_id === props.game_id){
-          listenCanvasClick(clicked.location)
-      }
-      
-  });
+  
+socket.on("clicked", (clicked) => {
+      console.log("SOCKET WORKSSS")
+        if (clicked.game_id === props.game_id){
+            listenCanvasClick(clicked.location)
+        }
+        
+    });
   useEffect(() => {
     //listens for if someone clicked on canvas/changed a pixel on YOUR CANVAS
     
@@ -66,11 +62,7 @@ function NewCanvas(props) {
         ref={canvasRef}
         width="500"
         height="500"
-        onClick={(e) => {handleCanvasClick(e, props.color);
-            /* if (props.isMyTurn) { //only allows the person whose turn it is to add pixels
-                
-            } */
-        }}
+        onClick={(e) => {handleCanvasClick(e, props.color); }}
       />
     </>
   )
