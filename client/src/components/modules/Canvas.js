@@ -20,6 +20,7 @@ const CANVAS_HEIGHT_PX = 500;
 /**
  * The Canvas is the main game board, where pixelers can fill pixels
  * @param isMyTurn
+ * @param isGuesser
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
@@ -119,7 +120,7 @@ class Canvas extends Component {
       <>
         <div className="Canvas">
           {/* {pixels} */}
-          <NewCanvas color={this.state.color} game_id={this.props.game_id} isMyTurn={this.props.isMyTurn}/>
+          <NewCanvas color={this.state.color} game_id={this.props.game_id} isMyTurn={this.props.isMyTurn} isGuesser={this.props.isGuesser}/>
         </div>
         <div style={{margin: "auto"}}>
           <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />

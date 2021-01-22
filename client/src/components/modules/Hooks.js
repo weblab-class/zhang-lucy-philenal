@@ -60,7 +60,7 @@ export function usePersistentCanvas() {
     //if there is a location sent, draw it. otehrwise, it means to clear the canvas
     if (location) {
         let mousePos;
-        if (location.isMyTurn) { //if it's my turn, then return the relative location since the location i get is a pure location
+        if (location.isMyTurn && !location.isGuesser) { //if it's my turn, then return the relative location since the location i get is a pure location
             mousePos = { x: Math.floor(location.x - rect.left), y: Math.floor(location.y - rect.top), color: location.color, game_id: location.game_id }
         } else { //if i'm just a listener, i got a relative position from socket,
             mousePos = location;

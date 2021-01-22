@@ -14,7 +14,7 @@ function NewCanvas(props) {
   const [location, setLocation, canvasRef] = usePersistentCanvas()
 
   function handleCanvasClick(e, color) {
-    let location = { x: Math.floor(e.clientX), y: Math.floor(e.clientY), color: color, game_id: props.game_id, isMyTurn: true}
+    let location = { x: Math.floor(e.clientX), y: Math.floor(e.clientY), color: color, game_id: props.game_id, isMyTurn: true, isGuesser: props.isGuesser}
     //tells server that you clicked a pixel to all other players!
     
     setLocation(location)
