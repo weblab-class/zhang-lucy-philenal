@@ -440,10 +440,11 @@ router.put("/game/start", (req, res) => {
 
 router.post("/game/color", (req, res) => {
   // console.log(typeof req.body.color);
-  socketManager.getIo().emit("color", 
+  console.log(req.body.location.x + " IS MY X " + req.body.location.y + " IS MY Y")
+  socketManager.getIo().emit("clicked", 
           {
+            location: req.body.location, 
             game_id: req.body.game_id,
-            background: req.body.color,
           });
 });
 

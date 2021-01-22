@@ -5,7 +5,8 @@ import PixelBlock from "./PixelBlock.js";
 import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Canvas.css";
-import { drawCanvas } from "../../canvasManager";
+import { drawCanvas, clearCanvas } from "../../canvasManager";
+import NewCanvas from "./NewCanvas.js";
 import { get, post, put } from "../../utilities";
 
 
@@ -18,6 +19,7 @@ const CANVAS_HEIGHT_PX = 500;
 
 /**
  * The Canvas is the main game board, where pixelers can fill pixels
+ * @param isMyTurn
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
@@ -84,7 +86,8 @@ class Canvas extends Component {
             }
           } */
         });
-  }});
+      }
+    });
 
     socket.on("correct_guess", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
@@ -92,6 +95,10 @@ class Canvas extends Component {
       }
     });
 
+  }
+  
+  addPixel = (data) => {
+    drawCanvas()
   }
   /* color switcher */
   handleChangeComplete = (color, event) => {
@@ -101,45 +108,18 @@ class Canvas extends Component {
       this.setState({
         color: color.hex,
       }, () => {
-        post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
           console.log("it's my turn and i'm changing the color")
-        })
       });
+      }
+    };
       
-    }
-    
-  };
   /* end of color switcher */
   render() {
-    // let pixels = [];
-    // if (this.state.pixels) {
-    //   // let filledPixels = this.state.pixels.map((p)=>{p.filled});
-    //   // console.log("re-rendering");
-    //   // console.log(this.state.pixels);
-    //   for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
-    //     pixels.push(
-    //       <div className="Canvas-pixelBlockContainer">
-    //         <PixelBlock 
-    //           hoverColor={this.state.color}
-    //           game_id={this.props.game_id}
-    //           actualColor={this.state.pixels[i].color}
-    //           id={this.state.pixels[i].id} 
-    //           filled={this.state.pixels[i].filled}
-    //           size={this.state.block_size}
-    //           isGuesser={this.props.isGuesser}
-    //           isMyTurn={this.props.isMyTurn}
-    //           /* callback={this.onPixelClicked} */
-    //           disabled={this.state.canvasDisabled}
-    //         />
-    //       </div>
-    //     );
-    //   }
-    // }
     return (
       <>
         <div className="Canvas">
           {/* {pixels} */}
-          <canvas id="game-canvas" width="800" height="800" />
+          <NewCanvas color={this.state.color} game_id={this.props.game_id} isMyTurn={this.props.isMyTurn}/>
         </div>
         <div style={{margin: "auto"}}>
           <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />

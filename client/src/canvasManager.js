@@ -1,43 +1,85 @@
 let canvas;
 /** utils */
+let drag=false;
+// lol please centralize this
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
+const PIXEL_SIZE = 500/BOARD_HEIGHT_BLOCKS;
 
-// converts a coordinate in a normal X Y plane to canvas coordinates
+//gets mouse position
+const getMousePos = (canvas, evt) => {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  }
+}
+// rounds down a coordinate in a normal X Y plane to nearest block location
 const convertCoord = (x, y) => {
   if (!canvas) return;
   return {
-    drawX: canvas.width / 2 + x,
-    drawY: canvas.height / 2 - y,
+    drawX: Math.floor(x/BOARD_WIDTH_BLOCKS),
+    drawY: Math.floor(y/BOARD_HEIGHT_BLOCKS),
   };
 };
 
-// fills a circle at a given x, y canvas coord with radius and color
-const fillCircle = (context, x, y, radius, color) => {
-  context.beginPath();
-  context.arc(x, y, radius, 0, 2 * Math.PI, false);
+// fills a Pixel at a given x, y canvas coord with size + color (HEX)
+const fillPixel = (context, x, y, size, color) => {
   context.fillStyle = color;
-  context.fill();
+  context.fillRect(x, y, size, size);
 };
 
 /** drawing functions */
 
-const drawPlayer = (context, x, y, color) => {
+const drawPixel = (context, x, y, color) => {
   const { drawX, drawY } = convertCoord(x, y);
-  fillCircle(context, drawX, drawY, 20, color);
+  fillPixel(context, drawX, drawY, PIXEL_SIZE, color);
 };
 
-/** main draw */
-export const drawCanvas = (drawState) => {
+const clearCanvas = () => {
+  canvas = document.getElementById("game-canvas");
+  if (!canvas) return;
+  const context = canvas.getContext("2d");
+  context.fillStyle = "white";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+};
+
+const drawHover = (context, x, y, color) => {
+  const { drawX, drawY } = convertCoord(x, y);
+  fillPixel(context, drawX, drawY, PIXEL_SIZE, color.concat("7F"));
+}
+
+//drawState: isMyTurn
+const drawCanvas = (drawState) => {
   // get the canvas element
   canvas = document.getElementById("game-canvas");
   if (!canvas) return;
   const context = canvas.getContext("2d");
 
-  // clear the canvas to black
-  context.fillStyle = "black";
-  context.fillRect(0, 0, canvas.width, canvas.height);
+  if (drawState.isMyTurn){ //only add in these events/alter canvas if it's your turn
+    //if move, then add in hover color
+    canvas.addEventListener('mousemove', (evt)=> {
+      drawHover(context, getMousePos(canvas, evt).x, getMousePos(canvas, evt).y, drawState.color)
+    });
 
+    //if clicked, draw pixel
+    canvas.addEventListener('mousedown', (evt)=> {
+      drag=true;
+      drawPixel(context, getMousePos(canvas, evt).x, getMousePos(canvas, evt).y, drawState.color);
+    });
+
+    canvas.addEventListener('mouseup', (evt) => {
+      drag=false;
+    })
+  }
+  
   // draw all the players
   Object.values(drawState.players).forEach((p) => {
-    drawPlayer(context, p.x, p.y, p.color);
+    drawPixel(context, p.x, p.y, p.color);
   });
 };
+
+
+/** main draw */
+export {drawCanvas, clearCanvas};
