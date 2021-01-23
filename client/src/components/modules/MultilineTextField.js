@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { get, post, put} from "../../utilities";
+import "../../utilities.css";
 
 
-
+/* const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Chilanka',
+      'cursive',
+    ].join(','),
+  },});
+ */
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: '25ch',
+      width: '15ch',
     },
   },
 }));
@@ -51,7 +60,6 @@ export default function MultilineTextField(props) {
         <TextField
           id="outlined-select-wordPack"
           select
-          label="Select"
           value={wordPack}
           onChange={handleChange}
           helperText="please select your word pack"
@@ -67,9 +75,9 @@ export default function MultilineTextField(props) {
         <div>
         <TextField
           id="outlined-number"
-          label="Number"
           type="number"
           InputProps={{ inputProps: { min: 1, max: 10 } }}
+          variant="outlined"
           helperText="please choose the # of rounds"
           onChange={handleTextFieldChange}
           InputLabelProps={{

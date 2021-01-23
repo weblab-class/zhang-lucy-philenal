@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
 import MultilineTextField from "../modules/MultilineTextField.js";
+import Fade from '@material-ui/core/Fade';
 import { Link } from "@reach/router";
 import { navigate } from "@reach/router";
 import { GoogleButton } from "./GoogleButton.js";
@@ -164,6 +165,7 @@ class Lobby extends Component {
       return (
         <> 
               {/* <div><GoogleButton/></div> */}
+            
               <div>hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
               <div className="Lobby">
