@@ -52,6 +52,12 @@ export default function TransitionsModal(props) {
           <div className={classes.paper}>
             <h2 id="transition-modal-title">{props.overlayText}</h2>
             <h3 id="transition-modal-description">{props.theWordWas}</h3>
+            <button 
+              className="transitiion-modal-button u-pointer" 
+              onClick={handleClose&& props.callback}
+            >
+              {props.callbackButtonText}
+            </button>
           </div>
         </Fade>
       </Modal>

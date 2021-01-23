@@ -38,6 +38,7 @@ class Player extends Component {
             hiddenWord: null,
             correctGuess: false, //unhardcode??
             turn: 0, //TODO: if turn exceeds number of players .. ?
+            endGame: false,
         };
     }
     

@@ -116,20 +116,6 @@ class CanvasPanel extends Component {
       }).catch((err) => {
         console.log(err);
       });
-
-      // save canvas to each user and to canvas db
-      post("/api/board/save", {
-        user_ids: [],
-        img_id: null,
-        game_id: this.props.game_id,
-
-      }).then((res) => {
-        console.log(res);
-      }).catch((err) => {
-        console.log(err);
-      })
-
-
     }
     
   }
@@ -144,8 +130,20 @@ class CanvasPanel extends Component {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
     }).then((game) => {
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       console.log("Next word is " + game.word);
+    });
+
+    // save canvas to each user and to canvas db
+    post("/api/board/save", {
+      user_ids: [],
+      img_id: null,
+      game_id: this.props.game_id,
+
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
     });
 
     post("/api/board/clear_pixels", {
@@ -164,7 +162,12 @@ class CanvasPanel extends Component {
   render() {
     return (
       <>
-      <TransitionsModal overlayText={this.state.overlayText} theWordWas={this.state.theWordWas}/>
+      <TransitionsModal 
+        overlayText={this.state.overlayText} 
+        theWordWas={this.state.theWordWas}
+        callback={this.nextWord}
+        callbackButtonText={"next word"}
+      />
         <div className="CanvasPanel">
           <div className="CanvasPanel-bigBigContainer">
             <div className="CanvasPanel-bigContainer">

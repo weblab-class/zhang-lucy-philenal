@@ -219,6 +219,10 @@ const changeTurn = () => {
 
 }
 
+const getScore = (game) => {
+  return 10 * (game.num_correct / (game.num_incorrect + game.num_correct));
+}
+
 /* constants here */
 
 /* game state */
@@ -277,4 +281,5 @@ module.exports = {
     getReturnableGame,
     validateUser,
     validatePixeler,
+    getScore,
   };

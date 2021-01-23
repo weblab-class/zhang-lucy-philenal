@@ -231,6 +231,26 @@ router.post("/game/nextRound", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     // get the next word
     game.word_idx += 1;
+
+    // END GAME
+    if (game.word_idx >= maxSessions * game.players.length) {
+      // TODO: Broadcast to all players
+      game.finished = true;
+      let score = Logic.getScore(game);
+      socketManager.getIo().emit("endGame", {
+        score: score,
+        num_correct: game.num_correct,
+        num_incorrect: game.num_incorrect,
+      });
+
+      res.send({
+        score: score,
+        num_correct: game.num_correct,
+        num_incorrect: game.num_incorrect,
+      });
+      return;
+    }
+
     game.word = game.words[game.word_idx]; 
     game.wordLength = game.word.length;
 
