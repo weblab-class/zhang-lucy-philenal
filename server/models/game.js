@@ -43,6 +43,7 @@ const GameSchema = new mongoose.Schema({
   session: Number, // default: 1, {#player} rounds within sessions
   round: Number, // {# player} words per round
   turn: Number, // whose turn (0 index), there are {#players-1} turns per word
+  //if word_idx == {#players-1}, end of turns for that word
   wordpack: String,
   wordLength: Number,
   word: String, //DNR for guesser

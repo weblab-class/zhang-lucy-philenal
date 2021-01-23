@@ -1,15 +1,23 @@
 .Lobby {
+    font-size: var(--l);  
+    color: var(--text-color);
+    text-align: center;
+
+    justify-content: center;
     border: 0px;
-    /* border-color: var(--grey);
-    border-style: double;
-    border-width: var(--s);
-    background-color: white; */
+    background-color: white;
     padding: var(--m) var(--l);
     margin: 15vh auto;
     display: flex;
     flex-direction: column;
     width: min-content;
-    font-size: var(--l);    
+      
+
+    border: solid;
+    border-width: var(--s);
+    border-color: white;
+    border-radius: var(--m);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
 }
 
 .Lobby-title {
@@ -17,8 +25,9 @@
     font-size: var(--xl);
     letter-spacing: 0.1em;
     /* white */
-    color: #FFFFFF;
     
+    margin: auto;
+    padding-bottom: var(--m);
     white-space: nowrap;
     -webkit-text-stroke-width: 2px;
   
@@ -28,4 +37,5 @@
 .Lobby-startGame {
     margin: var(--m) 0px;
     padding: var(--s);
+    border-color: var(--color-1);
 }

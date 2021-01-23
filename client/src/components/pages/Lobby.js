@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
+import MultilineTextField from "../modules/MultilineTextField.js";
+import Fade from '@material-ui/core/Fade';
 import { Link } from "@reach/router";
 import { navigate } from "@reach/router";
 import { GoogleButton } from "./GoogleButton.js";
@@ -27,11 +29,20 @@ class Lobby extends Component {
     // Initialize Default State
     this.state = {
       players: [],
+      sessions: 1,
+      wordPack: "basic",
+      wordPacks: null,
       host_id: null, //is host or not
     };
   }
 
   componentDidMount() {
+
+    //gets the wordpack list
+    get("/api/game/wordPacks").then((res)=> {
+      this.setState({wordPacks: res}, ()=> console.log(res))
+    })
+
     get("/api/game/players", {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
@@ -76,6 +87,24 @@ class Lobby extends Component {
       }
     });
 
+    //listens for changed word pack
+    socket.on("changedWordPack", (wordPack) => {
+      if (this.props.location.state.game_id === wordPack.game_id) {
+        this.setState({
+          wordPack: wordPack.wordPack
+        })
+      }
+    });
+
+    //listens for changed sessions
+    socket.on("changedSessions", (sessions) => {
+      if (this.props.location.state.game_id === sessions.game_id) {
+        this.setState({
+          sessions: sessions.sessions
+        })
+      }
+    });
+
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
       console.log("started socket works! and props game id " + this.props.location.state.game_id + " and game id " + game_id);
@@ -89,11 +118,16 @@ class Lobby extends Component {
     });
   }
  
+ 
+
+
   // TODO: fix this put request
   startGame = () => {
     put("/api/game/start", {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
+      sessions: this.state.sessions,
+      wordPack: this.state.wordPack
     }).then((res) => {
       console.log("this is right before we navigate to /player " + res)
       navigate("/player", {state: {
@@ -117,7 +151,7 @@ class Lobby extends Component {
   }
 
   render() {
-    if (this.state.players) {
+    if (this.state.players && this.state.wordPacks) {
       let players = []
       for (let i = 0; i < this.state.players.length; i++) {
         players.push(
@@ -131,10 +165,16 @@ class Lobby extends Component {
       return (
         <> 
               {/* <div><GoogleButton/></div> */}
+            
               <div>hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
               <div className="Lobby">
                   <div className="Lobby-title">Lobby</div>
+                  {(this.props.location.state.user_id === this.state.host_id) ?
+                    <MultilineTextField 
+                    wordPacks={this.state.wordPacks} 
+                    game_id={this.props.location.state.game_id}/>: <div></div>}
+                  
                   <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
                   {players}
                   {(this.props.location.state.user_id === this.state.host_id) ? 

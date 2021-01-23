@@ -81,6 +81,10 @@ h2 {
   
   }
 
+h3 {
+  color: var(--text-color);
+}
+
 button {
     font-family: 'Alata', sans-serif;
     color: var(--text-color);

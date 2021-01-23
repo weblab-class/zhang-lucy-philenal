@@ -30,6 +30,19 @@ const router = express.Router();
 //initialize socket
 const socketManager = require("./server-socket");
 
+//word pack
+const wordPacks = {
+  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
+  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
+  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
+  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
+};
+
+//sends list of possible wordpacks
+router.get("/game/wordPacks", (req, res)=> {
+  res.send(Object.keys(wordPacks))
+})
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -193,6 +206,22 @@ router.post("/game/endTurn", (req, res) => {
   })
   
 });
+
+//change text overlay, shouts to people
+router.post("/game/textOverlay", (req, res)=>{
+  Game.findOne({ _id: req.body.game_id })
+  .then((game)=> {
+    socketManager.getIo().emit("textOverlay", {
+      game_id: req.body.game_id,
+      textOverlay: req.body.textOverlay,
+      theWordWas: "the word was: " + game.word,
+      word: game.word
+    })
+    console.log("GAME WORD " + game.word)
+  })
+  
+})
+
 
 //updates game with next word in list
 //TODO: if no other word left in list, don't do this?? => end game
@@ -431,7 +460,9 @@ router.put("/game/guess", (req, res) => {
           if (correct) {
             res.send({message: "correct"});
             socketManager.getIo().emit("correct_guess", {
-              game_id: updatedGame._id
+              game_id: updatedGame._id,
+              theWordWas: "the word was: "+updatedGame.word,
+              word: updatedGame.word
             });
           } else {
             res.send({message: "incorrect"});
@@ -450,6 +481,23 @@ router.put("/game/guess", (req, res) => {
   })
 })
 
+//tells lobby.js the new changed wordpack
+router.post("/game/changedWordPack", (req, res)=> {
+  socketManager.getIo().emit("changedWordPack", {
+    game_id: req.body.game_id,
+    wordPack: req.body.wordPack
+  })
+})
+
+//tells lobby.js the new number of sessions
+router.post("/game/changedSessions", (req, res)=> {
+  socketManager.getIo().emit("changedSessions", {
+    game_id: req.body.game_id,
+    sessions: req.body.sessions
+  })
+})
+
+//TODO: (philena) let palyer choose wordpack
 router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
@@ -458,9 +506,15 @@ router.put("/game/start", (req, res) => {
       game.guesser = game.players[0];
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
+      game.wordPack = req.body.wordPack;
+      game.words = wordPacks[game.wordPack];
+      game.word = game.words[0];
+      game.word_length = game.word.length;
+      game.maxSessions = req.body.sessions;
 
       game.save()
       .then((updatedGame) => {
+        console.log("MY NEW GAME" + updatedGame)
         //TODO: (philena) change this to socket room for higher efficiency!!!!
         //tells everyone that game started!
         console.log("before socket manager start");

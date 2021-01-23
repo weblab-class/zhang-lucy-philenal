@@ -62,6 +62,8 @@ class Guesser extends Component {
         })
       }
     })
+
+    
   }
 
 /*   onCorrectGuess = (word) => {
