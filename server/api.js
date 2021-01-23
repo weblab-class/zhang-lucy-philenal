@@ -62,7 +62,16 @@ router.post("/game/new", (req, res) => {
   });
 
   const newGame = Logic.newGame(req);
-  newGame.save().then((game) => res.send(game));
+  newGame.save().then((newGame) => {
+    res.send({
+      status: "success",
+      game_id: req.body.game_id,
+    });
+  }).catch((err) => {
+    console.log("ERROR");
+    console.log(err);
+    res.status(400).send({status: "error", msg: `${err}`})
+  });
 });
 
 /**
@@ -178,7 +187,8 @@ router.post("/game/endTurn", (req, res) => {
         players: updatedGame.players, 
         game_id: updatedGame._id,
       });
-      res.send(updatedGame);
+      let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+      res.send(game);
     })
   })
   
@@ -193,6 +203,7 @@ router.post("/game/nextRound", (req, res) => {
     // get the next word
     game.word_idx += 1;
     game.word = game.words[game.word_idx]; 
+    game.wordLength = game.word.length;
 
     //rotates players
     game.players = Logic.rotatePlayers(game.players) 
@@ -223,7 +234,8 @@ router.post("/game/nextRound", (req, res) => {
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
       });
-      res.send(updatedGame);
+      let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+      res.send(game);
     })
   })
 });
@@ -240,11 +252,44 @@ router.get("/user/get", (req, res) => {
 router.get("/game/get", (req, res) => {
   // CHECK THAT THE PERSON IS 1) IN GAME 2) A PIXELER
   Game.find({ _id: req.query.game_id }).then((games) => {
-    /// DO NOT SEND WORD
-    res.send(games);
+    // TODO: check that the user is in game
+    if (req.query.user_id && games.length > 0) {
+      let game = Logic.getReturnableGame(games[0], req.query.user_id);
+      res.send(game);
+    } else {
+      res.send([]);
+    }
   });
 });
 
+
+router.get("/game/players", (req, res) => {
+  // CHECK THAT THE PERSON IS 1) IN GAME 2) A PIXELER
+  Game.findOne({ _id: req.query.game_id }).then((game) => {
+    // TODO: check that the user is in game
+    let userIdPassed = req.query.user_id;
+    if (!userIdPassed) {
+      res.status(400).send({msg: "please pass yoursr user_id"});
+    }
+    let gameFound = game;
+    if (!gameFound) {
+      res.status(400).send({msg: "invalid game ID"});
+    }
+    let userValidated = Logic.validateUser(game, req.query.user_id);
+    if (!userValidated) {
+      res.status(404).send({msg: "invalid user ID"});
+    }
+    if (userIdPassed && gameFound && userValidated) {
+      res.status(200).send({
+        status: 200,
+        players: game.players,
+        host_id: game.host_id,
+        started: game.started,
+        msg: "success",
+      });
+    } 
+  });
+});
 
 
 router.get("/game/player_status", (req, res) => {
@@ -377,8 +422,10 @@ router.put("/game/guess", (req, res) => {
           res.status(404).res.send({message: "invalid game"});
         }
         let correct = req.body.guess == game.word;
-        game.guesses = game.guesses.concat([req.body.guess])
-        game.num_correct += 1;
+        game.guesses = game.guesses.concat([req.body.guess]);
+        if (correct) {
+          game.num_correct += 1;
+        }
         // TODO: increment turn/word
         game.save().then((updatedGame) => {
           if (correct) {
@@ -412,18 +459,15 @@ router.put("/game/start", (req, res) => {
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
 
-      game.save(/* function (err) {
-        if(err) {
-          console.log(err);
-            console.error('ERROR! :(((');
-        }
-      } */).then((updatedGame) => {
-            //TODO: (philena) change this to socket room for higher efficiency!!!!
-            //tells everyone that game started!
-            console.log("before socket manager start");
-            socketManager.getIo().emit("game_id_started", req.body.game_id);
-            res.send(updatedGame);
-          });
+      game.save()
+      .then((updatedGame) => {
+        //TODO: (philena) change this to socket room for higher efficiency!!!!
+        //tells everyone that game started!
+        console.log("before socket manager start");
+        socketManager.getIo().emit("game_id_started", req.body.game_id);
+        let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+        res.send(game);
+      }).catch((err) => {console.log(err)});
     });
  
   
@@ -456,10 +500,10 @@ router.put("/game/pixel", (req, res) => {
       pixel_id_filled: req.body.pixel_id_filled,
       pixel_color: req.body.pixel_color,
       board: updatedGame.board,
-      // pixels: req.body.game.pixels, 
       game_id: updatedGame._id
     });
-    res.send(updatedGame);
+    let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+    res.send(game);
   });
 
   //shouts the updated pixels + the game id to all connected sockets

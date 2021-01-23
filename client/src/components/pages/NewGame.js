@@ -40,41 +40,37 @@ class NewGame extends Component {
   }
   
   onEnterKeyPress = (game_id) => {
-    this.setState({game_id: game_id}, ()=>{this.newGame()});
+    this.setState({
+      final_game_id: game_id, game_id: game_id
+    }, ()=>{this.newGame()});
   }
 
   // TODO (lucy): get rid of GET request
   newGame = (event) => {
-    // first get request to check if this ID exists
-    get("api/game/get", {game_id: this.state.game_id})
+    post("/api/game/new", {
+      user_id: this.props.location.state.user_id, 
+      user_name: this.props.location.state.user_name, 
+      game_id: this.state.game_id,
+    })
     .then((res) => {
-      // check that no game with this ID exists
-      if (res.length == 0) {
-        // continue with making new game
-        post("/api/game/new", {
-          user_id: this.props.location.state.user_id, 
-          user_name: this.props.location.state.user_name, 
-          game_id: this.state.game_id,
-        })
-        .then((res) => {
-          console.log("new game");
-          console.log(res);
-          navigate("/lobby", {state: {
-            user_id: this.props.location.state.user_id,  
-            user_name: this.props.location.state.user_name,  
-            game_id: this.state.game_id
-          }});
-        })
-        .catch((err) => {
-          console.log(`error: ${err}`);
-          this.setState({error: true});
-        }); 
+      if (res.status == "success") {
+        console.log("new game");
+        console.log(res);
+        navigate("/lobby", {state: {
+          user_id: this.props.location.state.user_id,  
+          user_name: this.props.location.state.user_name,  
+          game_id: this.state.game_id
+        }});
       } else {
-        console.log(`error`);
+        console.log(`Error: ${res.msg}`);
         this.setState({error: true});
       }
       
-    });
+    })
+    .catch((err) => {
+      console.log(`error: ${err}`);
+      this.setState({error: true});
+    }); 
      
   }
 
@@ -98,9 +94,9 @@ class NewGame extends Component {
                       className="NewGame-button u-color-1"
                       onClick={this.newGame}
                     >new game</button>
-                {this.state.error ? (
-                  <div className="u-text-error">Error: game ID already taken, please try again.</div>
-                ): <div>no errors here [TODO: make this show an error when the above fails]</div>}
+                {this.state.error && (
+                  <div className="u-text-error">Error: game ID {this.state.final_game_id} already taken, please try again.</div>
+                )}
             </div>
       </>
     );

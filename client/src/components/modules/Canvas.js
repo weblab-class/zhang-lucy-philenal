@@ -53,22 +53,26 @@ class Canvas extends Component {
       });
     }
 
-      get("/api/game/get", {game_id: this.props.game_id})
-      .then((res) => {
-        if (res.length == 0) {
+
+    /// TODO: fix this
+      get("/api/game/get", {
+        game_id: this.props.game_id,
+        user_id: this.props.user_id,
+      }).then((res) => {
+        if (!res) {
           this.setState({game_not_found: true},
             console.log(`No game found with ID ${this.props.game_id}`)
           );
         } else {
           // make a copy
-          let game = {...res[0]};
+          let game = {...res};
   
           // add our pixel
           // TODO: fix color
           game.board.num_filled = this.state.filled_blocks;
           game.board.pixels[id] = 
           {
-            id: id, _id: res[0].board.pixels[id]._id, 
+            id: id, _id: res.board.pixels[id]._id, 
             color: filled ? actualColor: "none", //if it has been filled, change it to the color chosen
             filled: filled
           };
@@ -78,7 +82,8 @@ class Canvas extends Component {
             pixel_id_filled: filled,
             pixel_color: actualColor,
             game: game, 
-            game_id: this.props.game_id
+            game_id: this.props.game_id,
+            user_id: this.props.user_id,
           })
           .then((res) => {
             // console.log("response");
@@ -100,7 +105,7 @@ class Canvas extends Component {
     get("/api/game/canvas", {game_id: this.props.game_id
     }).then((res) => {
       if (res && res.length > 0) {
-        this.setState({pixels: res[0].pixels});
+        this.setState({pixels: res.pixels});
       }
     }).catch((err) => {
       console.log(err);
@@ -159,7 +164,7 @@ class Canvas extends Component {
     return (
       <>
         <div className="Canvas">
-          {pixels}
+          {/* {pixels} */}
         </div>
       </>
     );

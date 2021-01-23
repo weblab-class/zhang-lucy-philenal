@@ -33,17 +33,20 @@ class PlayerPanelRight extends Component {
   // TODO: LUCY
   componentDidMount() {
     // remember -- api calls go here!
-    get("api/game/get", {game_id: this.props.game_id})
-    .then((res) => {
-      if (res.length == 0) {
-        console.log("rip");
+    get("api/game/get", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
+    }).then((res) => {
+      if (!res) {
+        console.log("game not found");
       } else {
         this.setState({
-          guesses: res[0].guesses,
-          turn: res[0].turn,
+          guesses: res.guesses,
+          turn: res.turn,
         });
       }
-    })
+    });
+
     socket.on("guesses", (guesses) => {
       if (this.props.game_id === guesses.game_id){
         this.setState({
@@ -123,6 +126,7 @@ class PlayerPanelRight extends Component {
             <div className="PlayerPanelRight-guessTextEntryContainer">
               <GuessEntry 
                 game_id={this.props.game_id}
+                user_id={this.props.user_id}
                 className="PlayerPanelRight-guessTextEntry" 
                 callback={this.onGuessEntry}
                 onSubmit={this.submitGuess}

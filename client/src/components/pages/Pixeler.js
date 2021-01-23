@@ -24,7 +24,6 @@ import { get, post } from "../../utilities";
   * Proptypes
  * @param {PlayerObject[]} players
  * ~~@param {String} word~~
- * @param {Number} wordListLength
  * @param {Number} turn
  */
 class Pixeler extends Component {
@@ -59,13 +58,15 @@ class Pixeler extends Component {
     });
 
     // TODO: LUCY CHANGE
-    get("/api/game/get", {game_id: this.props.game_id})
-    .then((res) => {
+    get("/api/game/get", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
+    }).then((res) => {
       this.setState({
-        canvas: res[0].board, 
-        word: res[0].word, 
-        pixelers: res[0].pixelers, 
-        guesser: res[0].guesser}, () => {
+        canvas: res.board, 
+        word: res.word, 
+        pixelers: res.pixelers, 
+        guesser: res.guesser}, () => {
         console.log("THIS IS THE PIXELER CONSOLE LOG: " + this.state);
       });
     })
@@ -74,10 +75,13 @@ class Pixeler extends Component {
     })
 
     // TODO: unhardcode
-    get("/api/game/canvas", {game_id: this.props.game_id}).then((res) => {
+    get("/api/game/canvas", {
+      game_id: this.props.game_id,
+    }).then((res) => {
       if (res.length == 0) {
         // error with the props idk
         // TODO? figure out props probably
+        console.log("rip your canvas");
         navigate("/");
       } else {
         this.setState({canvas: res[0]}, () => {
@@ -109,7 +113,9 @@ class Pixeler extends Component {
   }
 
   clearCanvas = () => {
-    post("/api/board/clear_pixels", {game_id: this.props.game_id
+    post("/api/board/clear_pixels", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
     }).then((res) => {
       if (res && res.board) {
         this.setState({pixels: res.board.pixels});
@@ -151,6 +157,7 @@ class Pixeler extends Component {
                 canvas_width_blocks={this.state.canvas.height} 
                 canvas_pixels={this.state.canvas.pixels}
                 game_id={this.props.game_id}
+                user_id={this.props.user_id}
                 isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn]._id===this.props.user_id}
                 isGuesser={false}
                 clearCanvas={this.clearCanvas}

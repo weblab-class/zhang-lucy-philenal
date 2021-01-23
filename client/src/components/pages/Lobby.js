@@ -32,31 +32,36 @@ class Lobby extends Component {
   }
 
   componentDidMount() {
-    get("/api/game/get", {
-      game_id: this.props.location.state.game_id
+    get("/api/game/players", {
+      game_id: this.props.location.state.game_id,
+      user_id: this.props.location.state.user_id,
     }).then((res) => {
       console.log(res);
-      this.setState({
-        players: res[0].players,
-        host_id: res[0].host_id,
-       });
-      if (res[0].started === true) {
-        console.log("started...");
-        if (res[0].players.includes({_id: this.props.location.state.user_id})) {
+
+      if (res.status == 200) {
+        this.setState({
+          players: res.players,
+          host_id: res.host_id,
+         });
+        if (res.started === true) {
+          console.log("started...");
           navigate("/player", {state: {
             user_id: this.props.location.state.user_id, 
             game_id: this.props.location.state.game_id
           }});
-        } else {
-          
-        }
+
+          // TODO: figure out how to join late?
+          // navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
+        } 
+      } else {
+        console.log(`Error: ${res.msg}`);
         navigate("/");
-        // TODO: figure out how to join late
-        // navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
       }
+
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`Error: ${err}`);
+      navigate("/");
     })
 
     //listens for if players list is changed (if someone joined) and updates players state
@@ -87,7 +92,8 @@ class Lobby extends Component {
   // TODO: fix this put request
   startGame = () => {
     put("/api/game/start", {
-      game_id: this.props.location.state.game_id
+      game_id: this.props.location.state.game_id,
+      user_id: this.props.location.state.user_id,
     }).then((res) => {
       console.log("this is right before we navigate to /player " + res)
       navigate("/player", {state: {

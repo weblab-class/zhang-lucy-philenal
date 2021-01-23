@@ -81,9 +81,15 @@ const newGame = (req) => {
       name: req.body.user_name, 
       _id: req.body.user_id
     }],
+    pixelers: [{
+      name: req.body.user_name, 
+      _id: req.body.user_id
+    }],
     board: newBoard,
     started: false,
     finished: false,
+    maxSessions: 1, // TODO: customize
+    session: null,
     round: null,
     turn: null,
     wordpack: "default",
@@ -104,6 +110,48 @@ const newGame = (req) => {
 // only draw a word that hasn't been drawn yet
 const getNextWord = (gameSchema) => {
   return words[word_idx];
+}
+
+// Returns true if user is in the game, false otherwise
+const validateUser = (game, user_id) => {
+  for (let i = 0; i < game.players.length; i++) {
+    if (game.players[i]._id == user_id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Called by /game/new, /game/get, any API that needs to hide
+// certain fields
+// Fields to hide: words, word.
+const getReturnableGame = (game, user_id) => {
+  if (game && game.word && game.pixelers && game.words) {
+    // always hide the word list
+    game.words = null;
+    game.word_idx = null;
+    
+    if (game.pixelers) {
+      // if the user is pixeler, don't hide word
+      for (let i = 0; i < game.pixelers.length; i++) {
+        if (game.pixelers[i]._id == user_id) {
+          return game;
+        }
+      }
+
+      // otherwise hide the word
+      if (game.word) {
+        game.word = ""; 
+      }
+      return game;
+    } else {
+      game.word = null;
+      game.words = null;
+      game.word_idx = null;
+    }
+
+  }
+  return null;
 }
 
 // Called AFTER startGame
@@ -194,5 +242,7 @@ module.exports = {
     gameState,
     addPlayer,
     removePlayer,
-    rotatePlayers
+    rotatePlayers,
+    getReturnableGame,
+    validateUser,
   };

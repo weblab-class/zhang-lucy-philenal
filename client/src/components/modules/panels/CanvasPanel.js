@@ -71,10 +71,12 @@ class CanvasPanel extends Component {
   }
 
   /* color switcher */
-  handleChangeComplete = (color, event) => {
+  handleColorChange = (color, event) => {
     /* this.setState({ background: color.hex }); */
     console.log(`is it my turn? ${this.props.isMyTurn}`);
     if (this.props.isMyTurn){ //if it's user's turn, then they can change color
+      localStorage.setItem('selectedColor', color);
+
       post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
         console.log("it's my turn and i'm changing the color")
       })
@@ -98,7 +100,8 @@ class CanvasPanel extends Component {
       // end turn
       post("/api/game/endTurn",
       {
-        game_id: this.props.game_id
+        game_id: this.props.game_id,
+        user_id: this.props.user_id,
       }).then((game) =>
       {
         console.log("You ended your turn. Now the turn number is " + game.turn)
@@ -130,13 +133,16 @@ class CanvasPanel extends Component {
   nextWord = () => {
     post("api/game/nextRound", 
     {
-      game_id: this.props.game_id
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
     }).then((game) => {
       console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       console.log("Next word is " + game.word);
     });
 
-    post("/api/board/clear_pixels", {game_id: this.props.game_id
+    post("/api/board/clear_pixels", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
     }).then((res) => {
       if (res && res.board) {
         this.setState({pixels: res.board.pixels});
@@ -181,7 +187,7 @@ class CanvasPanel extends Component {
                   pixels filled: {this.state.num_filled}
                 </div>
                 <div className="CanvasPanel-child">
-                <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleChangeComplete } />
+                <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleColorChange } />
                 </div>                
               </div>
               }

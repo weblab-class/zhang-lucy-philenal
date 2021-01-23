@@ -20,7 +20,6 @@ import { get, post, put} from "../../utilities";
  * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
  * @param {Number} turn
- * @param {Number} wordListLength
  * @param {String} hiddenWord is "_ _ _ " if not guessed correctly, but shows actual word if guessed correctly
  * @param {Callback} onCorrectGuess function
  * @param {Boolean} correctGuess
@@ -41,12 +40,13 @@ class Guesser extends Component {
   componentDidMount() {
     // remember -- api calls go here!
     get("/api/game/get", {
-      game_id: this.props.game_id
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
     }).then((res) => {
       this.setState({
-        canvas: res[0].board, 
-        pixelers: res[0].pixelers, 
-        guesser: res[0].guesser}, () => {
+        canvas: res.board, 
+        pixelers: res.pixelers, 
+        guesser: res.guesser}, () => {
       });
     })
     .catch((err) => {
