@@ -39,80 +39,44 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled, id, actualColor) => {
+    // check if user is allowed
     if (this.props.isGuesser || !this.props.isMyTurn) {
       return;
     }
-    if (this.props.callback !=null){ //if it isn't null (isGuesser)
-    console.log(`Clicked! ${filled}, ${id}`);
-    this.props.callback(filled);
+
+    // if it isn't null (isGuesser)
+    if (!this.props.onPixelClicked) return;
+    
+    console.log(`Clicked! filled: ${filled}, id: ${id}`);
+    this.props.onPixelClicked(filled);
     if (filled) {
-      this.setState({filled_blocks: this.state.filled_blocks + 1}, () => {
+      this.setState({
+        filled_blocks: this.state.filled_blocks + 1,
       });
     } else {
-      this.setState({filled_blocks: this.state.filled_blocks - 1}, () => {
+      this.setState({
+        filled_blocks: this.state.filled_blocks - 1,
       });
     }
 
-
-    /// TODO: fix this
-      get("/api/game/get", {
-        game_id: this.props.game_id,
-        user_id: this.props.user_id,
-      }).then((res) => {
-        if (!res) {
-          this.setState({game_not_found: true},
-            console.log(`No game found with ID ${this.props.game_id}`)
-          );
-        } else {
-          // make a copy
-          let game = {...res};
-  
-          // add our pixel
-          // TODO: fix color
-          game.board.num_filled = this.state.filled_blocks;
-          game.board.pixels[id] = 
-          {
-            id: id, _id: res.board.pixels[id]._id, 
-            color: filled ? actualColor: "none", //if it has been filled, change it to the color chosen
-            filled: filled
-          };
-          put("/api/game/pixel", 
-          {
-            pixel_id: id,
-            pixel_id_filled: filled,
-            pixel_color: actualColor,
-            game: game, 
-            game_id: this.props.game_id,
-            user_id: this.props.user_id,
-          })
-          .then((res) => {
-            // console.log("response");
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err)
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
     
+    put("/api/game/pixel", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
+      pixel_id: id,
+      pixel_color: actualColor,
+      pixel_filled: filled,
+      num_filled: this.state.filled_blocks,
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    });
+
   }
 
   componentDidMount() {
-    get("/api/game/canvas", {game_id: this.props.game_id
-    }).then((res) => {
-      if (res) {
-        console.log("canvas got!/")
-        console.log(res);
-        this.setState({pixels: res.pixels});
-      }
-    }).catch((err) => {
-      console.log(err);
-    })  
-
+    this.is_mounted = true;
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
@@ -136,9 +100,29 @@ class Canvas extends Component {
       }
     });
 
+    get("/api/game/canvas", {game_id: this.props.game_id
+    }).then((res) => {
+      if (res) {
+        console.log("canvas got!/")
+        console.log(res);
+        if (this.is_mounted){
+          this.setState({pixels: res.pixels});
+
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
+  componentWillUnmount() {
+    this.is_mounted = false;
+  }
+
+
   render() {
+    console.log(`render():`);
+    console.log(this.state);
     let pixels = [];
     if (this.state.pixels) {
       // let filledPixels = this.state.pixels.map((p)=>{p.filled});

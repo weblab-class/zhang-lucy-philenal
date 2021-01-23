@@ -223,8 +223,8 @@ router.post("/game/nextRound", (req, res) => {
     /* console.log(newBoard); */
     newBoard.save().then((board) => {
       console.log("THIS IS THE BOARD " + board);
-    }).then(()=>game.save()
-    ).then((updatedGame) => { //updates game document and then shouts the change
+      game.save()
+    }).then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
@@ -469,42 +469,73 @@ router.put("/game/start", (req, res) => {
         res.send(game);
       }).catch((err) => {console.log(err)});
     });
- 
-  
-});
-
-router.post("/game/color", (req, res) => {
-  // console.log(typeof req.body.color);
-  socketManager.getIo().emit("color", 
-          {
-            game_id: req.body.game_id,
-            background: req.body.color,
-          });
 });
 
 router.put("/game/pixel", (req, res) => {
+  console.log(req.body);
   // TODO: check that the player is a player and pixeler
-  Game.findByIdAndUpdate(
-    (req.body.game_id),
-    req.body.game,
-    {new: true},
-    (err, todo) => {
-      console.log(err);
-      console.log(todo);
+  // Game.findByIdAndUpdate(
+  //   (req.body.game_id),
+  //   req.body.game,
+  //   {new: true},
+  //   (err, todo) => {
+  //     console.log(err);
+  //     console.log(todo);
+  //   }
+  // ).then((updatedGame) => {
+  //   console.log("new pixel color " + req.body.pixel_color);
+  //   socketManager.getIo().emit("board_and_game_id", 
+  //   {
+  //     pixel_id: req.body.pixel_id,
+  //     pixel_id_filled: req.body.pixel_id_filled,
+  //     pixel_color: req.body.pixel_color,
+  //     board: updatedGame.board,
+  //     game_id: updatedGame._id
+  //   });
+  //   let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+  //   res.send(game);
+  // });
+
+  // Required:
+  // game_id, user_id, pixel_id, pixel_color, pixel_filled, num_filled,
+  Game.findOne(
+    {_id: req.body.game_id},
+    function(err, game) {
+      if (!game || !game.board) {
+        res.status(404).send({status: "error", msg: "game not found"})
+        return;
+      }
+      if (!Logic.validatePixeler(game, req.body.user_id)) {
+        res.status(404).send({status: "error", msg: "user is not a pixeler"})
+        return;
+      }
+
+      // let newGame = {...game};
+      // console.log(newGame);
+      // newGame.board.num_filled = req.body.num_filled;
+      game.board.pixels[req.body.pixel_id] = 
+      {
+        id: req.body.pixel_id, 
+        _id: game.board.pixels[req.body.pixel_id]._id, 
+        color: req.body.pixel_filled ? req.body.pixel_color: "none",
+        filled: req.body.pixel_filled,
+      };
+
+      game.save().then((updatedGame) => {
+        console.log("new pixel color " + req.body.pixel_color);
+        socketManager.getIo().emit("board_and_game_id", 
+        {
+          pixel_id: req.body.pixel_id,
+          pixel_id_filled: req.body.pixel_filled,
+          pixel_color: req.body.pixel_color,
+          board: updatedGame.board,
+          game_id: updatedGame._id
+        });
+        let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+        res.send(game);
+      })
     }
-  ).then((updatedGame) => {
-    console.log("new pixel color " + req.body.pixel_color);
-    socketManager.getIo().emit("board_and_game_id", 
-    {
-      pixel_id: req.body.pixel_id,
-      pixel_id_filled: req.body.pixel_id_filled,
-      pixel_color: req.body.pixel_color,
-      board: updatedGame.board,
-      game_id: updatedGame._id
-    });
-    let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
-    res.send(game);
-  });
+  )
 
   //shouts the updated pixels + the game id to all connected sockets
   //TODO: change this idk

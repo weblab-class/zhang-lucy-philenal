@@ -28,30 +28,37 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
+      console.log("clique!");
       if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
-        if (this.state.chosenColor == this.state.actualColor) {
-          console.log("filled with " + this.state.chosenColor);
-          this.setState(
-            {
-              actualColor: this.state.chosenColor,
-              clicked: true,
-              filled: false, 
-            }, () => {
-            this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
-          });
-        } else {
-          console.log("unfilled");
-          this.setState(
-            {
-              actualColor: "none",
-              clicked: true,
-              filled: true, 
-            }, () => {
-            this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
-          });
-        }
+      let chosenColor = localStorage.getItem('chosenColorHex');
+      console.log(`chosen color is ${chosenColor}`);
+
+      // double clicking on an already filled block
+      if (chosenColor == this.state.actualColor) {
+        console.log("filled with " + chosenColor);
+        this.setState(
+          {
+            actualColor: "none",
+            clicked: true,
+            filled: false, 
+          }, () => {
+          this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+        });
+
+      // filling in an empty block
+      } else {
+        console.log(`unfilled: ${chosenColor.hex}`);
+        this.setState(
+          {
+            actualColor: chosenColor,
+            clicked: true,
+            filled: true, 
+          }, () => {
+          this.props.callback(this.state.filled, this.props.id, this.state.actualColor)
+        });
+      }
 
     };
 
@@ -75,21 +82,12 @@ class PixelBlock extends Component {
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (this.props.id === updatedGame.pixel_id) { //if the change was made to this pixel
-          console.log("this pixel is changed -- socket works for PixelBlock!");
+          // console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
            filled: updatedGame.pixel_id_filled,
            actualColor: updatedGame.pixel_color,
           })
         }
-      }
-    });
-
-    //listens for if the user clicks on a color, and changes our background state to that color
-    socket.on("color", (updatedGame) => {
-      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
-        this.setState({
-          chosenColor: updatedGame.background,
-        },()=>{console.log("this is my chosen color right now " + this.state.chosenColor)})
       }
     });
 
@@ -124,7 +122,7 @@ class PixelBlock extends Component {
               style={{
                 width: this.props.size, 
                 height: this.props.size,
-                backgroundColor: this.state.chosenColor.concat("7F"), //this changes depending on color chosen
+                backgroundColor: this.state.actualColor.concat("7F"), //this changes depending on color chosen
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}

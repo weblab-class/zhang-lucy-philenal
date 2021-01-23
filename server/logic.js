@@ -114,8 +114,34 @@ const getNextWord = (gameSchema) => {
 
 // Returns true if user is in the game, false otherwise
 const validateUser = (game, user_id) => {
+  if (!game || !game.players) {
+    return false;
+  }
+  
   for (let i = 0; i < game.players.length; i++) {
     if (game.players[i]._id == user_id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const validatePixeler = (game, user_id) => {
+  if (!game || !game.players || !game.pixelers) {
+    console.log("hereeeee");
+    return false;
+  }
+
+  let ok = false;
+  for (let i = 0; i < game.players.length; i++) {
+    if (game.players[i]._id == user_id) {
+      ok = true;
+    }
+  }
+  if (!ok) return false;
+
+  for (let i = 0; i < game.pixelers.length; i++) {
+    if (game.pixelers[i]._id == user_id) {
       return true;
     }
   }
@@ -245,4 +271,5 @@ module.exports = {
     rotatePlayers,
     getReturnableGame,
     validateUser,
+    validatePixeler,
   };

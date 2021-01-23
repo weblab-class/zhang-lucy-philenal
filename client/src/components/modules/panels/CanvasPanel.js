@@ -73,15 +73,11 @@ class CanvasPanel extends Component {
   /* color switcher */
   handleColorChange = (color, event) => {
     /* this.setState({ background: color.hex }); */
-    console.log(`is it my turn? ${this.props.isMyTurn}`);
+    console.log("chanigng color");
+    console.log(color);
     if (this.props.isMyTurn){ //if it's user's turn, then they can change color
-      localStorage.setItem('selectedColor', color);
-
-      post("/api/game/color", {color: color.hex, game_id: this.props.game_id}).then(()=> {
-        console.log("it's my turn and i'm changing the color")
-      })
+      localStorage.setItem('chosenColorHex', color.hex);
     }
-    
   };
   /* end of color switcher */
 
@@ -168,7 +164,7 @@ class CanvasPanel extends Component {
                   user_id={this.props.user_id}
                   isGuesser={this.props.isGuesser}
                   isMyTurn={this.props.isMyTurn}
-                  callback={this.props.isGuesser ? null: this.onPixelClicked}
+                  onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
                   // updateOverlayText={this.updateOverlayText}
                 />
               </div>
@@ -187,7 +183,12 @@ class CanvasPanel extends Component {
                   pixels filled: {this.state.num_filled}
                 </div>
                 <div className="CanvasPanel-child">
-                <GithubPicker width="150px" colors={this.state.colorPalette} triangle="hide" onChangeComplete={ this.handleColorChange } />
+                <GithubPicker 
+                  width="150px" 
+                  colors={this.state.colorPalette} 
+                  triangle="hide" 
+                  onChangeComplete={ this.handleColorChange } 
+                />
                 </div>                
               </div>
               }

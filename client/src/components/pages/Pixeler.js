@@ -67,7 +67,6 @@ class Pixeler extends Component {
         word: res.word, 
         pixelers: res.pixelers, 
         guesser: res.guesser}, () => {
-        console.log("THIS IS THE PIXELER CONSOLE LOG: " + this.state);
       });
     })
     .catch((err) => {
@@ -78,13 +77,14 @@ class Pixeler extends Component {
     get("/api/game/canvas", {
       game_id: this.props.game_id,
     }).then((res) => {
-      if (res.length == 0) {
-        // error with the props idk
-        // TODO? figure out props probably
-        console.log("rip your canvas");
-        navigate("/");
-      } else {
-        this.setState({canvas: res[0]}, () => {
+      // if (!res) {
+      //   // error with the props idk
+      //   // TODO? figure out props probably
+      //   console.log("rip your canvas");
+      //   navigate("/");
+      // } 
+      if (res) {
+        this.setState({canvas: res}, () => {
           console.log(this.state)
         });
       }
