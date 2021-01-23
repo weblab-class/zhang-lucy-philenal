@@ -49,7 +49,7 @@ class PixelBlock extends Component {
 
       // filling in an empty block
       } else {
-        console.log(`unfilled: ${chosenColor.hex}`);
+        console.log(`unfilled: ${chosenColor}`);
         this.setState(
           {
             actualColor: chosenColor,
@@ -63,6 +63,8 @@ class PixelBlock extends Component {
     };
 
     onHover = (event) => {
+      let chosenColor = localStorage.getItem('chosenColorHex');
+      this.setState({chosenColor: chosenColor});
       if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
@@ -70,6 +72,8 @@ class PixelBlock extends Component {
     };
 
     onNonHover = (event) => {
+      // let chosenColor = localStorage.getItem('chosenColorHex');
+      // this.setState({chosenColor: chosenColor});
       if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
         return;
       }
@@ -113,16 +117,13 @@ class PixelBlock extends Component {
   }
 
   render() {
-    // const myCSS = css`background: ${({ myColor }) => myColor || `black`};`;
-    // const MyComponent = styled('div')`${myCSS};`;
-    // console.log(this.state.actualColor + " is my color right now");
     if (this.state.hover) {
       return <div 
               className="PixelBlock-body-hover" 
               style={{
                 width: this.props.size, 
                 height: this.props.size,
-                backgroundColor: this.state.actualColor.concat("7F"), //this changes depending on color chosen
+                backgroundColor: this.state.chosenColor.concat("7F"),
               }}
               onMouseOver={this.onHover}
               onMouseLeave={this.onNonHover}

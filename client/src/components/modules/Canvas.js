@@ -13,8 +13,6 @@ import { get, post, put } from "../../utilities";
 const CANVAS_WIDTH_PX = 500;
 const CANVAS_HEIGHT_PX = 500;
 
-// const NUM_BLOCKS = this.props.canvas_width_blocks * this.props.canvas_height_blocks; 
-
 /**
  * The Canvas is the main game board, where pixelers can fill pixels
  * @param game_id
@@ -28,7 +26,7 @@ class Canvas extends Component {
     super(props);
 
     const block_size = Math.floor(Math.min(CANVAS_HEIGHT_PX / this.props.canvas_height_blocks, CANVAS_WIDTH_PX / this.props.canvas_width_blocks));
-    console.log(`Block size: ${block_size}`);
+    // console.log(`Block size: ${block_size}`);
 
     // Initialize Default State
     this.state = {
@@ -40,14 +38,11 @@ class Canvas extends Component {
 
   onPixelClicked = (filled, id, actualColor) => {
     // check if user is allowed
-    if (this.props.isGuesser || !this.props.isMyTurn) {
-      return;
-    }
+    if (this.props.isGuesser || !this.props.isMyTurn) return;
 
-    // if it isn't null (isGuesser)
+    // if isGuesser
     if (!this.props.onPixelClicked) return;
     
-    console.log(`Clicked! filled: ${filled}, id: ${id}`);
     this.props.onPixelClicked(filled);
     if (filled) {
       this.setState({
@@ -68,7 +63,11 @@ class Canvas extends Component {
       pixel_filled: filled,
       num_filled: this.state.filled_blocks,
     }).then((res) => {
-      console.log(res);
+      if (res.status == "error") {
+        console.log(`error: ${res.msg}`);
+      } else {
+        console.log(res);
+      }
     }).catch((err) => {
       console.log(err);
     });
@@ -119,15 +118,10 @@ class Canvas extends Component {
     this.is_mounted = false;
   }
 
-
   render() {
-    console.log(`render():`);
     console.log(this.state);
     let pixels = [];
     if (this.state.pixels) {
-      // let filledPixels = this.state.pixels.map((p)=>{p.filled});
-      console.log("re-rendering");
-      // console.log(this.state.pixels);
       for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
         pixels.push(
           <div className="Canvas-pixelBlockContainer">

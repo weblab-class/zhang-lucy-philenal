@@ -527,28 +527,6 @@ router.put("/game/start", (req, res) => {
 
 router.put("/game/pixel", (req, res) => {
   console.log(req.body);
-  // TODO: check that the player is a player and pixeler
-  // Game.findByIdAndUpdate(
-  //   (req.body.game_id),
-  //   req.body.game,
-  //   {new: true},
-  //   (err, todo) => {
-  //     console.log(err);
-  //     console.log(todo);
-  //   }
-  // ).then((updatedGame) => {
-  //   console.log("new pixel color " + req.body.pixel_color);
-  //   socketManager.getIo().emit("board_and_game_id", 
-  //   {
-  //     pixel_id: req.body.pixel_id,
-  //     pixel_id_filled: req.body.pixel_id_filled,
-  //     pixel_color: req.body.pixel_color,
-  //     board: updatedGame.board,
-  //     game_id: updatedGame._id
-  //   });
-  //   let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
-  //   res.send(game);
-  // });
 
   // Required:
   // game_id, user_id, pixel_id, pixel_color, pixel_filled, num_filled,
@@ -564,9 +542,6 @@ router.put("/game/pixel", (req, res) => {
         return;
       }
 
-      // let newGame = {...game};
-      // console.log(newGame);
-      // newGame.board.num_filled = req.body.num_filled;
       game.board.pixels[req.body.pixel_id] = 
       {
         id: req.body.pixel_id, 

@@ -43,14 +43,20 @@ class Pixeler extends Component {
 
   //TODO: update canvas screen/pixeler screen
   processUpdate = (update) => {
-    if (update.winner) {
+    if (update.winner && this.is_mounted) {
       this.setState({ winner: update.winner });
     }
     //should change the pixeler screen
     //drawCanvas(update);
   };
 
+  componentWillUnmount() {
+    this.is_mounted = false;
+  }
+
   componentDidMount() {
+    this.is_mounted = true;
+
     // remember -- api calls go here!
     //TODO: can delete if we don't use logic.js ??
     socket.on("update", (update) => {
@@ -62,12 +68,14 @@ class Pixeler extends Component {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
     }).then((res) => {
-      this.setState({
-        canvas: res.board, 
-        word: res.word, 
-        pixelers: res.pixelers, 
-        guesser: res.guesser}, () => {
-      });
+      if (this.is_mounted) {
+        this.setState({
+          canvas: res.board, 
+          word: res.word, 
+          pixelers: res.pixelers, 
+          guesser: res.guesser}, () => {
+        });
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -77,13 +85,7 @@ class Pixeler extends Component {
     get("/api/game/canvas", {
       game_id: this.props.game_id,
     }).then((res) => {
-      // if (!res) {
-      //   // error with the props idk
-      //   // TODO? figure out props probably
-      //   console.log("rip your canvas");
-      //   navigate("/");
-      // } 
-      if (res) {
+      if (res && this.is_mounted) {
         this.setState({canvas: res}, () => {
           console.log(this.state)
         });
@@ -92,7 +94,7 @@ class Pixeler extends Component {
 
     //listens for updated canvas
     socket.on("board_and_game_id", (updatedGame) => {
-      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame.game_id && this.is_mounted) { //if the game id sent out is ours
         this.setState({
           canvas: updatedGame.board,
         })
