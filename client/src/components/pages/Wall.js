@@ -43,7 +43,6 @@ class Wall extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    // get("/api/game/get", {game_id: this.props.game_id})
     console.log(this.props);
   }
 

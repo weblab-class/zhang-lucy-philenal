@@ -14,14 +14,14 @@ import Pixeler from "./Pixeler";
 
 
 /**
- * This is the page view of a player, either Pixeler or Guesser. Keeps track of turn number, word, and wordlistlength.
+ * This is the page view of a player, either Pixeler or Guesser. Keeps track of 
+ * turn number, and word.
  * 
  * @param game_id The ID of the game
  * @param user_id The google ID of the particular player
  * 
   * Proptypes
  * @param {PlayerObject[]} players
- * @param {String} word make it not a prop??
  */
 class Player extends Component {
     constructor(props) {
@@ -35,7 +35,6 @@ class Player extends Component {
             player: null,
             error: false,
             word: null,
-            wordListLength: null,
             hiddenWord: null,
             correctGuess: false, //unhardcode??
             turn: 0, //TODO: if turn exceeds number of players .. ?
@@ -52,13 +51,16 @@ class Player extends Component {
         // TODO (lucy): BAD FUNCTION
         get("/api/game/get", {
             game_id: this.props.location.state.game_id,
+            user_id: this.props.location.state.user_id,
         }).then((res) => {
             //creates the hidden word and sets state
             this.setState({
-                word: res[0].word, //// TODO: HIDE THIS FROM GUESSER
-                wordListLength: res[0].words.length, 
-                hiddenWord: this.hideWord(res[0].word.length,
-            )});
+                word: res.word, //// TODO: HIDE THIS FROM GUESSER
+                hiddenWord: this.hideWord(res.wordLength),
+            });
+        }).catch((err) => {
+            console.log(err);
+            navigate("/");
         })
 
         get("/api/game/player_status", {
@@ -149,8 +151,10 @@ class Player extends Component {
         console.log(this.props);
         if (this.state.error) { //if there's error 
             return(<><Start/></>);
-        } else if (!this.state.player || !this.state.game_id || !this.state.word || !this.state.hiddenWord) { //if state hasn't been altered for player yet
-            return (<div></div>)
+        //if state hasn't been altered for player yet
+        } else if (!this.state.player || !this.state.game_id) { 
+            console.log("sad");
+            return (<div></div>);
         } else {
             return (
                 <> 
@@ -158,12 +162,10 @@ class Player extends Component {
                     <Guesser 
                         callback={this.onCorrectGuess} 
                         hiddenWord={this.state.hiddenWord} 
-                        wordListLength={this.state.wordListLength} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
                         turn={this.state.turn} /> :
                     <Pixeler 
-                        wordListLength={this.state.wordListLength} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
                         turn={this.state.turn}/>}

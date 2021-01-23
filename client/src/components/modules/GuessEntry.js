@@ -83,13 +83,16 @@ class GuessEntry extends Component {
   onQuit = (event) => {
     post("api/game/nextRound", 
     {
-      game_id: this.props.game_id
+      game_id: this.props.game_id,
+      user_id: this.props.user_id
     }).then((game) => {
       console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       console.log("Next word is " + game.word);
     });
 
-    post("/api/board/clear_pixels", {game_id: this.props.game_id
+    post("/api/board/clear_pixels", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id
     }).then((res) => {
       if (res && res.board) {
         this.setState({pixels: res.board.pixels});
