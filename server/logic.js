@@ -9,7 +9,12 @@ const BOARD_WIDTH_BLOCKS = 20;
 const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
-const wordPacks = {"default": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby"]};
+const wordPacks = {
+  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
+  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
+  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
+  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
+};
 
 /* utils here */
 const getRandomOrder = () => { //playersId should be object of (info of user) playing game
@@ -92,11 +97,11 @@ const newGame = (req) => {
     session: null,
     round: null,
     turn: null,
-    wordpack: "default",
-    word: wordPacks["default"][0],
-    word_length: wordPacks["default"][0].length,
+    wordpack: "basic",
+    word: wordPacks["basic"][0],
+    word_length: wordPacks["basic"][0].length,
     word_idx: 0,
-    words: wordPacks["default"],
+    words: wordPacks["basic"],
     guesses: [],
     guesser: null,
     num_correct: 0,

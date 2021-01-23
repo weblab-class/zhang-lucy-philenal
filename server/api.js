@@ -30,6 +30,19 @@ const router = express.Router();
 //initialize socket
 const socketManager = require("./server-socket");
 
+//word pack
+const wordPacks = {
+  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
+  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
+  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
+  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
+};
+
+//sends list of possible wordpacks
+router.get("/game/wordPacks", (req, res)=> {
+  res.send(Object.keys(wordPacks))
+})
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -468,6 +481,15 @@ router.put("/game/guess", (req, res) => {
   })
 })
 
+//tells lobby.js the new changed wordpack
+router.post("/game/changedWordPack", (req, res)=> {
+  socketManager.getIo().emit("changedWordPack", {
+    game_id: req.body.game_id,
+    wordPack: req.body.wordPack
+  })
+})
+
+//TODO: (philena) let palyer choose wordpack
 router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
@@ -476,6 +498,11 @@ router.put("/game/start", (req, res) => {
       game.guesser = game.players[0];
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
+      game.wordPack = req.body.wordPack;
+      game.words = wordPacks[game.wordPack];
+      game.word = game.words[0];
+      game.word_length = game.word.length;
+      game.maxSessions = req.body.sessions;
 
       game.save()
       .then((updatedGame) => {
