@@ -169,7 +169,7 @@ class Lobby extends Component {
               <div>hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
               <div className="Lobby">
-                  <div className="Lobby-title">Lobby</div>
+                  <div className="Lobby-title">lobby</div>
                   {(this.props.location.state.user_id === this.state.host_id) ?
                     <MultilineTextField 
                     wordPacks={this.state.wordPacks} 
