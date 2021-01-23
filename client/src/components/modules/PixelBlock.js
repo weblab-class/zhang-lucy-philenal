@@ -99,7 +99,7 @@ class PixelBlock extends Component {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
         this.setState({
           filled: false,
-          color: "none",
+          actualColor: "#FFFFFF",
         },()=>{})
       }
     });
@@ -109,7 +109,7 @@ class PixelBlock extends Component {
         // clear the canvas
         this.setState({
           filled: false,
-          color: "none",
+          actualColor: "#FFFFFF",
         });
       }
     });
@@ -117,49 +117,50 @@ class PixelBlock extends Component {
   }
 
   render() {
-    if (this.state.hover) {
-      return <div 
-              className="PixelBlock-body-hover" 
-              style={{
-                width: this.props.size, 
-                height: this.props.size,
-                backgroundColor: this.state.chosenColor.concat("7F"),
-              }}
-              onMouseOver={this.onHover}
-              onMouseLeave={this.onNonHover}
-              onMouseDown={this.onClick}
-            ></div>
-    } else {
-      return (
-        <>
-          {(this.state.filled) ? 
-            <div 
-              className="PixelBlock-body-filled" 
-              style={{
-                width: this.props.size, 
-                height: this.props.size,
-                backgroundColor: this.state.actualColor, //my actual color
-              }}
-              onMouseOver={this.onHover}
-              onMouseLeave={this.onNonHover}
-              onMouseDown={this.onClick}
-            ></div> :
-            <div 
-              className="PixelBlock-body-unfilled" 
-              style={{
-                width: this.props.size, 
-                height: this.props.size,
-                backgroundColor: "white"
-              }}
-              onMouseOver={this.onHover}
-              onMouseLeave={this.onNonHover}
-              onMouseDown={this.onClick}
-            ></div>
-          }
-        </>
-      );
+    if (this.state.chosenColor){
+      if (this.state.hover) {
+        return <div 
+                className="PixelBlock-body-hover" 
+                style={{
+                  width: this.props.size, 
+                  height: this.props.size,
+                  backgroundColor: this.state.chosenColor.concat("7F"),
+                }}
+                onMouseOver={this.onHover}
+                onMouseLeave={this.onNonHover}
+                onMouseDown={this.onClick}
+              ></div>
+      } else {
+        return (
+          <>
+            {(this.state.filled) ? 
+              <div 
+                className="PixelBlock-body-filled" 
+                style={{
+                  width: this.props.size, 
+                  height: this.props.size,
+                  backgroundColor: this.state.actualColor, //my actual color
+                }}
+                onMouseOver={this.onHover}
+                onMouseLeave={this.onNonHover}
+                onMouseDown={this.onClick}
+              ></div> :
+              <div 
+                className="PixelBlock-body-unfilled" 
+                style={{
+                  width: this.props.size, 
+                  height: this.props.size,
+                  backgroundColor: "#FFFFFF"
+                }}
+                onMouseOver={this.onHover}
+                onMouseLeave={this.onNonHover}
+                onMouseDown={this.onClick}
+              ></div>
+            }
+          </>
+        );
+      }
     }
-    
   }
 }
 
