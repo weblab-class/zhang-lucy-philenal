@@ -194,6 +194,22 @@ router.post("/game/endTurn", (req, res) => {
   
 });
 
+//change text overlay, shouts to people
+router.post("/game/textOverlay", (req, res)=>{
+  Game.findOne({ _id: req.body.game_id })
+  .then((game)=> {
+    socketManager.getIo().emit("textOverlay", {
+      game_id: req.body.game_id,
+      textOverlay: req.body.textOverlay,
+      theWordWas: "the word was: " + game.word,
+      word: game.word
+    })
+    console.log("GAME WORD " + game.word)
+  })
+  
+})
+
+
 //updates game with next word in list
 //TODO: if no other word left in list, don't do this?? => end game
 //TODO: make nextWord random using Logic.getNextWord()
@@ -431,7 +447,9 @@ router.put("/game/guess", (req, res) => {
           if (correct) {
             res.send({message: "correct"});
             socketManager.getIo().emit("correct_guess", {
-              game_id: updatedGame._id
+              game_id: updatedGame._id,
+              theWordWas: "the word was: "+updatedGame.word,
+              word: updatedGame.word
             });
           } else {
             res.send({message: "incorrect"});

@@ -3,6 +3,7 @@ import { GithubPicker } from 'react-color';
 import reactCSS from 'reactcss';
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
+import TransitionsModal  from "../TransitionsModal.js";
 import "./PlayerPanel.css";
 import "./CanvasPanel.css";
 import "../Canvas.css";
@@ -36,6 +37,7 @@ class CanvasPanel extends Component {
     this.state = {
       overlayText: "",
       num_filled: num_filled,
+      theWordWas: "",
       background: '#F898A4',
       colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
     };
@@ -64,6 +66,16 @@ class CanvasPanel extends Component {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
           overlayText: "correct!",
+          theWordWas: updatedGame.theWordWas
+        });
+      }
+    });
+
+    socket.on("textOverlay", (updatedGame) => {
+      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+        this.setState({
+          overlayText: updatedGame.textOverlay,
+          theWordWas: updatedGame.theWordWas
         });
       }
     });
@@ -156,6 +168,7 @@ class CanvasPanel extends Component {
   render() {
     return (
       <>
+      <TransitionsModal overlayText={this.state.overlayText} theWordWas={this.state.theWordWas}/>
         <div className="CanvasPanel">
           <div className="CanvasPanel-bigBigContainer">
             <div className="CanvasPanel-bigContainer">
@@ -171,10 +184,6 @@ class CanvasPanel extends Component {
                   callback={this.props.isGuesser ? null: this.onPixelClicked}
                   // updateOverlayText={this.updateOverlayText}
                 />
-              </div>
-              {/* if text is nothing, get rid of block */}
-              <div className={this.state.overlayText !=="" ?'CanvasPanel-canvasOverlay': 'CanvasPanel-canvasOverlay CanvasPanel-hidden'}>
-                {this.state.overlayText}
               </div>
           </div>
           

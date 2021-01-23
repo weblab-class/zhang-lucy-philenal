@@ -6,9 +6,12 @@ import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./GuessEntry.css";
 
+import { get, post, put } from "../../utilities";
 
 /**
  * Generic GuessEntry component
+ * @param game_id
+ * @param user_id
  * @param callback callback function to parent component (onGuessEntry --> sets state of guess in parent)
  * @param className the styling
  * @param onSubmit submitGuess() --> api calls to document guess in PlayerPanelRight.js
@@ -81,16 +84,15 @@ class GuessEntry extends Component {
   }
 
   onQuit = (event) => {
-    post("api/game/nextRound", 
+    post("api/game/textOverlay", 
     {
       game_id: this.props.game_id,
-      user_id: this.props.user_id
+      textOverlay: "oof :("
     }).then((game) => {
       console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-      console.log("Next word is " + game.word);
     });
 
-    post("/api/board/clear_pixels", {
+    /* post("/api/board/clear_pixels", {
       game_id: this.props.game_id,
       user_id: this.props.user_id
     }).then((res) => {
@@ -99,7 +101,7 @@ class GuessEntry extends Component {
       }
     }).catch((err) => {
       console.log(err);
-    });      
+    });       */
   }
 
   render() {

@@ -95,7 +95,28 @@ class Player extends Component {
                     console.log("the updated turn is " + this.state.turn);
                 })
             };
-            
+        //if guessed correctly, show the word!
+        socket.on("correct_guess", (updatedGame) => {
+            if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+            this.setState({
+                hiddenWord: updatedGame.word,
+                correctGuess: true
+            });
+            }
+        });
+  
+  
+        //if gave up, show the word!
+        socket.on("textOverlay", (updatedGame) => {
+            if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+            console.log("I SHOW WORD")
+                this.setState({
+                hiddenWord: updatedGame.word,
+                correctGuess: false,
+            });
+            }
+        });
+
         })
 
         // listens for next word, updates word
@@ -141,11 +162,11 @@ class Player extends Component {
         return hiddenWord;
     }
 
-    onCorrectGuess = (word) => {
+    /* onCorrectGuess = (word) => {
         this.setState({hiddenWord: word});
         this.setState({correctGuess: true});
       }
-
+ */
     render() {
         console.log(this.state);
         console.log(this.props);
@@ -160,7 +181,7 @@ class Player extends Component {
                 <> 
                     {this.state.player == "guesser" ? 
                     <Guesser 
-                        callback={this.onCorrectGuess} 
+                        /* callback={this.onCorrectGuess}  */
                         hiddenWord={this.state.hiddenWord} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
