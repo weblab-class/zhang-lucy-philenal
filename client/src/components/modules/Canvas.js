@@ -104,7 +104,9 @@ class Canvas extends Component {
   componentDidMount() {
     get("/api/game/canvas", {game_id: this.props.game_id
     }).then((res) => {
-      if (res && res.length > 0) {
+      if (res) {
+        console.log("canvas got!/")
+        console.log(res);
         this.setState({pixels: res.pixels});
       }
     }).catch((err) => {
@@ -140,7 +142,7 @@ class Canvas extends Component {
     let pixels = [];
     if (this.state.pixels) {
       // let filledPixels = this.state.pixels.map((p)=>{p.filled});
-      // console.log("re-rendering");
+      console.log("re-rendering");
       // console.log(this.state.pixels);
       for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {
         pixels.push(
@@ -164,7 +166,7 @@ class Canvas extends Component {
     return (
       <>
         <div className="Canvas">
-          {/* {pixels} */}
+          {pixels}
         </div>
       </>
     );

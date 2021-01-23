@@ -332,8 +332,8 @@ router.get("/game/player_status", (req, res) => {
 router.get("/game/canvas", (req, res) => {
   // TODO: Check if the user is in the game
   // console.log("what");
-  Game.find({ _id: req.query.game_id }).then((games) => {
-    res.send(games.map((g) => g.board));
+  Game.findOne({ _id: req.query.game_id }).then((game) => {
+    res.send(game.board);
   });
 });
 
