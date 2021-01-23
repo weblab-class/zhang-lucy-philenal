@@ -8,7 +8,6 @@ const PixelSchema = new mongoose.Schema({
 });
 
 const BoardSchema  = new mongoose.Schema({
-  _id: String,
   width: Number,
   height: Number,
   num_filled: Number,

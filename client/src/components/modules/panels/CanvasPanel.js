@@ -4,6 +4,7 @@ import reactCSS from 'reactcss';
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
 import TransitionsModal  from "../TransitionsModal.js";
+import AlertDialog  from "../AlertDialog.js";
 import "./PlayerPanel.css";
 import "./CanvasPanel.css";
 import "../Canvas.css";
@@ -162,7 +163,13 @@ class CanvasPanel extends Component {
   render() {
     return (
       <>
-      <TransitionsModal 
+      {/* <TransitionsModal 
+        overlayText={this.state.overlayText} 
+        theWordWas={this.state.theWordWas}
+        callback={this.nextWord}
+        callbackButtonText={"next word"}
+      /> */}
+      <AlertDialog 
         overlayText={this.state.overlayText} 
         theWordWas={this.state.theWordWas}
         callback={this.nextWord}

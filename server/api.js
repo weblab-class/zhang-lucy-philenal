@@ -272,8 +272,8 @@ router.post("/game/nextRound", (req, res) => {
     /* console.log(newBoard); */
     newBoard.save().then((board) => {
       console.log("THIS IS THE BOARD " + board);
-      game.save()
-    }).then((updatedGame) => { //updates game document and then shouts the change
+      
+    }).then(()=> game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
@@ -285,7 +285,7 @@ router.post("/game/nextRound", (req, res) => {
       });
       let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
       res.send(game);
-    })
+    }))
   })
 });
 
