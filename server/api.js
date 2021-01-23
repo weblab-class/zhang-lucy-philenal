@@ -233,7 +233,7 @@ router.post("/game/nextRound", (req, res) => {
     game.word_idx += 1;
 
     // END GAME
-    if (game.word_idx >= maxSessions * game.players.length) {
+    if (game.word_idx >= game.maxSessions * game.players.length) {
       // TODO: Broadcast to all players
       game.finished = true;
       let score = Logic.getScore(game);
@@ -548,6 +548,7 @@ router.put("/game/start", (req, res) => {
 router.put("/game/pixel", (req, res) => {
   console.log(req.body);
   let color =  req.body.pixel_filled ? req.body.pixel_color: "none";
+  //this was helpful: https://stackoverflow.com/questions/56527121/findoneandupdate-nested-object-in-array/56527476
   Game.findOneAndUpdate(
     {
       "_id": req.body.game_id,

@@ -1,1 +1,19 @@
 /* Fill me in :) */
+.Skeleton-pixelBox {
+    height: 300px;
+    width: 300px;
+    border-radius: 1em;
+    border: solid;
+    border-width: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
+    border-color: white;
+
+    font-family: var(--font-primary);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    padding: var(--l);
+    margin: var(--l);
+}
+
+
