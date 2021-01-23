@@ -109,7 +109,7 @@ class Player extends Component {
         //if gave up, show the word!
         socket.on("textOverlay", (updatedGame) => {
             if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
-            console.log("I SHOW WORD")
+                console.log("I SHOW WORD")
                 this.setState({
                 hiddenWord: updatedGame.word,
                 correctGuess: false,

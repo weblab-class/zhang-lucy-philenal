@@ -489,6 +489,14 @@ router.post("/game/changedWordPack", (req, res)=> {
   })
 })
 
+//tells lobby.js the new number of sessions
+router.post("/game/changedSessions", (req, res)=> {
+  socketManager.getIo().emit("changedSessions", {
+    game_id: req.body.game_id,
+    sessions: req.body.sessions
+  })
+})
+
 //TODO: (philena) let palyer choose wordpack
 router.put("/game/start", (req, res) => {
   Game.findOne(
@@ -506,6 +514,7 @@ router.put("/game/start", (req, res) => {
 
       game.save()
       .then((updatedGame) => {
+        console.log("MY NEW GAME" + updatedGame)
         //TODO: (philena) change this to socket room for higher efficiency!!!!
         //tells everyone that game started!
         console.log("before socket manager start");

@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-/* import MultilineTextField from "../modules/MultilineTextField.js"; */
-import { makeStyles } from '@material-ui/core/styles';
+import MultilineTextField from "../modules/MultilineTextField.js";
 import { Link } from "@reach/router";
 import { navigate } from "@reach/router";
 import { GoogleButton } from "./GoogleButton.js";
@@ -15,14 +12,7 @@ import "./Lobby.css";
 
 import { get, post, put} from "../../utilities";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-}));
+
 /**
  * Lobby page is what the user travels to after making/joining
  * a game. The host can start the game.
@@ -45,13 +35,11 @@ class Lobby extends Component {
     };
   }
 
-  classes = useStyles();
-
   componentDidMount() {
 
     //gets the wordpack list
     get("/api/game/wordPacks").then((res)=> {
-      this.setState({wordPacks: res}, ()=> console.log(wordPacks))
+      this.setState({wordPacks: res}, ()=> console.log(res))
     })
 
     get("/api/game/players", {
@@ -107,6 +95,15 @@ class Lobby extends Component {
       }
     });
 
+    //listens for changed sessions
+    socket.on("changedSessions", (sessions) => {
+      if (this.props.location.state.game_id === sessions.game_id) {
+        this.setState({
+          sessions: sessions.sessions
+        })
+      }
+    });
+
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
       console.log("started socket works! and props game id " + this.props.location.state.game_id + " and game id " + game_id);
@@ -120,12 +117,7 @@ class Lobby extends Component {
     });
   }
  
-  //changes the number of sessions
-  handleTextFieldChange = (e) => {
-    this.setState({
-      sessions: e.target.value
-    })
-  }
+ 
 
 
   // TODO: fix this put request
@@ -158,7 +150,7 @@ class Lobby extends Component {
   }
 
   render() {
-    if (this.state.players && !this.state.wordPacks) {
+    if (this.state.players && this.state.wordPacks) {
       let players = []
       for (let i = 0; i < this.state.players.length; i++) {
         players.push(
@@ -177,19 +169,9 @@ class Lobby extends Component {
               <div className="Lobby">
                   <div className="Lobby-title">Lobby</div>
                   {(this.props.location.state.user_id === this.state.host_id) ?
-                  <form className={classes.root} noValidate autoComplete="off">
-                    <TextField
-                        id="standard-number"
-                        label="Number"
-                        type="number"
-                        helperText="please choose the # of rounds"
-                        onChange={this.handleTextFieldChange}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    {/* <MultilineTextField wordPacks={this.state.wordPacks} /> */}
-                  </form> : <div></div>}
+                    <MultilineTextField 
+                    wordPacks={this.state.wordPacks} 
+                    game_id={this.props.location.state.game_id}/>: <div></div>}
                   
                   <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
                   {players}
