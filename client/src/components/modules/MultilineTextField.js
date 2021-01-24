@@ -36,6 +36,8 @@ export default function MultilineTextField(props) {
   const classes = useStyles();
   const [wordPack, setWordPack] = React.useState('basic');
   const [sessions, setSessions] = React.useState(1);
+  const [pixelLimit, setPixelLimit] = React.useState(1);
+  const [wantPixelLimit, setWantPixelLimit] = React.useState(false)
 
   const handleChange = (event) => {
     setWordPack(event.target.value);
@@ -46,12 +48,30 @@ export default function MultilineTextField(props) {
   };
 
  //changes the number of sessions
-  const handleTextFieldChange = (event) => {
+  const handleRoundChange = (event) => {
     setSessions(event.target.value);
     post("/api/game/changedSessions", {
       sessions: event.target.value,
       game_id: props.game_id
     }).then(()=> console.log("I changed my sessions"))
+  }
+
+   //changes the number of pixels/person
+   const handlePixelLimitChange = (event) => {
+    setPixelLimit(event.target.value);
+    post("/api/game/changedPixelLimit", {
+      pixelLimit: event.target.value,
+      game_id: props.game_id
+    }).then(()=> console.log("I changed my pixel limit"))
+  }
+
+  //changes switch if you want limit change
+  const handleWantPixelLimitChange = (event) => {
+    setWantPixelLimit(event.target.checked);
+    post("/api/game/changedWantPixelLimit", {
+      wantPixelLimit: event.target.checked,
+      game_id: props.game_id
+    }).then(()=> console.log("I want/dont want to change my pixel limit"))
   }
 
   return (
@@ -79,11 +99,30 @@ export default function MultilineTextField(props) {
           InputProps={{ inputProps: { min: 1, max: 10 } }}
           variant="outlined"
           helperText="please choose the # of rounds"
-          onChange={handleTextFieldChange}
+          onChange={handleRoundChange}
           InputLabelProps={{
             shrink: true,
           }}
         />
+        <Switch
+        checked={state.checkedA}
+        onChange={handleWantPixelLimitChange}
+        name="pixelLimit"
+        inputProps={{ 'aria-label': 'secondary checkbox' }}
+        /* only show this if user wants to set pixel limit */
+      /> {wantPixelLimit &&
+        <TextField
+        id="outlined-number"
+        type="number"
+        InputProps={{ inputProps: { min: 1, } }}
+        variant="outlined"
+        helperText="please choose the # of pixels/person"
+        onChange={handlePixelLimitChange}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />}
+        
       </div>
     </form>
   );
