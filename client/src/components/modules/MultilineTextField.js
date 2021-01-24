@@ -35,9 +35,9 @@ export default function MultilineTextField(props) {
 
   const classes = useStyles();
   const [wordPack, setWordPack] = React.useState('basic');
-  const [sessions, setSessions] = React.useState(1);
+  const [sessionValues, setSessions] = React.useState(1);
 
-  const handleChange = (event) => {
+  const handleWordpackChange = (event) => {
     setWordPack(event.target.value);
     post("/api/game/changedWordPack", {
       wordPack: event.target.value,
@@ -46,7 +46,7 @@ export default function MultilineTextField(props) {
   };
 
  //changes the number of sessions
-  const handleTextFieldChange = (event) => {
+  const handleSessionValueChange = (event) => {
     setSessions(event.target.value);
     post("/api/game/changedSessions", {
       sessions: event.target.value,
@@ -61,7 +61,7 @@ export default function MultilineTextField(props) {
           id="outlined-select-wordPack"
           select
           value={wordPack}
-          onChange={handleChange}
+          onChange={handleWordpackChange}
           helperText="please select your word pack"
           variant="outlined"
         >
@@ -75,15 +75,21 @@ export default function MultilineTextField(props) {
         <div>
         <TextField
           id="outlined-number"
+          select
           type="number"
-          InputProps={{ inputProps: { min: 1, max: 10 } }}
+          value={sessionValues}
+          // InputProps={{ inputProps: { min: 1, max: 10 } }}
           variant="outlined"
           helperText="please choose the # of rounds"
-          onChange={handleTextFieldChange}
+          onChange={handleSessionValueChange}
           InputLabelProps={{
             shrink: true,
           }}
-        />
+        >{props.sessionValues.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}</TextField>
       </div>
     </form>
   );

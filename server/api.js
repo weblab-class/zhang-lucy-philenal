@@ -38,10 +38,18 @@ const wordPacks = {
   "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
 };
 
+const sessionValues = [1,2,3,4,5];
+
 //sends list of possible wordpacks
 router.get("/game/wordPacks", (req, res)=> {
   res.send(Object.keys(wordPacks))
 })
+
+//sends list of possible sessionValues
+router.get("/game/sessionValues", (req, res)=> {
+  res.send(Object.values(sessionValues))
+})
+
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);

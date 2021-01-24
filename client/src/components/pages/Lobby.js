@@ -43,6 +43,10 @@ class Lobby extends Component {
       this.setState({wordPacks: res}, ()=> console.log(res))
     })
 
+    get("/api/game/sessionValues").then((res) => {
+      this.setState({sessionValues: res}, ()=>console.log(res))
+    })
+
     get("/api/game/players", {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
@@ -173,6 +177,7 @@ class Lobby extends Component {
                   {(this.props.location.state.user_id === this.state.host_id) ?
                     <MultilineTextField 
                     wordPacks={this.state.wordPacks} 
+                    sessionValues={this.state.sessionValues}
                     game_id={this.props.location.state.game_id}/>: <div></div>}
                   
                   <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
