@@ -236,6 +236,17 @@ router.post("/game/textOverlay", (req, res)=>{
   
 })
 
+router.get("/user/images", (req, res) => {
+  User.findOne({_id: req.query.user_id}).then((user) => {
+    console.log(user);
+    if (!user) {
+      res.status(404).send({msg: "user not found"});
+      return;
+    };
+
+    res.send(user.guessed_imgs);
+  })
+})
 
 //updates game with next word in list
 //TODO: if no other word left in list, don't do this?? => end game
@@ -245,18 +256,26 @@ router.post("/game/nextRound", (req, res) => {
   
   // TODO: if guess was incorrect/quit, overlay should be something sad
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
-    // get the next word
-    game.word_idx += 1;
+    console.log(game.word);
 
     for (let i = 0; i < game.players.length; i++) {
       User.findOne({
         _id: game.players[i]._id
       }).then((user) => {
         let board = game.board;
-        user.guessed_imgs.push(board);
+        user.guessed_imgs.push({
+          pixels: board.pixels,
+          width: board.width,
+          height: board.height,
+          num_filled: board.num_filled,
+          title: game.word,
+        });
         user.save();
       })
     }
+
+    // get the next word
+    game.word_idx += 1;
 
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
@@ -281,7 +300,6 @@ router.post("/game/nextRound", (req, res) => {
     }
 
     // Not end game
-
     game.word = game.words[game.word_idx]; 
     game.wordLength = game.word.length;
 

@@ -296,14 +296,6 @@ class CanvasPanel extends Component {
               </div>
 
                 }
-                
-                this.props.isGuesser &&
-                  <button 
-                    className="Canvas-footer-button u-pointer" 
-                    onClick={this.nextWord}
-                  >
-                   END GAME
-                  </button>
                   
                {/*  {this.props.isGuesser &&
                   <button 

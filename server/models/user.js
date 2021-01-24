@@ -18,6 +18,7 @@ const BoardSchema  = new mongoose.Schema({
     id: Number,
     key: Number,
   }],
+  title: String,
 });
 
 const UserSchema = new mongoose.Schema({
