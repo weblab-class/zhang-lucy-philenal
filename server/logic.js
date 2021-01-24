@@ -77,6 +77,7 @@ const newGame = (req) => {
     width: BOARD_WIDTH_BLOCKS,
     height: BOARD_HEIGHT_BLOCKS,
     pixels: newPixels,
+    my_num_pixels: 0,
   };
 
   const newGame = new Game({

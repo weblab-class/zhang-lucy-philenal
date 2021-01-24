@@ -40,6 +40,7 @@ class CanvasPanel extends Component {
       user_name: null,
       overlayText: "",
       num_filled: num_filled,
+      my_num_filled: 0,
       almostEnd: false,
       theWordWas: "",
       background: '#F898A4',
@@ -61,6 +62,12 @@ class CanvasPanel extends Component {
         if (!this.props.isMyTurn) { 
           this.setState({
             num_filled: updatedGame.board.num_filled,
+            my_num_filled: updatedGame.board.my_num_filled
+          }, ()=> {
+            //if i used all the pixels in my limit, end turn
+            if (this.state.my_num_filled == updatedGame.pixelLimit) {
+              this.endTurn();
+            }
           })
         }
       }
@@ -70,7 +77,8 @@ class CanvasPanel extends Component {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
         this.setState({
           num_filled: updatedGame.board.num_filled,
-          pixels: updatedGame.board.pixels
+          pixels: updatedGame.board.pixels,
+          my_num_filled: updatedGame.board.my_num_filled
         });
       }
     });
@@ -260,7 +268,9 @@ class CanvasPanel extends Component {
               {(this.props.isMyTurn && !this.props.isGuesser) && 
               <div>
                 <div className="CanvasPanel-child">
-                  pixels filled: {this.state.num_filled}
+                  pixels filled: {this.state.my_num_filled}
+                  <br></br>
+                  total pixels filled: {this.state.num_filled}
                 </div>
                 <div className="CanvasPanel-child">
                 <GithubPicker 

@@ -33,6 +33,7 @@ class Canvas extends Component {
       block_size: block_size,
       filled_blocks: 0,
       canvasDisabled: false,
+      my_filled_blocks: 0,
     };
   }
 
@@ -47,10 +48,12 @@ class Canvas extends Component {
     if (filled) {
       this.setState({
         filled_blocks: this.state.filled_blocks + 1,
+        my_filled_blocks: this.state.my_filled_blocks + 1
       });
     } else {
       this.setState({
         filled_blocks: this.state.filled_blocks - 1,
+        my_filled_blocks: this.state.my_filled_blocks - 1
       });
     }
 
@@ -61,6 +64,7 @@ class Canvas extends Component {
       pixel_id: id,
       pixel_color: actualColor,
       pixel_filled: filled,
+      my_num_pixels: this.state.my_filled_blocks,
       num_filled: this.state.filled_blocks,
     }).then((res) => {
       if (res.status == "error") {
@@ -82,7 +86,9 @@ class Canvas extends Component {
         console.log("canvas got!/")
         console.log(res);
         if (this.is_mounted){
-          this.setState({pixels: res.pixels});
+          this.setState({
+            pixels: res.pixels,
+            my_filled_blocks: res.my_num_pixels});
         }
       }
     }).catch((err) => {

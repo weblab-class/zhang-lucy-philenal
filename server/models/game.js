@@ -15,6 +15,7 @@ const BoardSchema  = new mongoose.Schema({
   _id: String,
   width: Number,
   height: Number,
+  my_num_pixels: Number, //number of pixels current player pixeled
   num_filled: Number,
   pixels: [{
       type: PixelSchema,

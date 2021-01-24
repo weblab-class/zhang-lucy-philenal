@@ -198,7 +198,8 @@ router.post("/game/endTurn", (req, res) => {
     if (game.turn < game.players.length - 1) {
       game.turn += 1; //adds turn
     }
-
+    //resets the number of pixels turn player can use
+    game.board.my_num_pixels = 0;
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("endedTurn", 
       {
@@ -607,7 +608,9 @@ router.put("/game/pixel", (req, res) => {
     "board.pixels.id": req.body.pixel_id },
     { $set: {
       "board.pixels.$.color" : color,
-      "board.pixels.$.filled": req.body.pixel_filled
+      "board.pixels.$.filled": req.body.pixel_filled,
+      //sets teh number of pixels filled from current turn
+      "board.my_num_pixels": req.body.my_num_pixels,
       } 
     }
   ).then((updatedGame) => {
@@ -618,7 +621,8 @@ router.put("/game/pixel", (req, res) => {
       pixel_id_filled: req.body.pixel_filled,
       pixel_color: req.body.pixel_color,
       board: updatedGame.board,
-      game_id: updatedGame._id
+      game_id: updatedGame._id,
+      pixelLimit: updatedGame.pixelLimit,
     });
     let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
     res.send(game);
@@ -683,6 +687,7 @@ router.post("/board/clear_pixels", (req, res) => {
         game.board.pixels[i].color = "none";
         game.board.pixels[i].filled = false;
       }
+      game.board.my_num_pixels = 0;
       game.save().then((res) => {
         console.log("BACKEND CLEARING WORKS")
         console.log("THIS IS THE GAME " + game)
