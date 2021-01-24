@@ -90,7 +90,7 @@ class Canvas extends Component {
     });
 
     socket.on("board_and_game_id", (updatedGame) => {
-      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame.game_id && this.is_mounted) { //if the game id sent out is ours
         this.setState({
           filled_blocks: updatedGame.board.num_filled,
         })
@@ -98,7 +98,7 @@ class Canvas extends Component {
     });
 
     socket.on("cleared_canvas", (updatedGame) => {
-      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame._id && this.is_mounted) { //if the game id sent out is ours
         // console.log("cleareddd");
         console.log("IT SHOULD BE CLEARED")
         this.setState({
@@ -109,7 +109,7 @@ class Canvas extends Component {
     });
 
     socket.on("correct_guess", (updatedGame) => {
-      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame.game_id && this.is_mounted) { //if the game id sent out is ours
         this.setState({canvasDisabled: true});
       }
     });
