@@ -227,10 +227,22 @@ router.post("/game/textOverlay", (req, res)=>{
 //TODO: if no other word left in list, don't do this?? => end game
 //TODO: make nextWord random using Logic.getNextWord()
 router.post("/game/nextRound", (req, res) => {
+  // Update all users with the image
+  
   // TODO: if guess was incorrect/quit, overlay should be something sad
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     // get the next word
     game.word_idx += 1;
+
+    for (let i = 0; i < game.players.length; i++) {
+      User.findOne({
+        _id: game.players[i]._id
+      }).then((user) => {
+        let board = game.board;
+        user.guessed_imgs.push(board);
+        user.save();
+      })
+    }
 
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
@@ -253,6 +265,8 @@ router.post("/game/nextRound", (req, res) => {
       });
       return;
     }
+
+    // Not end game
 
     game.word = game.words[game.word_idx]; 
     game.wordLength = game.word.length;
@@ -633,7 +647,7 @@ router.post("/board/clear_pixels", (req, res) => {
       console.log(game);
       // if (game && game.board) {
       game.board.num_filled = 0;
-      for (let i = 0; i < BOARD_WIDTH_BLOCKS * BOARD_HEIGHT_BLOCKS; i++) {
+      for (let i = 0; i < game.board.pixels.length; i++) {
         game.board.pixels[i].color = "none";
         game.board.pixels[i].filled = false;
       }

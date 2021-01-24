@@ -4,14 +4,6 @@ const mongoose = require("mongoose");
 // TODO: rip how do we not copy these
 // OH
 
-const UserSchema = new mongoose.Schema({
-  name: String,
-  _id: String,
-  game_id: String,
-  guessed_imgs: [String], // board id's  
-  googleid: String,
-});
-
 const PixelSchema = new mongoose.Schema({
   color: String,
   filled: Boolean,
@@ -27,6 +19,14 @@ const BoardSchema  = new mongoose.Schema({
   pixels: [{
       type: PixelSchema,
   }],
+});
+
+const UserSchema = new mongoose.Schema({
+  name: String,
+  _id: String,
+  game_id: String,
+  guessed_imgs: [BoardSchema], // board id's  
+  googleid: String,
 });
 
 // DNR = Do Not Return (TODO)

@@ -33,11 +33,11 @@ class PixelBlock extends Component {
         return;
       }
       let chosenColor = localStorage.getItem('chosenColorHex');
-      console.log(`chosen color is ${chosenColor}`);
+      // console.log(`chosen color is ${chosenColor}`);
 
       // double clicking on an already filled block
       if (chosenColor == this.state.actualColor) {
-        console.log("filled with " + chosenColor);
+        // console.log("filled with " + chosenColor);
         this.setState(
           {
             actualColor: "none",
@@ -49,7 +49,7 @@ class PixelBlock extends Component {
 
       // filling in an empty block
       } else {
-        console.log(`unfilled: ${chosenColor}`);
+        // console.log(`unfilled: ${chosenColor}`);
         this.setState(
           {
             actualColor: chosenColor,
@@ -82,21 +82,22 @@ class PixelBlock extends Component {
 
   componentDidMount() {
     // remember -- api calls go here!
-    
+    this.is_mounted = true;
+
     socket.on("board_and_game_id", (updatedGame) => {
-      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
-        if (this.props.id === updatedGame.pixel_id) { //if the change was made to this pixel
+      if (this.props.game_id === updatedGame.game_id
+        && this.props.id === updatedGame.pixel_id
+        && this.is_mounted) { //if the change was made to this pixel
           console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
            filled: updatedGame.pixel_id_filled,
            actualColor: updatedGame.pixel_color,
-          })
-        }
+          });
       }
     });
 
     socket.on("cleared_canvas", (updatedGame) => {
-      if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame._id && this.is_mounted) {
         this.setState({
           filled: false,
           actualColor: "#FFFFFF",
@@ -105,7 +106,7 @@ class PixelBlock extends Component {
     });
 
     socket.on("nextWord", (updatedGame) =>{
-      if (this.props.game_id === updatedGame.game_id) {
+      if (this.props.game_id === updatedGame.game_id && this.is_mounted) {
         // clear the canvas
         this.setState({
           filled: false,
@@ -113,7 +114,10 @@ class PixelBlock extends Component {
         });
       }
     });
+  }
 
+  componentWillUnmount() {
+    this.is_mounted = false;
   }
 
   render() {
