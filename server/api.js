@@ -125,7 +125,13 @@ router.post("/board/save", (req, res) => {
   // });
 
 });
-
+//sends username
+router.get("/user/name", (req, res) => {
+  User.find({ _id: req.body.user_id }).then((user) => {
+    console.log("I GIVE U MY NAME")
+    res.send(user.name)
+  })
+})
 
 router.post("/user/leave", (req, res) => {
   console.log("what");
@@ -279,6 +285,13 @@ router.post("/game/nextRound", (req, res) => {
       
       //insert board id into all the palyers in the game
     }).then(()=> game.save().then((updatedGame) => { //updates game document and then shouts the change
+
+      //if you're on this new word is your last word
+      //this is to change the button for "next word" --> "end game" or something
+      let almostEnd = false;
+      if (updatedGame.word_idx >= updatedGame.maxSessions * updatedGame.players.length - 1) {
+        almostEnd = true;
+      }
       socketManager.getIo().emit("nextWord", 
       {
         game: updatedGame,
@@ -287,7 +300,8 @@ router.post("/game/nextRound", (req, res) => {
         players: updatedGame.players,
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
-        status: "not end"
+        status: "not end",
+        almostEnd: almostEnd
       });
       let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
       res.send(game);

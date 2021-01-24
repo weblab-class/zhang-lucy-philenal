@@ -10,13 +10,14 @@ import "./CanvasPanel.css";
 import "../Canvas.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
-import { post } from "../../../utilities";
+import { get, post } from "../../../utilities";
 
 
 
 /**
  * The CanvasPanel is the entire middle panel below the title, containing the Canvas
  * @param game_id
+ * @param user_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
  * @param canvas_pixels array of pixel objects in the canvas
@@ -36,15 +37,25 @@ class CanvasPanel extends Component {
 
     // Initialize Default State
     this.state = {
+      user_name: null,
       overlayText: "",
       num_filled: num_filled,
+      almostEnd: false,
       theWordWas: "",
       background: '#F898A4',
       colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
+      endGame: false,
+      overlayText: "",
+      scoreText:"",
     };
   }
 
   componentDidMount() {
+    //gets the user name for if we want to navigate to wall
+    /* get("/api/user/name", {user_id: this.props.user_id}).then((name)=> {
+      this.setState({ user_name: name})
+    }) */
+
     socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (!this.props.isMyTurn) { 
@@ -73,6 +84,7 @@ class CanvasPanel extends Component {
       }
     });
 
+    //incorrect guess text
     socket.on("textOverlay", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
@@ -81,6 +93,27 @@ class CanvasPanel extends Component {
         });
       }
     });
+
+    //check if game is almost ending so that next button is actually end game button
+    socket.on("nextWord", (res) => {
+      
+      if (res.almostEnd) {
+        console.log("ALMOST ENDED ? " + res.almostEnd)
+        this.setState({almostEnd: true})
+      }
+    })
+
+    //if game ended, show the pop up!!
+    socket.on("endGame", (endGame) => {
+        if (this.props.game_id === endGame.game_id) {
+            console.log("GAME ENDED")
+            this.setState({
+                endGame: true,
+                overlayText: "score: " + endGame.score.toString(),
+                scoreText: endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
+        })
+        }
+    })
     
   }
 
@@ -135,6 +168,12 @@ class CanvasPanel extends Component {
       if (game.status == "end") {
         // TODO: End game screen
       } else {
+        //to change the button to show "end game"
+        if (game.almostEnd) {
+          this.setState({
+            almostEnd: true,
+          })
+        }
         console.log("Next word is " + game.word);
       }
       post("/api/board/clear_pixels", {
@@ -175,13 +214,28 @@ class CanvasPanel extends Component {
         callback={this.nextWord}
         callbackButtonText={"next word"}
       /> */}
+      <AlertDialog
+        endGame={this.state.endGame}
+        overlayText={this.state.overlayText}
+        theWordWas={this.state.scoreText}
+        user_id={this.props.user_id}
+        user_name={this.state.user_name}
+        game_id={this.props.game_id}
+        />
+        {/* only show this if not end of game */}
+        {console.log("THIS IS MY STATEEEEE" + this.state.almostEnd)}
+      {this.state.scoreText.length === 0 && 
       <AlertDialog 
-        isGuesser={this.props.isGuesser}
-        overlayText={this.state.overlayText} 
-        theWordWas={this.state.theWordWas}
-        callback={this.nextWord}
-        callbackButtonText={"next word"}
-      />
+      endGame={this.state.endGame}
+      isGuesser={this.props.isGuesser}
+      overlayText={this.state.overlayText} 
+      theWordWas={this.state.theWordWas}
+      callback={this.nextWord}
+      user_id={this.props.user_id}
+      game_id={this.props.game_id}
+      callbackButtonText={this.state.almostEnd ? "end game": "next word"}
+    />}
+      
         <div className="CanvasPanel">
           <div className="CanvasPanel-bigBigContainer">
             <div className="CanvasPanel-bigContainer">
