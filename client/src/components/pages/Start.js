@@ -32,13 +32,17 @@ class Start extends Component {
   componentDidMount() {
     // TODO: figure out if we need to do duplicate calls of this
     console.log(this.props);
-    // get("/api/whoami").then((user) => {
-    //   // console.log("whoami");
-    //   console.log(user);
-    //   if (user._id) {
-    //     // they are registed in the database, and currently logged in.
-    //     this.setState({ user_id: user._id });
-    //     this.setState({ user_name: user.name });
+    get("/api/whoami").then((user) => {
+      // console.log("whoami");
+      console.log(user);
+      if (user._id) {
+        // they are registed in the database, and currently logged in.
+        this.setState({ 
+          user_id: user._id, 
+          user_name: user.name 
+        });
+      }
+    });
         
     //     get("/api/game/player_status", {
     //       // game_id: this.props.location.state.game_id,

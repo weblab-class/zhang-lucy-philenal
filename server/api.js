@@ -247,6 +247,7 @@ router.post("/game/nextRound", (req, res) => {
         score: score,
         num_correct: game.num_correct,
         num_incorrect: game.num_incorrect,
+        status: "end",
       });
       return;
     }
@@ -282,6 +283,7 @@ router.post("/game/nextRound", (req, res) => {
         players: updatedGame.players,
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
+        status: "not end"
       });
       let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
       res.send(game);

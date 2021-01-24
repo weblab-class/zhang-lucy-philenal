@@ -86,10 +86,11 @@ class Canvas extends Component {
 
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
-        console.log("cleareddd");
+        // console.log("cleareddd");
         this.setState({
           pixels: updatedGame.board.pixels,
-        },()=>{console.log(this.state)})
+        },()=>{//console.log(this.state)
+        })
       }
     });
 
@@ -119,7 +120,6 @@ class Canvas extends Component {
   }
 
   render() {
-    console.log(this.state);
     let pixels = [];
     if (this.state.pixels) {
       for (let i = 0; i < this.props.canvas_height_blocks * this.props.canvas_width_blocks; i++) {

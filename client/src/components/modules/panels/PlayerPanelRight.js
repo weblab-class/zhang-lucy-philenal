@@ -81,7 +81,7 @@ class PlayerPanelRight extends Component {
         console.log(res);
         if(res.message == "correct") {
           console.log("correct!!");
-          this.props.callback(the_guess);
+          // this.props.callback(the_guess);
         } else {
           console.log(res);
           console.log("incorrect");

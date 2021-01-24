@@ -131,8 +131,11 @@ class CanvasPanel extends Component {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
     }).then((game) => {
-      // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-      console.log("Next word is " + game.word);
+      if (game.status == "end") {
+        // TODO: End game screen
+      } else {
+        console.log("Next word is " + game.word);
+      }
     });
 
     // save canvas to each user and to canvas db
