@@ -94,6 +94,7 @@ const newGame = (req) => {
     started: false,
     finished: false,
     maxSessions: 1, // TODO: customize
+    pixelLimit: Number.POSITIVE_INFINITY,
     session: null,
     round: null,
     turn: null,

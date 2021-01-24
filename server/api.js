@@ -551,6 +551,23 @@ router.post("/game/changedSessions", (req, res)=> {
   })
 })
 
+//tells lobby.js if i want to set pixel limit
+router.post("/game/changedWantPixelLimit", (req, res)=> {
+  socketManager.getIo().emit("changedWantPixelLimit", {
+    game_id: req.body.game_id,
+    wantPixelLimit: req.body.wantPixelLimit
+  })
+})
+
+//tells lobby.js pixel limit
+router.post("/game/changedPixelLimit", (req, res)=> {
+  socketManager.getIo().emit("changedPixelLimit", {
+    game_id: req.body.game_id,
+    wantPixelLimit: req.body.pixelLimit
+  })
+})
+
+
 //TODO: (philena) let palyer choose wordpack
 router.put("/game/start", (req, res) => {
   Game.findOne(
@@ -563,6 +580,7 @@ router.put("/game/start", (req, res) => {
       game.wordPack = req.body.wordPack;
       game.words = wordPacks[game.wordPack];
       game.word = game.words[0];
+      game.pixelLimit = req.body.pixelLimit;
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
 

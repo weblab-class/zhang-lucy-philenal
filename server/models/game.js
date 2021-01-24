@@ -39,6 +39,7 @@ const GameSchema = new mongoose.Schema({
   board: BoardSchema,
   started: Boolean,
   finished: Boolean,
+  pixelLimit: Number,
   maxSessions: Number,
   session: Number, // default: 1, {#player} rounds within sessions
   round: Number, // {# player} words per round

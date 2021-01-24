@@ -105,6 +105,24 @@ class Lobby extends Component {
       }
     });
 
+    //listens for if want/dontwant pixel limit
+    socket.on("changedWantPixelLimit", (want) => {
+    if (this.props.location.state.game_id === want.game_id) {
+      this.setState({
+        wantPixelLimit: want.wantPixelLimit
+      })
+    }
+  });
+
+    //listens for pixel limit
+    socket.on("changedPixelLimit", (pixelLimit) => {
+      if (this.props.location.state.game_id === pixelLimit.game_id) {
+        this.setState({
+          pixelLimit: pixelLimit.pixelLimit
+        })
+      }
+    });
+
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
       console.log("started socket works! and props game id " + this.props.location.state.game_id + " and game id " + game_id);
@@ -127,7 +145,8 @@ class Lobby extends Component {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
       sessions: this.state.sessions,
-      wordPack: this.state.wordPack
+      wordPack: this.state.wordPack,
+      pixelLimit: this.state.wantPixelLimit ? this.state.pixelLimit: Number.POSITIVE_INFINITY,
     }).then((res) => {
       console.log("this is right before we navigate to /player " + res)
       navigate("/player", {state: {
