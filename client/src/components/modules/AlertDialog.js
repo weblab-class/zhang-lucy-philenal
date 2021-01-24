@@ -45,6 +45,7 @@ export default function AlertDialog(props) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        disableBackdropClick={true}
       >
           <Fade in={open}>
           <div className={classes.paper}>
@@ -54,11 +55,13 @@ export default function AlertDialog(props) {
             {props.theWordWas}
             </DialogContentText>
             </DialogContent>
+            {props.isGuesser ?
             <DialogActions>
             <Button onClick={handleClose && props.callback} color="primary">
             {props.callbackButtonText}
             </Button>
-            </DialogActions>
+            </DialogActions>: <div></div>
+            }
             </div>
           </Fade>
         </Dialog>

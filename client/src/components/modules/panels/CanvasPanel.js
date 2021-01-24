@@ -59,6 +59,7 @@ class CanvasPanel extends Component {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
         this.setState({
           num_filled: updatedGame.board.num_filled,
+          pixels: updatedGame.board.pixels
         });
       }
     });
@@ -135,14 +136,14 @@ class CanvasPanel extends Component {
       console.log("Next word is " + game.word);
     });
 
-    // save canvas to each user and to canvas db
-    post("/api/board/save", {
+    
+    post("/api/board/save", { // save canvas to each user and to canvas db
       user_ids: [],
       img_id: null,
       game_id: this.props.game_id,
 
     }).then((res) => {
-      console.log(res);
+      console.log("I SAVED MY BOARD " + res);
     }).catch((err) => {
       console.log(err);
     });
@@ -152,6 +153,7 @@ class CanvasPanel extends Component {
       user_id: this.props.user_id,
     }).then((res) => {
       if (res && res.board) {
+        console.log("I CLEARED MY PIXELS")
         this.setState({pixels: res.board.pixels});
       }
     }).catch((err) => {
@@ -170,6 +172,7 @@ class CanvasPanel extends Component {
         callbackButtonText={"next word"}
       /> */}
       <AlertDialog 
+        isGuesser={this.props.isGuesser}
         overlayText={this.state.overlayText} 
         theWordWas={this.state.theWordWas}
         callback={this.nextWord}
@@ -236,14 +239,14 @@ class CanvasPanel extends Component {
 
                 }
                 
-                {this.props.isGuesser &&
+               {/*  {this.props.isGuesser &&
                   <button 
                     className="Canvas-footer-button u-pointer" 
                     onClick={this.nextWord}
                   >
                     next word
                   </button>
-                }
+                } */}
               </div>
 
             </div>

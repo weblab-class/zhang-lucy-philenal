@@ -160,6 +160,8 @@ class PixelBlock extends Component {
           </>
         );
       }
+    } else {
+      return null
     }
   }
 }

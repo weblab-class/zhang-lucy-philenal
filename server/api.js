@@ -235,9 +235,11 @@ router.post("/game/nextRound", (req, res) => {
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
       // TODO: Broadcast to all players
+      console.log("I ENDED")
       game.finished = true;
       let score = Logic.getScore(game);
       socketManager.getIo().emit("endGame", {
+        game_id: req.body.game_id,
         score: score,
         num_correct: game.num_correct,
         num_incorrect: game.num_incorrect,
@@ -272,7 +274,9 @@ router.post("/game/nextRound", (req, res) => {
     /* console.log(newBoard); */
     newBoard.save().then((board) => {
       console.log("THIS IS THE BOARD " + board);
+      //TO DO: adds in board id to each player
       
+      //insert board id into all the palyers in the game
     }).then(()=> game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("nextWord", 
       {

@@ -4,13 +4,13 @@ import { socket } from "../../client-socket.js";
 import { navigate } from "@reach/router";
 
 import "../../utilities.css";
-
 import "./Player.css";
 
 import { get } from "../../utilities";
 import Start from "./Start";
 import Guesser from "./Guesser";
 import Pixeler from "./Pixeler";
+import TransitionsModal from "../modules/TransitionsModal.js";
 
 
 /**
@@ -39,6 +39,8 @@ class Player extends Component {
             correctGuess: false, //unhardcode??
             turn: 0, //TODO: if turn exceeds number of players .. ?
             endGame: false,
+            overlayText: "",
+            scoreText:"",
         };
     }
     
@@ -120,6 +122,18 @@ class Player extends Component {
 
         })
 
+        //if game ended, show the pop up!!
+        socket.on("endGame", (endGame) => {
+            if (this.props.game_id === endGame.game_id) {
+                console.log("GAME ENDED")
+                this.setState({
+                    endGame: true,
+                    overlayText: "score: " + endGame.score.toString(),
+                    scoreText: endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
+            })
+            }
+        })
+
         // listens for next word, updates word
         // also listens for player status?
         socket.on("nextWord", (updatedGame) =>{
@@ -179,7 +193,10 @@ class Player extends Component {
             return (<div></div>);
         } else {
             return (
-                <> 
+                <> <TransitionsModal 
+                        overlayText={this.state.overlayText}
+                        theWordWas={this.state.scoreText}
+                        />
                     {this.state.player == "guesser" ? 
                     <Guesser 
                         /* callback={this.onCorrectGuess}  */
