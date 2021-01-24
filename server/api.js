@@ -257,6 +257,8 @@ router.post("/game/nextRound", (req, res) => {
   // TODO: if guess was incorrect/quit, overlay should be something sad
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     console.log(game.word);
+    // for async idk
+    let word = game.word;
 
     for (let i = 0; i < game.players.length; i++) {
       User.findOne({
@@ -268,7 +270,7 @@ router.post("/game/nextRound", (req, res) => {
           width: board.width,
           height: board.height,
           num_filled: board.num_filled,
-          title: game.word,
+          title: word,
         });
         user.save();
       })
