@@ -161,9 +161,6 @@ class PixelBlock extends Component {
         );
       }
     } else {
-<<<<<<< HEAD
-      return null
-=======
       return <div 
                 className="PixelBlock-body-unfilled" 
                 style={{
@@ -176,7 +173,6 @@ class PixelBlock extends Component {
                 onMouseLeave={this.onNonHover}
                 onMouseDown={this.onClick}
               ></div>    
->>>>>>> 618cc3661b8891d945e7786eb229d4e0786a1a63
     }
   }
 }

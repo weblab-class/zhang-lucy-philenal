@@ -76,6 +76,19 @@ class Canvas extends Component {
 
   componentDidMount() {
     this.is_mounted = true;
+    get("/api/game/canvas", {game_id: this.props.game_id
+    }).then((res) => {
+      if (res) {
+        console.log("canvas got!/")
+        console.log(res);
+        if (this.is_mounted){
+          this.setState({pixels: res.pixels});
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
+
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         this.setState({
@@ -87,6 +100,7 @@ class Canvas extends Component {
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id) { //if the game id sent out is ours
         // console.log("cleareddd");
+        console.log("IT SHOULD BE CLEARED")
         this.setState({
           pixels: updatedGame.board.pixels,
         },()=>{//console.log(this.state)
@@ -100,19 +114,7 @@ class Canvas extends Component {
       }
     });
 
-    get("/api/game/canvas", {game_id: this.props.game_id
-    }).then((res) => {
-      if (res) {
-        console.log("canvas got!/")
-        console.log(res);
-        if (this.is_mounted){
-          this.setState({pixels: res.pixels});
-
-        }
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+   
   }
 
   componentWillUnmount() {

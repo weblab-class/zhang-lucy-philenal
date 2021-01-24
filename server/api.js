@@ -638,6 +638,8 @@ router.post("/board/clear_pixels", (req, res) => {
         game.board.pixels[i].filled = false;
       }
       game.save().then((res) => {
+        console.log("BACKEND CLEARING WORKS")
+        console.log("THIS IS THE GAME " + game)
         socketManager.getIo().emit("cleared_canvas", 
           {
             board: res.board, 
