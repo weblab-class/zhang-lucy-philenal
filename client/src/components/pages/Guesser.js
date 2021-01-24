@@ -95,12 +95,9 @@ class Guesser extends Component {
           <div className="Player-subPanel">
             {(this.state.pixelers) && 
             <PlayerPanelLeft 
-              /* players={this.state.players}  */
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
               word={this.props.hiddenWord}
-              /* wordLength={this.props.wordLength} *///this.state.word.length} 
-              // TODO^^^^^^ very not SFB
               turn={this.props.turn}
               isGuesser={true}
               leaveGame={this.leaveGame}
@@ -124,7 +121,7 @@ class Guesser extends Component {
             <PlayerPanelRight
               game_id={this.props.game_id}
               user_id={this.props.user_id}
-              callback={this.props.callback}
+              // callback={this.props.callback}
               isGuesser={true}
             />
           </div>

@@ -86,7 +86,7 @@ class PixelBlock extends Component {
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (this.props.id === updatedGame.pixel_id) { //if the change was made to this pixel
-          // console.log("this pixel is changed -- socket works for PixelBlock!");
+          console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
            filled: updatedGame.pixel_id_filled,
            actualColor: updatedGame.pixel_color,
@@ -161,7 +161,22 @@ class PixelBlock extends Component {
         );
       }
     } else {
+<<<<<<< HEAD
       return null
+=======
+      return <div 
+                className="PixelBlock-body-unfilled" 
+                style={{
+                  width: this.props.size, 
+                  height: this.props.size,
+                  backgroundColor: "#FFFFFF"
+                  // backgroundColor: this.state.chosenColor.concat("7F"),
+                }}
+                onMouseOver={this.onHover}
+                onMouseLeave={this.onNonHover}
+                onMouseDown={this.onClick}
+              ></div>    
+>>>>>>> 618cc3661b8891d945e7786eb229d4e0786a1a63
     }
   }
 }
