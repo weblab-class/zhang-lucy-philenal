@@ -119,7 +119,7 @@ export default function MultilineTextField(props) {
           select
           value={difficulty}
           onChange={handleDifficultyChange}
-          helperText="please select your difficulty"
+          helperText="difficulty level"
           variant="outlined"
         >
           {Object.keys(props.difficulties).map((key) => (
