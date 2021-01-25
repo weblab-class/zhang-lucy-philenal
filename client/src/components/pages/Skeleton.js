@@ -40,9 +40,7 @@ class Skeleton extends Component {
         )} */}
         <h1>how to play</h1>
         <button onClick={()=>{navigate('/')}}>back</button>
-        <p>Will be implemented soon™</p>
         <p>pixonary is an online drawing game that allows players to collaboratively draw a word for the guesser to guess -- all with pixels! for each word, players will be assigned to be either a pixeler or guesser. the pixelers are ordered randomly such that they can only pixel on the shared canvas on their turn, while the guesser can guess the word at any point in time.</p>
-
         <div className="Skeleton-grid u-flex u-flex-justifyCenter">
           <div className="Skeleton-pixelBox u-color-1">
             <div className="u-flex u-flex-justifyCenter">

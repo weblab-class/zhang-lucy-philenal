@@ -32,7 +32,7 @@ const socketManager = require("./server-socket");
 
 //word pack
 const wordPacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
+  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "cake", "flower", "house", "happy", "mango", "tree"],
   "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
   "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
   "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
@@ -111,44 +111,6 @@ router.post("/game/new", (req, res) => {
   });
 });
 
-/**
- * Takes in a list of users, a board, and saves them to the user's
- * wall of fame/shame
- */
-router.post("/board/save", (req, res) => {
-  res.send({status: "good"});
-  // update all users
-  // for (let i = 0; i < req.body.user_ids.length; i++) {
-  //   const filter = { _id: req.body.user_ids[i] };
-  //   User.findOne(filter,
-  //     // new: true,
-  //     function(err, user) {
-  //       if (user.guessed_imgs) {
-  //         user.guessed_imgs = user.guessed_imgs.concat([req.body.img_id]);
-  //       } else {
-  //         user.guessed_imgs = [req.body.img_id];
-  //       }
-  //   }).then((res)=>{
-  //     console.log(res);
-  //   });
-  // }
-  
-  // Game.find({ _id: req.body.game_id }).then((games) => {
-  //   if (games.length == 0) {
-  //     res.status(404).send({ msg: `game not found with id ${req.body.game_id}` });
-  //     return;
-  //   }
-  //   let board = new Board({
-  //     _id: games[0].board._id,
-  //     width: games[0].board.width,
-  //     height: games[0].board.height,
-  //     pixels: games[0].board.pixels,
-  //   });
-  //   // let board = Board(games[0].board);
-  //   board.save().then((board) => {res.send(board)});
-  // });
-
-});
 //sends username
 router.get("/user/name", (req, res) => {
   User.find({ _id: req.body.user_id }).then((user) => {
@@ -158,9 +120,6 @@ router.get("/user/name", (req, res) => {
 })
 
 router.post("/user/leave", (req, res) => {
-  console.log("what");
-  console.log(req.body);
-  // console.log(_id==mongoose.Types.ObjectId(req.body.user_id));
   const filter = { _id: req.body.user_id };
   const update = { game_id: null };
   User.findOneAndUpdate(
@@ -168,7 +127,6 @@ router.post("/user/leave", (req, res) => {
     update, {
     new: true}
   ).then((res) => {
-    console.log("hello");
     console.log(res);
   });
 
@@ -241,6 +199,7 @@ router.post("/game/onQuit", (req, res)=>{
   Game.findOne({ _id: req.body.game_id })
   .then((game)=> {
     game.num_incorrect += 1;
+    game.word_statuses.push("incorrect");
     game.save();
     socketManager.getIo().emit("textOverlay", {
       game_id: req.body.game_id,
@@ -261,7 +220,10 @@ router.get("/user/images", (req, res) => {
       return;
     };
 
-    res.send(user.guessed_imgs);
+    res.send({
+      correct: user.correct_imgs,
+      incorrect: user.incorrect_imgs,
+    });
   })
 })
 
@@ -271,24 +233,34 @@ router.get("/user/images", (req, res) => {
 router.post("/game/nextRound", (req, res) => {
   // Update all users with the image
   
-  // TODO: if guess was incorrect/quit, overlay should be something sad
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     console.log(game.word);
     // for async idk
     let word = game.word;
+    let status = game.word_statuses[game.word_statuses.length - 1];
 
     for (let i = 0; i < game.players.length; i++) {
       User.findOne({
         _id: game.players[i]._id
       }).then((user) => {
         let board = game.board;
-        user.guessed_imgs.push({
-          pixels: board.pixels,
-          width: board.width,
-          height: board.height,
-          num_filled: board.num_filled,
-          title: word,
-        });
+        if (status == "correct") {
+          user.correct_imgs.push({
+            pixels: board.pixels,
+            width: board.width,
+            height: board.height,
+            num_filled: board.num_filled,
+            title: word,
+          });
+        } else if (status == "incorrect") {
+          user.incorrect_imgs.push({
+            pixels: board.pixels,
+            width: board.width,
+            height: board.height,
+            num_filled: board.num_filled,
+            title: word,
+          });
+        }
         user.save();
       })
     }
@@ -298,8 +270,6 @@ router.post("/game/nextRound", (req, res) => {
 
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
-      // TODO: Broadcast to all players
-      console.log("I ENDED")
       game.finished = true;
       let score = Logic.getScore(game);
       socketManager.getIo().emit("endGame", {
@@ -480,10 +450,14 @@ router.post("/game/join", (req, res) => {
     function (err, game) {
       // if player not already in game
       if (game && game.players) {
-        let filteredPlayers = game.players.filter((p) => {p && (p._id == req.body.user_id)});
-        console.log("filter");
-        console.log(filteredPlayers);
-        if (filteredPlayers.length == 0) {
+        let playerNotInGameYet = true;
+        for (let i = 0; i < game.players.length; i++) {
+          if (game.players[i]._id == req.body.user_id) {
+            playerNotInGameYet = false;
+            break;
+          }
+        }
+        if (playerNotInGameYet) {
           game.players = game.players.concat([{
             _id: req.body.user_id, 
             name: req.body.user_name,
@@ -491,16 +465,7 @@ router.post("/game/join", (req, res) => {
           }]);
         }
       
-        game.save(
-        //   function (err) {
-        //   if(err) {
-        //     console.log(err);
-        //       console.error('ERROR!');
-        //   }
-        // }
-        ).then((res) => {
-          console.log("HIIIIIIIIIIIIIIIII");
-          console.log(res);
+        game.save().then((res) => {
           socketManager.getIo().emit("players_and_game_id", 
           {
             players: res.players, 
@@ -511,17 +476,6 @@ router.post("/game/join", (req, res) => {
       }
     },
     ).then(()=>{res.send({status:"success"})})
-  //   .then((updatedGame) => {
-  //     // TODO: Fix this
-  //     console.log("updateds");
-  //     console.log(updatedGame);
-  //     socketManager.getIo().emit("players_and_game_id", 
-  //     {
-  //       players: updatedGame.players, 
-  //       game_id: updatedGame._id
-  //     });
-  //     res.send({status: "success"});
-  // })
   .catch((err) => {
     console.log(err);
   });
@@ -536,7 +490,6 @@ router.put("/game/guess", (req, res) => {
   .then((games) => {
     const noGamesFound = games.length == 0;
     const emptyGuess = req.body.guess.length == 0;
-    // TODO:  put this back in
     const invalidUser = req.body.user_id != games[0].guesser._id;
     
     if (noGamesFound || emptyGuess || invalidUser ) {
@@ -553,6 +506,7 @@ router.put("/game/guess", (req, res) => {
         game.guesses = game.guesses.concat([req.body.guess]);
         if (correct) {
           game.num_correct += 1;
+          game.word_statuses.push("correct");
         }
         // TODO: increment turn/word
         game.save().then((updatedGame) => {

@@ -48,7 +48,7 @@ export default function MultilineTextField(props) {
   const classes = useStyles();
   const [wordPack, setWordPack] = React.useState('basic');
   const [sessionValue, setSessions] = React.useState(1);
-  const [difficulty, setDifficulty] = React.useState('0.5');
+  const [difficulty, setDifficulty] = React.useState('0.4');
 
   const handleWordpackChange = (event) => {
     setWordPack(event.target.value);
