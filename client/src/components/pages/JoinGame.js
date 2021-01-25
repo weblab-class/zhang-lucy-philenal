@@ -118,11 +118,10 @@ class JoinGame extends Component {
                     onEnterKeyPress={this.onEnterKeyPress}
                   />
                   <button onClick={this.joinGame} className="JoinGame-button u-color-1">join game</button>
-                  {(this.state.game_not_found) ? 
-                  <div className="u-text-error">
-                  Game not found, please enter a valid game ID.
-                  </div> :
-                  <div></div>
+                  {(this.state.game_not_found) && 
+                    <div className="u-text-error">
+                      Game not found, please enter a valid game ID.
+                    </div> 
                   }
                   
               </div>

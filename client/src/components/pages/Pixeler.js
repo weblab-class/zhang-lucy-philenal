@@ -73,8 +73,9 @@ class Pixeler extends Component {
           canvas: res.board, 
           word: res.word, 
           pixelers: res.pixelers, 
-          guesser: res.guesser}, () => {
-        });
+          guesser: res.guesser,
+          pixel_limit: res.pixel_limit,
+        }, ()=>{console.log(this.state.pixel_limit)});
       }
     })
     .catch((err) => {
@@ -158,6 +159,7 @@ class Pixeler extends Component {
                 canvas_height_blocks={this.state.canvas.width} 
                 canvas_width_blocks={this.state.canvas.height} 
                 canvas_pixels={this.state.canvas.pixels}
+                pixel_limit={this.state.pixel_limit}
                 game_id={this.props.game_id}
                 user_id={this.props.user_id}
                 isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn]._id===this.props.user_id}

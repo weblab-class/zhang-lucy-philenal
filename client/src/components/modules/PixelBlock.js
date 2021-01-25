@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+// import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./PixelBlock.css";
@@ -7,6 +7,7 @@ import "./PixelBlock.css";
 /**
  * PixelBlock is a single block within the canvas, the pixels that the
  * user is able to place
+ * No API calls, callback to Canvas
  *
  * Proptypes
  * @param game_id
@@ -28,12 +29,11 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
-      console.log("clique!");
-      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.disabled || this.props.isGuesser || 
+        !this.props.isMyTurn) {
         return;
       }
       let chosenColor = localStorage.getItem('chosenColorHex');
-      // console.log(`chosen color is ${chosenColor}`);
 
       // double clicking on an already filled block
       if (chosenColor == this.state.actualColor) {
@@ -49,7 +49,9 @@ class PixelBlock extends Component {
 
       // filling in an empty block
       } else {
-        // console.log(`unfilled: ${chosenColor}`);
+        if (this.props.pixels_remaining <= 0){
+          return;
+        }
         this.setState(
           {
             actualColor: chosenColor,
@@ -63,18 +65,26 @@ class PixelBlock extends Component {
     };
 
     onHover = (event) => {
+      if (this.props.pixels_remaining <= 0){
+        return;
+      }
+      
       let chosenColor = localStorage.getItem('chosenColorHex');
       this.setState({chosenColor: chosenColor});
-      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.disabled || this.props.isGuesser || 
+        !this.props.isMyTurn || this.props.at_limit) {
         return;
       }
       this.setState({hover: true});
     };
 
     onNonHover = (event) => {
-      // let chosenColor = localStorage.getItem('chosenColorHex');
-      // this.setState({chosenColor: chosenColor});
-      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.pixels_remaining <= 0){
+        return;
+      }
+
+      if (this.props.disabled || this.props.isGuesser || 
+        !this.props.isMyTurn || this.props.at_limit) {
         return;
       }
       this.setState({hover: false});

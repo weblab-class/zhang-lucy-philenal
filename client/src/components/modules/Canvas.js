@@ -5,7 +5,7 @@ import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Canvas.css";
 
-import { get, post, put } from "../../utilities";
+import { get, put } from "../../utilities";
 
 
 
@@ -15,6 +15,8 @@ const CANVAS_HEIGHT_PX = 500;
 
 /**
  * The Canvas is the main game board, where pixelers can fill pixels
+ * Calls get canvas, and put for pixel input
+ * 
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
@@ -33,17 +35,14 @@ class Canvas extends Component {
       block_size: block_size,
       filled_blocks: 0,
       canvasDisabled: false,
-      my_filled_blocks: 0,
+      at_limit: false, // user has clicked their allotted pixels, lock canvas
     };
   }
 
   onPixelClicked = (filled, id, actualColor) => {
     // check if user is allowed
-    if (this.props.isGuesser || !this.props.isMyTurn) return;
+    if (this.props.isGuesser || !this.props.isMyTurn || !this.props.onPixelClicked) return;
 
-    // if isGuesser
-    if (!this.props.onPixelClicked) return;
-    
     this.props.onPixelClicked(filled);
     if (filled) {
       this.setState({
@@ -57,7 +56,7 @@ class Canvas extends Component {
       });
     }
 
-    
+
     put("/api/game/pixel", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
@@ -86,7 +85,8 @@ class Canvas extends Component {
         console.log(res);
         if (this.is_mounted){
           this.setState({
-            pixels: res.pixels,});
+            pixels: res.pixels,
+          });
         }
       }
     }).catch((err) => {
@@ -103,12 +103,8 @@ class Canvas extends Component {
 
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id && this.is_mounted) { //if the game id sent out is ours
-        // console.log("cleareddd");
         console.log("IT SHOULD BE CLEARED")
-        this.setState({
-          pixels: updatedGame.board.pixels,
-        },()=>{//console.log(this.state)
-        })
+        this.setState({pixels: updatedGame.board.pixels});
       }
     });
 
@@ -117,8 +113,6 @@ class Canvas extends Component {
         this.setState({canvasDisabled: true});
       }
     });
-
-   
   }
 
   componentWillUnmount() {
@@ -141,6 +135,8 @@ class Canvas extends Component {
               isMyTurn={this.props.isMyTurn}
               callback={this.onPixelClicked}
               disabled={this.state.canvasDisabled}
+              at_limit={this.state.at_limit}
+              pixels_remaining={this.props.pixels_remaining}
             />
           </div>
         );

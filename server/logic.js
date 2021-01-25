@@ -5,8 +5,8 @@
 const Game = require("./models/game");
 
 // wow incredible how RFC
-const BOARD_WIDTH_BLOCKS = 3;
-const BOARD_HEIGHT_BLOCKS = 3;
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
 const wordPacks = {
@@ -106,6 +106,8 @@ const newGame = (req) => {
     guesser: null,
     num_correct: 0,
     num_incorrect: 0,
+    num_filled: 0,
+    pixel_limit: undefined,
   });
 
   return newGame;
@@ -220,7 +222,7 @@ const changeTurn = () => {
 }
 
 const getScore = (game) => {
-  return 10 * (game.num_correct / (game.num_incorrect + game.num_correct));
+  return 100 * (game.num_correct / (game.num_incorrect + game.num_correct));
 }
 
 /* constants here */

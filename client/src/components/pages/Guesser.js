@@ -85,9 +85,6 @@ class Guesser extends Component {
 
 
   render() {
-    // if (this.state.pixelers.length == 0){
-    //   return (<div></div>)
-    // } 
     return (
       <>
         <PlayerPanelTop/>

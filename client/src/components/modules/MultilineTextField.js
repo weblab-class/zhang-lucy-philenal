@@ -46,10 +46,9 @@ const useStyles = makeStyles((theme) => ({
 export default function MultilineTextField(props) {
 
   const classes = useStyles();
-  const [wordPack, setWordPack] = React.useState('basic');/* 
-  const [pixelLimit, setPixelLimit] = React.useState(1);
-  const [wantPixelLimit, setWantPixelLimit] = React.useState(false) */
-  const [sessionValues, setSessions] = React.useState(1);
+  const [wordPack, setWordPack] = React.useState('basic');
+  const [sessionValue, setSessions] = React.useState(1);
+  const [difficulty, setDifficulty] = React.useState('0.5');
 
   const handleWordpackChange = (event) => {
     setWordPack(event.target.value);
@@ -68,23 +67,15 @@ export default function MultilineTextField(props) {
     }).then(()=> console.log("I changed my sessions"))
   }
 
- /*   //changes the number of pixels/person
-   const handlePixelLimitChange = (event) => {
-    setPixelLimit(event.target.value);
-    post("/api/game/changedPixelLimit", {
-      pixelLimit: event.target.value,
+  //changes the difficulty
+  const handleDifficultyChange = (event) => {
+    console.log(`DIFFICULTY PROP: ${event.target.value}`);
+    setDifficulty(event.target.value);
+    post("/api/game/changedDifficulty", {
+      pixel_proportion: event.target.value,
       game_id: props.game_id
-    }).then(()=> console.log("I changed my pixel limit"))
+    }).then(()=> console.log("I changed my difficulty"))
   }
-
-  //changes switch if you want limit change
-  const handleWantPixelLimitChange = (event) => {
-    setWantPixelLimit(event.target.checked);
-    post("/api/game/changedWantPixelLimit", {
-      wantPixelLimit: event.target.checked,
-      game_id: props.game_id
-    }).then(()=> console.log("I want/dont want to change my pixel limit"))
-  } */
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -103,14 +94,13 @@ export default function MultilineTextField(props) {
             </MenuItem>
           ))}
         </TextField>
-        </div>
-        <div>
+      </div>
+      <div>
         <TextField
           id="outlined-number"
           select
           type="number"
-          value={sessionValues}
-          // InputProps={{ inputProps: { min: 1, max: 10 } }}
+          value={sessionValue}
           variant="outlined"
           helperText="# of rounds"
           onChange={handleSessionValueChange}
@@ -123,6 +113,22 @@ export default function MultilineTextField(props) {
           </MenuItem>
         ))}</TextField>
       </div>
+      <div>
+        <TextField
+          id="outlined-select-difficulty"
+          select
+          value={difficulty}
+          onChange={handleDifficultyChange}
+          helperText="please select your difficulty"
+          variant="outlined"
+        >
+          {Object.keys(props.difficulties).map((key) => (
+            <MenuItem key={key} value={props.difficulties[key]}>
+              {key}
+            </MenuItem>
+          ))}
+        </TextField>
+        </div>
     </form>
   );
 }

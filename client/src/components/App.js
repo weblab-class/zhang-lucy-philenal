@@ -31,11 +31,16 @@ class App extends Component {
     };
   }
 
+  componentWillUnmount () {
+    this.is_mounted = false;
+  }
+
   componentDidMount() {
+    this.is_mounted = true;
     get("/api/whoami").then((user) => {
       console.log("whoami");
       console.log(user);
-      if (user._id) {
+      if (user._id && this.is_mounted) {
         // they are registed in the database, and currently logged in.
         this.setState({ user_id: user._id });
         this.setState({ user_name: user.name });

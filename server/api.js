@@ -8,8 +8,8 @@
 */
 
 // lol please centralize this
-const BOARD_WIDTH_BLOCKS = 2;
-const BOARD_HEIGHT_BLOCKS = 2;
+const BOARD_WIDTH_BLOCKS = 20;
+const BOARD_HEIGHT_BLOCKS = 20;
 
 var mongoose = require('mongoose');
 
@@ -40,16 +40,32 @@ const wordPacks = {
 
 const sessionValues = [1,2,3,4,5];
 
+// value is the fraction of the pixels of the canvas that are available to
+// the users. For example, an easy game with 400 pixels on the canvas and 
+// 3 players (2 pixelers 1 guesser) give the players (400 * 0.5 * 1/2) pixels 
+// each [100 px].
+const difficulties = {"easy": 0.4, "medium": 0.3, "hard": 0.2};
+
 //sends list of possible wordpacks
-router.get("/game/wordPacks", (req, res)=> {
+router.get("/game/wordPacks", (_, res)=> {
   res.send(Object.keys(wordPacks))
 })
 
 //sends list of possible sessionValues
-router.get("/game/sessionValues", (req, res)=> {
+router.get("/game/sessionValues", (_, res)=> {
   res.send(Object.values(sessionValues))
 })
 
+//sends list of possible difficulties
+router.get("/game/difficulties", (_, res)=> {
+  res.send((difficulties))
+})
+
+
+//sends list of possible difficulties
+router.get("/game/width_height", (_, res)=> {
+  res.send(({width: BOARD_WIDTH_BLOCKS, height: BOARD_HEIGHT_BLOCKS}));
+})
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -221,9 +237,11 @@ router.post("/game/endTurn", (req, res) => {
 });
 
 //change text overlay, shouts to people
-router.post("/game/textOverlay", (req, res)=>{
+router.post("/game/onQuit", (req, res)=>{
   Game.findOne({ _id: req.body.game_id })
   .then((game)=> {
+    game.num_incorrect += 1;
+    game.save();
     socketManager.getIo().emit("textOverlay", {
       game_id: req.body.game_id,
       textOverlay: req.body.textOverlay,
@@ -256,6 +274,8 @@ router.post("/game/nextRound", (req, res) => {
   // TODO: if guess was incorrect/quit, overlay should be something sad
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     console.log(game.word);
+    // for async idk
+    let word = game.word;
 
     for (let i = 0; i < game.players.length; i++) {
       User.findOne({
@@ -267,7 +287,7 @@ router.post("/game/nextRound", (req, res) => {
           width: board.width,
           height: board.height,
           num_filled: board.num_filled,
-          title: game.word,
+          title: word,
         });
         user.save();
       })
@@ -558,7 +578,7 @@ router.put("/game/guess", (req, res) => {
   }).catch((err) => {
     console.log(err);
   })
-})
+});
 
 //tells lobby.js the new changed wordpack
 router.post("/game/changedWordPack", (req, res)=> {
@@ -566,7 +586,7 @@ router.post("/game/changedWordPack", (req, res)=> {
     game_id: req.body.game_id,
     wordPack: req.body.wordPack
   })
-})
+});
 
 //tells lobby.js the new number of sessions
 router.post("/game/changedSessions", (req, res)=> {
@@ -574,8 +594,17 @@ router.post("/game/changedSessions", (req, res)=> {
     game_id: req.body.game_id,
     sessions: req.body.sessions
   })
-})
+});
 
+//tells lobby.js the new difficulty
+router.post("/game/changedDifficulty", (req, res)=> {
+  socketManager.getIo().emit("changedDifficulty", {
+    game_id: req.body.game_id,
+    pixel_proportion: req.body.pixel_proportion
+  });
+});
+
+<<<<<<< HEAD
 /* //tells lobby.js if i want to set pixel limit
 router.post("/game/changedWantPixelLimit", (req, res)=> {
   socketManager.getIo().emit("changedWantPixelLimit", {
@@ -594,6 +623,9 @@ router.post("/game/changedPixelLimit", (req, res)=> {
 
 
 //TODO: (philena) let palyer choose wordpack
+=======
+//TODO: (philena) let player choose wordpack
+>>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
 router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
@@ -607,6 +639,7 @@ router.put("/game/start", (req, res) => {
       game.word = game.words[0];
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
+      game.pixel_limit = req.body.pixel_limit;
 
       game.save()
       .then((updatedGame) => {
@@ -622,6 +655,14 @@ router.put("/game/start", (req, res) => {
 });
 
 router.put("/game/pixel", (req, res) => {
+  Game.findOne({_id: req.body.game_id},
+    function(err, game) {
+      if (game.pixel_limit <= req.body.num_filled) {
+        res.send({status: "error", msg: "exceeded limit"});
+        return;
+      }
+    });
+
   console.log(req.body);
   let color =  req.body.pixel_filled ? req.body.pixel_color: "none";
   //this was helpful: https://stackoverflow.com/questions/56527121/findoneandupdate-nested-object-in-array/56527476
@@ -630,9 +671,15 @@ router.put("/game/pixel", (req, res) => {
       "_id": req.body.game_id,
     "board.pixels.id": req.body.pixel_id },
     { $set: {
+      num_filled: req.body.num_filled,
       "board.pixels.$.color" : color,
+<<<<<<< HEAD
       "board.pixels.$.filled": req.body.pixel_filled,
       } 
+=======
+      "board.pixels.$.filled": req.body.pixel_filled
+      }
+>>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
     }
   ).then((updatedGame) => {
     console.log("new pixel color " + req.body.pixel_color);
@@ -646,50 +693,7 @@ router.put("/game/pixel", (req, res) => {
     });
     let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
     res.send(game);
-  })
-  // Required:
-  // game_id, user_id, pixel_id, pixel_color, pixel_filled, num_filled,
-  // Game.findOne(
-  //   {_id: req.body.game_id},
-  //   function(err, game) {
-  //     if (!game || !game.board) {
-  //       res.status(404).send({status: "error", msg: "game not found"})
-  //       return;
-  //     }
-  //     if (!Logic.validatePixeler(game, req.body.user_id)) {
-  //       res.status(404).send({status: "error", msg: "user is not a pixeler"})
-  //       return;
-  //     }
-
-  //     game.board.pixels[req.body.pixel_id] = 
-  //     {
-  //       id: req.body.pixel_id, 
-  //       _id: game.board.pixels[req.body.pixel_id]._id, 
-  //       color: req.body.pixel_filled ? req.body.pixel_color: "none",
-  //       filled: req.body.pixel_filled,
-  //     };
-
-  //     //changed save to update for this reason:
-  //     //https://stackoverflow.com/questions/45223025/mongoose-version-error-no-matching-document-found-for-id
-  //     game.save().then((updatedGame) => {
-  //       console.log("new pixel color " + req.body.pixel_color);
-  //       socketManager.getIo().emit("board_and_game_id", 
-  //       {
-  //         pixel_id: req.body.pixel_id,
-  //         pixel_id_filled: req.body.pixel_filled,
-  //         pixel_color: req.body.pixel_color,
-  //         board: updatedGame.board,
-  //         game_id: updatedGame._id
-  //       });
-  //       let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
-  //       res.send(game);
-  //     })
-  //   }
-  // )
-
-  //shouts the updated pixels + the game id to all connected sockets
-  //TODO: change this idk
-
+  });
 });
       
 router.post("/board/clear_pixels", (req, res) => {

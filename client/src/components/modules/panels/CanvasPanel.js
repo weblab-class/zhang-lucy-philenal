@@ -10,17 +10,21 @@ import "./CanvasPanel.css";
 import "../Canvas.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
-import { get, post } from "../../../utilities";
+import { post } from "../../../utilities";
 
 
 
 /**
  * The CanvasPanel is the entire middle panel below the title, containing the Canvas
+ * No API calls on mount, passes props to Canvas
+ * Calls endTurn when button pressed
+ * 
  * @param game_id
  * @param user_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
  * @param canvas_pixels array of pixel objects in the canvas
+ * @param pixel_limit maximum pixels that a player can put
  * @param isGuesser - Boolean if player is guesser
  * @param isMyTurn - Boolean if it is player's turn
  */
@@ -51,11 +55,6 @@ class CanvasPanel extends Component {
   }
 
   componentDidMount() {
-    //gets the user name for if we want to navigate to wall
-    /* get("/api/user/name", {user_id: this.props.user_id}).then((name)=> {
-      this.setState({ user_name: name})
-    }) */
-
     socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (!this.props.isMyTurn) { 
@@ -109,7 +108,7 @@ class CanvasPanel extends Component {
             console.log("GAME ENDED")
             this.setState({
                 endGame: true,
-                overlayText: "Game over!\nScore: " + endGame.score.toString(),
+                overlayText: `Game over!\nScore: ${endGame.score.toString()}%`,
                 scoreText: endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
         })
         }
@@ -119,10 +118,7 @@ class CanvasPanel extends Component {
 
   /* color switcher */
   handleColorChange = (color, event) => {
-    /* this.setState({ background: color.hex }); */
-    console.log("chanigng color");
-    console.log(color);
-    if (this.props.isMyTurn){ //if it's user's turn, then they can change color
+    if (this.props.isMyTurn){ 
       localStorage.setItem('chosenColorHex', color.hex);
     }
   };
@@ -137,7 +133,6 @@ class CanvasPanel extends Component {
   }
 
   endTurn = () => {
-    //get and then post
     //TODO: write this function -- also change the isGuesser param to canvas to isMyTurn
     if (this.props.game_id){
       // end turn
@@ -188,32 +183,12 @@ class CanvasPanel extends Component {
         console.log(err);
       })
     });
-
-
-
-    
- /*    
-    post("/api/board/save", { // save canvas to each user and to canvas db
-      user_ids: [],
-      img_id: null,
-      game_id: this.props.game_id,
-
-    }).then((res) => {
-      console.log("I SAVED MY BOARD " + res);
-    }).catch((err) => {
-      console.log(err);
-    }); */
   }
 
   render() {
+    let pixels_remaining = this.props.pixel_limit - this.state.num_filled;
     return (
       <>
-      {/* <TransitionsModal 
-        overlayText={this.state.overlayText} 
-        theWordWas={this.state.theWordWas}
-        callback={this.nextWord}
-        callbackButtonText={"next word"}
-      /> */}
       <AlertDialog
         endGame={this.state.endGame}
         overlayText={this.state.overlayText}
@@ -223,7 +198,6 @@ class CanvasPanel extends Component {
         game_id={this.props.game_id}
         />
         {/* only show this if not end of game */}
-        {console.log("THIS IS MY STATEEEEE" + this.state.almostEnd)}
       {this.state.scoreText.length === 0 && 
       <AlertDialog 
       endGame={this.state.endGame}
@@ -248,27 +222,29 @@ class CanvasPanel extends Component {
                   user_id={this.props.user_id}
                   isGuesser={this.props.isGuesser}
                   isMyTurn={this.props.isMyTurn}
+                  pixels_remaining={pixels_remaining}
+                  pixel_limit={this.props.pixel_limit}
                   onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
-                  // updateOverlayText={this.updateOverlayText}
                 />
               </div>
           </div>
-          
-           
           </div>
           <div className="CanvasPanel-footer">
               {(this.props.isMyTurn && !this.props.isGuesser) && 
               <div>
                 <div className="CanvasPanel-child">
-                  total pixels filled: {this.state.num_filled}
+                  pixels remaining: {pixels_remaining}
                 </div>
                 <div className="CanvasPanel-child">
-                <GithubPicker 
-                  width="150px" 
-                  colors={this.state.colorPalette} 
-                  triangle="hide" 
-                  onChangeComplete={ this.handleColorChange } 
-                />
+                {(pixels_remaining > 0)?
+                  <GithubPicker 
+                    width="150px" 
+                    colors={this.state.colorPalette} 
+                    triangle="hide" 
+                    onChangeComplete={ this.handleColorChange } 
+                  /> :
+                  <div>You have used all your pixels; remove a pixel to add more.</div>
+                }
                 </div>                
               </div>
               }
@@ -285,31 +261,19 @@ class CanvasPanel extends Component {
                 >end turn
                 </button>
               </div>
-              <div className="CanvasPanel-child">
-                <button 
-                  className="Canvas-footer-button u-pointer" 
-                  onClick={this.props.clearCanvas}
-                >
-                  clear canvas
-                </button>
-              </div>
-              </div>
-
-                }
-                  
-               {/*  {this.props.isGuesser &&
+                <div className="CanvasPanel-child">
                   <button 
                     className="Canvas-footer-button u-pointer" 
-                    onClick={this.nextWord}
+                    onClick={this.props.clearCanvas}
                   >
-                    next word
+                    clear canvas
                   </button>
-                } */}
+                </div>
               </div>
-
+                }
+              </div>
             </div>
         </div>
-
       </>
     );
   }

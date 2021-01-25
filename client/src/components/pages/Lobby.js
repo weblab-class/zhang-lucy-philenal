@@ -29,25 +29,46 @@ class Lobby extends Component {
     // Initialize Default State
     this.state = {
       players: [],
+<<<<<<< HEAD
       sessions: 1,/* 
       wantPixelLimit: false,
       pixelLimit: null, */
+=======
+      sessions: 1,
+      pixel_proportion: 0.4,
+>>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
       wordPack: "basic",
       wordPacks: null,
       host_id: null, //is host or not
     };
   }
 
-  componentDidMount() {
+  componentWillUnmount () {
+    this.is_mounted = false;
+  }
 
+  componentDidMount() {
+    this.is_mounted = true;
     //gets the wordpack list
     get("/api/game/wordPacks").then((res)=> {
-      this.setState({wordPacks: res}, ()=> console.log(res))
-    })
+      if (this.is_mounted) {
+        this.setState({wordPacks: res}, ()=> console.log(res))
+      }
+    });
 
     get("/api/game/sessionValues").then((res) => {
-      this.setState({sessionValues: res}, ()=>console.log(res))
-    })
+      if (this.is_mounted) {
+        this.setState({sessionValues: res}, ()=>console.log(res))
+      }
+    });
+
+    get("/api/game/difficulties").then((res) => {
+
+      console.log(res);
+      if (this.is_mounted) {
+        this.setState({difficulties: res}, ()=>console.log(res))
+      }
+    });
 
     get("/api/game/players", {
       game_id: this.props.location.state.game_id,
@@ -55,7 +76,7 @@ class Lobby extends Component {
     }).then((res) => {
       console.log(res);
 
-      if (res.status == 200) {
+      if (res.status == 200 && this.is_mounted) {
         this.setState({
           players: res.players,
           host_id: res.host_id,
@@ -83,7 +104,7 @@ class Lobby extends Component {
 
     //listens for if players list is changed (if someone joined) and updates players state
     socket.on("players_and_game_id", (players_and_game_id_object) => {
-      if (this.props.location.state.game_id === players_and_game_id_object.game_id) { //if the game id sent out is ours
+      if (this.props.location.state.game_id === players_and_game_id_object.game_id && this.is_mounted) { //if the game id sent out is ours
         this.setState({
           players: players_and_game_id_object.players,
         }, ()=>{
@@ -95,7 +116,7 @@ class Lobby extends Component {
 
     //listens for changed word pack
     socket.on("changedWordPack", (wordPack) => {
-      if (this.props.location.state.game_id === wordPack.game_id) {
+      if (this.props.location.state.game_id === wordPack.game_id && this.is_mounted) {
         this.setState({
           wordPack: wordPack.wordPack
         })
@@ -104,13 +125,14 @@ class Lobby extends Component {
 
     //listens for changed sessions
     socket.on("changedSessions", (sessions) => {
-      if (this.props.location.state.game_id === sessions.game_id) {
+      if (this.props.location.state.game_id === sessions.game_id && this.is_mounted) {
         this.setState({
           sessions: sessions.sessions
         })
       }
     });
 
+<<<<<<< HEAD
    /*  //listens for if want/dontwant pixel limit
     socket.on("changedWantPixelLimit", (want) => {
     if (this.props.location.state.game_id === want.game_id) {
@@ -128,11 +150,21 @@ class Lobby extends Component {
         })
       }
     }); */
+=======
+    //listens for changed difficulty
+    socket.on("changedDifficulty", (res) => {
+      if (this.props.location.state.game_id === res.game_id && this.is_mounted) {
+        this.setState({
+          pixel_proportion: res.pixel_proportion
+        }, ()=>console.log(this.state.pixel_proportion))
+      }
+    })
+>>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
 
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
       console.log("started socket works! and props game id " + this.props.location.state.game_id + " and game id " + game_id);
-      if (this.props.location.state.game_id === game_id) { //if game that started is your game_id
+      if (this.props.location.state.game_id === game_id && this.is_mounted) { //if game that started is your game_id
         // TODO: maybe
         navigate("/player", {state: {
           user_id: this.props.location.state.user_id, 
@@ -141,19 +173,24 @@ class Lobby extends Component {
       }
     });
   }
- 
- 
-
 
   // TODO: fix this put request
   startGame = () => {
+    console.log(`pix prop: ${this.state.pixel_proportion}`);
+    console.log(`num players: ${this.state.players.length}`);
+    let pixel_limit = Math.round(400 * this.state.pixel_proportion / this.state.players.length);
+    // this.state.pixel_proportion
+    console.log(`pixel limit: ${pixel_limit}`);
     put("/api/game/start", {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
       sessions: this.state.sessions,
       wordPack: this.state.wordPack,
+<<<<<<< HEAD
+=======
+      pixel_limit: pixel_limit,
+>>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
     }).then((res) => {
-      console.log("this is right before we navigate to /player " + res)
       navigate("/player", {state: {
         user_id: this.props.location.state.user_id, 
         game_id: this.props.location.state.game_id,
@@ -184,14 +221,13 @@ class Lobby extends Component {
           </div>
         )
       } 
-      console.log(this.props.location.state.user_id);
-      console.log("host: " + this.state.host_id)
       return (
         <> 
               {/* <div><GoogleButton/></div> */}
             
               <div>hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
+<<<<<<< HEAD
               <div className="Lobby-container">
                 <div className="Lobby-title">
                   lobby
@@ -236,6 +272,28 @@ class Lobby extends Component {
                           <div></div>
                       }
                 </div>
+=======
+              <div className="Lobby">
+                  <div className="Lobby-title">lobby</div>
+                  {(this.props.location.state.user_id === this.state.host_id) &&
+                    <MultilineTextField 
+                    num_players={players.length}
+                    wordPacks={this.state.wordPacks} 
+                    sessionValues={this.state.sessionValues}
+                    difficulties={this.state.difficulties}
+                    game_id={this.props.location.state.game_id}/>}
+                  
+                  <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
+                  {players}
+                  {(this.props.location.state.user_id === this.state.host_id) && 
+                      <button 
+                      className="Lobby-startGame u-color-1"
+                      onClick={this.startGame}
+                      disabled={players.length <= 1}>
+                        start game
+                        </button>
+                  }
+>>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
               </div>
               
 
