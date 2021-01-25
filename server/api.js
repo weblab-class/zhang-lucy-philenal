@@ -546,7 +546,7 @@ router.post("/game/changedWordPack", (req, res)=> {
 router.post("/game/changedSessions", (req, res)=> {
   socketManager.getIo().emit("changedSessions", {
     game_id: req.body.game_id,
-    sessions: req.body.sessions
+    sessionValues: req.body.sessionValues
   })
 });
 

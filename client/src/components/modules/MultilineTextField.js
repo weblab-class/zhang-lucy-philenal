@@ -62,7 +62,7 @@ export default function MultilineTextField(props) {
   const handleSessionValueChange = (event) => {
     setSessions(event.target.value);
     post("/api/game/changedSessions", {
-      sessions: event.target.value,
+      sessionValues: event.target.value,
       game_id: props.game_id
     }).then(()=> console.log("I changed my sessions"))
   }

@@ -121,7 +121,7 @@ class Lobby extends Component {
     socket.on("changedSessions", (sessions) => {
       if (this.props.location.state.game_id === sessions.game_id && this.is_mounted) {
         this.setState({
-          sessions: sessions.sessions
+          sessionValues: sessions.sessionValues
         })
       }
     });
@@ -183,7 +183,7 @@ class Lobby extends Component {
   }
 
   render() {
-    if (this.state.players && this.state.wordPacks) {
+    if (this.state.players && this.state.wordPacks && this.state.sessionValues) {
       let players = []
       for (let i = 0; i < this.state.players.length; i++) {
         players.push(
