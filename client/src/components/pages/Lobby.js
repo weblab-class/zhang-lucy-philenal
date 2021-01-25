@@ -29,14 +29,8 @@ class Lobby extends Component {
     // Initialize Default State
     this.state = {
       players: [],
-<<<<<<< HEAD
-      sessions: 1,/* 
-      wantPixelLimit: false,
-      pixelLimit: null, */
-=======
       sessions: 1,
       pixel_proportion: 0.4,
->>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
       wordPack: "basic",
       wordPacks: null,
       host_id: null, //is host or not
@@ -132,25 +126,6 @@ class Lobby extends Component {
       }
     });
 
-<<<<<<< HEAD
-   /*  //listens for if want/dontwant pixel limit
-    socket.on("changedWantPixelLimit", (want) => {
-    if (this.props.location.state.game_id === want.game_id) {
-      this.setState({
-        wantPixelLimit: want.wantPixelLimit
-      })
-    }
-  });
-
-    //listens for pixel limit
-    socket.on("changedPixelLimit", (pixelLimit) => {
-      if (this.props.location.state.game_id === pixelLimit.game_id) {
-        this.setState({
-          pixelLimit: pixelLimit.pixelLimit
-        })
-      }
-    }); */
-=======
     //listens for changed difficulty
     socket.on("changedDifficulty", (res) => {
       if (this.props.location.state.game_id === res.game_id && this.is_mounted) {
@@ -159,7 +134,6 @@ class Lobby extends Component {
         }, ()=>console.log(this.state.pixel_proportion))
       }
     })
->>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
 
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
@@ -186,10 +160,7 @@ class Lobby extends Component {
       user_id: this.props.location.state.user_id,
       sessions: this.state.sessions,
       wordPack: this.state.wordPack,
-<<<<<<< HEAD
-=======
       pixel_limit: pixel_limit,
->>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
     }).then((res) => {
       navigate("/player", {state: {
         user_id: this.props.location.state.user_id, 
@@ -227,7 +198,6 @@ class Lobby extends Component {
             
               <div>hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
-<<<<<<< HEAD
               <div className="Lobby-container">
                 <div className="Lobby-title">
                   lobby
@@ -246,8 +216,10 @@ class Lobby extends Component {
                         settings:
                       </div>
                         <MultilineTextField 
+                        num_players={players.length}
                         wordPacks={this.state.wordPacks} 
                         sessionValues={this.state.sessionValues}
+                        difficulties={this.state.difficulties}
                         game_id={this.props.location.state.game_id}/>
                       </div>
 
@@ -266,34 +238,13 @@ class Lobby extends Component {
                 {(this.props.location.state.user_id === this.state.host_id) ? 
                           <button 
                           className="Lobby-startGame"
-                          onClick={this.startGame}>
+                          onClick={this.startGame}
+                          disabled={players.length <= 1}>
                             start game
                             </button> :
                           <div></div>
                       }
                 </div>
-=======
-              <div className="Lobby">
-                  <div className="Lobby-title">lobby</div>
-                  {(this.props.location.state.user_id === this.state.host_id) &&
-                    <MultilineTextField 
-                    num_players={players.length}
-                    wordPacks={this.state.wordPacks} 
-                    sessionValues={this.state.sessionValues}
-                    difficulties={this.state.difficulties}
-                    game_id={this.props.location.state.game_id}/>}
-                  
-                  <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
-                  {players}
-                  {(this.props.location.state.user_id === this.state.host_id) && 
-                      <button 
-                      className="Lobby-startGame u-color-1"
-                      onClick={this.startGame}
-                      disabled={players.length <= 1}>
-                        start game
-                        </button>
-                  }
->>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
               </div>
               
 
