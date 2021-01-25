@@ -72,14 +72,14 @@ class PlayerPanelLeft extends Component {
         {(!this.state.error && this.props.guesser) && 
         <div className="PlayerPanelLeft">
           <button onClick={this.props.leaveGame}>leave game</button>
-          <h2>word: 
+          <div className="PlayerPanelLeft-header">word: 
             <span className="PlayerPanelLeft-word">
               {(this.props.word) ? this.props.word : this.state.wordText}
             </span>
-          </h2>
-          <h2>guesser:</h2>
+          </div>
+          <div className="PlayerPanelLeft-header">guesser:</div>
           <GuesserIcon guesser_name={this.props.guesser.name} _id={this.props.guesser._id} isMyTurn = {this.props.turn===this.props.pixelers.length ? true: false}/>
-          <h2>pixelers:</h2>
+          <div className="PlayerPanelLeft-header">pixelers:</div>
           <PlayerOrder pixelers={this.props.pixelers} turn={this.props.turn}/>
         </div>
         }

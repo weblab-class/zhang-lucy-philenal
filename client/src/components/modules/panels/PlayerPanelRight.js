@@ -110,9 +110,9 @@ class PlayerPanelRight extends Component {
         <div className="PlayerPanelRight">
           {this.props.isGuesser}
           <div className="PlayerPanelRight-chatBox">
-            <h2>
+            <div className="PlayerPanelRight-header">
             guesses
-            </h2>
+            </div>
             {/* <div style={{overflow: "auto"}}> */}
               <section >
               {guesses}

@@ -20,12 +20,19 @@
     flex-direction: column;
     justify-content: right; */
     /* justify-content: center; */
+    /* border-color: var(--button-color);
+    background-color: var(--button-color); */
+    /* border-width: .5em;
+    border-radius: 0.5em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px; */
+    
+    padding-left: var(--l);
+    height: min-content;
     position: absolute;
     right: var(--s);
     width: 250px;
     height: 100%;
     text-align: left;
-    padding: 1rem;
     /* background-color: blueviolet; */
 }
 
@@ -38,20 +45,7 @@
 section {
     overflow: auto;
 }
-.PlayerPanelRight-chatBox {
-    height: 200px;
-    width: 200px;
-    background-color: rgb(255, 246, 232);
-    margin: 1rem 0 ;
-    padding: 1rem;
-    text-align: left;
-    
-    border: solid;
-    border-width: var(--s);
-    border-color: rgb(255, 246, 232);
-    border-radius: var(--s);
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
-}
+
 
 .CanvasPanel {
     text-align: center;

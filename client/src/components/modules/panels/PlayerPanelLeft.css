@@ -1,3 +1,8 @@
+.PlayerPanelLeft-header {
+    font-size: var(--l);
+    color: var(--font-color-2);
+    margin-bottom: var(--m);
+}
 /* word styling */
 h2 > .PlayerPanelLeft-word {
     /* color: var(--light-grey); */
@@ -21,6 +26,10 @@ h2 > .PlayerPanelLeft-word {
 .PlayerIcon-backgroundWhite {
     background-color: var(--text-color);
     padding: var(--s);
+    border-color: var(--text-color);
+    border-width: .5em;
+    border-radius: 0.5em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
 }
 .PlayerIcon-left {
     
@@ -78,35 +87,3 @@ h2 > .PlayerPanelLeft-word {
     visibility: hidden;
 }
 
-.PlayerPanelRight-guesser {
-    display: flex;
-
-}
-
-
-.PlayerPanelRight-chatBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding: auto 0.5rem;
-}
-
-.PlayerPanelRight-chatMessage {
-    margin: 0;
-    padding: 0.25rem;
-    color: var(--text-color);
-}
-
-.PlayerPanelRight-guessTextEntry {
-    width: 4rem;
-}
-
-.PlayerPanelRight-guessTextEntryContainer {
-        /* display: flex; */
-}
-
-.PlayerPanelRight-submitGuessButton {
-    /* display: flex; */
-    margin:  0 1rem;
-}

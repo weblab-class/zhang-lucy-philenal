@@ -1,5 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+.PlayerPanelRight-header {
+    top: var(--m);
+    position: absolute;
+    font-size: var(--l);
+    color: var(--font-color-2);
+    margin-bottom: var(--m);
+}
 
 section {
+    margin-top: var(--xl);
     width: 100%;
     justify-content: flex-end;
     flex-direction: column-reverse;
@@ -25,4 +35,51 @@ section {
     /* flex-grow: 1;
     flex-basis: 0; */
     justify-content: space-evenly;
+}
+
+.PlayerPanelRight-guesser {
+    display: flex;
+
+}
+.PlayerPanelRight-chatBox {
+    position: relative;
+    height: 200px;
+    width: 200px;
+    background-color: rgb(255, 246, 232);
+    margin: 1rem 0 ;
+    padding: 1rem;
+    text-align: left;
+    
+    border: solid;
+    border-width: var(--s);
+    border-color: rgb(255, 246, 232);
+    border-radius: var(--s);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: auto 0.5rem;
+}
+
+
+.PlayerPanelRight-chatMessage {
+    margin: 0;
+    padding: 0.25rem;
+    color: var(--font-color-2);
+    font-family: 'Roboto', sans-serif;
+}
+
+.PlayerPanelRight-guessTextEntry {
+    width: 4rem;
+}
+
+.PlayerPanelRight-guessTextEntryContainer {
+        /* display: flex; */
+}
+
+.PlayerPanelRight-submitGuessButton {
+    /* display: flex; */
+    margin:  0 1rem;
 }
