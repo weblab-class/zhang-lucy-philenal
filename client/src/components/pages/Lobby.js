@@ -30,6 +30,8 @@ class Lobby extends Component {
     this.state = {
       players: [],
       sessions: 1,
+      wantPixelLimit: false,
+      pixelLimit: null,
       wordPack: "basic",
       wordPacks: null,
       host_id: null, //is host or not

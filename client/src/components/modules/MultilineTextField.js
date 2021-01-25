@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { get, post, put} from "../../utilities";
@@ -105,7 +106,7 @@ export default function MultilineTextField(props) {
           }}
         />
         <Switch
-        checked={state.checkedA}
+        checked={wantPixelLimit}
         onChange={handleWantPixelLimitChange}
         name="pixelLimit"
         inputProps={{ 'aria-label': 'secondary checkbox' }}
