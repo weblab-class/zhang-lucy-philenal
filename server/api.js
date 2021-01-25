@@ -604,28 +604,7 @@ router.post("/game/changedDifficulty", (req, res)=> {
   });
 });
 
-<<<<<<< HEAD
-/* //tells lobby.js if i want to set pixel limit
-router.post("/game/changedWantPixelLimit", (req, res)=> {
-  socketManager.getIo().emit("changedWantPixelLimit", {
-    game_id: req.body.game_id,
-    wantPixelLimit: req.body.wantPixelLimit
-  })
-})
-
-//tells lobby.js pixel limit
-router.post("/game/changedPixelLimit", (req, res)=> {
-  socketManager.getIo().emit("changedPixelLimit", {
-    game_id: req.body.game_id,
-    wantPixelLimit: req.body.pixelLimit
-  })
-}) */
-
-
-//TODO: (philena) let palyer choose wordpack
-=======
 //TODO: (philena) let player choose wordpack
->>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
 router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
@@ -673,13 +652,8 @@ router.put("/game/pixel", (req, res) => {
     { $set: {
       num_filled: req.body.num_filled,
       "board.pixels.$.color" : color,
-<<<<<<< HEAD
-      "board.pixels.$.filled": req.body.pixel_filled,
-      } 
-=======
       "board.pixels.$.filled": req.body.pixel_filled
       }
->>>>>>> a20b8e6deb36a6b859ef86b01a8feee14cd5cd99
     }
   ).then((updatedGame) => {
     console.log("new pixel color " + req.body.pixel_color);
