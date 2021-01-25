@@ -367,18 +367,18 @@ router.get("/game/players", (req, res) => {
     // TODO: check that the user is in game
     let userIdPassed = req.query.user_id;
     if (!userIdPassed) {
-      res.status(400).send({msg: "please pass yoursr user_id"});
+      return res.status(400).send({msg: "please pass yoursr user_id"});
     }
     let gameFound = game;
     if (!gameFound) {
-      res.status(400).send({msg: "invalid game ID"});
+      return res.status(400).send({msg: "invalid game ID"});
     }
     let userValidated = Logic.validateUser(game, req.query.user_id);
     if (!userValidated) {
-      res.status(404).send({msg: "invalid user ID"});
+      return res.status(404).send({msg: "invalid user ID"});
     }
     if (userIdPassed && gameFound && userValidated) {
-      res.status(200).send({
+      return res.status(200).send({
         status: 200,
         players: game.players,
         host_id: game.host_id,

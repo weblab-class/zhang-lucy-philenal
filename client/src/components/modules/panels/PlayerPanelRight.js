@@ -119,9 +119,7 @@ class PlayerPanelRight extends Component {
               </section>
             {/* </div> */}
             
-            
-          </div>
-          {(this.props.isGuesser) &&
+            {(this.props.isGuesser) &&
           <div className="PlayerPanelRight-guesser">
             <div className="PlayerPanelRight-guessTextEntryContainer">
               <GuessEntry 
@@ -132,15 +130,17 @@ class PlayerPanelRight extends Component {
                 onSubmit={this.submitGuess}
                 />
             </div>
+          </div> 
+          }
+          </div>
+          
+        </div>
+
+        
             {/* <button 
               className="PlayerPanelRight-submitGuessButton u-color-1"
               onClick={this.submitGuess}
             >guess</button> */}
-          </div> 
-          }
-        </div>
-
-        
       </>
     );
   }

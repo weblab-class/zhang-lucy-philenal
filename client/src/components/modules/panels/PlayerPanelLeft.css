@@ -4,7 +4,7 @@
     margin-bottom: var(--m);
 }
 /* word styling */
-h2 > .PlayerPanelLeft-word {
+.PlayerPanelLeft-word {
     /* color: var(--light-grey); */
     margin-left: var(--s);
 }

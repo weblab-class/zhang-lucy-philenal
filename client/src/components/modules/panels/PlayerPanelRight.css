@@ -43,10 +43,10 @@ section {
 }
 .PlayerPanelRight-chatBox {
     position: relative;
-    height: 200px;
+    max-height: 500px;
     width: 200px;
     background-color: rgb(255, 246, 232);
-    margin: 1rem 0 ;
+    margin-bottom: 1rem;
     padding: 1rem;
     text-align: left;
     

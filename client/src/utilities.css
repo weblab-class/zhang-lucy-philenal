@@ -151,6 +151,9 @@ form {
   background-color: var(--color-4);
 }
 
+.u-color-grey {
+  background-color:  var(--text-color);
+}
 .u-text-error {
   color: var(--color-error);
   white-space: normal;
