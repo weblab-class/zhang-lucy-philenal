@@ -44,7 +44,7 @@ const sessionValues = [1,2,3,4,5];
 // the users. For example, an easy game with 400 pixels on the canvas and 
 // 3 players (2 pixelers 1 guesser) give the players (400 * 0.5 * 1/2) pixels 
 // each [100 px].
-const difficulties = {"easy": 0.1, "medium": 0.05, "hard": 0.01};
+const difficulties = {"easy": 0.4, "medium": 0.3, "hard": 0.2};
 
 //sends list of possible wordpacks
 router.get("/game/wordPacks", (_, res)=> {
@@ -238,9 +238,11 @@ router.post("/game/endTurn", (req, res) => {
 });
 
 //change text overlay, shouts to people
-router.post("/game/textOverlay", (req, res)=>{
+router.post("/game/onQuit", (req, res)=>{
   Game.findOne({ _id: req.body.game_id })
   .then((game)=> {
+    game.num_incorrect += 1;
+    game.save();
     socketManager.getIo().emit("textOverlay", {
       game_id: req.body.game_id,
       textOverlay: req.body.textOverlay,
