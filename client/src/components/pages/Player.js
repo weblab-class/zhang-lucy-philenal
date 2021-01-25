@@ -185,10 +185,12 @@ class Player extends Component {
                         hiddenWord={this.state.hiddenWord} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
+                        user_name={this.props.location.state.user_name}
                         turn={this.state.turn} /> :
                     <Pixeler 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
+                        user_name={this.props.location.state.user_name}
                         turn={this.state.turn}/>}
                 </>
             );
