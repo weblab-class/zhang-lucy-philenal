@@ -3,6 +3,7 @@
 
 
 .GuessEntry-underline {
+    margin-top: var(--s);
     font-family: 'Roboto', sans-serif;
     color: var(--text-color);
     width: 100%;
@@ -22,7 +23,7 @@
     flex-wrap: nowrap;
     justify-content: space-around;
     border-width: var(--s);
-    padding: 1rem;
+    /* padding: 1rem; */
 }
 
 .GuessEntry-buttonContainer {
@@ -44,7 +45,7 @@
     justify-content: flex-end;
     align-items: flex-end;
     background-color: blanchedalmond;
-    margin-top: .25rem;
+    margin-top: .75rem;
     padding: 0.25rem;
 }
 
