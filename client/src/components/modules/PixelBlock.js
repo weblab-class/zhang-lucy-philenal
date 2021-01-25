@@ -29,6 +29,7 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
+
       if (this.props.disabled || this.props.isGuesser || 
         !this.props.isMyTurn) {
         return;
@@ -79,10 +80,6 @@ class PixelBlock extends Component {
     };
 
     onNonHover = (event) => {
-      if (this.props.pixels_remaining <= 0){
-        return;
-      }
-
       if (this.props.disabled || this.props.isGuesser || 
         !this.props.isMyTurn || this.props.at_limit) {
         return;
@@ -140,6 +137,7 @@ class PixelBlock extends Component {
                   height: this.props.size,
                   backgroundColor: this.state.chosenColor.concat("7F"),
                 }}
+                onMouseEnter={this.onHover}
                 onMouseOver={this.onHover}
                 onMouseLeave={this.onNonHover}
                 onMouseDown={this.onClick}
@@ -155,6 +153,7 @@ class PixelBlock extends Component {
                   height: this.props.size,
                   backgroundColor: this.state.actualColor, //my actual color
                 }}
+                onMouseEnter={this.onHover}
                 onMouseOver={this.onHover}
                 onMouseLeave={this.onNonHover}
                 onMouseDown={this.onClick}
@@ -166,6 +165,7 @@ class PixelBlock extends Component {
                   height: this.props.size,
                   backgroundColor: "#FFFFFF"
                 }}
+                onMouseEnter={this.onHover}
                 onMouseOver={this.onHover}
                 onMouseLeave={this.onNonHover}
                 onMouseDown={this.onClick}
@@ -175,14 +175,15 @@ class PixelBlock extends Component {
         );
       }
     } else {
+      // no chosen color
       return <div 
                 className="PixelBlock-body-unfilled" 
                 style={{
                   width: this.props.size, 
                   height: this.props.size,
                   backgroundColor: "#FFFFFF"
-                  // backgroundColor: this.state.chosenColor.concat("7F"),
                 }}
+                onMouseEnter={this.onHover}
                 onMouseOver={this.onHover}
                 onMouseLeave={this.onNonHover}
                 onMouseDown={this.onClick}

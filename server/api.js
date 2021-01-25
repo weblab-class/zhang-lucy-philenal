@@ -32,7 +32,7 @@ const socketManager = require("./server-socket");
 
 //word pack
 const wordPacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
+  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "cake", "flower", "house", "happy", "mango", "tree"],
   "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
   "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
   "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
@@ -480,10 +480,14 @@ router.post("/game/join", (req, res) => {
     function (err, game) {
       // if player not already in game
       if (game && game.players) {
-        let filteredPlayers = game.players.filter((p) => {p && (p._id == req.body.user_id)});
-        console.log("filter");
-        console.log(filteredPlayers);
-        if (filteredPlayers.length == 0) {
+        let playerNotInGameYet = true;
+        for (let i = 0; i < game.players.length; i++) {
+          if (game.players[i]._id == req.body.user_id) {
+            playerNotInGameYet = false;
+            break;
+          }
+        }
+        if (playerNotInGameYet) {
           game.players = game.players.concat([{
             _id: req.body.user_id, 
             name: req.body.user_name,
@@ -491,16 +495,7 @@ router.post("/game/join", (req, res) => {
           }]);
         }
       
-        game.save(
-        //   function (err) {
-        //   if(err) {
-        //     console.log(err);
-        //       console.error('ERROR!');
-        //   }
-        // }
-        ).then((res) => {
-          console.log("HIIIIIIIIIIIIIIIII");
-          console.log(res);
+        game.save().then((res) => {
           socketManager.getIo().emit("players_and_game_id", 
           {
             players: res.players, 
@@ -511,17 +506,6 @@ router.post("/game/join", (req, res) => {
       }
     },
     ).then(()=>{res.send({status:"success"})})
-  //   .then((updatedGame) => {
-  //     // TODO: Fix this
-  //     console.log("updateds");
-  //     console.log(updatedGame);
-  //     socketManager.getIo().emit("players_and_game_id", 
-  //     {
-  //       players: updatedGame.players, 
-  //       game_id: updatedGame._id
-  //     });
-  //     res.send({status: "success"});
-  // })
   .catch((err) => {
     console.log(err);
   });
@@ -536,7 +520,6 @@ router.put("/game/guess", (req, res) => {
   .then((games) => {
     const noGamesFound = games.length == 0;
     const emptyGuess = req.body.guess.length == 0;
-    // TODO:  put this back in
     const invalidUser = req.body.user_id != games[0].guesser._id;
     
     if (noGamesFound || emptyGuess || invalidUser ) {

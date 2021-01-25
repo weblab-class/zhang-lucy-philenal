@@ -11,6 +11,7 @@ import PlayerOrder from "./PlayerOrder.js";
 //TODO: fix responsiveness -- for smaller screens, add margin from left
 
 import { get } from "../../../utilities";
+import { navigate } from "@reach/router";
 
 //hardcoded variables
 
@@ -61,12 +62,14 @@ class PlayerPanelLeft extends Component {
   }
 
   componentDidMount() {
-    
+    // If anyone leaves the game, go back to the home screen
+    if (!this.props.guesser || this.props.pixelers.length == 0) {
+      console.log("game ending");
+     navigate("/");
+    }
   }
 
   render() {
-
-
     return (
       <>
         {(!this.state.error && this.props.guesser) && 
