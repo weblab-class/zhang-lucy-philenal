@@ -209,6 +209,7 @@ class CanvasPanel extends Component {
   }
 
   render() {
+    let pixels_remaining = this.props.pixel_limit - this.state.num_filled;
     return (
       <>
       {/* <TransitionsModal 
@@ -250,28 +251,30 @@ class CanvasPanel extends Component {
                   user_id={this.props.user_id}
                   isGuesser={this.props.isGuesser}
                   isMyTurn={this.props.isMyTurn}
+                  pixels_remaining={pixels_remaining}
                   pixel_limit={this.props.pixel_limit}
                   onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
                   // updateOverlayText={this.updateOverlayText}
                 />
               </div>
           </div>
-          
-           
           </div>
           <div className="CanvasPanel-footer">
               {(this.props.isMyTurn && !this.props.isGuesser) && 
               <div>
                 <div className="CanvasPanel-child">
-                  pixels remaining: {this.props.pixel_limit - this.state.num_filled}
+                  pixels remaining: {pixels_remaining}
                 </div>
                 <div className="CanvasPanel-child">
-                <GithubPicker 
-                  width="150px" 
-                  colors={this.state.colorPalette} 
-                  triangle="hide" 
-                  onChangeComplete={ this.handleColorChange } 
-                />
+                {(pixels_remaining > 0)?
+                  <GithubPicker 
+                    width="150px" 
+                    colors={this.state.colorPalette} 
+                    triangle="hide" 
+                    onChangeComplete={ this.handleColorChange } 
+                  /> :
+                  <div>You have used all your pixels; remove a pixel to add more.</div>
+                }
                 </div>                
               </div>
               }

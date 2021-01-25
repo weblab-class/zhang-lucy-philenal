@@ -29,7 +29,8 @@ class PixelBlock extends Component {
   }
 
     onClick = (event) => {
-      if (this.props.disabled || this.props.isGuesser || !this.props.isMyTurn) {
+      if (this.props.disabled || this.props.isGuesser || 
+        !this.props.isMyTurn) {
         return;
       }
       let chosenColor = localStorage.getItem('chosenColorHex');
@@ -48,7 +49,7 @@ class PixelBlock extends Component {
 
       // filling in an empty block
       } else {
-        if (this.props.at_limit){
+        if (this.props.pixels_remaining <= 0){
           return;
         }
         this.setState(
@@ -64,9 +65,10 @@ class PixelBlock extends Component {
     };
 
     onHover = (event) => {
-      if (this.props.at_limit){
+      if (this.props.pixels_remaining <= 0){
         return;
       }
+      
       let chosenColor = localStorage.getItem('chosenColorHex');
       this.setState({chosenColor: chosenColor});
       if (this.props.disabled || this.props.isGuesser || 
@@ -77,8 +79,10 @@ class PixelBlock extends Component {
     };
 
     onNonHover = (event) => {
-      // let chosenColor = localStorage.getItem('chosenColorHex');
-      // this.setState({chosenColor: chosenColor});
+      if (this.props.pixels_remaining <= 0){
+        return;
+      }
+
       if (this.props.disabled || this.props.isGuesser || 
         !this.props.isMyTurn || this.props.at_limit) {
         return;

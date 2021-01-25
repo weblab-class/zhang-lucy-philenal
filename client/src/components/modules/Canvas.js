@@ -40,13 +40,10 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled, id, actualColor) => {
+    // if (this.props.pixels_remaining <= 0) return;
+    
     // check if user is allowed
     if (this.props.isGuesser || !this.props.isMyTurn || !this.props.onPixelClicked) return;
-
-    // // exceeded limit, 
-    // if (filled) {
-
-    // }
 
     this.props.onPixelClicked(filled);
     if (filled) {
@@ -54,13 +51,13 @@ class Canvas extends Component {
         filled_blocks: this.state.filled_blocks + 1,
       }, () => {
 
-        console.log("increadse");
-        console.log(`filled blcoke: ${this.state.filled_blocks}`);
-        console.log(`filled limit: ${this.props.pixel_limit}`);
-        if (this.state.filled_blocks >= this.props.pixel_limit) {
-          console.log(`at limit: ${this.state.at_limit}`)
-          this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
-        }
+        // console.log("increadse");
+        // console.log(`filled blcoke: ${this.state.filled_blocks}`);
+        // console.log(`filled limit: ${this.props.pixel_limit}`);
+        // if (this.state.filled_blocks >= this.props.pixel_limit) {
+        //   console.log(`at limit: ${this.state.at_limit}`)
+        //   this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
+        // }
 
       });
     } else {
@@ -68,14 +65,14 @@ class Canvas extends Component {
         filled_blocks: this.state.filled_blocks - 1,
       }, () => {
 
-        console.log("decareads");
+        // console.log("decareads");
 
-        console.log(`filled blcoke: ${this.state.filled_blocks}`);
-        console.log(`filled limit: ${this.props.pixel_limit}`);
-        if (this.state.filled_blocks >= this.props.pixel_limit) {
-          console.log(`at limit: ${this.state.at_limit}`)
-          this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
-        }
+        // console.log(`filled blcoke: ${this.state.filled_blocks}`);
+        // console.log(`filled limit: ${this.props.pixel_limit}`);
+        // if (this.state.filled_blocks >= this.props.pixel_limit) {
+        //   console.log(`at limit: ${this.state.at_limit}`)
+        //   this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
+        // }
 
       });
     }
@@ -164,6 +161,7 @@ class Canvas extends Component {
               callback={this.onPixelClicked}
               disabled={this.state.canvasDisabled}
               at_limit={this.state.at_limit}
+              pixels_remaining={this.props.pixels_remaining}
             />
           </div>
         );
