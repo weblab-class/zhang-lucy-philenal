@@ -19,6 +19,7 @@ for(let i = 0; i < 400; i++) {
 }
 for(let j = 0; j < bigPixels.length; j++) {
   bigPicture[bigPixels[j]] = 1;
+  bigPicture[bigPixels[j]] = 1;
 }
 // let pictures = [smallPicture, bigPicture];
 
@@ -32,11 +33,9 @@ class Wall extends Component {
   constructor(props) {
     super(props);
 
-
-
     // Initialize Default State
     this.state = {
-      pictures: [smallPicture, bigPicture],
+      pictures: [],//[smallPicture, bigPicture],
 
     };
   }
@@ -44,23 +43,33 @@ class Wall extends Component {
   componentDidMount() {
     // remember -- api calls go here!
     console.log(this.props);
+    get("/api/user/images", {
+      user_id: this.props.location.state.user_id
+    }).then((pictures) => {
+      console.log(pictures);
+      this.setState({
+        pictures: pictures,
+      });
+    }).catch((err) => {
+      console.log(`Error: ${err}`);
+    })
   }
 
   render() {
     let pictures = []
-    let hw = [3,20];
-    let titles = ["cat", "frog"];
+    // let hw = [3,20];
+    // let titles = ["cat", "frog"];
     for (let i = 0; i < this.state.pictures.length; i++) {
-      // let picture = this.state.pictures[i];
+      let picture = this.state.pictures[i];
       pictures.push(
         <div className="Wall-pictureContainer">
           <Picture
-          picture_width_blocks={hw[i]}
-          picture_height_blocks={hw[i]}
-          pixels={this.state.pictures[i]}
+          picture_width_blocks={picture.width}
+          picture_height_blocks={picture.height}
+          pixels={picture.pixels}
           />
           <div className="Wall-pictureCaption">
-            {titles[i]}
+            {picture.title}
           </div>
           
         </div>

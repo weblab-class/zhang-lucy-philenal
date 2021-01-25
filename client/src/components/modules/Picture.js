@@ -41,15 +41,16 @@ class Picture extends Component {
     let pixels = [];
     if (this.props.pixels) {
       // let filledPixels = this.props.pixels.map((p)=>{p.filled});
-      console.log("re-rendering");
-      console.log(this.props.pixels);
+      // console.log("re-rendering");
+      // console.log(this.props.pixels);
       for (let i = 0; i < this.props.picture_height_blocks * this.props.picture_width_blocks; i++) {
         pixels.push(
         //   <div className="Picture-pixelBlockContainer">
             <PixelBlock 
               game_id={this.props.game_id}
               id={this.props.pixels[i].id} 
-              filled={this.props.pixels[i]}
+              filled={this.props.pixels[i].filled}
+              actualColor={this.props.pixels[i].color}
               size={this.state.block_size}
               isGuesser={this.props.isGuesser}
               isMyTurn={this.props.isMyTurn}

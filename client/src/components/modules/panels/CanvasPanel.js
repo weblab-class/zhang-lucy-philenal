@@ -117,7 +117,7 @@ class CanvasPanel extends Component {
             console.log("GAME ENDED")
             this.setState({
                 endGame: true,
-                overlayText: "score: " + endGame.score.toString(),
+                overlayText: "Game over!\nScore: " + endGame.score.toString(),
                 scoreText: endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
         })
         }
@@ -306,7 +306,7 @@ class CanvasPanel extends Component {
               </div>
 
                 }
-                
+                  
                {/*  {this.props.isGuesser &&
                   <button 
                     className="Canvas-footer-button u-pointer" 

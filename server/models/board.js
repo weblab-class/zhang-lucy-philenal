@@ -14,6 +14,7 @@ const BoardSchema  = new mongoose.Schema({
   pixels: [{
       type: PixelSchema,
   }],
+  title: String,
 });
 
 // compile model from schema

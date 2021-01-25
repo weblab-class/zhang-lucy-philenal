@@ -36,11 +36,15 @@ export default function MultilineTextField(props) {
 
   const classes = useStyles();
   const [wordPack, setWordPack] = React.useState('basic');
+<<<<<<< HEAD
   const [sessions, setSessions] = React.useState(1);
   const [pixelLimit, setPixelLimit] = React.useState(1);
   const [wantPixelLimit, setWantPixelLimit] = React.useState(false)
+=======
+  const [sessionValues, setSessions] = React.useState(1);
+>>>>>>> 36a5b2e755086001b4da313377b11ff4156df907
 
-  const handleChange = (event) => {
+  const handleWordpackChange = (event) => {
     setWordPack(event.target.value);
     post("/api/game/changedWordPack", {
       wordPack: event.target.value,
@@ -49,7 +53,11 @@ export default function MultilineTextField(props) {
   };
 
  //changes the number of sessions
+<<<<<<< HEAD
   const handleRoundChange = (event) => {
+=======
+  const handleSessionValueChange = (event) => {
+>>>>>>> 36a5b2e755086001b4da313377b11ff4156df907
     setSessions(event.target.value);
     post("/api/game/changedSessions", {
       sessions: event.target.value,
@@ -82,7 +90,7 @@ export default function MultilineTextField(props) {
           id="outlined-select-wordPack"
           select
           value={wordPack}
-          onChange={handleChange}
+          onChange={handleWordpackChange}
           helperText="please select your word pack"
           variant="outlined"
         >
@@ -96,10 +104,13 @@ export default function MultilineTextField(props) {
         <div>
         <TextField
           id="outlined-number"
+          select
           type="number"
-          InputProps={{ inputProps: { min: 1, max: 10 } }}
+          value={sessionValues}
+          // InputProps={{ inputProps: { min: 1, max: 10 } }}
           variant="outlined"
           helperText="please choose the # of rounds"
+<<<<<<< HEAD
           onChange={handleRoundChange}
           InputLabelProps={{
             shrink: true,
@@ -124,6 +135,17 @@ export default function MultilineTextField(props) {
         }}
       />}
         
+=======
+          onChange={handleSessionValueChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        >{props.sessionValues.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}</TextField>
+>>>>>>> 36a5b2e755086001b4da313377b11ff4156df907
       </div>
     </form>
   );
