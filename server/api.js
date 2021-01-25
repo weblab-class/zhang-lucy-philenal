@@ -206,8 +206,6 @@ router.post("/game/endTurn", (req, res) => {
     if (game.turn < game.players.length - 1) {
       game.turn += 1; //adds turn
     }
-    //resets the number of pixels turn player can use
-    game.board.my_num_pixels = 0;
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("endedTurn", 
       {
@@ -578,7 +576,7 @@ router.post("/game/changedSessions", (req, res)=> {
   })
 })
 
-//tells lobby.js if i want to set pixel limit
+/* //tells lobby.js if i want to set pixel limit
 router.post("/game/changedWantPixelLimit", (req, res)=> {
   socketManager.getIo().emit("changedWantPixelLimit", {
     game_id: req.body.game_id,
@@ -592,7 +590,7 @@ router.post("/game/changedPixelLimit", (req, res)=> {
     game_id: req.body.game_id,
     wantPixelLimit: req.body.pixelLimit
   })
-})
+}) */
 
 
 //TODO: (philena) let palyer choose wordpack
@@ -607,7 +605,6 @@ router.put("/game/start", (req, res) => {
       game.wordPack = req.body.wordPack;
       game.words = wordPacks[game.wordPack];
       game.word = game.words[0];
-      game.pixelLimit = req.body.pixelLimit;
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
 
@@ -635,8 +632,6 @@ router.put("/game/pixel", (req, res) => {
     { $set: {
       "board.pixels.$.color" : color,
       "board.pixels.$.filled": req.body.pixel_filled,
-      //sets teh number of pixels filled from current turn
-      "board.my_num_pixels": req.body.my_num_pixels,
       } 
     }
   ).then((updatedGame) => {
@@ -648,7 +643,6 @@ router.put("/game/pixel", (req, res) => {
       pixel_color: req.body.pixel_color,
       board: updatedGame.board,
       game_id: updatedGame._id,
-      pixelLimit: updatedGame.pixelLimit,
     });
     let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
     res.send(game);
@@ -713,7 +707,6 @@ router.post("/board/clear_pixels", (req, res) => {
         game.board.pixels[i].color = "none";
         game.board.pixels[i].filled = false;
       }
-      game.board.my_num_pixels = 0;
       game.save().then((res) => {
         console.log("BACKEND CLEARING WORKS")
         console.log("THIS IS THE GAME " + game)

@@ -5,8 +5,6 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { get, post, put} from "../../utilities";
-import "../../utilities.css";
-
 
 /* const theme = createMuiTheme({
   typography: {
@@ -20,7 +18,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: '15ch',
+      width: '10ch',
+      /* color: rgb(100, 100, 100), */
+    },
+    '& .MuiInputBase-root': {
+      fontFamily: 'Alata',
+      color: 'rgb(100, 100, 100)',
+    },
+    '& .MuiMenuItem-root': {
+      fontFamily: 'Alata',
+      color: 'rgb(100, 100, 100)',
+    },
+    '& .MuiListItem-root': {
+      fontFamily: 'Alata',
+      color: 'rgb(100, 100, 100)',
     },
   },
 }));
@@ -35,14 +46,10 @@ const useStyles = makeStyles((theme) => ({
 export default function MultilineTextField(props) {
 
   const classes = useStyles();
-  const [wordPack, setWordPack] = React.useState('basic');
-<<<<<<< HEAD
-  const [sessions, setSessions] = React.useState(1);
+  const [wordPack, setWordPack] = React.useState('basic');/* 
   const [pixelLimit, setPixelLimit] = React.useState(1);
-  const [wantPixelLimit, setWantPixelLimit] = React.useState(false)
-=======
+  const [wantPixelLimit, setWantPixelLimit] = React.useState(false) */
   const [sessionValues, setSessions] = React.useState(1);
->>>>>>> 36a5b2e755086001b4da313377b11ff4156df907
 
   const handleWordpackChange = (event) => {
     setWordPack(event.target.value);
@@ -53,11 +60,7 @@ export default function MultilineTextField(props) {
   };
 
  //changes the number of sessions
-<<<<<<< HEAD
-  const handleRoundChange = (event) => {
-=======
   const handleSessionValueChange = (event) => {
->>>>>>> 36a5b2e755086001b4da313377b11ff4156df907
     setSessions(event.target.value);
     post("/api/game/changedSessions", {
       sessions: event.target.value,
@@ -65,7 +68,7 @@ export default function MultilineTextField(props) {
     }).then(()=> console.log("I changed my sessions"))
   }
 
-   //changes the number of pixels/person
+ /*   //changes the number of pixels/person
    const handlePixelLimitChange = (event) => {
     setPixelLimit(event.target.value);
     post("/api/game/changedPixelLimit", {
@@ -81,7 +84,7 @@ export default function MultilineTextField(props) {
       wantPixelLimit: event.target.checked,
       game_id: props.game_id
     }).then(()=> console.log("I want/dont want to change my pixel limit"))
-  }
+  } */
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -91,7 +94,7 @@ export default function MultilineTextField(props) {
           select
           value={wordPack}
           onChange={handleWordpackChange}
-          helperText="please select your word pack"
+          helperText="word pack"
           variant="outlined"
         >
           {props.wordPacks.map((option) => (
@@ -109,33 +112,7 @@ export default function MultilineTextField(props) {
           value={sessionValues}
           // InputProps={{ inputProps: { min: 1, max: 10 } }}
           variant="outlined"
-          helperText="please choose the # of rounds"
-<<<<<<< HEAD
-          onChange={handleRoundChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <Switch
-        checked={wantPixelLimit}
-        onChange={handleWantPixelLimitChange}
-        name="pixelLimit"
-        inputProps={{ 'aria-label': 'secondary checkbox' }}
-        /* only show this if user wants to set pixel limit */
-      /> {wantPixelLimit &&
-        <TextField
-        id="outlined-number"
-        type="number"
-        InputProps={{ inputProps: { min: 1, } }}
-        variant="outlined"
-        helperText="please choose the # of pixels/person"
-        onChange={handlePixelLimitChange}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />}
-        
-=======
+          helperText="# of rounds"
           onChange={handleSessionValueChange}
           InputLabelProps={{
             shrink: true,
@@ -145,7 +122,6 @@ export default function MultilineTextField(props) {
             {option}
           </MenuItem>
         ))}</TextField>
->>>>>>> 36a5b2e755086001b4da313377b11ff4156df907
       </div>
     </form>
   );

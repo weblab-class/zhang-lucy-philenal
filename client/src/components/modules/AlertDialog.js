@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,19 +10,35 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { navigate } from "@reach/router";
 import { get, post, put} from "../../utilities";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
+  root: {
+    '& .MuiButton-root': {
+      textTransform: 'lowercase !important',
+    },
+      backgroundColor: '#efefef !important',
+      color: 'rgb(100, 100, 100) !important',
+    },
   modal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  title: {
+    color: 'rgba(0, 0, 0, 0.54)',
+    padding: '16px 24px',
+    fontSize: '24px',
+    flex: '1 1 auto',
   },
-}));
+  paper: {
+    
+   /*  color: 'rgb(100, 100, 100) !important', */
+    outline: 0,
+    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 3px 3px',
+    borderWidth: '0.5em',
+    borderRadius: '1em',
+  },
+  
+});
 /* props:
 @param endGame - boolean if game ended
 @param isGuesser
@@ -87,7 +102,7 @@ export default function AlertDialog(props) {
       >
           <Fade in={open}>
           <div className={classes.paper}>
-            <DialogTitle id="alert-dialog-title">{props.overlayText}</DialogTitle>
+            <div className={classes.title}>{props.overlayText}</div>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
             {props.theWordWas}
@@ -97,20 +112,20 @@ export default function AlertDialog(props) {
             and haven't ended game */}
             {props.isGuesser && !props.endGame ?
             <DialogActions>
-              <Button onClick={handleClose && props.callback} color="primary">
+              <button onClick={handleClose && props.callback} >
               {props.callbackButtonText}
-              </Button>
+              </button>
             </DialogActions>: <div></div>
             }
             {/* if you're at the end game */}
             {props.endGame ?  
             <DialogActions>
-              <Button onClick={handleClose && goToWall} color="primary">
+              <button onClick={handleClose && goToWall} >
               my wall
-              </Button>
-              <Button onClick={handleClose && leaveGame} color="primary">
+              </button>
+              <button onClick={handleClose && leaveGame} >
               leave
-              </Button>
+              </button>
             </DialogActions>: <div></div>}
             </div>
           </Fade>

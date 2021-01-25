@@ -29,9 +29,9 @@ class Lobby extends Component {
     // Initialize Default State
     this.state = {
       players: [],
-      sessions: 1,
+      sessions: 1,/* 
       wantPixelLimit: false,
-      pixelLimit: null,
+      pixelLimit: null, */
       wordPack: "basic",
       wordPacks: null,
       host_id: null, //is host or not
@@ -111,7 +111,7 @@ class Lobby extends Component {
       }
     });
 
-    //listens for if want/dontwant pixel limit
+   /*  //listens for if want/dontwant pixel limit
     socket.on("changedWantPixelLimit", (want) => {
     if (this.props.location.state.game_id === want.game_id) {
       this.setState({
@@ -127,7 +127,7 @@ class Lobby extends Component {
           pixelLimit: pixelLimit.pixelLimit
         })
       }
-    });
+    }); */
 
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
@@ -152,7 +152,6 @@ class Lobby extends Component {
       user_id: this.props.location.state.user_id,
       sessions: this.state.sessions,
       wordPack: this.state.wordPack,
-      pixelLimit: this.state.wantPixelLimit ? this.state.pixelLimit: Number.POSITIVE_INFINITY,
     }).then((res) => {
       console.log("this is right before we navigate to /player " + res)
       navigate("/player", {state: {
@@ -180,7 +179,7 @@ class Lobby extends Component {
       let players = []
       for (let i = 0; i < this.state.players.length; i++) {
         players.push(
-          <div className="PlayerPanelLeft-player">
+          <div className="Lobby-player">
             {this.state.players[i].name}
           </div>
         )
@@ -193,25 +192,52 @@ class Lobby extends Component {
             
               <div>hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
-              <div className="Lobby">
-                  <div className="Lobby-title">lobby</div>
-                  {(this.props.location.state.user_id === this.state.host_id) ?
-                    <MultilineTextField 
-                    wordPacks={this.state.wordPacks} 
-                    sessionValues={this.state.sessionValues}
-                    game_id={this.props.location.state.game_id}/>: <div></div>}
-                  
-                  <br></br>game ID: <b>{this.props.location.state.game_id}</b><br></br>
-                  {players}
-                  {(this.props.location.state.user_id === this.state.host_id) ? 
-                      <button 
-                      className="Lobby-startGame u-color-1"
-                      onClick={this.startGame}>
-                        start game
-                        </button> :
-                      <div></div>
-                  }
+              <div className="Lobby-container">
+                <div className="Lobby-title">
+                  lobby
+                  </div>
+                <div className="Lobby-rowPixel">
+                  <div className="Lobby-pixels u-color-1"></div>
+                  <div className="Lobby-pixels u-color-2"></div>
+                  <div className="Lobby-pixels u-color-3"></div>
+                  <div className="Lobby-pixels u-color-4"></div>
+                </div>
+                <div className="Lobby-entireColumn">
+                  <div className="Lobby">
+                    {(this.props.location.state.user_id === this.state.host_id) ?
+                      <div>
+                      <div className="Lobby-header Lobby-margin">
+                        settings:
+                      </div>
+                        <MultilineTextField 
+                        wordPacks={this.state.wordPacks} 
+                        sessionValues={this.state.sessionValues}
+                        game_id={this.props.location.state.game_id}/>
+                      </div>
+
+                      : <div></div>}
+                      <div className="Lobby-column">
+                        <div className="Lobby-header">
+                          game ID:
+                          </div> 
+                        <div className="Lobby-id">{this.props.location.state.game_id}</div>
+                        <div className="Lobby-header">
+                          players:
+                        </div>
+                        {players}
+                      </div>
+                  </div>
+                {(this.props.location.state.user_id === this.state.host_id) ? 
+                          <button 
+                          className="Lobby-startGame"
+                          onClick={this.startGame}>
+                            start game
+                            </button> :
+                          <div></div>
+                      }
+                </div>
               </div>
+              
 
         </>
       );

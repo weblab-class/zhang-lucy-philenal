@@ -64,7 +64,6 @@ class Canvas extends Component {
       pixel_id: id,
       pixel_color: actualColor,
       pixel_filled: filled,
-      my_num_pixels: this.state.my_filled_blocks,
       num_filled: this.state.filled_blocks,
     }).then((res) => {
       if (res.status == "error") {
@@ -87,8 +86,7 @@ class Canvas extends Component {
         console.log(res);
         if (this.is_mounted){
           this.setState({
-            pixels: res.pixels,
-            my_filled_blocks: res.my_num_pixels});
+            pixels: res.pixels,});
         }
       }
     }).catch((err) => {

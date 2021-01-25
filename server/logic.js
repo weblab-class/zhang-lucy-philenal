@@ -77,7 +77,6 @@ const newGame = (req) => {
     width: BOARD_WIDTH_BLOCKS,
     height: BOARD_HEIGHT_BLOCKS,
     pixels: newPixels,
-    my_num_pixels: 0,
   };
 
   const newGame = new Game({
@@ -95,7 +94,6 @@ const newGame = (req) => {
     started: false,
     finished: false,
     maxSessions: 1, // TODO: customize
-    pixelLimit: Number.POSITIVE_INFINITY,
     session: null,
     round: null,
     turn: null,

@@ -4,6 +4,7 @@ import { Link } from "@reach/router";
 
 import "../../utilities.css";
 import "./StartMenu.css";
+import "./TextEntry.css";
 
 
 /**
@@ -65,6 +66,7 @@ class TextEntry extends Component {
         <form>
         <input
             type='text'
+            class='TextEntry-underline'
             value={this.state.text}
             onChange={this.onTextChange}
             onKeyPress={this.onKeyPress}

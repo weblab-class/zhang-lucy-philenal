@@ -13,14 +13,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   paper: {
+    position: "absolute",
+    width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    outline: 0
   },
 }));
 
 export default function TransitionsModal(props) {
+  const [modalStyle] = React.useState(getModalStyle);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -49,7 +52,7 @@ export default function TransitionsModal(props) {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
+          <div style={modalStyle} className={classes.paper}>
             <h2 id="transition-modal-title">{props.overlayText}</h2>
             <h3 id="transition-modal-description">{props.theWordWas}</h3>
            {/*  <button 

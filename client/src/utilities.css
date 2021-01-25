@@ -34,6 +34,7 @@
   --light-grey: #bab9b9;
   --grey: #646464;
   --dark-grey: #4b4b4b;
+  --font-color-2: rgba(0, 0, 0, 0.54);
 
   --xs: 4px;
   --s: 8px;
@@ -51,6 +52,7 @@
   --color-2: rgb(252, 235, 217);
   --color-3: rgb(233, 232, 190);
   --color-4: rgb(211, 247, 201);
+  --color-5: blanchedalmond;
   --color-error: rgb(249, 55, 55);
 
   --pixel-color-unfilled: var(--white);
@@ -66,6 +68,8 @@ body {
   font-weight: 100;
   background-color: var(--light-grey); 
   color: white;
+  font-size: var(--m);
+  text-transform: lowercase;
 }
 
 h2 {
@@ -91,11 +95,42 @@ button {
     cursor: pointer;
     border: solid;
 
-    border-width: .5em;
     border-color: var(--button-color);
-    border-radius: var(--s);
+    background-color: var(--button-color);
+    border-width: .5em;
+    border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
+    transition: background-color 1s, border-color 1s, color 1s
   }
+
+/* used animista */
+button:hover {
+  -webkit-animation: scale-up-center 0.4s ease-out both;
+  animation: scale-up-center 0.4s ease-out both;
+  animation: color-change 0.4s ease-in;
+}
+
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(1.01);
+            transform: scale(1.01);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(1.01);
+            transform: scale(1.01);
+  }
+}
+
 form {
   flex-grow: 1;
 }
@@ -118,6 +153,7 @@ form {
 
 .u-text-error {
   color: var(--color-error);
+  white-space: normal;
 }
 
 .u-flex {

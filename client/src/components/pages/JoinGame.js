@@ -72,8 +72,44 @@ class JoinGame extends Component {
             {/* TODO (philena) make this pretty! ^_^ and also make responsive*/}
             {/* TODO add functionality for entering names too */}
             <div>hello, {this.props.location.state.user_name}!</div>
-            <button onClick={()=>{navigate('/')}}>back</button>           
+            <button onClick={()=>{navigate('/')}}>back</button>
             <div className="JoinGame-container">
+                <div className="JoinGame-title">
+                  join game
+                  </div>
+                <div className="JoinGame-rowPixel">
+                  <div className="JoinGame-pixels u-color-1"></div>
+                  <div className="JoinGame-pixels u-color-2"></div>
+                  <div className="JoinGame-pixels u-color-3"></div>
+                  <div className="JoinGame-pixels u-color-4"></div>
+                </div>
+                <div className="JoinGame-entireColumn">
+                  <div className="JoinGame">
+                      <div>
+                      <div className="JoinGame-header">
+                        enter the game id:
+                      </div>
+                      <TextEntry 
+                        callback={this.onGameIDEntry}
+                        onEnterKeyPress={this.onEnterKeyPress}
+                      />
+                      </div>
+                  </div>
+                  <button 
+                    className="JoinGame-startGame"
+                    onClick={this.joinGame}>
+                    join game
+                  </button>
+                  {(this.state.game_not_found) ? 
+                  <div className="u-text-error">
+                  Game not found, please enter a valid game ID.
+                  </div> :
+                  <div></div>
+                  }
+                </div>
+              </div>
+
+           {/*  <div className="JoinGame-container">
               <div className="JoinGame-linkContainer">
                   <h1>Join Game </h1>
                   <p>Enter the game ID:</p>
@@ -91,7 +127,7 @@ class JoinGame extends Component {
                   
               </div>
 
-            </div>
+            </div> */}
       </>
     );
   }

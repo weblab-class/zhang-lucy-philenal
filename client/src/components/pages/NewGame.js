@@ -81,23 +81,40 @@ class NewGame extends Component {
             {/* TODO add functionality for entering names too */}
             <div>hello, {this.props.location.state.user_name}!</div>
             <button onClick={()=>{navigate('/')}}>back</button>
-
             <div className="NewGame-container">
-
-                <h1>New Game </h1>
-                <p>Enter a game ID:</p>
-                <TextEntry 
-                  callback={this.onGameIDEntry}
-                  onEnterKeyPress={this.onEnterKeyPress}
-                />
-                    <button 
-                      className="NewGame-button u-color-1"
-                      onClick={this.newGame}
-                    >new game</button>
-                {this.state.error && (
-                  <div className="u-text-error">Error: game ID {this.state.final_game_id} already taken, please try again.</div>
-                )}
-            </div>
+                <div className="NewGame-title">
+                  new game
+                  </div>
+                <div className="NewGame-rowPixel">
+                  <div className="NewGame-pixels u-color-1"></div>
+                  <div className="NewGame-pixels u-color-2"></div>
+                  <div className="NewGame-pixels u-color-3"></div>
+                  <div className="NewGame-pixels u-color-4"></div>
+                </div>
+                <div className="NewGame-entireColumn">
+                  <div className="NewGame">
+                      <div>
+                      <div className="NewGame-header">
+                        enter a game id:
+                      </div>
+                      <TextEntry 
+                        callback={this.onGameIDEntry}
+                        onEnterKeyPress={this.onEnterKeyPress}
+                      />
+                      </div>
+                  </div>
+                  <button 
+                    className="NewGame-startGame"
+                    onClick={this.newGame}>
+                    new game
+                  </button>
+                  {this.state.error && (
+                    <div className="u-text-error">
+                      Error: game ID {this.state.final_game_id} already taken, please try again.
+                    </div>
+                  )}
+                </div>
+              </div>
       </>
     );
     

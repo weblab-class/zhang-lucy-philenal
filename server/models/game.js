@@ -15,7 +15,6 @@ const BoardSchema  = new mongoose.Schema({
   _id: String,
   width: Number,
   height: Number,
-  my_num_pixels: Number, //number of pixels current player pixeled
   num_filled: Number,
   pixels: [{
       type: PixelSchema,
@@ -40,7 +39,6 @@ const GameSchema = new mongoose.Schema({
   board: BoardSchema,
   started: Boolean,
   finished: Boolean,
-  pixelLimit: Number,
   maxSessions: Number,
   session: Number, // default: 1, {#player} rounds within sessions
   round: Number, // {# player} words per round
