@@ -52,42 +52,94 @@ class Wall extends Component {
     let correct_pictures = []
     for (let i = 0; i < this.state.correct_pictures.length; i++) {
       let picture = this.state.correct_pictures[i];
-      correct_pictures.push(
-        <div className="Wall-pictureContainer">
-          <div className="Wall-picture">
-            <Picture
-            picture_width_blocks={picture.width}
-            picture_height_blocks={picture.height}
-            pixels={picture.pixels}
-            />
-          </div>
-          
-          <div className="Wall-overlay">
-            <div className="Wall-pictureCaption">
-              {picture.title}
+      if (i%4 == 0){
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-1">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
             </div>
           </div>
-          
-        </div>
-      );
+        );
+
+      } else if (i%4 ==1) {
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-2">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
+          </div>
+        );
+      } else if (i%4 == 2) {
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-3">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-4">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
 
     let incorrect_pictures = []
     for (let i = 0; i < this.state.incorrect_pictures.length; i++) {
       let picture = this.state.incorrect_pictures[i];
       incorrect_pictures.push(
-        <button className="Wall-pictureContainer">
+        <div className="Wall-pictureContainer">
           <Picture
           picture_width_blocks={picture.width}
           picture_height_blocks={picture.height}
           pixels={picture.pixels}
           />
-          <div className="Wall-overlay">
-            <div className="Wall-pictureCaption">
+          <div className="Wall-overlay-shame">
+            <div className="Wall-pictureCaption-shame">
               {picture.title}
             </div>
           </div>
-        </button>
+        </div>
       );
     }
 
@@ -116,7 +168,7 @@ class Wall extends Component {
             <div className="Wall-pixels u-color-grey"></div>
             <div className="Wall-pixels u-color-grey"></div>
           </div>
-          <div className="Wall-pictureContainer">
+          <div className="Wall-gallery">
             {incorrect_pictures}
           </div>  
         </div>

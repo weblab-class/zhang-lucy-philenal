@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .Wall-title-fame, .Wall-title-shame {
@@ -66,8 +67,7 @@
     display: block
 }
 
-.Wall-pictureCaption {
-    color: white;
+.Wall-pictureCaption-shame, .Wall-pictureCaption-fame{
     font-size: 20px;
     position: absolute;
     top: 50%;
@@ -78,7 +78,15 @@
     text-align: center;
 }
 
-.Wall-overlay {
+.Wall-pictureCaption-shame {
+    color: white;
+}
+
+.Wall-pictureCaption-fame {
+    color: var(--text-color);
+}
+
+.Wall-overlay-fame, .Wall-overlay-shame {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -88,14 +96,27 @@
     width: 200px;
     opacity: 0;
     transition: .5s ease;
-    background-color: #008CBA;
+    
   }
+
+.Wall-overlay-shame {
+    background-color: var(--text-color);
+}
 
 .Wall-pictureContainer {
     margin: 1rem;
     display: block;
+    border: solid;
+    border-width: var(--s);
+    border-color: white;
+    border-radius: var(--m);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
 }
 
-.Wall-pictureContainer:hover .Wall-overlay {
+.Wall-pictureContainer:hover .Wall-overlay-fame {
+    opacity: 0.9;
+}
+
+.Wall-pictureContainer:hover .Wall-overlay-shame {
     opacity: 0.7;
 }
