@@ -39,3 +39,11 @@
     padding: var(--s);
     border-color: var(--color-1);
 }
+
+
+.Lobby-startGame:disabled {
+    background-color: lightgray;
+    border-color: gray;
+    border-width: 2px;
+    color: gray;
+}

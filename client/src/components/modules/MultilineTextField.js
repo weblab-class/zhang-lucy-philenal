@@ -35,7 +35,8 @@ export default function MultilineTextField(props) {
 
   const classes = useStyles();
   const [wordPack, setWordPack] = React.useState('basic');
-  const [sessionValues, setSessions] = React.useState(1);
+  const [sessionValue, setSessions] = React.useState(1);
+  const [difficulty, setDifficulty] = React.useState('0.5');
 
   const handleWordpackChange = (event) => {
     setWordPack(event.target.value);
@@ -52,6 +53,16 @@ export default function MultilineTextField(props) {
       sessions: event.target.value,
       game_id: props.game_id
     }).then(()=> console.log("I changed my sessions"))
+  }
+
+  //changes the difficulty
+  const handleDifficultyChange = (event) => {
+    console.log(`DIFFICULTY PROP: ${event.target.value}`);
+    setDifficulty(event.target.value);
+    post("/api/game/changedDifficulty", {
+      pixel_proportion: event.target.value,
+      game_id: props.game_id
+    }).then(()=> console.log("I changed my difficulty"))
   }
 
   return (
@@ -71,14 +82,13 @@ export default function MultilineTextField(props) {
             </MenuItem>
           ))}
         </TextField>
-        </div>
-        <div>
+      </div>
+      <div>
         <TextField
           id="outlined-number"
           select
           type="number"
-          value={sessionValues}
-          // InputProps={{ inputProps: { min: 1, max: 10 } }}
+          value={sessionValue}
           variant="outlined"
           helperText="please choose the # of rounds"
           onChange={handleSessionValueChange}
@@ -91,6 +101,22 @@ export default function MultilineTextField(props) {
           </MenuItem>
         ))}</TextField>
       </div>
+      <div>
+        <TextField
+          id="outlined-select-difficulty"
+          select
+          value={difficulty}
+          onChange={handleDifficultyChange}
+          helperText="please select your difficulty"
+          variant="outlined"
+        >
+          {Object.keys(props.difficulties).map((key) => (
+            <MenuItem key={key} value={props.difficulties[key]}>
+              {key}
+            </MenuItem>
+          ))}
+        </TextField>
+        </div>
     </form>
   );
 }

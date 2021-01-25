@@ -10,17 +10,21 @@ import "./CanvasPanel.css";
 import "../Canvas.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
-import { get, post } from "../../../utilities";
+import { post } from "../../../utilities";
 
 
 
 /**
  * The CanvasPanel is the entire middle panel below the title, containing the Canvas
+ * No API calls on mount, passes props to Canvas
+ * Calls endTurn when button pressed
+ * 
  * @param game_id
  * @param user_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
  * @param canvas_pixels array of pixel objects in the canvas
+ * @param pixel_limit maximum pixels that a player can put
  * @param isGuesser - Boolean if player is guesser
  * @param isMyTurn - Boolean if it is player's turn
  */
@@ -109,7 +113,7 @@ class CanvasPanel extends Component {
             console.log("GAME ENDED")
             this.setState({
                 endGame: true,
-                overlayText: "Game over!\nScore: " + endGame.score.toString(),
+                overlayText: `Game over!\nScore: ${endGame.score.toString()}%`,
                 scoreText: endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
         })
         }
@@ -120,8 +124,8 @@ class CanvasPanel extends Component {
   /* color switcher */
   handleColorChange = (color, event) => {
     /* this.setState({ background: color.hex }); */
-    console.log("chanigng color");
-    console.log(color);
+    // console.log("chanigng color");
+    // console.log(color);
     if (this.props.isMyTurn){ //if it's user's turn, then they can change color
       localStorage.setItem('chosenColorHex', color.hex);
     }
@@ -137,7 +141,6 @@ class CanvasPanel extends Component {
   }
 
   endTurn = () => {
-    //get and then post
     //TODO: write this function -- also change the isGuesser param to canvas to isMyTurn
     if (this.props.game_id){
       // end turn
@@ -223,7 +226,6 @@ class CanvasPanel extends Component {
         game_id={this.props.game_id}
         />
         {/* only show this if not end of game */}
-        {console.log("THIS IS MY STATEEEEE" + this.state.almostEnd)}
       {this.state.scoreText.length === 0 && 
       <AlertDialog 
       endGame={this.state.endGame}
@@ -248,6 +250,7 @@ class CanvasPanel extends Component {
                   user_id={this.props.user_id}
                   isGuesser={this.props.isGuesser}
                   isMyTurn={this.props.isMyTurn}
+                  pixel_limit={this.props.pixel_limit}
                   onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
                   // updateOverlayText={this.updateOverlayText}
                 />
@@ -260,7 +263,7 @@ class CanvasPanel extends Component {
               {(this.props.isMyTurn && !this.props.isGuesser) && 
               <div>
                 <div className="CanvasPanel-child">
-                  pixels filled: {this.state.num_filled}
+                  pixels remaining: {this.props.pixel_limit - this.state.num_filled}
                 </div>
                 <div className="CanvasPanel-child">
                 <GithubPicker 

@@ -29,13 +29,18 @@ class Start extends Component {
     };
   }
 
+  componentWillUnmount () {
+    this.is_mounted = false;
+  }
+
   componentDidMount() {
+    this.is_mounted = true;
     // TODO: figure out if we need to do duplicate calls of this
     console.log(this.props);
     get("/api/whoami").then((user) => {
       // console.log("whoami");
       console.log(user);
-      if (user._id) {
+      if (user._id && this.is_mounted) {
         // they are registed in the database, and currently logged in.
         this.setState({ 
           user_id: user._id, 

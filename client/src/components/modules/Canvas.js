@@ -5,7 +5,7 @@ import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Canvas.css";
 
-import { get, post, put } from "../../utilities";
+import { get, put } from "../../utilities";
 
 
 
@@ -15,6 +15,8 @@ const CANVAS_HEIGHT_PX = 500;
 
 /**
  * The Canvas is the main game board, where pixelers can fill pixels
+ * Calls get canvas, and put for pixel input
+ * 
  * @param game_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
@@ -33,28 +35,52 @@ class Canvas extends Component {
       block_size: block_size,
       filled_blocks: 0,
       canvasDisabled: false,
+      at_limit: false, // user has clicked their allotted pixels, lock canvas
     };
   }
 
   onPixelClicked = (filled, id, actualColor) => {
     // check if user is allowed
-    if (this.props.isGuesser || !this.props.isMyTurn) return;
+    if (this.props.isGuesser || !this.props.isMyTurn || !this.props.onPixelClicked) return;
 
-    // if isGuesser
-    if (!this.props.onPixelClicked) return;
-    
+    // // exceeded limit, 
+    // if (filled) {
+
+    // }
+
     this.props.onPixelClicked(filled);
     if (filled) {
       this.setState({
         filled_blocks: this.state.filled_blocks + 1,
+      }, () => {
+
+        console.log("increadse");
+        console.log(`filled blcoke: ${this.state.filled_blocks}`);
+        console.log(`filled limit: ${this.props.pixel_limit}`);
+        if (this.state.filled_blocks >= this.props.pixel_limit) {
+          console.log(`at limit: ${this.state.at_limit}`)
+          this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
+        }
+
       });
     } else {
       this.setState({
         filled_blocks: this.state.filled_blocks - 1,
+      }, () => {
+
+        console.log("decareads");
+
+        console.log(`filled blcoke: ${this.state.filled_blocks}`);
+        console.log(`filled limit: ${this.props.pixel_limit}`);
+        if (this.state.filled_blocks >= this.props.pixel_limit) {
+          console.log(`at limit: ${this.state.at_limit}`)
+          this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
+        }
+
       });
     }
 
-    
+
     put("/api/game/pixel", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
@@ -82,7 +108,9 @@ class Canvas extends Component {
         console.log("canvas got!/")
         console.log(res);
         if (this.is_mounted){
-          this.setState({pixels: res.pixels});
+          this.setState({
+            pixels: res.pixels,
+          });
         }
       }
     }).catch((err) => {
@@ -113,8 +141,6 @@ class Canvas extends Component {
         this.setState({canvasDisabled: true});
       }
     });
-
-   
   }
 
   componentWillUnmount() {
@@ -137,6 +163,7 @@ class Canvas extends Component {
               isMyTurn={this.props.isMyTurn}
               callback={this.onPixelClicked}
               disabled={this.state.canvasDisabled}
+              at_limit={this.state.at_limit}
             />
           </div>
         );

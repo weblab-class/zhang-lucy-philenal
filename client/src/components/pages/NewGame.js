@@ -65,7 +65,6 @@ class NewGame extends Component {
         console.log(`Error: ${res.msg}`);
         this.setState({error: true});
       }
-      
     })
     .catch((err) => {
       console.log(`error: ${err}`);

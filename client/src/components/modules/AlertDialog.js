@@ -95,15 +95,15 @@ export default function AlertDialog(props) {
             </DialogContent>
             {/* you can only see this next word or end game button if you're guesser
             and haven't ended game */}
-            {props.isGuesser && !props.endGame ?
+            {props.isGuesser && !props.endGame &&
             <DialogActions>
               <Button onClick={handleClose && props.callback} color="primary">
               {props.callbackButtonText}
               </Button>
-            </DialogActions>: <div></div>
+            </DialogActions>
             }
             {/* if you're at the end game */}
-            {props.endGame ?  
+            {props.endGame &&  
             <DialogActions>
               <Button onClick={handleClose && goToWall} color="primary">
               my wall
@@ -111,7 +111,7 @@ export default function AlertDialog(props) {
               <Button onClick={handleClose && leaveGame} color="primary">
               leave
               </Button>
-            </DialogActions>: <div></div>}
+            </DialogActions>}
             </div>
           </Fade>
         </Dialog>
