@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
   name: String,
   _id: String,
   game_id: String,
-  guessed_imgs: [BoardSchema], // board id's  
+  correct_imgs: [BoardSchema], // board id's  
   googleid: String,
 });
 
@@ -48,6 +48,7 @@ const GameSchema = new mongoose.Schema({
   wordLength: Number,
   word: String, //DNR for guesser
   word_idx: Number, //DNR, index of current word
+  word_statuses: [String],
   words: [String], //DNR
   guesses: [String],
   guesser: UserSchema,

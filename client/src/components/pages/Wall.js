@@ -11,18 +11,6 @@ import { get, post } from "../../utilities";
 
 import { navigate } from "@reach/router";
 
-let smallPicture = [1,0,1,0,0,0,1,1,1];
-let bigPixels = [20,53,101,134,204,245,256,345,356,387];
-let bigPicture = [];
-for(let i = 0; i < 400; i++) {
-  bigPicture[i] = 0;
-}
-for(let j = 0; j < bigPixels.length; j++) {
-  bigPicture[bigPixels[j]] = 1;
-  bigPicture[bigPixels[j]] = 1;
-}
-// let pictures = [smallPicture, bigPicture];
-
 /**
  * Wall page is the page that shows all the correctly guessed images
  * TODO: change the user schema to contain a list of all games you've played before
@@ -35,7 +23,8 @@ class Wall extends Component {
 
     // Initialize Default State
     this.state = {
-      pictures: [],//[smallPicture, bigPicture],
+      correct_pictures: [],
+      incorrect_pictures: [],
 
     };
   }
@@ -48,7 +37,8 @@ class Wall extends Component {
     }).then((pictures) => {
       console.log(pictures);
       this.setState({
-        pictures: pictures,
+        correct_pictures: pictures.correct,
+        incorrect_pictures: pictures.incorrect,
       });
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -56,12 +46,10 @@ class Wall extends Component {
   }
 
   render() {
-    let pictures = []
-    // let hw = [3,20];
-    // let titles = ["cat", "frog"];
-    for (let i = 0; i < this.state.pictures.length; i++) {
-      let picture = this.state.pictures[i];
-      pictures.push(
+    let correct_pictures = []
+    for (let i = 0; i < this.state.correct_pictures.length; i++) {
+      let picture = this.state.correct_pictures[i];
+      correct_pictures.push(
         <div className="Wall-pictureContainer">
           <Picture
           picture_width_blocks={picture.width}
@@ -74,18 +62,38 @@ class Wall extends Component {
           
         </div>
       );
+    }
 
+    let incorrect_pictures = []
+    for (let i = 0; i < this.state.incorrect_pictures.length; i++) {
+      let picture = this.state.incorrect_pictures[i];
+      incorrect_pictures.push(
+        <div className="Wall-pictureContainer">
+          <Picture
+          picture_width_blocks={picture.width}
+          picture_height_blocks={picture.height}
+          pixels={picture.pixels}
+          />
+          <div className="Wall-pictureCaption">
+            {picture.title}
+          </div>
+          
+        </div>
+      );
     }
 
     return (
       <>
-            {/* TODO (philena) make this pretty! ^_^ */}
-            {/* TODO add functionality for entering names too */}
             <h1>Hall of Fame</h1>
             <button onClick={()=>{navigate('/')}}>back</button>
             <div className="Wall-container">
-              {pictures}
+              {correct_pictures}
             </div>  
+            <h1>Wall of Shame</h1>
+            <div className="Wall-container">
+              {incorrect_pictures}
+            </div> 
+
       </>
     );
   }

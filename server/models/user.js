@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
 
-const PixelSchema = new mongoose.Schema({
-  color: String,
-  filled: Boolean,
-  id: Number,
-  key: Number,
-});
-
 const BoardSchema  = new mongoose.Schema({
   _id: String,
   width: Number,
@@ -25,7 +18,8 @@ const UserSchema = new mongoose.Schema({
   name: String,
   _id: String,
   game_id: String,
-  guessed_imgs: [BoardSchema], // board id's  
+  correct_imgs: [BoardSchema],
+  incorrect_imgs: [BoardSchema],
 });
 
 // compile model from schema

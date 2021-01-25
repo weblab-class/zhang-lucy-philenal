@@ -99,7 +99,8 @@ const newGame = (req) => {
     turn: null,
     wordpack: "basic",
     word: wordPacks["basic"][0],
-    word_length: wordPacks["basic"][0].length,
+    word_statuses: [],
+    wordLength: wordPacks["basic"][0].length,
     word_idx: 0,
     words: wordPacks["basic"],
     guesses: [],
@@ -192,10 +193,11 @@ const getReturnableGame = (game, user_id) => {
 // go in chronological order for now
 // 2. determine words
 const initializeGame = (game) => {
-  // TODO: comment in when we care
-  // game.players = shuffle(game.players);
+  game.players = shuffle(game.players);
   game.guesser = game.players[0];
   game.pixelers = game.players.slice(1,game.players.length);
+
+  game.words = shuffle(game.words);
   game.started = true;
   return game;
 }
