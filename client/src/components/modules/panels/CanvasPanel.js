@@ -55,11 +55,6 @@ class CanvasPanel extends Component {
   }
 
   componentDidMount() {
-    //gets the user name for if we want to navigate to wall
-    /* get("/api/user/name", {user_id: this.props.user_id}).then((name)=> {
-      this.setState({ user_name: name})
-    }) */
-
     socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (!this.props.isMyTurn) { 
@@ -123,10 +118,7 @@ class CanvasPanel extends Component {
 
   /* color switcher */
   handleColorChange = (color, event) => {
-    /* this.setState({ background: color.hex }); */
-    // console.log("chanigng color");
-    // console.log(color);
-    if (this.props.isMyTurn){ //if it's user's turn, then they can change color
+    if (this.props.isMyTurn){ 
       localStorage.setItem('chosenColorHex', color.hex);
     }
   };
@@ -191,33 +183,12 @@ class CanvasPanel extends Component {
         console.log(err);
       })
     });
-
-
-
-    
- /*    
-    post("/api/board/save", { // save canvas to each user and to canvas db
-      user_ids: [],
-      img_id: null,
-      game_id: this.props.game_id,
-
-    }).then((res) => {
-      console.log("I SAVED MY BOARD " + res);
-    }).catch((err) => {
-      console.log(err);
-    }); */
   }
 
   render() {
     let pixels_remaining = this.props.pixel_limit - this.state.num_filled;
     return (
       <>
-      {/* <TransitionsModal 
-        overlayText={this.state.overlayText} 
-        theWordWas={this.state.theWordWas}
-        callback={this.nextWord}
-        callbackButtonText={"next word"}
-      /> */}
       <AlertDialog
         endGame={this.state.endGame}
         overlayText={this.state.overlayText}
@@ -254,7 +225,6 @@ class CanvasPanel extends Component {
                   pixels_remaining={pixels_remaining}
                   pixel_limit={this.props.pixel_limit}
                   onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
-                  // updateOverlayText={this.updateOverlayText}
                 />
               </div>
           </div>
@@ -291,31 +261,19 @@ class CanvasPanel extends Component {
                 >end turn
                 </button>
               </div>
-              <div className="CanvasPanel-child">
-                <button 
-                  className="Canvas-footer-button u-pointer" 
-                  onClick={this.props.clearCanvas}
-                >
-                  clear canvas
-                </button>
-              </div>
-              </div>
-
-                }
-                  
-               {/*  {this.props.isGuesser &&
+                <div className="CanvasPanel-child">
                   <button 
                     className="Canvas-footer-button u-pointer" 
-                    onClick={this.nextWord}
+                    onClick={this.props.clearCanvas}
                   >
-                    next word
+                    clear canvas
                   </button>
-                } */}
+                </div>
               </div>
-
+                }
+              </div>
             </div>
         </div>
-
       </>
     );
   }

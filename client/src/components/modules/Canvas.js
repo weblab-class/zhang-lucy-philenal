@@ -40,8 +40,6 @@ class Canvas extends Component {
   }
 
   onPixelClicked = (filled, id, actualColor) => {
-    // if (this.props.pixels_remaining <= 0) return;
-    
     // check if user is allowed
     if (this.props.isGuesser || !this.props.isMyTurn || !this.props.onPixelClicked) return;
 
@@ -49,31 +47,10 @@ class Canvas extends Component {
     if (filled) {
       this.setState({
         filled_blocks: this.state.filled_blocks + 1,
-      }, () => {
-
-        // console.log("increadse");
-        // console.log(`filled blcoke: ${this.state.filled_blocks}`);
-        // console.log(`filled limit: ${this.props.pixel_limit}`);
-        // if (this.state.filled_blocks >= this.props.pixel_limit) {
-        //   console.log(`at limit: ${this.state.at_limit}`)
-        //   this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
-        // }
-
       });
     } else {
       this.setState({
         filled_blocks: this.state.filled_blocks - 1,
-      }, () => {
-
-        // console.log("decareads");
-
-        // console.log(`filled blcoke: ${this.state.filled_blocks}`);
-        // console.log(`filled limit: ${this.props.pixel_limit}`);
-        // if (this.state.filled_blocks >= this.props.pixel_limit) {
-        //   console.log(`at limit: ${this.state.at_limit}`)
-        //   this.setState({at_limit: true},()=>{console.log(`at limit: ${this.state.at_limit}`)});
-        // }
-
       });
     }
 
@@ -124,12 +101,8 @@ class Canvas extends Component {
 
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id && this.is_mounted) { //if the game id sent out is ours
-        // console.log("cleareddd");
         console.log("IT SHOULD BE CLEARED")
-        this.setState({
-          pixels: updatedGame.board.pixels,
-        },()=>{//console.log(this.state)
-        })
+        this.setState({pixels: updatedGame.board.pixels});
       }
     });
 
