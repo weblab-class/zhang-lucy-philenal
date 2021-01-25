@@ -79,6 +79,9 @@ const newGame = (req) => {
     pixels: newPixels,
   };
 
+  let wordpackName = "basic";
+  let wordpack = shuffle(wordPacks[workpackName]);
+
   const newGame = new Game({
     _id: req.body.game_id, // TODO: change this
     host_id: req.body.user_id,
@@ -97,12 +100,12 @@ const newGame = (req) => {
     session: null,
     round: null,
     turn: null,
-    wordpack: "basic",
-    word: wordPacks["basic"][0],
+    wordpack: workpackName,
+    word: wordpack[0],
     word_statuses: [],
-    wordLength: wordPacks["basic"][0].length,
+    wordLength: wordpack[0].length,
     word_idx: 0,
-    words: wordPacks["basic"],
+    words: wordpack,
     guesses: [],
     guesser: null,
     num_correct: 0,
@@ -198,6 +201,8 @@ const initializeGame = (game) => {
   game.pixelers = game.players.slice(1,game.players.length);
 
   game.words = shuffle(game.words);
+  game.word = game.words[0];
+  game.wordLength = game.words[0].length;
   game.started = true;
   return game;
 }

@@ -84,8 +84,8 @@ class Wall extends Component {
 
     return (
       <>
-            <h1>Hall of Fame</h1>
             <button onClick={()=>{navigate('/')}}>back</button>
+            <h1>Hall of Fame</h1>
             <div className="Wall-container">
               {correct_pictures}
             </div>  
