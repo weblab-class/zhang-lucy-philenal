@@ -65,7 +65,7 @@ class TextEntry extends Component {
         <form>
         <input
             type='text'
-            class='TextEntry-underline'
+            className='TextEntry-underline'
             value={this.state.text}
             onChange={this.onTextChange}
             onKeyPress={this.onKeyPress}
