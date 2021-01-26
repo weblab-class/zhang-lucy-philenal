@@ -74,8 +74,8 @@ export default function AlertDialog(props) {
     }
   }
   const nextWord = () => {
-    props.callback();
     handleClose();
+    props.callback();
   }
 
   const leaveGame = () => {

@@ -303,7 +303,7 @@ router.post("/game/nextRound", (req, res) => {
       //if you're on this new word is your last word
       //this is to change the button for "next word" --> "end game" or something
       let almostEnd = false;
-      if (updatedGame.word_idx >= updatedGame.maxSessions * updatedGame.players.length - 1) {
+      if (updatedGame.word_idx == updatedGame.maxSessions * updatedGame.players.length - 1) {
         almostEnd = true;
       }
       socketManager.getIo().emit("nextWord", 
