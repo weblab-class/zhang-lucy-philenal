@@ -18,7 +18,7 @@
 .PlayerIcon-container {
     padding: var(--m) 0px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     width: 120px;
     /* color: var(--grey); */
 }
@@ -37,8 +37,8 @@
     flex-basis: 0;
     
     flex: 1;
-    justify-content: space-between;
-    /* justify-content: flex-end; */
+    /* justify-content: space-between; */
+    justify-content: flex-end;
 }
 
 .PlayerIcon-right {

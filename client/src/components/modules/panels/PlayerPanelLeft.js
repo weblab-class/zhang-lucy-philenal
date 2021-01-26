@@ -51,9 +51,15 @@ class PlayerPanelLeft extends Component {
             </span>
           </div>
           <div className="PlayerPanelLeft-header">guesser:</div>
-          <GuesserIcon guesser_name={this.props.guesser.name} _id={this.props.guesser._id} isMyTurn = {this.props.turn===this.props.pixelers.length ? true: false}/>
+          <GuesserIcon 
+            guesser_name={this.props.guesser.name} 
+            _id={this.props.guesser._id} 
+            isMyTurn={this.props.turn===this.props.pixelers.length}/>
           <div className="PlayerPanelLeft-header">pixelers:</div>
-          <PlayerOrder pixelers={this.props.pixelers} turn={this.props.turn}/>
+          <PlayerOrder 
+            pixelers={this.props.pixelers} 
+            turn={this.props.turn}
+          />
         </div>
         }
       </>

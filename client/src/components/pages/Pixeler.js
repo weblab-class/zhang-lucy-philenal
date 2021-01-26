@@ -9,9 +9,6 @@ import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
 import "./Player.css";
 
-
-
-
 /**
  * This is the page view of one of the pixelers
  * between this Pixeler and the Guesser
@@ -129,7 +126,10 @@ class Pixeler extends Component {
     } else{
       return (
         <>
-          <div>hello, {this.state.user_name}!</div>
+          <div className="Player-header">
+            <div>hello, {this.state.user_name}!</div>
+            <div>game id: {this.props.game_id}</div>
+          </div>
           <button onClick={this.leaveGame}>leave game</button>
           <PlayerPanelTop/>
           <div className="u-flex">

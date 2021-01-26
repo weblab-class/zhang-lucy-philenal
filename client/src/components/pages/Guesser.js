@@ -97,8 +97,10 @@ class Guesser extends Component {
   render() {
     return (
       <>
-      <div>hello, {this.state.user_name}!</div>
-      <button onClick={this.leaveGame}>leave game</button>
+        <div className="Player-header">
+          <div>hello, {this.state.user_name}!</div>
+          <div>game id: {this.props.game_id}</div>
+        </div>      <button onClick={this.leaveGame}>leave game</button>
         <PlayerPanelTop/>
         <div className="u-flex">
           <div className="Player-subPanel">

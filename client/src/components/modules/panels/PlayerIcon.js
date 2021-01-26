@@ -40,7 +40,7 @@ class PlayerIcon extends Component {
 
         return (
             <div className={this.props.isMyTurn ? 'PlayerIcon-backgroundWhite PlayerIcon-container': 'PlayerIcon-container'}> {/* turns white if it's your turn */}
-                <div className="PlayerIcon-left u-flex-alignCenter">
+                <div className="PlayerIcon-left">
                   <div className="PlayerIcon-order">{this.props.order}</div>
                   <div className={colorClass}></div>
                   <span className="PlayerIcon-right">
