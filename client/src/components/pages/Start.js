@@ -106,6 +106,7 @@ class Start extends Component {
       this.setState({
         user_id: "temp", 
         loggedIn: true,
+        buttonDisabled: true,
       }, () => {
         this.setState({
           isLoading: false,
@@ -187,7 +188,7 @@ class Start extends Component {
               clientId={GOOGLE_CLIENT_ID}
               buttonText="login to start"
               onSuccess={this.onLogin}
-              disabled={this.buttonDisabled}
+              disabled={this.state.buttonDisabled}
               onRequest={this.onClick}
               onFailure={(err) => console.log(err)}
             />
