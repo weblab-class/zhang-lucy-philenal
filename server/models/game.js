@@ -1,7 +1,6 @@
 
 const mongoose = require("mongoose");
 
-// TODO: rip how do we not copy these
 // OH
 
 const PixelSchema = new mongoose.Schema({
@@ -29,7 +28,7 @@ const UserSchema = new mongoose.Schema({
   googleid: String,
 });
 
-// DNR = Do Not Return (TODO)
+// DNR = Do Not Return 
 //define a game schema for the database
 const GameSchema = new mongoose.Schema({
   _id: String,

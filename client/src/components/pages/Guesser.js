@@ -62,7 +62,6 @@ class Guesser extends Component {
       console.log(err);
     })
 
-    //TODO: unhardcode game id for guesser
     //listens for updated canvas
     socket.on("board_and_game_id", (updatedGame) => {
       if (this.props.game_id === updatedGame.game_id && this.is_mounted) { //if the game id sent out is ours

@@ -94,20 +94,6 @@ section {
 }
 
 
-.CanvasPanel-canvasOverlay {
-    width: 520px;
-    height: 520px;
-    color: var(--text-color);
-    z-index: 10;
-    position: absolute;
-    top: 260px;
-    left: 0;
-    /* TODO: maybe not hardcode idk
-    justify-content: center;
-    display: flex; */
-
-
-}
 
 .CanvasPanel-button {
     height: 50px;

@@ -111,7 +111,7 @@ class Player extends Component {
 
         })
 
-        //TODO: sometimes word shows when guesser o.o but after refresh issall good ...
+        //resolved (maybe) ? haven't tested: sometimes word shows when guesser o.o but after refresh issall good ...
         //socket issue?
 
         // listens for next word, updates word

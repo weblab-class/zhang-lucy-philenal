@@ -14,7 +14,6 @@ import "./Player.css";
 
 /**
  * This is the page view of one of the pixelers
- * TODO: Make a Player.js file with conditional rendering
  * between this Pixeler and the Guesser
  * 
  * @param game_id The ID of the game

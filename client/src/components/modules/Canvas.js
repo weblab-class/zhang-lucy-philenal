@@ -5,6 +5,7 @@ import "../../utilities.css";
 import "./Canvas.css";
 import PixelBlock from "./PixelBlock.js";
 
+//TODO: media query resize for responsive canvas
 // TODO: Un-hardcode, have this be read in as a prop
 const CANVAS_WIDTH_PX = 500;
 const CANVAS_HEIGHT_PX = 500;

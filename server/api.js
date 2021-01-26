@@ -461,8 +461,6 @@ router.post("/game/join", (req, res) => {
   .catch((err) => {
     console.log(err);
   });
-  //TODO: (philena) change this to socket room for higher efficiency!!!!
-  //shouts the updated players list + the game id to all connected sockets
  
 });
 

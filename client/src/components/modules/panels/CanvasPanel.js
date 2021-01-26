@@ -25,7 +25,6 @@ import "./PlayerPanel.css";
 class CanvasPanel extends Component {
   constructor(props) {
     super(props);
-    //TODO: fix the pixels filled!!
     let num_filled = 0;
     for (let i = 0; i < this.props.canvas_pixels.length; i++) {
       if (this.props.canvas_pixels[i].filled) {
@@ -126,7 +125,6 @@ class CanvasPanel extends Component {
   }
 
   endTurn = () => {
-    //TODO: write this function -- also change the isGuesser param to canvas to isMyTurn
     if (this.props.game_id){
       // end turn
       post("/api/game/endTurn",
@@ -153,7 +151,6 @@ class CanvasPanel extends Component {
       user_id: this.props.user_id,
     }).then((game) => {
       if (game.status == "end") {
-        // TODO: End game screen
       } else {
         //to change the button to show "end game"
         if (game.almostEnd) {

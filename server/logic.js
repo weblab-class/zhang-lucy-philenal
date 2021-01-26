@@ -263,8 +263,6 @@ const gameState = {
 
 /** game logic */
 
-//TODO: should game state include canvas board??
-/* updates canvas board --> */
 
 
 /** Adds a player to the game state, initialized*/
