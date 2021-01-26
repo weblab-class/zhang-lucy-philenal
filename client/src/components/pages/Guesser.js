@@ -32,13 +32,20 @@ class Guesser extends Component {
       //is it bad to set this as state when it's changing based off of pixeler moves
       canvas: {},
       word: "",
-      // pixelers: [],
-      // guesser: {},
     };
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
+    get("api/user/get", {
+      user_id: this.props.user_id,
+    }).then((res) => {
+      if (this.is_mounted) {
+        this.setState({
+          user_name: res[0].name,
+        });
+      }
+    });
+
     get("/api/game/get", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
@@ -87,7 +94,7 @@ class Guesser extends Component {
   render() {
     return (
       <>
-      <div>hello, {this.props.user_name}!</div>
+      <div>hello, {this.state.user_name}!</div>
       <button onClick={this.leaveGame}>leave game</button>
         <PlayerPanelTop/>
         <div className="u-flex">
@@ -96,7 +103,7 @@ class Guesser extends Component {
             <PlayerPanelLeft 
               pixelers={this.state.pixelers} 
               guesser={this.state.guesser} 
-              word={this.props.hiddenWord}
+              word={this.props.word}
               turn={this.props.turn}
               isGuesser={true}
               leaveGame={this.leaveGame}

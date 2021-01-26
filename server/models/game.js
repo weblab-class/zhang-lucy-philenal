@@ -45,7 +45,6 @@ const GameSchema = new mongoose.Schema({
   turn: Number, // whose turn (0 index), there are {#players-1} turns per word
   //if word_idx == {#players-1}, end of turns for that word
   wordpack: String,
-  wordLength: Number,
   word: String, //DNR for guesser
   word_idx: Number, //DNR, index of current word
   word_statuses: [String],

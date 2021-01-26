@@ -48,16 +48,11 @@ class Player extends Component {
             navigate("/")
         }
 
-        // TODO (lucy): BAD FUNCTION
         get("/api/game/get", {
             game_id: this.props.location.state.game_id,
             user_id: this.props.location.state.user_id,
         }).then((res) => {
-            //creates the hidden word and sets state
-            this.setState({
-                word: res.word, //// TODO: HIDE THIS FROM GUESSER
-                hiddenWord: this.hideWord(res.wordLength),
-            });
+            this.setState({word: res.word});
         }).catch((err) => {
             console.log(err);
             navigate("/");
@@ -97,9 +92,9 @@ class Player extends Component {
             };
         //if guessed correctly, show the word!
         socket.on("correct_guess", (updatedGame) => {
-            if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+            if (this.props.game_id === updatedGame.game_id) {
             this.setState({
-                hiddenWord: updatedGame.word,
+                word: updatedGame.word,
                 correctGuess: true
             });
             }
@@ -108,10 +103,9 @@ class Player extends Component {
   
         //if gave up, show the word!
         socket.on("textOverlay", (updatedGame) => {
-            if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
-                console.log("I SHOW WORD")
+            if (this.props.game_id === updatedGame.game_id) {
                 this.setState({
-                hiddenWord: updatedGame.word,
+                words: updatedGame.word,
                 correctGuess: false,
             });
             }
@@ -125,17 +119,17 @@ class Player extends Component {
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
                 this.setState({
-                    // word: updatedGame.game.word,
-                    hiddenWord: this.hideWord(updatedGame.game.word.length),
+                    word: updatedGame.game.word,
+                    // hiddenWord: this.hideWord(updatedGame.game.word.length),
                     turn: updatedGame.turn,
                     players: updatedGame.players,
                     pixelers: updatedGame.pixelers,
                     guesser: updatedGame.guesser,
                 }, ()=> {
-                    console.log("the turn is " + 
-                    this.state.turn + " the updated word is " + 
-                    this.state.word + " with hidden word " + 
-                    this.state.hiddenWord);
+                    // console.log("the turn is " + 
+                    // this.state.turn + " the updated word is " + 
+                    // this.state.word + " with hidden word " + 
+                    // this.state.wo);
                     if (this.state.guesser._id == this.props.location.state.user_id) {
                         console.log("you are the guesser!");
                         this.setState({player: "guesser"});
@@ -152,21 +146,7 @@ class Player extends Component {
             };
         })
     }
-
-    //hides the word
-    hideWord = (wordLength) => {
-        let hiddenWord = "";
-            for (let i = 0; i < wordLength; i++) {
-                hiddenWord += "_ ";
-            }
-        return hiddenWord;
-    }
-
-    /* onCorrectGuess = (word) => {
-        this.setState({hiddenWord: word});
-        this.setState({correctGuess: true});
-      }
- */
+    
     render() {
         console.log(this.state);
         console.log(this.props);
@@ -182,15 +162,16 @@ class Player extends Component {
                     {this.state.player == "guesser" ? 
                     <Guesser 
                         /* callback={this.onCorrectGuess}  */
-                        hiddenWord={this.state.hiddenWord} 
+                        word={this.state.word} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
-                        user_name={this.props.location.state.user_name}
+                        // user_name={this.props.location.state.user_name}
                         turn={this.state.turn} /> :
                     <Pixeler 
+                        word={this.state.word} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
-                        user_name={this.props.location.state.user_name}
+                        // user_name={this.props.location.state.user_name}
                         turn={this.state.turn}/>}
                 </>
             );

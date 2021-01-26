@@ -103,7 +103,7 @@ const newGame = (req) => {
     wordpack: wordpackName,
     word: wordpack[0],
     word_statuses: [],
-    wordLength: wordpack[0].length,
+    // wordLength: wordpack[0].length,
     word_idx: 0,
     words: wordpack,
     guesses: [],
@@ -178,8 +178,13 @@ const getReturnableGame = (game, user_id) => {
 
       // otherwise hide the word
       if (game.word) {
-        game.word = ""; 
+        let hiddenWord = "";
+        for (let i = 0; i < game.word.length; i++){
+          hiddenWord += "_ ";
+        }
+        game.word = hiddenWord; 
       }
+
       return game;
     } else {
       game.word = null;
@@ -202,7 +207,7 @@ const initializeGame = (game) => {
 
   game.words = shuffle(game.words);
   game.word = game.words[0];
-  game.wordLength = game.words[0].length;
+  // game.wordLength = game.words[0].length;
   game.started = true;
   return game;
 }

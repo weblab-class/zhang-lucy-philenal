@@ -195,6 +195,7 @@ class CanvasPanel extends Component {
         user_id={this.props.user_id}
         user_name={this.state.user_name}
         game_id={this.props.game_id}
+        isGuesser={this.props.isGuesser}
         />
         {/* only show this if not end of game */}
       {this.state.scoreText.length === 0 && 

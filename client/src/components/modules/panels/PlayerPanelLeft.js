@@ -29,8 +29,7 @@ import { navigate } from "@reach/router";
  * @param {User} guesser
  * @param {Boolean} isGuesser
  * @param {String} word* - only if isGuesser=false
- * @param {Number} wordLength* - only if isGuesser=true
- * @param leaveGame callback function
+s * @param leaveGame callback function
  * 
  * DIDNT ADD THE PROPS BELOW!!! THESE ARE NOT ACTUAL PROPS
  * @param {String} user_id - we can get all of the above from this
@@ -40,25 +39,10 @@ import { navigate } from "@reach/router";
 class PlayerPanelLeft extends Component {
   constructor(props) {
     super(props);
-    // Initialize Default State
-    // TODO: add wordlen as a param
-    console.log(this.props);
-    if (this.props.isGuesser) {
-      let hiddenWord = "";
-      for (let i = 0; i < this.props.wordLength; i++) {
-        hiddenWord += " _";
-      }
-      
-      this.state = {
-        wordText: hiddenWord,
-        error: false,
-      };
-    } else {
-      this.state = {
-        wordText: this.props.word,
-        error: false,
-      };
-    }
+    this.state = {
+      word: this.props.word,
+      error: false,
+    };
   }
 
   componentDidMount() {
@@ -76,7 +60,7 @@ class PlayerPanelLeft extends Component {
         <div className="PlayerPanelLeft">
           <div className="PlayerPanelLeft-header">word: 
             <span className="PlayerPanelLeft-word">
-              {(this.props.word) ? this.props.word : this.state.wordText}
+              {(this.props.word)}
             </span>
           </div>
           <div className="PlayerPanelLeft-header">guesser:</div>

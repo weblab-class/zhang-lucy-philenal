@@ -98,7 +98,7 @@ export default function AlertDialog(props) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        disableBackdropClick={true}
+        disableBackdropClick={props.isGuesser}
       >
           <Fade in={open}>
           <div className={classes.paper}>

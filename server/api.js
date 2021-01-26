@@ -290,7 +290,7 @@ router.post("/game/nextRound", (req, res) => {
 
     // Not end game
     game.word = game.words[game.word_idx]; 
-    game.wordLength = game.word.length;
+    // game.wordLength = game.word.length;
 
     //rotates players
     game.players = Logic.rotatePlayers(game.players) 
@@ -299,21 +299,22 @@ router.post("/game/nextRound", (req, res) => {
     game.turn = 0; //resets game, people restart
 
     //TODO: save the previous game image in game schema
-    let newBoard = new Board({
-      // _id: game.board._id,
-      width: game.board.width,
-      height: game.board.height,
-      pixels: game.board.pixels,
-    });
+    // let newBoard = new Board({
+    //   // _id: game.board._id,
+    //   width: game.board.width,
+    //   height: game.board.height,
+    //   pixels: game.board.pixels,
+    // });
 
     /* console.log("BOARD"); */
     /* console.log(newBoard); */
-    newBoard.save().then((board) => {
-      console.log("THIS IS THE BOARD " + board);
-      //TO DO: adds in board id to each player
+    // newBoard.save().then((board) => {
+    //   console.log("THIS IS THE BOARD " + board);
+    //   //TO DO: adds in board id to each player
       
-      //insert board id into all the palyers in the game
-    }).then(()=> game.save().then((updatedGame) => { //updates game document and then shouts the change
+    //   //insert board id into all the palyers in the game
+    // }).then(()=> 
+    game.save().then((updatedGame) => { //updates game document and then shouts the change
 
       //if you're on this new word is your last word
       //this is to change the button for "next word" --> "end game" or something
@@ -334,14 +335,14 @@ router.post("/game/nextRound", (req, res) => {
       });
       let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
       res.send(game);
-    }))
+    })
   })
 });
 
 router.get("/user/get", (req, res) => {
   console.log(req.query);
   
-  User.find({ _id: mongoose.Types.ObjectId(req.query.user_id) }).then((users) => {
+  User.find({ _id: req.query.user_id }).then((users) => {
     res.send(users);
   });
 });

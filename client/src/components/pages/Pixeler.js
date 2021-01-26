@@ -57,6 +57,16 @@ class Pixeler extends Component {
   componentDidMount() {
     this.is_mounted = true;
 
+    get("api/user/get", {
+      user_id: this.props.user_id,
+    }).then((res) => {
+      if (this.is_mounted) {
+        this.setState({
+          user_name: res[0].name,
+        });
+      }
+    });
+
     // remember -- api calls go here!
     //TODO: can delete if we don't use logic.js ??
     socket.on("update", (update) => {
@@ -138,14 +148,12 @@ class Pixeler extends Component {
     } else{
       return (
         <>
-          <div>hello, {this.props.user_name}!</div>
+          <div>hello, {this.state.user_name}!</div>
           <button onClick={this.leaveGame}>leave game</button>
           <PlayerPanelTop/>
-          {/* {"TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id} */}
-          {this.props.turn < this.state.pixelers.length ? 
+          {/* {this.props.turn < this.state.pixelers.length ? 
           console.log("is it my turn " + (this.state.pixelers[this.props.turn]._id === this.props.user_id)): 
-          console.log("guesser's turn")}
-          {/* {console.log("turn id " + this.state.pixelers[this.props.turn]._id + "user id " + this.props.user_id)} */}
+          console.log("guesser's turn")} */}
           <div className="u-flex">
             <div className="Player-subPanel">
               <PlayerPanelLeft 
