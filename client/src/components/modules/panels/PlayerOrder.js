@@ -23,18 +23,20 @@ class PlayerOrder extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          playerJoin_id: [],
-          playerLeft_id: [],
+          currentPlayers: null,
         };
       }
 
       componentDidMount() {
-        socket.on("players_and_game_id", (updatedGame)=> {
-          this.setState({
-              playerJoin_id: updatedGame.playerJoin_id ? playerJoin_id.concat(updatedGame.playerJoin_id): playerJoin_id,
-              playerLeft_id: updatedGame.playerLeft_id ? playerLeft_id.concat(updatedGame.playerLeft_id): playerLeft_id,
-            })
-        })
+         //listens for updated players
+         socket.on("players_and_game_id", (updatedGame)=>{
+          if (this.props.location.state.game_id === updatedGame.game_id && this.is_mounted)
+          {
+              this.setState({currentPlayers: updatedGame.players}, ()=> {
+                  console.log("the updated players " + this.state.currentPlayers);
+              })
+          };
+      });
       }
 
       render() {
@@ -46,8 +48,9 @@ class PlayerOrder extends Component {
                 playername={pixeler.name}
                 order={index+1}
                 isMyTurn={index===this.props.turn}
-                playerJoin={this.state.playerJoin_id.includes(pixeler._id)}
-                playerLeft={this.state.playerLeft_id.includes(pixeler._id)}
+                //if someone joined/left game, then check if it's in the current players list. 
+                //if nothing is changed, then it's still in current player
+                inGame={this.state.currentPlayers ? this.state.currentPlayers.includes(pixeler): true}
               />
             ); 
           });

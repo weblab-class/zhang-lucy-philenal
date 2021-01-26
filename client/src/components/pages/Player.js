@@ -91,7 +91,8 @@ class Player extends Component {
         }).catch((err) => {
             console.log(err);
         });
-        
+       
+
         //listens for turn change, updates turn
         socket.on("endedTurn", (updatedGame)=>{
             if (this.props.location.state.game_id === updatedGame.game_id && this.is_mounted)
@@ -217,6 +218,7 @@ class Player extends Component {
                         user_id={this.props.location.state.user_id} 
                         // user_name={this.props.location.state.user_name}
                         turn={this.state.turn} /> :
+                        
                     <Pixeler 
                         word={this.state.word} 
                         game_id={this.state.game_id} 

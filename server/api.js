@@ -167,8 +167,6 @@ router.post("/user/leave", (req, res) => {
           {
             players: res.players, 
             game_id: res._id,
-            playerLeft_id: req.body.user_id,
-            playerJoin_id: null,
           });
     console.log(res);
   }).catch((err) => {
@@ -467,9 +465,7 @@ router.post("/game/join", (req, res) => {
           socketManager.getIo().emit("players_and_game_id", 
           {
             players: res.players, 
-            game_id: res._id,
-            playerJoin_id: req.body.user_id,
-            playerLeft_id: null,
+            game_id: res._id
           });
 
         }).catch((err) => {console.log(err)});
