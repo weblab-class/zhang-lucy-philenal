@@ -7,6 +7,7 @@ import Guesser from "./Guesser";
 import Pixeler from "./Pixeler";
 import "./Player.css";
 import Start from "./Start";
+import ReactLoading from 'react-loading';
 
 /**
  * This is the page view of a player, either Pixeler or Guesser. Keeps track of 
@@ -33,6 +34,7 @@ class Player extends Component {
             hiddenWord: null,
             correctGuess: false, //unhardcode??
             turn: 0,
+            isLoading: true,
         };
     }
 
@@ -206,7 +208,9 @@ class Player extends Component {
             return(<><Start/></>);
         //if state hasn't been altered for player yet
         } else if (!this.state.player || !this.state.game_id) { 
-            return (<div></div>);
+            return (<div className="LoadingScreen"> 
+                <ReactLoading type={"bars"} color={"grey"} />
+                    </div>);
         } else {
             return (
                 <> 

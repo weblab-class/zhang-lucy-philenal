@@ -134,13 +134,14 @@ button {
 /* used animista */
 button:hover {
   background-color: var(--button-color-hover);
-  -webkit-animation: scale-up-center 0.4s ease-out both;
-  animation: scale-up-center 0.4s ease-out both;
-  animation: color-change 0.4s ease-in;
+  -webkit-animation: scale-up-center 0.2s ease-out both;
+  animation: scale-up-center 0.2s ease-out both;
+  animation: color-change 0.2s ease-in;
 }
 
 button:disabled {
   background-color: var(--button-disabled-color);
+  cursor: default;
 }
 
 @-webkit-keyframes scale-up-center {
