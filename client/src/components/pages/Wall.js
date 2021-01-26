@@ -10,6 +10,9 @@ import Picture from "../modules/Picture";
 import { get, post } from "../../utilities";
 
 import { navigate } from "@reach/router";
+//when click on picture (make picture a button), open up a modal with larger view picture
+//change picture.width + height? with transitionsModal + the name of word
+//when hover on picture, overlay with word + random color + scale a little
 
 /**
  * Wall page is the page that shows all the correctly guessed images
@@ -49,19 +52,76 @@ class Wall extends Component {
     let correct_pictures = []
     for (let i = 0; i < this.state.correct_pictures.length; i++) {
       let picture = this.state.correct_pictures[i];
-      correct_pictures.push(
-        <div className="Wall-pictureContainer">
-          <Picture
-          picture_width_blocks={picture.width}
-          picture_height_blocks={picture.height}
-          pixels={picture.pixels}
-          />
-          <div className="Wall-pictureCaption">
-            {picture.title}
+      if (i%4 == 0){
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-1">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
           </div>
-          
-        </div>
-      );
+        );
+
+      } else if (i%4 ==1) {
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-2">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
+          </div>
+        );
+      } else if (i%4 == 2) {
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-3">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        correct_pictures.push(
+          <div className="Wall-pictureContainer">
+            <div className="Wall-picture">
+              <Picture
+              picture_width_blocks={picture.width}
+              picture_height_blocks={picture.height}
+              pixels={picture.pixels}
+              />
+            </div>
+            <div className="Wall-overlay-fame u-color-4">
+              <div className="Wall-pictureCaption-fame">
+                {picture.title}
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
 
     let incorrect_pictures = []
@@ -74,26 +134,45 @@ class Wall extends Component {
           picture_height_blocks={picture.height}
           pixels={picture.pixels}
           />
-          <div className="Wall-pictureCaption">
-            {picture.title}
+          <div className="Wall-overlay-shame">
+            <div className="Wall-pictureCaption-shame">
+              {picture.title}
+            </div>
           </div>
-          
         </div>
       );
     }
 
     return (
-      <>
-            <button onClick={()=>{navigate('/')}}>back</button>
-            <h1>Hall of Fame</h1>
-            <div className="Wall-container">
-              {correct_pictures}
-            </div>  
-            <h1>Wall of Shame</h1>
-            <div className="Wall-container">
-              {incorrect_pictures}
-            </div> 
+      <>    
+      <button onClick={()=>{navigate('/')}}>back</button>
+      <div className="Wall-page">  
+        <div className="Wall-container-fame">
+          <div className="Wall-title-fame">wall of fame</div>
+          <div className="Wall-rowPixel">
+            <div className="Wall-pixels u-color-1"></div>
+            <div className="Wall-pixels u-color-2"></div>
+            <div className="Wall-pixels u-color-3"></div>
+            <div className="Wall-pixels u-color-4"></div>
+          </div>
+          <div className="Wall-gallery">
+            {correct_pictures}
+          </div> 
+        </div> 
 
+        <div className="Wall-container-shame">
+          <div className="Wall-title-shame">wall of shame</div>
+          <div className="Wall-rowPixel">
+            <div className="Wall-pixels u-color-grey"></div>
+            <div className="Wall-pixels u-color-grey"></div>
+            <div className="Wall-pixels u-color-grey"></div>
+            <div className="Wall-pixels u-color-grey"></div>
+          </div>
+          <div className="Wall-gallery">
+            {incorrect_pictures}
+          </div>  
+        </div>
+      </div>
       </>
     );
   }

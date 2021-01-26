@@ -102,6 +102,7 @@ class GuessEntry extends Component {
                 <div className="GuessEntry-child">
                     <input
                         type='text'
+                        className="GuessEntry-underline"
                         value={this.state.text}
                         onChange={this.onTextChange}
                         onKeyPress={this.onKeyPress}

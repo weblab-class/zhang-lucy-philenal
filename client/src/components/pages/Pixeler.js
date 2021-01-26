@@ -138,6 +138,8 @@ class Pixeler extends Component {
     } else{
       return (
         <>
+          <div>hello, {this.props.user_name}!</div>
+          <button onClick={this.leaveGame}>leave game</button>
           <PlayerPanelTop/>
           {/* {"TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id} */}
           {this.props.turn < this.state.pixelers.length ? 

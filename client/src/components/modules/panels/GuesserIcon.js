@@ -37,7 +37,7 @@ class GuesserIcon extends Component {
             <div className={this.props.isMyTurn ? 'PlayerIcon-backgroundWhite PlayerIcon-container': 'PlayerIcon-container'}> {/* turns white if it's your turn */}
                 <div className="PlayerIcon-left u-flex-alignCenter">
                   <div className="GuesserIcon-order">0</div>
-                  <div className="PlayerIcon-icon u-color-white"></div>
+                  <div className="PlayerIcon-icon u-color-grey"></div>
                   <div className="PlayerIcon-right">
                     {/* later on we will pass props */}
                     {this.props.guesser_name}

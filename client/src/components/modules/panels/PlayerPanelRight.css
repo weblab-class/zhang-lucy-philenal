@@ -2,7 +2,7 @@
 
 .PlayerPanelRight-header {
     top: var(--m);
-    position: absolute;
+    align-self: flex-start;
     font-size: var(--l);
     color: var(--font-color-2);
     margin-bottom: var(--m);
@@ -41,26 +41,29 @@ section {
     display: flex;
 
 }
-.PlayerPanelRight-chatBox {
-    position: relative;
-    height: 200px;
-    width: 200px;
+.PlayerPanelRight-chatBoxContainer {
     background-color: rgb(255, 246, 232);
-    margin: 1rem 0 ;
     padding: 1rem;
-    text-align: left;
-    
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+
     border: solid;
     border-width: var(--s);
     border-color: rgb(255, 246, 232);
     border-radius: var(--s);
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px;
-
+}
+.PlayerPanelRight-chatBox {
+    max-height: 250px;
+    margin-bottom: 1rem;
+    text-align: left;
+    
+    flex: 1;
+    overflow: auto;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding: auto 0.5rem;
+    flex-direction: column-reverse;
+    /* padding: auto 0.5rem; */
 }
 
 

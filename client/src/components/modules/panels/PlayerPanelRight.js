@@ -97,7 +97,7 @@ class PlayerPanelRight extends Component {
   render() {
     // TODO: cap the number of guesses
     let guesses = []
-    for (let i = 0; i < this.state.guesses.length; i++) {
+    for (let i = this.state.guesses.length-1; i > -1 ; i--) {
       guesses.push(
         <div 
           className="PlayerPanelRight-chatMessage"
@@ -109,38 +109,36 @@ class PlayerPanelRight extends Component {
       <>
         <div className="PlayerPanelRight">
           {this.props.isGuesser}
-          <div className="PlayerPanelRight-chatBox">
+          <div className="PlayerPanelRight-chatBoxContainer">
             <div className="PlayerPanelRight-header">
-            guesses
+              guesses
             </div>
-            {/* <div style={{overflow: "auto"}}> */}
-              <section >
-              {guesses}
-              </section>
-            {/* </div> */}
-            
-            
+            <div className="PlayerPanelRight-chatBox">
+              {/* <div style={{overflow: "auto"}}> */}
+                {guesses}
+              {/* </div> */}
+            </div>
+            {(this.props.isGuesser) &&
+            <div className="PlayerPanelRight-guesser">
+              <div className="PlayerPanelRight-guessTextEntryContainer">
+                <GuessEntry 
+                  game_id={this.props.game_id}
+                  user_id={this.props.user_id}
+                  className="PlayerPanelRight-guessTextEntry" 
+                  callback={this.onGuessEntry}
+                  onSubmit={this.submitGuess}
+                  />
+              </div>
+            </div> 
+            }
           </div>
-          {(this.props.isGuesser) &&
-          <div className="PlayerPanelRight-guesser">
-            <div className="PlayerPanelRight-guessTextEntryContainer">
-              <GuessEntry 
-                game_id={this.props.game_id}
-                user_id={this.props.user_id}
-                className="PlayerPanelRight-guessTextEntry" 
-                callback={this.onGuessEntry}
-                onSubmit={this.submitGuess}
-                />
-            </div>
+        </div>
+
+        
             {/* <button 
               className="PlayerPanelRight-submitGuessButton u-color-1"
               onClick={this.submitGuess}
             >guess</button> */}
-          </div> 
-          }
-        </div>
-
-        
       </>
     );
   }

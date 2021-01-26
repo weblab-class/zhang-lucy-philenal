@@ -74,7 +74,6 @@ class PlayerPanelLeft extends Component {
       <>
         {(!this.state.error && this.props.guesser) && 
         <div className="PlayerPanelLeft">
-          <button onClick={this.props.leaveGame}>leave game</button>
           <div className="PlayerPanelLeft-header">word: 
             <span className="PlayerPanelLeft-word">
               {(this.props.word) ? this.props.word : this.state.wordText}

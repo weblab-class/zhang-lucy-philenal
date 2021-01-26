@@ -142,7 +142,8 @@ class Lobby extends Component {
         // TODO: maybe
         navigate("/player", {state: {
           user_id: this.props.location.state.user_id, 
-          game_id: this.props.location.state.game_id
+          game_id: this.props.location.state.game_id,
+          user_name: this.props.location.state.user_name,
         }});
       }
     });
@@ -165,6 +166,7 @@ class Lobby extends Component {
       navigate("/player", {state: {
         user_id: this.props.location.state.user_id, 
         game_id: this.props.location.state.game_id,
+        user_name: this.props.location.state.user_name,
         }});
     }).catch((err) => {
       console.log(err)
