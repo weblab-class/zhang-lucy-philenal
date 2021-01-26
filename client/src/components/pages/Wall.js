@@ -99,7 +99,7 @@ class Wall extends Component {
           </div>
           {this.state.isLoading ? 
             <div className="LoadingScreen"> 
-                <ReactLoading type={"bars"} color={"grey"} />
+                <ReactLoading type={"bars"} color={"grey"} className={"ReactLoading-bar"}/>
             </div>  : 
           <div className="Wall-gallery">
             {correct_pictures}

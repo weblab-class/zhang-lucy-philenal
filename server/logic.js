@@ -50,7 +50,7 @@ const shuffle = (array) => {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
+  console.log(array);
   return array;
 }
 

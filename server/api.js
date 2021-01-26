@@ -297,6 +297,7 @@ router.post("/game/nextRound", (req, res) => {
     game.guesser = game.players[0];
     game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
+    game.guesses=[];
 
     game.save().then((updatedGame) => { //updates game document and then shouts the change
 
@@ -502,7 +503,7 @@ router.put("/game/guess", (req, res) => {
           game.num_correct += 1;
           game.word_statuses.push("correct");
         }
-        // TODO: increment turn/word
+
         game.save().then((updatedGame) => {
           if (correct) {
             res.send({message: "correct"});
@@ -561,12 +562,12 @@ router.put("/game/start", (req, res) => {
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
       game.wordPack = req.body.wordPack;
-      game.words = wordPacks[game.wordPack]; //TODO: Logic.shuffle()
+      game.words = Logic.shuffle(wordPacks[game.wordPack]); //TODO: Logic.shuffle()
       game.word = game.words[0];
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
       game.pixel_limit = req.body.pixel_limit;
-
+      console.log("game.words"+ game.words)
       game.save()
       .then((updatedGame) => {
         //TODO: (philena) change this to socket room for higher efficiency!!!!
