@@ -67,7 +67,7 @@ export default function AlertDialog(props) {
     window.location.reload();
   };
 
-  onKeyPress = (event) => {
+  const onKeyPress = (event) => {
     if(event.key === 'Enter'){
       console.log('enter press here! ')
       handleClose();
@@ -107,6 +107,7 @@ export default function AlertDialog(props) {
   return (
     <div>
       <Dialog
+        
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
