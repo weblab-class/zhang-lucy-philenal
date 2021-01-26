@@ -14,6 +14,9 @@
 .StartMenu-button:hover {
     -webkit-animation: scale-up-center 0.4s ease-out both;
     animation: scale-up-center 0.4s ease-out both;
+    
+    filter: drop-shadow(0 0 16px  grey);
+    /* filter: brightness(90%); */
 }
 
 @-webkit-keyframes scale-up-center {

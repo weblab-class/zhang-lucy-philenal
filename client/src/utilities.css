@@ -32,7 +32,7 @@
   --green: #caf9c5;
   --button-color: #efefef;
   --light-grey: #bab9b9;
-  --grey: #646464;
+  --grey: #8a8888;
   --dark-grey: #4b4b4b;
   --font-color-2: rgba(0, 0, 0, 0.54);
 
@@ -66,10 +66,16 @@ body {
   padding: 0;
   font-family: 'Alata', sans-serif;
   font-weight: 100;
-  background-color: var(--light-grey); 
-  color: white;
+  /* background-color: var(--light-grey);  */
+  background-color: var(--white); 
+  color: var(--light-grey);
   font-size: var(--m);
   text-transform: lowercase;
+
+  background-size: 60px 60px;
+  background-image:
+  linear-gradient(to right, var(--light-grey) 1px, transparent 1px),
+  linear-gradient(to bottom, var(--light-grey) 1px, transparent 1px);
 }
 
 h2 {
