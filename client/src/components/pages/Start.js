@@ -135,7 +135,6 @@ class Start extends Component {
         <>
           {this.state.isLoading ?
             <div className="LoadingScreen"> 
-                hi
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
             <div className="Start-background">

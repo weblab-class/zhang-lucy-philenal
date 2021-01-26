@@ -1,9 +1,10 @@
 import { navigate } from "@reach/router";
 import React, { Component } from "react";
+import ReactLoading from 'react-loading';
 import { get } from "../../utilities";
-import "../../utilities.css";
 import Picture from "../modules/Picture";
 import "./Wall.css";
+import "../../utilities.css";
 
 //when click on picture (make picture a button), open up a modal with larger view picture
 //change picture.width + height? with transitionsModal + the name of word
@@ -23,7 +24,7 @@ class Wall extends Component {
     this.state = {
       correct_pictures: [],
       incorrect_pictures: [],
-
+      isLoading: true,
     };
   }
 
@@ -35,6 +36,8 @@ class Wall extends Component {
       this.setState({
         correct_pictures: pictures.correct,
         incorrect_pictures: pictures.incorrect,
+      }, () => {
+        this.setState({isLoading: false})
       });
     }).catch((err) => {
       console.log(`Error: ${err}`);
@@ -45,76 +48,22 @@ class Wall extends Component {
     let correct_pictures = []
     for (let i = 0; i < this.state.correct_pictures.length; i++) {
       let picture = this.state.correct_pictures[i];
-      if (i%4 == 0){
-        correct_pictures.push(
-          <div className="Wall-pictureContainer">
-            <div className="Wall-picture">
-              <Picture
-              picture_width_blocks={picture.width}
-              picture_height_blocks={picture.height}
-              pixels={picture.pixels}
-              />
-            </div>
-            <div className="Wall-overlay-fame u-color-1">
-              <div className="Wall-pictureCaption-fame">
-                {picture.title}
-              </div>
+      correct_pictures.push(
+        <div className="Wall-pictureContainer">
+          <div className="Wall-picture">
+            <Picture
+            picture_width_blocks={picture.width}
+            picture_height_blocks={picture.height}
+            pixels={picture.pixels}
+            />
+          </div>
+          <div className={`Wall-overlay-fame u-color-${i%4+1}`}>
+            <div className="Wall-pictureCaption-fame">
+              {picture.title}
             </div>
           </div>
+        </div>
         );
-
-      } else if (i%4 ==1) {
-        correct_pictures.push(
-          <div className="Wall-pictureContainer">
-            <div className="Wall-picture">
-              <Picture
-              picture_width_blocks={picture.width}
-              picture_height_blocks={picture.height}
-              pixels={picture.pixels}
-              />
-            </div>
-            <div className="Wall-overlay-fame u-color-2">
-              <div className="Wall-pictureCaption-fame">
-                {picture.title}
-              </div>
-            </div>
-          </div>
-        );
-      } else if (i%4 == 2) {
-        correct_pictures.push(
-          <div className="Wall-pictureContainer">
-            <div className="Wall-picture">
-              <Picture
-              picture_width_blocks={picture.width}
-              picture_height_blocks={picture.height}
-              pixels={picture.pixels}
-              />
-            </div>
-            <div className="Wall-overlay-fame u-color-3">
-              <div className="Wall-pictureCaption-fame">
-                {picture.title}
-              </div>
-            </div>
-          </div>
-        );
-      } else {
-        correct_pictures.push(
-          <div className="Wall-pictureContainer">
-            <div className="Wall-picture">
-              <Picture
-              picture_width_blocks={picture.width}
-              picture_height_blocks={picture.height}
-              pixels={picture.pixels}
-              />
-            </div>
-            <div className="Wall-overlay-fame u-color-4">
-              <div className="Wall-pictureCaption-fame">
-                {picture.title}
-              </div>
-            </div>
-          </div>
-        );
-      }
     }
 
     let incorrect_pictures = []
@@ -148,11 +97,15 @@ class Wall extends Component {
             <div className="Wall-pixels u-color-3"></div>
             <div className="Wall-pixels u-color-4"></div>
           </div>
+          {this.state.isLoading ? 
+            <div className="LoadingScreen"> 
+                <ReactLoading type={"bars"} color={"grey"} />
+            </div>  : 
           <div className="Wall-gallery">
             {correct_pictures}
           </div> 
+          }
         </div> 
-
         <div className="Wall-container-shame">
           <div className="Wall-title-shame">wall of shame</div>
           <div className="Wall-rowPixel">
@@ -161,9 +114,13 @@ class Wall extends Component {
             <div className="Wall-pixels u-color-grey"></div>
             <div className="Wall-pixels u-color-grey"></div>
           </div>
+          {this.state.isLoading ? 
+            <div className="LoadingScreen"> 
+                <ReactLoading type={"bars"} color={"grey"} />
+            </div> : 
           <div className="Wall-gallery">
             {incorrect_pictures}
-          </div>  
+          </div>}
         </div>
       </div>
       </>
