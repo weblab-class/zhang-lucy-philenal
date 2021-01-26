@@ -3,6 +3,7 @@ import { Router, Link } from "react-router-dom";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import StartMenu from "../modules/StartMenu.js";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
+import ToggleButton from '../modules/ToggleButton'
 
 import "../../utilities.css";
 import "./Start.css";
@@ -122,6 +123,8 @@ class Start extends Component {
                     </span>
                   )}
                 /></div>
+              
+              <ToggleButton/>
               <div className="Start-title">
                   <PlayerPanelTop/>
               </div>
@@ -130,8 +133,7 @@ class Start extends Component {
                     user_id={this.props.user_id} 
                     user_name={this.props.user_name}/>
               </div>
-        </div>
-          
+          </div>
         </>
       );
     } else {

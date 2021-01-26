@@ -24,7 +24,6 @@ class Canvas extends Component {
     super(props);
 
     const block_size = Math.floor(Math.min(CANVAS_HEIGHT_PX / this.props.canvas_height_blocks, CANVAS_WIDTH_PX / this.props.canvas_width_blocks));
-    // console.log(`Block size: ${block_size}`);
 
     // Initialize Default State
     this.state = {
