@@ -111,12 +111,51 @@ class Player extends Component {
 
         })
 
+        //TODO: sometimes word shows when guesser o.o but after refresh issall good ...
+        //socket issue?
+
         // listens for next word, updates word
         // also listens for player status?
         socket.on("nextWord", (updatedGame) =>{
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
-                this.setState({
+                if (this.state.guesser._id == this.props.location.state.user_id) {
+                    console.log("you are the guesser!");
+                    this.setState({
+                        word: updatedGame.game.word,
+                        // hiddenWord: this.hideWord(updatedGame.game.word.length),
+                        turn: updatedGame.turn,
+                        players: updatedGame.players,
+                        pixelers: updatedGame.pixelers,
+                        guesser: updatedGame.guesser,
+                        player: "guesser"
+                    })
+                } else {
+                    for (let i = 0; i < this.state.pixelers.length; i++) {
+                        if(this.state.pixelers[i].id == this.props.location.state.user_id) {
+                            this.setState({
+                                word: updatedGame.game.word,
+                                // hiddenWord: this.hideWord(updatedGame.game.word.length),
+                                turn: updatedGame.turn,
+                                players: updatedGame.players,
+                                pixelers: updatedGame.pixelers,
+                                guesser: updatedGame.guesser,
+                                player: "pixeler"
+                            });
+                        } else {
+                            this.setState({
+                                word: updatedGame.game.word,
+                                // hiddenWord: this.hideWord(updatedGame.game.word.length),
+                                turn: updatedGame.turn,
+                                players: updatedGame.players,
+                                pixelers: updatedGame.pixelers,
+                                guesser: updatedGame.guesser,
+                                player: "neither"
+                            });
+                        }
+                    }
+                }
+                /* this.setState({
                     word: updatedGame.game.word,
                     // hiddenWord: this.hideWord(updatedGame.game.word.length),
                     turn: updatedGame.turn,
@@ -140,7 +179,7 @@ class Player extends Component {
                         }
                         this.setState({player: "neither"});
                     }
-                })
+                }) */
             };
         })
     }

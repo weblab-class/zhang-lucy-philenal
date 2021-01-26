@@ -61,7 +61,7 @@ export default function AlertDialog(props) {
     }
 },[props.overlayText]);
 
-
+//TODO: don't reload if game ended o.o
   const handleClose = () => {
     setOpen(false);
     window.location.reload();
@@ -107,7 +107,7 @@ export default function AlertDialog(props) {
   return (
     <div>
       <Dialog
-        
+        onKeyPress={onKeyPress}
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"

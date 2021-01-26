@@ -29,7 +29,13 @@ class Guesser extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.is_mounted = false;
+  }
+
   componentDidMount() {
+    this.is_mounted = true;
+
     get("api/user/get", {
       user_id: this.props.user_id,
     }).then((res) => {
@@ -44,11 +50,13 @@ class Guesser extends Component {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
     }).then((res) => {
-      this.setState({
-        canvas: res.board, 
-        pixelers: res.pixelers, 
-        guesser: res.guesser}, () => {
-      });
+      if (this.is_mounted){
+        this.setState({
+          canvas: res.board, 
+          pixelers: res.pixelers, 
+          guesser: res.guesser}, () => {
+        });
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -57,7 +65,7 @@ class Guesser extends Component {
     //TODO: unhardcode game id for guesser
     //listens for updated canvas
     socket.on("board_and_game_id", (updatedGame) => {
-      if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
+      if (this.props.game_id === updatedGame.game_id && this.is_mounted) { //if the game id sent out is ours
         this.setState({
           canvas: updatedGame.board,
         })

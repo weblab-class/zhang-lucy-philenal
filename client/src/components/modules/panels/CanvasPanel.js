@@ -43,7 +43,6 @@ class CanvasPanel extends Component {
       background: '#F898A4',
       colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
       endGame: false,
-      overlayText: "",
       scoreText:"",
     };
   }
@@ -182,6 +181,8 @@ class CanvasPanel extends Component {
     let pixels_remaining = this.props.pixel_limit - this.state.num_filled;
     return (
       <>
+      {/* show this only if at end of game */}
+      {this.state.scoreText.length !== 0 && 
       <AlertDialog
         endGame={this.state.endGame}
         overlayText={this.state.overlayText}
@@ -190,7 +191,7 @@ class CanvasPanel extends Component {
         user_name={this.state.user_name}
         game_id={this.props.game_id}
         isGuesser={this.props.isGuesser}
-        />
+        />}
         {/* only show this if not end of game */}
       {this.state.scoreText.length === 0 && 
       <AlertDialog 

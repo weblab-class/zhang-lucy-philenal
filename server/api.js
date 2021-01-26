@@ -482,7 +482,7 @@ router.put("/game/guess", (req, res) => {
       function (err, game) {
         let invalidGame = !game || !game.guesses;
         if (invalidGame) {
-          res.status(404).res.send({message: "invalid game"});
+          return res.status(404).res.send({message: "invalid game"});
         }
         let correct = req.body.guess == game.word;
         game.guesses = game.guesses.concat([req.body.guess]);
