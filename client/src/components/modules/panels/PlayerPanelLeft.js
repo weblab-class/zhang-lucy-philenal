@@ -54,9 +54,11 @@ class PlayerPanelLeft extends Component {
           <GuesserIcon 
             guesser_name={this.props.guesser.name} 
             _id={this.props.guesser._id} 
+            game_id={this.props.game_id}
             isMyTurn={this.props.turn===this.props.pixelers.length}/>
           <div className="PlayerPanelLeft-header">pixelers:</div>
           <PlayerOrder 
+            game_id={this.props.game_id}
             pixelers={this.props.pixelers} 
             turn={this.props.turn}
           />

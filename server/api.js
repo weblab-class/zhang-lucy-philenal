@@ -168,7 +168,7 @@ router.post("/user/leave", (req, res) => {
             players: res.players, 
             game_id: res._id,
           });
-    console.log(res);
+    console.log("I EMMITED CHANGED PLYERS " + res);
   }).catch((err) => {
     console.log("Error with user/leave");
     console.log(err);
@@ -561,7 +561,7 @@ router.put("/game/start", (req, res) => {
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
       game.wordPack = req.body.wordPack;
-      game.words = wordPacks[game.wordPack];
+      game.words = wordPacks[game.wordPack]; //TODO: Logic.shuffle()
       game.word = game.words[0];
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;

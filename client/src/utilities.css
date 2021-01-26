@@ -195,6 +195,9 @@ form {
 .u-color-4:hover {
   background-color: var(--color-4-hover);
 }
+.u-color-6 {
+  background-color: var(--button-color-hover);
+}
 
 .u-color-grey {
   background-color:  var(--text-color);

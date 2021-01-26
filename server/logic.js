@@ -290,5 +290,6 @@ module.exports = {
     getReturnableGame,
     validateUser,
     validatePixeler,
+    shuffle,
     getScore,
   };

@@ -135,6 +135,7 @@ class Pixeler extends Component {
           <div className="u-flex">
             <div className="Player-subPanel">
               <PlayerPanelLeft 
+                game_id={this.props.game_id}
                 guesser={this.state.guesser} 
                 pixelers={this.state.pixelers} 
                 word={this.state.word} 

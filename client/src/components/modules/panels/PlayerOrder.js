@@ -30,7 +30,7 @@ class PlayerOrder extends Component {
       componentDidMount() {
          //listens for updated players
          socket.on("players_and_game_id", (updatedGame)=>{
-          if (this.props.location.state.game_id === updatedGame.game_id && this.is_mounted)
+          if (this.props.game_id === updatedGame.game_id)
           {
               this.setState({currentPlayers: updatedGame.players}, ()=> {
                   console.log("the updated players " + this.state.currentPlayers);
@@ -50,7 +50,7 @@ class PlayerOrder extends Component {
                 isMyTurn={index===this.props.turn}
                 //if someone joined/left game, then check if it's in the current players list. 
                 //if nothing is changed, then it's still in current player
-                inGame={this.state.currentPlayers ? this.state.currentPlayers.includes(pixeler): true}
+                inGame={this.state.currentPlayers!=null ? this.state.currentPlayers.includes(pixeler): true}
               />
             ); 
           });

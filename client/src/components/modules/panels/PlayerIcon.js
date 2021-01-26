@@ -29,7 +29,7 @@ class PlayerIcon extends Component {
       render() {
       
         let colorClass = "PlayerIcon-icon "
-        if (this.props.inGame){
+        if (!this.props.inGame){
           colorClass = colorClass + "u-color-grey"
         } else if (this.props.order % 4 == 0){
           colorClass = colorClass + "u-color-1"

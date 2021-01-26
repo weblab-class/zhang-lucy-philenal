@@ -110,6 +110,7 @@ class Guesser extends Component {
               guesser={this.state.guesser} 
               word={this.props.word}
               turn={this.props.turn}
+              game_id={this.props.game_id}
               isGuesser={true}
               leaveGame={this.leaveGame}
               />
