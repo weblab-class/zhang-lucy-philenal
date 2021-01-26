@@ -23,14 +23,16 @@ class PlayerOrder extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          playerJoin_id: [],
+          playerLeft_id: [],
         };
       }
 
       componentDidMount() {
         socket.on("players_and_game_id", (updatedGame)=> {
           this.setState({
-              playerJoin_id: updatedGame.playerJoin_id,
-              playerLeft_id: updatedGame.playerLeft_id,
+              playerJoin_id: updatedGame.playerJoin_id ? playerJoin_id.concat(updatedGame.playerJoin_id): playerJoin_id,
+              playerLeft_id: updatedGame.playerLeft_id ? playerLeft_id.concat(updatedGame.playerLeft_id): playerLeft_id,
             })
         })
       }
@@ -44,8 +46,8 @@ class PlayerOrder extends Component {
                 playername={pixeler.name}
                 order={index+1}
                 isMyTurn={index===this.props.turn}
-                playerJoin={this.state.playerJoin_id && this.state.playerJoin_id == pixeler._id}
-                playerLeft={this.state.playerLeft_id && this.state.playerLeft_id == pixeler._id}
+                playerJoin={this.state.playerJoin_id.includes(pixeler._id)}
+                playerLeft={this.state.playerLeft_id.includes(pixeler._id)}
               />
             ); 
           });

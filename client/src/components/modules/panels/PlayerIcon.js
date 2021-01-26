@@ -14,7 +14,7 @@ import "./PlayerPanelLeft.css";
  * @param {Boolean} isMyTurn
  * @param {Number} order
  * @param {Boolean} playerJoin
- * @param {Boolean} playerLeft -- if player left the game
+ * @param {Boolean} playerLeft -- if player left the game, make icon grey
  */
 
 class PlayerIcon extends Component {
@@ -30,7 +30,9 @@ class PlayerIcon extends Component {
       render() {
       
         let colorClass = "PlayerIcon-icon "
-        if (this.props.order % 4 == 0){
+        if (this.props.playerLeft){
+          colorClass = colorClass + "u-color-grey"
+        } else if (this.props.order % 4 == 0){
           colorClass = colorClass + "u-color-1"
         } else if (this.props.order % 4 == 1){
           colorClass = colorClass + "u-color-2"
