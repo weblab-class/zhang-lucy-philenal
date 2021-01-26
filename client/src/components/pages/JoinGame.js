@@ -1,12 +1,9 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { navigate } from "@reach/router";
-
-import TextEntry from "../modules/TextEntry.js";
-import "../../utilities.css";
-import "./JoinGame.css";
-
+import React, { Component } from "react";
 import { post } from "../../utilities";
+import "../../utilities.css";
+import TextEntry from "../modules/TextEntry.js";
+import "./JoinGame.css";
 
 /**
  * JoinGame page asks the user to enter a unique ID, then joins

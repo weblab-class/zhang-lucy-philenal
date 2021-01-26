@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { Link } from "@reach/router";
-
 import "../../utilities.css";
 import "./StartMenu.css";
 import "./TextEntry.css";
+
 
 
 /**

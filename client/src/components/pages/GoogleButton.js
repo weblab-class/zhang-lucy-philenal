@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-import "../../utilities.css";
-
 import { socket } from "../../client-socket.js";
-
 import { get, post } from "../../utilities";
+import "../../utilities.css";
 import "./GoogleButton.css";
 
 class GoogleButton extends Component {
