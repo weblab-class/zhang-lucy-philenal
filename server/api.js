@@ -163,6 +163,11 @@ router.post("/user/leave", (req, res) => {
       });
     }
   ).then((res) => {
+    socketManager.getIo().emit("players_and_game_id", 
+          {
+            players: res.players, 
+            game_id: res._id
+          });
     console.log(res);
   }).catch((err) => {
     console.log("Error with user/leave");
