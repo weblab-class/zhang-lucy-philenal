@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import ReactLoading from 'react-loading';
 import { get } from "../../utilities";
 import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import StartMenu from "../modules/StartMenu.js";
 import "./Start.css";
-
 
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
@@ -24,6 +24,8 @@ class Start extends Component {
     this.state = {
       loggedIn: false,
       user_id: null,
+      isLoading: true,
+      buttonDisabled: false,
     };
   }
 
@@ -42,9 +44,12 @@ class Start extends Component {
         // they are registed in the database, and currently logged in.
         this.setState({ 
           user_id: user._id, 
-          user_name: user.name 
+          user_name: user.name,
         });
       }
+      this.setState({
+        isLoading: false,
+      });
     });
         
     //     get("/api/game/player_status", {
@@ -90,57 +95,85 @@ class Start extends Component {
     // });
   }
 
+  onClick = () => {
+    console.log("clicked!!");
+    this.setState({isLoading: true, buttonDisabled: true})
+  }
+  
   onLogin = (res) => {
-    this.props.handleLogin(res);
-    this.setState({user_id: "temp", loggedIn: true});
-    // console.log("logged in...");
+    this.setState({isLoading: true}, () => {
+      this.props.handleLogin(res);
+      this.setState({
+        user_id: "temp", 
+        loggedIn: true,
+      }, () => {
+        this.setState({
+          isLoading: false,
+        })
+      });
+    })
+    
   }
 
   onLogout = (res) => {
-    this.props.handleLogout(res);
-    this.setState({user_id: null, loggedIn: false});
+    this.setState({isLoading: true}, () => {
+      this.props.handleLogout(res);
+      this.setState({
+        user_id: null, 
+        loggedIn: false,
+        isLoading: false,
+      });
+    })
   }
 
   render() {
     if (this.props.user_id) {
       return (
-        <><div className="Start-background">
-            <div>hello, {this.props.user_name}! 
-              <GoogleLogout
-                  clientId={GOOGLE_CLIENT_ID}
-                  buttonText="Logout"
-                  onLogoutSuccess={this.onLogout}
-                  onFailure={(err) => console.log(err)}
-                  render={(renderProps) => (
-                  <span
-                    onClick={renderProps.onClick}
-                    className="Start-googleButton u-pointer"
-                    >
-                      logout
-                    </span>
-                  )}
-                /></div>
-              <div className="Start-title">
-                  <PlayerPanelTop/>
+        <>
+          {this.state.isLoading ?
+            <div className="LoadingScreen"> 
+                hi
+                <ReactLoading type={"bars"} color={"grey"} />
+            </div> :
+            <div className="Start-background">
+              <div>hello, {this.props.user_name}! 
+                <GoogleLogout
+                    clientId={GOOGLE_CLIENT_ID}
+                    buttonText="Logout"
+                    onLogoutSuccess={this.onLogout}
+                    onFailure={(err) => console.log(err)}
+                    render={(renderProps) => (
+                    <span
+                      onClick={renderProps.onClick}
+                      className="Start-googleButton u-pointer"
+                      >
+                        logout
+                      </span>
+                    )}
+                  /></div>
+                <div className="Start-title">
+                    <PlayerPanelTop/>
+                </div>
+                <div className="Start-startMenu">
+                    <StartMenu 
+                      user_id={this.props.user_id} 
+                      user_name={this.props.user_name}/>
+                </div>
               </div>
-              <div className="Start-startMenu">
-                  <StartMenu 
-                    user_id={this.props.user_id} 
-                    user_name={this.props.user_name}/>
-              </div>
-        </div>
-          
+          }
         </>
       );
     } else {
       return (
         <>
+        {this.state.isLoading ?
+        <div className="LoadingScreen"> 
+            <ReactLoading type={"bars"} color={"grey"} />
+        </div> :
+        <div>
           <div className="Start-title">
             <PlayerPanelTop/>
           </div>
-          {/* <div className="Start-loginWelcomeMessage">
-            login to with Google:
-          </div> */}
           <div className="Start-loginButtonContainer">
           {this.props.user_id ? (
             <GoogleLogout
@@ -154,10 +187,14 @@ class Start extends Component {
               clientId={GOOGLE_CLIENT_ID}
               buttonText="login to start"
               onSuccess={this.onLogin}
+              disabled={this.buttonDisabled}
+              onRequest={this.onClick}
               onFailure={(err) => console.log(err)}
             />
           )}
           </div>
+        </div>
+        }
         </>
       );
     }

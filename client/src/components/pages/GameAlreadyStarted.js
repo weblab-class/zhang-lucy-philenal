@@ -1,12 +1,8 @@
-import React, { Component } from "react";
-import { Router, Link } from "react-router-dom";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { navigate } from "@reach/router";
-import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
-
+import React, { Component } from "react";
 import "../../utilities.css";
+import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import "./GameAlreadyStarted.css";
-
 
 class GameAlreadyStarted extends Component {
   constructor(props) {
