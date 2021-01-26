@@ -16,7 +16,7 @@
 /* player icon styling */
 
 .PlayerIcon-container {
-    padding: var(--m) 0px;
+    padding: var(--s);
     display: flex;
     justify-content: flex-start;
     width: 120px;
@@ -24,19 +24,20 @@
 }
 
 .PlayerIcon-backgroundWhite {
+    width: 120px;
+
     background-color: rgb(255, 246, 232);
     padding: var(--s);
+    /* padding: var(--m) 0px; */
     border-color: rgb(255, 246, 232);
     border-width: .5em;
     border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
 }
 .PlayerIcon-left {
-    
     display:flex;
-    flex-basis: 0;
-    
-    flex: 1;
+    /* flex-basis: 0;
+    flex: 1; */
     /* justify-content: space-between; */
     justify-content: flex-end;
 }
@@ -47,8 +48,6 @@
 }
 
 .PlayerIcon-order {
-    flex: 1;
-    text-align: right;
     margin: 0px 10px;
 }
 
