@@ -3,12 +3,11 @@
     font-size: 70px;
     letter-spacing: 0.1em;
   /* white */
-    color: white;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: var(--text-color);
 
     -webkit-text-stroke-width: 0.2px;
 
-    -webkit-text-stroke-color:var(white);
+    -webkit-text-stroke-color:var(--text-color);
     padding: 1rem;
     /* background-color: aqua; */
 }

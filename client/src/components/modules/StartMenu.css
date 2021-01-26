@@ -4,7 +4,6 @@
     border-radius: 5px;
     /* border-style: solid;
     border-width: 5px; */
-    border-color: white;
     font-family: var(--font-primary);
     margin-bottom: var(--s);
 }
@@ -14,8 +13,8 @@
 .StartMenu-button:hover {
     -webkit-animation: scale-up-center 0.4s ease-out both;
     animation: scale-up-center 0.4s ease-out both;
-    
-    filter: drop-shadow(0 0 16px  grey);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 8px;
+    /* filter: drop-shadow(0px 0px 8px  grey); */
     /* filter: brightness(90%); */
 }
 

@@ -30,7 +30,9 @@
   --orange: #ffebd7;
   --yellow: #fafdc7;
   --green: #caf9c5;
+  --button-disabled-color: #efefef;
   --button-color: #efefef;
+  
   --light-grey: #bab9b9;
   --grey: #8a8888;
   --dark-grey: #4b4b4b;
@@ -44,7 +46,7 @@
 
   --background-color: rgb(249, 235, 234);
   --border-color: rgb(100, 100, 100);
-  --text-color: rgb(100, 100, 100);
+  --text-color: /* rgb(100, 100, 100); */ var(--grey);
 
   --font-primary: 'Alata', sans-serif;
 
@@ -68,14 +70,14 @@ body {
   font-weight: 100;
   /* background-color: var(--light-grey);  */
   background-color: var(--white); 
-  color: var(--light-grey);
+  color: var(--grey);
   font-size: var(--m);
   text-transform: lowercase;
 
-  background-size: 60px 60px;
+  background-size: 100px 100px;
   background-image:
-  linear-gradient(to right, var(--light-grey) 1px, transparent 1px),
-  linear-gradient(to bottom, var(--light-grey) 1px, transparent 1px);
+  linear-gradient(to right, rgba(100,100,100,0.2) 1px, transparent 1px), 
+  linear-gradient(to bottom, rgba(100,100,100,0.2) 1px, transparent 1px);
 }
 
 h2 {
@@ -99,11 +101,10 @@ button {
     font-family: 'Alata', sans-serif;
     color: var(--text-color);
     cursor: pointer;
-    border: solid;
-
-    border-color: var(--button-color);
+    border: 0px;
     background-color: var(--button-color);
-    border-width: .5em;
+    /* border-width: .5em; */
+    padding: .5em;
     border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
     transition: background-color 1s, border-color 1s, color 1s

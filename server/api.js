@@ -330,7 +330,7 @@ router.get("/user/get", (req, res) => {
 
 router.get("/game/get", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((games) => {
-    let userValidated = Logic.validateUser(game, req.query.user_id);
+    let userValidated = Logic.validateUser(games[0], req.query.user_id);
     if (userValidated && games.length > 0) {
       let game = Logic.getReturnableGame(games[0], req.query.user_id);
       res.send(game);
