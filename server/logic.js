@@ -103,7 +103,6 @@ const newGame = (req) => {
     wordpack: wordpackName,
     word: wordpack[0],
     word_statuses: [],
-    // wordLength: wordpack[0].length,
     word_idx: 0,
     words: wordpack,
     guesses: [],
@@ -207,7 +206,6 @@ const initializeGame = (game) => {
 
   game.words = shuffle(game.words);
   game.word = game.words[0];
-  // game.wordLength = game.words[0].length;
   game.started = true;
   return game;
 }

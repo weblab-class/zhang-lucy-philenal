@@ -1,15 +1,10 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { Link } from "@reach/router";
-
-// import TextEntry from "../modules/TextEntry.js";
-import "../../utilities.css";
-import "./Wall.css";
-import Picture from "../modules/Picture";
-
-import { get, post } from "../../utilities";
-
 import { navigate } from "@reach/router";
+import React, { Component } from "react";
+import { get } from "../../utilities";
+import "../../utilities.css";
+import Picture from "../modules/Picture";
+import "./Wall.css";
+
 //when click on picture (make picture a button), open up a modal with larger view picture
 //change picture.width + height? with transitionsModal + the name of word
 //when hover on picture, overlay with word + random color + scale a little
@@ -33,8 +28,6 @@ class Wall extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
-    console.log(this.props);
     get("/api/user/images", {
       user_id: this.props.location.state.user_id
     }).then((pictures) => {
@@ -148,7 +141,7 @@ class Wall extends Component {
       <button onClick={()=>{navigate('/')}}>back</button>
       <div className="Wall-page">  
         <div className="Wall-container-fame">
-          <div className="Wall-title-fame">wall of fame</div>
+          <div className="Wall-title-fame">hall of fame</div>
           <div className="Wall-rowPixel">
             <div className="Wall-pixels u-color-1"></div>
             <div className="Wall-pixels u-color-2"></div>

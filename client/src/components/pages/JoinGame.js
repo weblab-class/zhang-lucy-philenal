@@ -29,7 +29,6 @@ class JoinGame extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
   }
 
   onGameIDEntry = (game_id) => {

@@ -26,26 +26,10 @@ class PlayerOrder extends Component {
       }
 
       componentDidMount() {
-        // remember -- api calls go here!
       }
 
       render() {
-        /*let players = this.props.players;
-        let playerIcons = [];
-        for (let i = 0; i < players.length; i++) {
-          playerIcons.push(
-            <PlayerIcon
-            _id={players[i]._id}
-            playername={players[i].playername}
-            order={i+1}
-          />
-          )
-        }*/
           const playerIcons = this.props.pixelers.map((pixeler, index) => {
-          // let isMyTurn = false;
-          // if (this.props.turn == index){
-          //   isMyTurn = true;
-          // } 
           return (
           <PlayerIcon
             _id={pixeler._id}

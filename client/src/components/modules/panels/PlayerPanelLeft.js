@@ -1,23 +1,10 @@
+import { navigate } from "@reach/router";
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-
 import "../../../utilities.css";
-import "./PlayerPanel.css";
-import "./PlayerPanelLeft.css";
-import PlayerIcon from "./PlayerIcon.js";
 import GuesserIcon from "./GuesserIcon.js";
 import PlayerOrder from "./PlayerOrder.js";
-// import { turn } from "core-js/fn/array";
-//TODO: fix responsiveness -- for smaller screens, add margin from left
-
-import { get } from "../../../utilities";
-import { navigate } from "@reach/router";
-
-//hardcoded variables
-
-/* let turn = 0; */ //whose turn it is -- max is players.length-1 (0-indexed)
-
-// const word = "hello"
+import "./PlayerPanel.css";
+import "./PlayerPanelLeft.css";
 
 
 /**
@@ -29,7 +16,7 @@ import { navigate } from "@reach/router";
  * @param {User} guesser
  * @param {Boolean} isGuesser
  * @param {String} word* - only if isGuesser=false
-s * @param leaveGame callback function
+ * @param leaveGame callback function
  * 
  * DIDNT ADD THE PROPS BELOW!!! THESE ARE NOT ACTUAL PROPS
  * @param {String} user_id - we can get all of the above from this

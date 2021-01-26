@@ -168,8 +168,6 @@ router.post("/user/leave", (req, res) => {
     console.log("Error with user/leave");
     console.log(err);
   });
-
-
 });
 
 //TODO: update logic when pixeler ends turn, or pixelsLeft = 0
@@ -290,7 +288,6 @@ router.post("/game/nextRound", (req, res) => {
 
     // Not end game
     game.word = game.words[game.word_idx]; 
-    // game.wordLength = game.word.length;
 
     //rotates players
     game.players = Logic.rotatePlayers(game.players) 
@@ -298,22 +295,6 @@ router.post("/game/nextRound", (req, res) => {
     game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
 
-    //TODO: save the previous game image in game schema
-    // let newBoard = new Board({
-    //   // _id: game.board._id,
-    //   width: game.board.width,
-    //   height: game.board.height,
-    //   pixels: game.board.pixels,
-    // });
-
-    /* console.log("BOARD"); */
-    /* console.log(newBoard); */
-    // newBoard.save().then((board) => {
-    //   console.log("THIS IS THE BOARD " + board);
-    //   //TO DO: adds in board id to each player
-      
-    //   //insert board id into all the palyers in the game
-    // }).then(()=> 
     game.save().then((updatedGame) => { //updates game document and then shouts the change
 
       //if you're on this new word is your last word
@@ -347,28 +328,24 @@ router.get("/user/get", (req, res) => {
   });
 });
 
-// TODO: kill this bad function lol (lucy)
 router.get("/game/get", (req, res) => {
-  // CHECK THAT THE PERSON IS 1) IN GAME 2) A PIXELER
   Game.find({ _id: req.query.game_id }).then((games) => {
-    // TODO: check that the user is in game
-    if (req.query.user_id && games.length > 0) {
+    let userValidated = Logic.validateUser(game, req.query.user_id);
+    if (userValidated && games.length > 0) {
       let game = Logic.getReturnableGame(games[0], req.query.user_id);
       res.send(game);
     } else {
-      res.send([]);
+      res.send({status: "error"});
     }
   });
 });
 
 
 router.get("/game/players", (req, res) => {
-  // CHECK THAT THE PERSON IS 1) IN GAME 2) A PIXELER
   Game.findOne({ _id: req.query.game_id }).then((game) => {
-    // TODO: check that the user is in game
     let userIdPassed = req.query.user_id;
     if (!userIdPassed) {
-      return res.status(400).send({msg: "please pass yoursr user_id"});
+      return res.status(400).send({msg: "please pass your user_id"});
     }
     let gameFound = game;
     if (!gameFound) {
@@ -429,9 +406,11 @@ router.get("/game/player_status", (req, res) => {
 });
 
 router.get("/game/canvas", (req, res) => {
-  // TODO: Check if the user is in the game
-  // console.log("what");
   Game.findOne({ _id: req.query.game_id }).then((game) => {
+    let userValidated = Logic.validateUser(game, req.query.user_id);
+    if (!userValidated) {
+      return res.status(404).send({msg: "invalid user ID"});
+    }
     res.send(game.board);
   });
 });
@@ -559,7 +538,6 @@ router.post("/game/changedDifficulty", (req, res)=> {
   });
 });
 
-//TODO: (philena) let player choose wordpack
 router.put("/game/start", (req, res) => {
   Game.findOne(
     {_id: req.body.game_id},
@@ -577,14 +555,14 @@ router.put("/game/start", (req, res) => {
 
       game.save()
       .then((updatedGame) => {
-        console.log("MY NEW GAME" + updatedGame)
         //TODO: (philena) change this to socket room for higher efficiency!!!!
         //tells everyone that game started!
-        console.log("before socket manager start");
         socketManager.getIo().emit("game_id_started", req.body.game_id);
-        let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
-        res.send(game);
-      }).catch((err) => {console.log(err)});
+        res.send({status: "success"});
+      }).catch((err) => {
+        console.log(err);
+        res.send({status: `error: ${err}`});
+      });
     });
 });
 
@@ -653,12 +631,9 @@ router.post("/board/clear_pixels", (req, res) => {
     }
   ).then((updatedGame) => {
     // TODO: Fix this
-    // console.log("updated game!!!");
-    // console.log(updatedGame);
     socketManager.getIo().emit("cleared_canvas", 
     {
       board: updatedGame.board, 
-      // pixels: updatedGame.board.pixels, 
       _id: updatedGame._id, 
     });
     res.send({board: updatedGame.board});

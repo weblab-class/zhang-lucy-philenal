@@ -1,18 +1,10 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { socket } from "../../client-socket.js";
-import MultilineTextField from "../modules/MultilineTextField.js";
-import Fade from '@material-ui/core/Fade';
-import { Link } from "@reach/router";
 import { navigate } from "@reach/router";
-import { GoogleButton } from "./GoogleButton.js";
-
-// import TextEntry from "../modules/TextEntry.js";
+import React, { Component } from "react";
+import { socket } from "../../client-socket.js";
+import { get, post, put } from "../../utilities";
 import "../../utilities.css";
+import MultilineTextField from "../modules/MultilineTextField.js";
 import "./Lobby.css";
-
-import { get, post, put} from "../../utilities";
-
 
 /**
  * Lobby page is what the user travels to after making/joining
@@ -57,7 +49,6 @@ class Lobby extends Component {
     });
 
     get("/api/game/difficulties").then((res) => {
-
       console.log(res);
       if (this.is_mounted) {
         this.setState({difficulties: res}, ()=>console.log(res))
@@ -149,13 +140,9 @@ class Lobby extends Component {
     });
   }
 
-  // TODO: fix this put request
   startGame = () => {
-    console.log(`pix prop: ${this.state.pixel_proportion}`);
-    console.log(`num players: ${this.state.players.length}`);
+    // TODO: Don't hardcode
     let pixel_limit = Math.round(400 * this.state.pixel_proportion / this.state.players.length);
-    // this.state.pixel_proportion
-    console.log(`pixel limit: ${pixel_limit}`);
     put("/api/game/start", {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
@@ -163,13 +150,15 @@ class Lobby extends Component {
       wordPack: this.state.wordPack,
       pixel_limit: pixel_limit,
     }).then((res) => {
-      navigate("/player", {state: {
-        user_id: this.props.location.state.user_id, 
-        game_id: this.props.location.state.game_id,
-        user_name: this.props.location.state.user_name,
-        }});
+      if (res.status == "success") {
+        navigate("/player", {state: {
+          user_id: this.props.location.state.user_id, 
+          game_id: this.props.location.state.game_id,
+          user_name: this.props.location.state.user_name,
+          }});
+      } 
     }).catch((err) => {
-      console.log(err)
+      console.log(`Error: ${err}`);
     });
   }
 

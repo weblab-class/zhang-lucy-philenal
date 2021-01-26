@@ -1,17 +1,16 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { socket } from "../../client-socket.js";
 import { navigate } from "@reach/router";
-
+import React, { Component } from "react";
+import { socket } from "../../client-socket.js";
+import { get, post } from "../../utilities";
 import "../../utilities.css";
-import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import CanvasPanel from "../modules/panels/CanvasPanel";
 import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
-import CanvasPanel from "../modules/panels/CanvasPanel";
-
+import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
 import "./Player.css";
 
-import { get, post } from "../../utilities";
+
+
 
 /**
  * This is the page view of one of the pixelers
@@ -41,15 +40,6 @@ class Pixeler extends Component {
     };
   }
 
-  //TODO: update canvas screen/pixeler screen
-  processUpdate = (update) => {
-    if (update.winner && this.is_mounted) {
-      this.setState({ winner: update.winner });
-    }
-    //should change the pixeler screen
-    //drawCanvas(update);
-  };
-
   componentWillUnmount() {
     this.is_mounted = false;
   }
@@ -67,13 +57,6 @@ class Pixeler extends Component {
       }
     });
 
-    // remember -- api calls go here!
-    //TODO: can delete if we don't use logic.js ??
-    socket.on("update", (update) => {
-      this.processUpdate(update);
-    });
-
-    // TODO: LUCY CHANGE
     get("/api/game/get", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
@@ -92,7 +75,6 @@ class Pixeler extends Component {
       console.log(err);
     })
 
-    // TODO: unhardcode
     get("/api/game/canvas", {
       game_id: this.props.game_id,
     }).then((res) => {
@@ -139,7 +121,6 @@ class Pixeler extends Component {
   }
 
   render() {
-    /* console.log("TURN'S ID IS " + this.state.pixelers[this.props.turn]._id + " and USER ID IS " + this.props.user_id) */
     console.log("turn number " + this.props.turn);
     console.log("user id " + this.props.user_id);
     
@@ -151,9 +132,6 @@ class Pixeler extends Component {
           <div>hello, {this.state.user_name}!</div>
           <button onClick={this.leaveGame}>leave game</button>
           <PlayerPanelTop/>
-          {/* {this.props.turn < this.state.pixelers.length ? 
-          console.log("is it my turn " + (this.state.pixelers[this.props.turn]._id === this.props.user_id)): 
-          console.log("guesser's turn")} */}
           <div className="u-flex">
             <div className="Player-subPanel">
               <PlayerPanelLeft 

@@ -1,18 +1,12 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { socket } from "../../client-socket.js";
 import { navigate } from "@reach/router";
-
+import React, { Component } from "react";
+import { socket } from "../../client-socket.js";
+import { get, post } from "../../utilities";
 import "../../utilities.css";
-import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import CanvasPanel from "../modules/panels/CanvasPanel";
 import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
-import CanvasPanel from "../modules/panels/CanvasPanel";
-
-import { get, post, put} from "../../utilities";
-// TBD?
-// import "./Guesser.css";
-
+import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
 
 /**
  * This is the page view of the Guesser

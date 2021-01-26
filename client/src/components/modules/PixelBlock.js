@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./PixelBlock.css";
@@ -88,7 +87,6 @@ class PixelBlock extends Component {
     };
 
   componentDidMount() {
-    // remember -- api calls go here!
     this.is_mounted = true;
 
     socket.on("board_and_game_id", (updatedGame) => {

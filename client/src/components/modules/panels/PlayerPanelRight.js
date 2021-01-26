@@ -1,15 +1,10 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { Link } from "@reach/router";
 import { socket } from "../../../client-socket.js";
-
-import GuessEntry from "../GuessEntry.js";
+import { get, put } from "../../../utilities";
 import "../../../utilities.css";
+import GuessEntry from "../GuessEntry.js";
 import "./PlayerPanel.css";
 import "./PlayerPanelRight.css";
-
-import { get, put} from "../../../utilities";
-
 
 /**
  * PlayerPanelRight is the right side of the Player page, should contain a guessing 
@@ -30,9 +25,7 @@ class PlayerPanelRight extends Component {
     };
   }
 
-  // TODO: LUCY
   componentDidMount() {
-    // remember -- api calls go here!
     get("api/game/get", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,

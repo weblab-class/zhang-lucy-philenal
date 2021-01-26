@@ -27,7 +27,6 @@ class TextEntry extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
  
   }
 

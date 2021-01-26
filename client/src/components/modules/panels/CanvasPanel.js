@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import { GithubPicker } from 'react-color';
-import reactCSS from 'reactcss';
-import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { socket } from "../../../client-socket.js";
-import TransitionsModal  from "../TransitionsModal.js";
-import AlertDialog  from "../AlertDialog.js";
-import "./PlayerPanel.css";
-import "./CanvasPanel.css";
-import "../Canvas.css";
-// import "./CanvasPanel.css";
-import Canvas from "../Canvas.js";
 import { post } from "../../../utilities";
-
-
+import AlertDialog from "../AlertDialog.js";
+import "../Canvas.css";
+import Canvas from "../Canvas.js";
+import "./CanvasPanel.css";
+import "./PlayerPanel.css";
 
 /**
  * The CanvasPanel is the entire middle panel below the title, containing the Canvas

@@ -1,17 +1,12 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { socket } from "../../client-socket.js";
 import { navigate } from "@reach/router";
-
-import "../../utilities.css";
-import "./Player.css";
-
+import React, { Component } from "react";
+import { socket } from "../../client-socket.js";
 import { get } from "../../utilities";
-import Start from "./Start";
+import "../../utilities.css";
 import Guesser from "./Guesser";
 import Pixeler from "./Pixeler";
-import TransitionsModal from "../modules/TransitionsModal.js";
-
+import "./Player.css";
+import Start from "./Start";
 
 /**
  * This is the page view of a player, either Pixeler or Guesser. Keeps track of 

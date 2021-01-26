@@ -1,15 +1,13 @@
-import React, { Component } from "react";
-import { Router, Link } from "react-router-dom";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-
-import "../../utilities.css";
-import "./Skeleton.css";
 import { navigate } from "@reach/router";
+import React, { Component } from "react";
+import "../../utilities.css";
+import "./HowToPlay.css";
+
 
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 
-class Skeleton extends Component {
+class HowToPlay extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
@@ -17,32 +15,16 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
   }
 
   render() {
     return (
       <>
-        {/* {this.props.user_id ? (
-          <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={this.props.handleLogout}
-            onFailure={(err) => console.log(err)}
-          />
-        ) : (
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={this.props.handleLogin}
-            onFailure={(err) => console.log(err)}
-          />
-        )} */}
         <h1>how to play</h1>
         <button onClick={()=>{navigate('/')}}>back</button>
         <p>pixonary is an online drawing game that allows players to collaboratively draw a word for the guesser to guess -- all with pixels! for each word, players will be assigned to be either a pixeler or guesser. the pixelers are ordered randomly such that they can only pixel on the shared canvas on their turn, while the guesser can guess the word at any point in time.</p>
-        <div className="Skeleton-grid u-flex u-flex-justifyCenter">
-          <div className="Skeleton-pixelBox u-color-1">
+        <div className="HowToPlay-grid u-flex u-flex-justifyCenter">
+          <div className="HowToPlay-pixelBox u-color-1">
             <div className="u-flex u-flex-justifyCenter">
               <h2>start</h2>
             </div>
@@ -50,7 +32,7 @@ class Skeleton extends Component {
             <p>you can either create a new game or join a game. to create a game, enter a game id (it can be anything!) and submit. send the game id to your friends so that they can join the game! after, you'll be redirected to a lobby, where you can adjust the game settings.</p>
             </div>
           </div>
-          <div className="Skeleton-pixelBox u-color-2">
+          <div className="HowToPlay-pixelBox u-color-2">
             <div className="u-flex u-flex-justifyCenter">
               <h2>settings</h2>
             </div>
@@ -78,4 +60,4 @@ class Skeleton extends Component {
   }
 }
 
-export default Skeleton;
+export default HowToPlay;

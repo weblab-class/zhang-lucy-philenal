@@ -21,7 +21,6 @@ class StartMenu extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
   }
 
   render() {

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { makeStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
-import "../../utilities.css";
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
 import { navigate } from "@reach/router";
-import { get, post, put} from "../../utilities";
+import React, { useEffect } from 'react';
+import { post } from "../../utilities";
+import "../../utilities.css";
 
 const useStyles = makeStyles({
   root: {
@@ -39,16 +38,18 @@ const useStyles = makeStyles({
   },
   
 });
-/* props:
-@param endGame - boolean if game ended
-@param isGuesser
-@param overlayText
-@param theWordWas - what to put in paragraph text
-@param callback
-@param callbackButtonText
-@param user_id
-@param user_name
-@param game_id
+
+/** 
+ * props:
+ * @param endGame - boolean if game ended
+ * @param isGuesser
+ * @param overlayText
+ * @param theWordWas - what to put in paragraph text
+ * @param callback
+ * @param callbackButtonText
+ * @param user_id
+ * @param user_name
+ * @param game_id
  */
 export default function AlertDialog(props) {
   const classes = useStyles();
@@ -89,7 +90,6 @@ export default function AlertDialog(props) {
       }
     })
   }
-
 
   return (
     <div>

@@ -13,7 +13,6 @@ class PlayerPanelTop extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
   }
 
   render() {

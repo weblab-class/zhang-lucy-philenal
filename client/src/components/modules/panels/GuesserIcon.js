@@ -22,31 +22,18 @@ class GuesserIcon extends Component {
       } 
 
       componentDidMount() {
-        // remember -- api calls go here!
       }
 
       render() {
-        /* if (this.state.isMyTurn == true){
-          //document.getElementsByClassName("PlayerIcon-container").style.background="white";
-          let containerStyle = {backgroundColor: 'white'};
-        } else{
-          let containerStyle = {backgroundColor: 'transparent'};
-        } */
-
         return (
             <div className={this.props.isMyTurn ? 'PlayerIcon-backgroundWhite PlayerIcon-container': 'PlayerIcon-container'}> {/* turns white if it's your turn */}
                 <div className="PlayerIcon-left u-flex-alignCenter">
                   <div className="GuesserIcon-order">0</div>
                   <div className="PlayerIcon-icon u-color-grey"></div>
                   <div className="PlayerIcon-right">
-                    {/* later on we will pass props */}
                     {this.props.guesser_name}
-                    {/* Lucy */}
-                    
                 </div>
                 </div>
-                
-               
             </div>
           
         );

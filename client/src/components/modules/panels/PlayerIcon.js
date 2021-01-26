@@ -23,16 +23,10 @@ class PlayerIcon extends Component {
       }
 
       componentDidMount() {
-        // remember -- api calls go here!
       }
 
       render() {
-        /* if (this.state.isMyTurn == true){
-          //document.getElementsByClassName("PlayerIcon-container").style.background="white";
-          let containerStyle = {backgroundColor: 'white'};
-        } else{
-          let containerStyle = {backgroundColor: 'transparent'};
-        } */
+      
         let colorClass = "PlayerIcon-icon "
         if (this.props.order % 4 == 0){
           colorClass = colorClass + "u-color-1"

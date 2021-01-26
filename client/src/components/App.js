@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Start from "./pages/Start.js";
-import Skeleton from "./pages/Skeleton.js";
+import HowToPlay from "./pages/HowToPlay.js";
 import Lobby from "./pages/Lobby.js";
 import JoinGame from "./pages/JoinGame.js";
 import NewGame from "./pages/NewGame.js";
@@ -67,7 +67,7 @@ class App extends Component {
     return (
       <>
         <Router>
-          <Skeleton
+          <HowToPlay
             path="/howtoplay"
           />
           <Start path="/"
@@ -79,9 +79,7 @@ class App extends Component {
           <Lobby path="/lobby"/>
           <JoinGame path="/joingame" />
           <NewGame path="/newgame" />
-          <Guesser path="/guesser"/>
           <GameAlreadyStarted path="/gamealreadystarted"/>
-          <Pixeler path="/pixeler" />
           <Player path="/player" />
           <Wall path="/wall" />
           <NotFound default />

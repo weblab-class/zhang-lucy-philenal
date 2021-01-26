@@ -31,7 +31,6 @@ class NewGame extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
     console.log(this.props);
   }
 
@@ -45,7 +44,6 @@ class NewGame extends Component {
     }, ()=>{this.newGame()});
   }
 
-  // TODO (lucy): get rid of GET request
   newGame = (event) => {
     post("/api/game/new", {
       user_id: this.props.location.state.user_id, 
@@ -70,14 +68,11 @@ class NewGame extends Component {
       console.log(`error: ${err}`);
       this.setState({error: true});
     }); 
-     
   }
 
   render() {
     return (
       <>
-            {/* TODO (philena) make this pretty! ^_^ */}
-            {/* TODO add functionality for entering names too */}
             <div>hello, {this.props.location.state.user_name}!</div>
             <button onClick={()=>{navigate('/')}}>back</button>
             <div className="NewGame-container">

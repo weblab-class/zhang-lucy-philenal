@@ -32,7 +32,6 @@ class GuessEntry extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
     socket.on("endedTurn", (updatedGame)=>{
       if (this.props.game_id === updatedGame.game_id)
       {

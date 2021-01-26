@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import PixelBlock from "./PixelBlock.js";
-import { socket } from "../../client-socket.js";
 import "../../utilities.css";
 import "./Picture.css";
-
+import PixelBlock from "./PixelBlock.js";
 
 // TODO: Un-hardcode, have this be read in as a prop
 const CANVAS_WIDTH_PX = 200;
 const CANVAS_HEIGHT_PX = 200;
 
-// const NUM_BLOCKS = this.props.picture_width_blocks * this.props.picture_height_blocks; 
-
 /**
- * The Picture is the main game board, where pixelers can fill pixels
+ * The Picture is similar to a Canvas, showing the hall of fame/wall of shame
  * @param game_id
  * @param picture_width_blocks the width of the picture in blocks
  * @param picture_height_blocks the height of the picture in blocks
