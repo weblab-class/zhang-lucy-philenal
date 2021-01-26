@@ -131,7 +131,7 @@ class Player extends Component {
         socket.on("nextWord", (updatedGame) =>{
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
-                if (this.state.guesser._id == this.props.location.state.user_id && this.is_mounted) {
+                if (updatedGame.guesser._id == this.props.location.state.user_id && this.is_mounted) {
                     console.log("you are the guesser!");
                     this.setState({
                         word: updatedGame.game.word,
@@ -144,7 +144,7 @@ class Player extends Component {
                     })
                 } else {
                     for (let i = 0; i < this.state.pixelers.length; i++) {
-                        if(this.state.pixelers[i].id == this.props.location.state.user_id && this.is_mounted) {
+                        if(updatedGame.pixelers[i].id == this.props.location.state.user_id && this.is_mounted) {
                             this.setState({
                                 word: updatedGame.game.word,
                                 // hiddenWord: this.hideWord(updatedGame.game.word.length),

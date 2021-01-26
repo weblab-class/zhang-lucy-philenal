@@ -154,6 +154,7 @@ class CanvasPanel extends Component {
     }).then((game) => {
       if (game.status == "end") {
       } else {
+        //only clear pixels + reload if not end of game
         //to change the button to show "end game"
         if (game.almostEnd) {
           this.setState({
@@ -161,19 +162,20 @@ class CanvasPanel extends Component {
           })
         }
         console.log("Next word is " + game.word);
+        post("/api/board/clear_pixels", {
+          game_id: this.props.game_id,
+          user_id: this.props.user_id,
+        }).then((res) => {
+          if (res && res.board) {
+            console.log("I CLEARED MY PIXELS")
+            this.setState({pixels: res.board.pixels});
+            
+            window.location.reload();
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
       }
-      post("/api/board/clear_pixels", {
-        game_id: this.props.game_id,
-        user_id: this.props.user_id,
-      }).then((res) => {
-        if (res && res.board) {
-          console.log("I CLEARED MY PIXELS")
-          this.setState({pixels: res.board.pixels});
-          window.location.reload();
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
     });
   }
 
