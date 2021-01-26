@@ -163,6 +163,11 @@ router.post("/user/leave", (req, res) => {
       });
     }
   ).then((res) => {
+    socketManager.getIo().emit("players_and_game_id", 
+          {
+            players: res.players, 
+            game_id: res._id
+          });
     console.log(res);
   }).catch((err) => {
     console.log("Error with user/leave");
@@ -298,7 +303,7 @@ router.post("/game/nextRound", (req, res) => {
       //if you're on this new word is your last word
       //this is to change the button for "next word" --> "end game" or something
       let almostEnd = false;
-      if (updatedGame.word_idx >= updatedGame.maxSessions * updatedGame.players.length - 1) {
+      if (updatedGame.word_idx == updatedGame.maxSessions * updatedGame.players.length - 1) {
         almostEnd = true;
       }
       socketManager.getIo().emit("nextWord", 
@@ -338,6 +343,20 @@ router.get("/game/get", (req, res) => {
   });
 });
 
+
+router.get("/game/turn", (req, res) => {
+  Game.find({ _id: req.query.game_id }).then((games) => {
+    let userValidated = Logic.validateUser(games[0], req.query.user_id);
+    if (userValidated && games.length > 0) {
+      res.send({
+        turn: games[0].turn,
+        numPlayers: games[0].players.length,
+      });
+    } else {
+      res.send({status: "error"});
+    }
+  });
+});
 router.get("/game/players", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
     let userIdPassed = req.query.user_id;
@@ -456,8 +475,6 @@ router.post("/game/join", (req, res) => {
   .catch((err) => {
     console.log(err);
   });
-  //TODO: (philena) change this to socket room for higher efficiency!!!!
-  //shouts the updated players list + the game id to all connected sockets
  
 });
 
@@ -477,7 +494,7 @@ router.put("/game/guess", (req, res) => {
       function (err, game) {
         let invalidGame = !game || !game.guesses;
         if (invalidGame) {
-          res.status(404).res.send({message: "invalid game"});
+          return res.status(404).res.send({message: "invalid game"});
         }
         let correct = req.body.guess == game.word;
         game.guesses = game.guesses.concat([req.body.guess]);

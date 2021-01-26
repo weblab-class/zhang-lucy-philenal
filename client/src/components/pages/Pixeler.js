@@ -9,12 +9,8 @@ import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
 import "./Player.css";
 
-
-
-
 /**
  * This is the page view of one of the pixelers
- * TODO: Make a Player.js file with conditional rendering
  * between this Pixeler and the Guesser
  * 
  * @param game_id The ID of the game
@@ -125,12 +121,15 @@ class Pixeler extends Component {
     console.log("turn number " + this.props.turn);
     console.log("user id " + this.props.user_id);
     
-    if (this.state.pixelers.length == 0){
+    if (this.state.pixelers.length == 0 || this.props.turn==null){
       return (<div></div>)
     } else{
       return (
         <>
-          <div>hello, {this.state.user_name}!</div>
+          <div className="Player-header">
+            <div>hello, {this.state.user_name}!</div>
+            <div>game id: {this.props.game_id}</div>
+          </div>
           <button onClick={this.leaveGame}>leave game</button>
           <PlayerPanelTop/>
           <div className="u-flex">

@@ -61,13 +61,12 @@ export default function AlertDialog(props) {
     }
 },[props.overlayText]);
 
-
+//TODO: don't reload if game ended o.o
   const handleClose = () => {
     setOpen(false);
-    window.location.reload();
   };
 
-  onKeyPress = (event) => {
+  const onKeyPress = (event) => {
     if(event.key === 'Enter'){
       console.log('enter press here! ')
       handleClose();
@@ -107,11 +106,12 @@ export default function AlertDialog(props) {
   return (
     <div>
       <Dialog
+        onKeyPress={onKeyPress}
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        disableBackdropClick={props.isGuesser}
+        disableBackdropClick={true}
       >
           <Fade in={open}>
           <div className={classes.paper}>

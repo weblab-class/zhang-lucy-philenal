@@ -174,7 +174,7 @@ class Lobby extends Component {
   }
 
   render() {
-    if (this.state.players && this.state.wordPacks && this.state.sessionValues) {
+    if (this.state.players && this.state.wordPacks && this.state.sessionValues && this.state.difficulties) {
       let players = []
       for (let i = 0; i < this.state.players.length; i++) {
         players.push(

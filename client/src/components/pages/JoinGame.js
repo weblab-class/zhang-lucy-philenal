@@ -98,6 +98,7 @@ class JoinGame extends Component {
                     >
                     join game
                   </button>
+                  {/* TODO: thing below doesn't show up, instead was redirected to start page */}
                   {(this.state.game_not_found) ? 
                   <div className="u-text-error">
                   Game not found, please enter a valid game ID.

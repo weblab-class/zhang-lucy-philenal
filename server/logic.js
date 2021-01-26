@@ -97,9 +97,9 @@ const newGame = (req) => {
     started: false,
     finished: false,
     maxSessions: 1,
-    session: null,
-    round: null,
-    turn: null,
+    session: 0,
+    round: 0,
+    turn: 0,
     wordpack: wordpackName,
     word: wordpack[0],
     word_statuses: [],
@@ -263,8 +263,6 @@ const gameState = {
 
 /** game logic */
 
-//TODO: should game state include canvas board??
-/* updates canvas board --> */
 
 
 /** Adds a player to the game state, initialized*/

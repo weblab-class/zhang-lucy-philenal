@@ -11,3 +11,12 @@
     flex-basis: 0;
     width: 100%
 }
+
+.Player-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Player-header-child {
+    
+}

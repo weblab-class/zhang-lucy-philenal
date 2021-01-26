@@ -1,11 +1,29 @@
 /* text overlay adapted from: */
+@media only screen and (max-width: 1110px) {
+    .Wall-page {
+        flex-direction: column !important;
+    }
+}
 
 .Wall-page {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    flex-wrap: wrap;
+    flex-wrap: no-wrap;
+
+    animation: fadeInAnimation ease 3s; 
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
 }
+
+@keyframes fadeInAnimation { 
+    0% { 
+        opacity: 0; 
+    } 
+    100% { 
+        opacity: 1; 
+     } 
+} 
 
 .Wall-title-fame, .Wall-title-shame {
     display: flex;
@@ -43,6 +61,8 @@
 .Wall-container-fame, .Wall-container-shame {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 0;
 
 }
 
@@ -50,6 +70,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .Wall-pictureContainer {
     height: 200px;

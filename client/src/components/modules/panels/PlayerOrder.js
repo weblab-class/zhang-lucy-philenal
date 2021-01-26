@@ -30,15 +30,15 @@ class PlayerOrder extends Component {
 
       render() {
           const playerIcons = this.props.pixelers.map((pixeler, index) => {
-          return (
-          <PlayerIcon
-            _id={pixeler._id}
-            key={pixeler._id} //react needs unique key identifier or else won't compile
-            playername={pixeler.name}
-            order={index+1}
-            isMyTurn = {index===this.props.turn}
-          />
-        ); 
+              return (
+              <PlayerIcon
+                _id={pixeler._id}
+                key={pixeler._id} //react needs unique key identifier or else won't compile
+                playername={pixeler.name}
+                order={index+1}
+                isMyTurn={index===this.props.turn}
+              />
+            ); 
           });
         return (
             
