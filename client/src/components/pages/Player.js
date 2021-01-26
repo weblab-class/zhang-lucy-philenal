@@ -113,7 +113,6 @@ class Player extends Component {
             }
         });
   
-  
         //if gave up, show the word!
         socket.on("textOverlay", (updatedGame) => {
             if (this.props.game_id === updatedGame.game_id && this.is_mounted) {
@@ -123,7 +122,6 @@ class Player extends Component {
             });
             }
         });
-
         })
 
         //resolved (maybe) ? haven't tested: sometimes word shows when guesser o.o but after refresh issall good ...

@@ -31,8 +31,10 @@
   --yellow: #fafdc7;
   --green: #caf9c5;
   --button-disabled-color: lightgray;
-  --button-color: /* rgb(251 245 221); */#fdf4f4;
-  --button-color-hover: #f9dede;
+  /* --button-color: #fdf4f4; */
+  --button-color: #d8e7fa;
+  /* --button-color-hover: #f9dede; */
+  --button-color-hover: #a5caf8;
   --button-color-2: white;
 
   --light-grey: #bab9b9;
