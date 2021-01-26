@@ -343,6 +343,20 @@ router.get("/game/get", (req, res) => {
   });
 });
 
+
+router.get("/game/turn", (req, res) => {
+  Game.find({ _id: req.query.game_id }).then((games) => {
+    let userValidated = Logic.validateUser(games[0], req.query.user_id);
+    if (userValidated && games.length > 0) {
+      res.send({
+        turn: games[0].turn,
+        numPlayers: games[0].players.length,
+      });
+    } else {
+      res.send({status: "error"});
+    }
+  });
+});
 router.get("/game/players", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
     let userIdPassed = req.query.user_id;

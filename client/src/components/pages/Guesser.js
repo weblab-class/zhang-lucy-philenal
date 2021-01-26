@@ -54,7 +54,9 @@ class Guesser extends Component {
         this.setState({
           canvas: res.board, 
           pixelers: res.pixelers, 
-          guesser: res.guesser}, () => {
+          guesser: res.guesser,
+          pixel_limit: res.pixel_limit,
+        }, () => {
         });
       }
     })

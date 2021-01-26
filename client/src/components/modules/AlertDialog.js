@@ -64,7 +64,6 @@ export default function AlertDialog(props) {
 //TODO: don't reload if game ended o.o
   const handleClose = () => {
     setOpen(false);
-    window.location.reload();
   };
 
   const onKeyPress = (event) => {

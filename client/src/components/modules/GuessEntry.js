@@ -31,21 +31,42 @@ class GuessEntry extends Component {
     };
   }
 
+  componentWillUnmount () {
+    this.is_mounted = false;
+  }
+
   componentDidMount() {
+    this.is_mounted = true;
+
+    console.log(`Guess Entry: ${this.props.game_id}, then ${this.props.user_id}`);
+    get ("/api/game/turn", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
+    }).then((res) => {
+      console.log(res);
+      if (res.turn && this.is_mounted) {
+        console.log(`Turn: ${res.turn}`);
+        console.log(`Players: ${res.numPlayers}`);
+        this.setState({turn: res.turn}, () => {
+          if (this.state.turn == res.numPlayers-1  && this.is_mounted) {
+
+            this.setState({showGiveUp: true});
+          }
+        });
+      }
+    }).catch((err) => console.log(err))
+
     socket.on("endedTurn", (updatedGame)=>{
       if (this.props.game_id === updatedGame.game_id)
       {
           this.setState({turn: updatedGame.turn}, ()=> {
               console.log("the updated turn is " + this.state.turn);
-            if (this.state.turn == updatedGame.players.length - 1) {
+            if (this.state.turn == updatedGame.players.length - 1  && this.is_mounted) {
               this.setState({showGiveUp: true});
             }
           });
-         
-      }
-  
-      
-    })
+      }      
+    });
   }
 
   handleSubmit = (event) => {

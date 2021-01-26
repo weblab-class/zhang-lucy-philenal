@@ -25,7 +25,12 @@ class PlayerPanelRight extends Component {
     };
   }
 
+  componentWillUnmount () {
+    this.is_mounted = false;
+  }
+
   componentDidMount() {
+    this.is_mounted = true;
     get("api/game/get", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
@@ -33,15 +38,17 @@ class PlayerPanelRight extends Component {
       if (!res) {
         console.log("game not found");
       } else {
-        this.setState({
-          guesses: res.guesses,
-          turn: res.turn,
-        });
+        if (this.is_mounted) {
+          this.setState({
+            guesses: res.guesses,
+            turn: res.turn,
+          });
+        }
       }
     });
 
     socket.on("guesses", (guesses) => {
-      if (this.props.game_id === guesses.game_id){
+      if (this.props.game_id === guesses.game_id && this.is_mounted){
         this.setState({
           guesses: guesses.guesses,
         })
@@ -115,9 +122,9 @@ class PlayerPanelRight extends Component {
             <div className="PlayerPanelRight-guesser">
               <div className="PlayerPanelRight-guessTextEntryContainer">
                 <GuessEntry 
+                  className="PlayerPanelRight-guessTextEntry" 
                   game_id={this.props.game_id}
                   user_id={this.props.user_id}
-                  className="PlayerPanelRight-guessTextEntry" 
                   callback={this.onGuessEntry}
                   onSubmit={this.submitGuess}
                   />

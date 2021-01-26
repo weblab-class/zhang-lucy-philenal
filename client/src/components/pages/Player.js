@@ -35,9 +35,15 @@ class Player extends Component {
             turn: 0,
         };
     }
+
+    componentWillUnmount () {
+        this.is_mounted = false;
+    }
     
     // TODO: add game started/finished check
     componentDidMount() {
+        this.is_mounted = true;
+        
         console.log(this.props);
         if (!this.props.location.state.user_id) {
             navigate("/")
@@ -67,12 +73,18 @@ class Player extends Component {
             } else {
                 console.log(`You are the ${res.status}!`);
                 if (res.status == "guesser" || res.status == "pixeler") {
-                    console.log(this.state.error)
-                    this.setState({ player: res.status });
-                    this.setState({ game_id: res.game_id });
+                    console.log(`Error: ${this.state.error}`)
+                    if (this.is_mounted) {
+                        this.setState({ 
+                            player: res.status, 
+                            game_id: res.game_id 
+                        });
+                    }
                 } else {
                     console.log("error");
-                    this.setState({ error: true });
+                    if (this.is_mounted) {
+                        this.setState({ error: true });
+                    }
                     navigate("/");
                 }
             }
@@ -82,7 +94,7 @@ class Player extends Component {
         
         //listens for turn change, updates turn
         socket.on("endedTurn", (updatedGame)=>{
-            if (this.props.location.state.game_id === updatedGame.game_id)
+            if (this.props.location.state.game_id === updatedGame.game_id && this.is_mounted)
             {
                 this.setState({turn: updatedGame.turn}, ()=> {
                     console.log("the updated turn is " + this.state.turn);
@@ -90,7 +102,7 @@ class Player extends Component {
             };
         //if guessed correctly, show the word!
         socket.on("correct_guess", (updatedGame) => {
-            if (this.props.game_id === updatedGame.game_id) {
+            if (this.props.game_id === updatedGame.game_id && this.is_mounted) {
             this.setState({
                 word: updatedGame.word,
                 correctGuess: true
@@ -101,7 +113,7 @@ class Player extends Component {
   
         //if gave up, show the word!
         socket.on("textOverlay", (updatedGame) => {
-            if (this.props.game_id === updatedGame.game_id) {
+            if (this.props.game_id === updatedGame.game_id && this.is_mounted) {
                 this.setState({
                 words: updatedGame.word,
                 correctGuess: false,
@@ -119,7 +131,7 @@ class Player extends Component {
         socket.on("nextWord", (updatedGame) =>{
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
-                if (this.state.guesser._id == this.props.location.state.user_id) {
+                if (this.state.guesser._id == this.props.location.state.user_id && this.is_mounted) {
                     console.log("you are the guesser!");
                     this.setState({
                         word: updatedGame.game.word,
@@ -132,7 +144,7 @@ class Player extends Component {
                     })
                 } else {
                     for (let i = 0; i < this.state.pixelers.length; i++) {
-                        if(this.state.pixelers[i].id == this.props.location.state.user_id) {
+                        if(this.state.pixelers[i].id == this.props.location.state.user_id && this.is_mounted) {
                             this.setState({
                                 word: updatedGame.game.word,
                                 // hiddenWord: this.hideWord(updatedGame.game.word.length),
@@ -143,15 +155,17 @@ class Player extends Component {
                                 player: "pixeler"
                             });
                         } else {
-                            this.setState({
-                                word: updatedGame.game.word,
-                                // hiddenWord: this.hideWord(updatedGame.game.word.length),
-                                turn: updatedGame.turn,
-                                players: updatedGame.players,
-                                pixelers: updatedGame.pixelers,
-                                guesser: updatedGame.guesser,
-                                player: "neither"
-                            });
+                            if (this.is_mounted) {
+                                this.setState({
+                                    word: updatedGame.game.word,
+                                    // hiddenWord: this.hideWord(updatedGame.game.word.length),
+                                    turn: updatedGame.turn,
+                                    players: updatedGame.players,
+                                    pixelers: updatedGame.pixelers,
+                                    guesser: updatedGame.guesser,
+                                    player: "neither"
+                                });
+                            }
                         }
                     }
                 }
@@ -191,7 +205,6 @@ class Player extends Component {
             return(<><Start/></>);
         //if state hasn't been altered for player yet
         } else if (!this.state.player || !this.state.game_id) { 
-            console.log("sad");
             return (<div></div>);
         } else {
             return (

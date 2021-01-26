@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { Router, Link } from "react-router-dom";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
-import StartMenu from "../modules/StartMenu.js";
-import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
-
-import "../../utilities.css";
-import "./Start.css";
 import { get } from "../../utilities";
-import { navigate } from "@reach/router";
+import "../../utilities.css";
+import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
+import StartMenu from "../modules/StartMenu.js";
+import "./Start.css";
+
 
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
