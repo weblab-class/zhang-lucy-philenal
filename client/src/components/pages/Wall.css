@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    flex-wrap: no-wrap;
+    flex-wrap:initial;
 
     animation: fadeInAnimation ease 3s; 
     animation-iteration-count: 1; 
@@ -32,9 +32,8 @@
     font-size: 70px;
     letter-spacing: 0.1em;
     -webkit-text-stroke-width: 0.2px;
-
-    
 }
+
 .Wall-title-shame {
     color: var(--text-color);
     -webkit-text-stroke-color:var(--text-color);
@@ -61,16 +60,15 @@
 .Wall-container-fame, .Wall-container-shame {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
     flex-basis: 0;
-
+    flex-grow: 1;
 }
 
 .Wall-gallery {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
 }
 .Wall-pictureContainer {
     height: 200px;

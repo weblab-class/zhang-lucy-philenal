@@ -56,8 +56,8 @@
   --color-1-hover: rgb(255 170 170);
   --color-2: rgb(255, 216, 175);
   --color-2-hover: rgb(255, 202, 145);
-  --color-3: rgb(233, 232, 190);
-  --color-3-hover: rgb(245, 243, 155);
+  --color-3: rgb(230, 229, 162);
+  --color-3-hover: rgb(248, 246, 144);
   --color-4: rgb(211, 247, 201);
   --color-4-hover: rgb(195, 246, 181);
   --color-5: blanchedalmond;
@@ -252,3 +252,9 @@ form {
   color: var(--primary--dim);
 }
 
+.LoadingScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40vh;
+}
