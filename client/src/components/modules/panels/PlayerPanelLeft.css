@@ -20,15 +20,12 @@
     display: flex;
     justify-content: flex-start;
     width: 120px;
-    /* color: var(--grey); */
 }
 
 .PlayerIcon-backgroundWhite {
     width: 120px;
-
     background-color: rgb(255, 246, 232);
     padding: var(--s);
-    /* padding: var(--m) 0px; */
     border-color: rgb(255, 246, 232);
     border-width: .5em;
     border-radius: 0.5em;
@@ -36,9 +33,6 @@
 }
 .PlayerIcon-left {
     display:flex;
-    /* flex-basis: 0;
-    flex: 1; */
-    /* justify-content: space-between; */
     justify-content: flex-end;
 }
 
