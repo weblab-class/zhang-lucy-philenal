@@ -4,6 +4,7 @@ import { get, put } from "../../utilities";
 import "../../utilities.css";
 import "./Canvas.css";
 import PixelBlock from "./PixelBlock.js";
+import ReactLoading from 'react-loading';
 
 //TODO: media query resize for responsive canvas
 // TODO: Un-hardcode, have this be read in as a prop
