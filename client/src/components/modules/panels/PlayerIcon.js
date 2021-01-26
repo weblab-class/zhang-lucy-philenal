@@ -13,6 +13,8 @@ import "./PlayerPanelLeft.css";
  * @param {String} _id don't necessarily need this?
  * @param {Boolean} isMyTurn
  * @param {Number} order
+ * @param {Boolean} playerJoin
+ * @param {Boolean} playerLeft -- if player left the game
  */
 
 class PlayerIcon extends Component {

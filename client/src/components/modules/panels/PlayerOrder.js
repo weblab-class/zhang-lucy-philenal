@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import PlayerIcon from "./PlayerIcon.js";
 import "../../../utilities.css";
 import "./PlayerPanelLeft.css";
+import { socket } from "../../../client-socket.js";
 /**
  * @typedef UserObject
  * @property {String} _id of player
@@ -26,6 +27,12 @@ class PlayerOrder extends Component {
       }
 
       componentDidMount() {
+        socket.on("players_and_game_id", (updatedGame)=> {
+          this.setState({
+              playerJoin_id: updatedGame.playerJoin_id,
+              playerLeft_id: updatedGame.playerLeft_id,
+            })
+        })
       }
 
       render() {
@@ -37,6 +44,8 @@ class PlayerOrder extends Component {
                 playername={pixeler.name}
                 order={index+1}
                 isMyTurn={index===this.props.turn}
+                playerJoin={this.state.playerJoin_id && this.state.playerJoin_id == pixeler._id}
+                playerLeft={this.state.playerLeft_id && this.state.playerLeft_id == pixeler._id}
               />
             ); 
           });
