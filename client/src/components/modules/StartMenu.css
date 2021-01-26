@@ -15,7 +15,7 @@
     animation: scale-up-center 0.4s ease-out both;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 8px;
     /* filter: drop-shadow(0px 0px 8px  grey); */
-    /* filter: brightness(90%); */
+   /*  filter: brightness(90%); */
 }
 
 @-webkit-keyframes scale-up-center {

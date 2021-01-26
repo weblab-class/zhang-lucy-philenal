@@ -31,8 +31,10 @@
   --yellow: #fafdc7;
   --green: #caf9c5;
   --button-disabled-color: #efefef;
-  --button-color: #efefef;
-  
+  --button-color: rgb(255, 247, 212);
+  --button-color-hover: rgb(255, 248, 149);
+  --button-color-2: white;
+
   --light-grey: #bab9b9;
   --grey: #8a8888;
   --dark-grey: #4b4b4b;
@@ -50,10 +52,14 @@
 
   --font-primary: 'Alata', sans-serif;
 
-  --color-1: rgb(248, 211, 210);
-  --color-2: rgb(252, 235, 217);
+  --color-1: rgb(253, 190, 190);
+  --color-1-hover: rgb(238, 144, 144);
+  --color-2: rgb(255, 216, 175);
+  --color-2-hover: rgb(255, 202, 145);
   --color-3: rgb(233, 232, 190);
+  --color-3-hover: rgb(245, 243, 155);
   --color-4: rgb(211, 247, 201);
+  --color-4-hover: rgb(195, 246, 181);
   --color-5: blanchedalmond;
   --color-error: rgb(249, 55, 55);
 
@@ -98,20 +104,22 @@ h3 {
 }
 
 button {
-    font-family: 'Alata', sans-serif;
-    color: var(--text-color);
-    cursor: pointer;
-    border: 0px;
-    background-color: var(--button-color);
-    /* border-width: .5em; */
-    padding: .5em;
-    border-radius: 0.5em;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
-    transition: background-color 1s, border-color 1s, color 1s
-  }
+  font-family: 'Alata', sans-serif;
+  color: var(--text-color);
+  cursor: pointer;
+  border: 0px;
+  filter: contrast(100%);
+  background-color: var(--button-color);
+  /* border-width: .5em; */
+  padding: .5em;
+  border-radius: 0.5em;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
+  transition: background-color 1s
+}
 
 /* used animista */
 button:hover {
+  background-color: var(--button-color-hover);
   -webkit-animation: scale-up-center 0.4s ease-out both;
   animation: scale-up-center 0.4s ease-out both;
   animation: color-change 0.4s ease-in;
@@ -123,8 +131,8 @@ button:hover {
             transform: scale(1);
   }
   100% {
-    -webkit-transform: scale(1.01);
-            transform: scale(1.01);
+    -webkit-transform: scale(1.05);
+            transform: scale(1.05);
   }
 }
 @keyframes scale-up-center {
@@ -133,8 +141,8 @@ button:hover {
             transform: scale(1);
   }
   100% {
-    -webkit-transform: scale(1.01);
-            transform: scale(1.01);
+    -webkit-transform: scale(1.05);
+            transform: scale(1.05);
   }
 }
 
@@ -145,17 +153,29 @@ form {
 .u-color-1 {
   background-color: var(--color-1);
 }
+.u-color-1:hover {
+  background-color: var(--color-1-hover);
+}
 
 .u-color-2 {
   background-color: var(--color-2);
+}
+.u-color-2:hover {
+  background-color: var(--color-2-hover);
 }
 
 .u-color-3 {
   background-color: var(--color-3);
 }
+.u-color-3:hover {
+  background-color: var(--color-3-hover);
+}
 
 .u-color-4 {
   background-color: var(--color-4);
+}
+.u-color-4:hover {
+  background-color: var(--color-4-hover);
 }
 
 .u-color-grey {

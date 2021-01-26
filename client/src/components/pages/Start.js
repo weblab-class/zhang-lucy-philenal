@@ -106,30 +106,32 @@ class Start extends Component {
   render() {
     if (this.props.user_id) {
       return (
-        <>
-          <div>hello, {this.props.user_name}! 
-          <GoogleLogout
-              clientId={GOOGLE_CLIENT_ID}
-              buttonText="Logout"
-              onLogoutSuccess={this.onLogout}
-              onFailure={(err) => console.log(err)}
-              render={(renderProps) => (
-              <span
-                onClick={renderProps.onClick}
-                className="Start-googleButton u-pointer"
-                >
-                  logout
-                </span>
-              )}
-            /></div>
-          <div className="Start-title">
-              <PlayerPanelTop/>
-          </div>
-          <div className="Start-startMenu">
-              <StartMenu 
-                user_id={this.props.user_id} 
-                user_name={this.props.user_name}/>
-          </div>
+        <><div className="Start-background">
+            <div>hello, {this.props.user_name}! 
+              <GoogleLogout
+                  clientId={GOOGLE_CLIENT_ID}
+                  buttonText="Logout"
+                  onLogoutSuccess={this.onLogout}
+                  onFailure={(err) => console.log(err)}
+                  render={(renderProps) => (
+                  <span
+                    onClick={renderProps.onClick}
+                    className="Start-googleButton u-pointer"
+                    >
+                      logout
+                    </span>
+                  )}
+                /></div>
+              <div className="Start-title">
+                  <PlayerPanelTop/>
+              </div>
+              <div className="Start-startMenu">
+                  <StartMenu 
+                    user_id={this.props.user_id} 
+                    user_name={this.props.user_name}/>
+              </div>
+        </div>
+          
         </>
       );
     } else {
