@@ -110,6 +110,8 @@ class Start extends Component {
       }, () => {
         this.setState({
           isLoading: false,
+        }, () => {
+          window.location.reload();
         })
       });
     })
