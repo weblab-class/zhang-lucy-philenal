@@ -109,7 +109,6 @@ class GuessEntry extends Component {
       game_id: this.props.game_id,
       textOverlay: "oof :("
     }).then((game) => {
-      // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     });
   }
 

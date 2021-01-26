@@ -231,7 +231,7 @@ class CanvasPanel extends Component {
                 {(this.props.isMyTurn && !this.props.isGuesser) && 
                 <div>
                   <div className="CanvasPanel-child">
-                    {this.state.num_filled && this.props.pixel_limit && 
+                    {pixels_remaining!=null && 
                     <div>pixels remaining: {pixels_remaining}</div>}
                   </div>
                   <div className="CanvasPanel-child">
