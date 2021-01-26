@@ -99,7 +99,9 @@ class NewGame extends Component {
                   </div>
                   <button 
                     className="NewGame-startGame"
-                    onClick={this.newGame}>
+                    onClick={this.newGame}
+                    disabled={this.state.game_id.length == 0}
+                    >
                     new game
                   </button>
                   {this.state.error && (

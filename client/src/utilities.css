@@ -30,7 +30,7 @@
   --orange: #ffebd7;
   --yellow: #fafdc7;
   --green: #caf9c5;
-  --button-disabled-color: #efefef;
+  --button-disabled-color: red;
   --button-color: #efefef;
   
   --light-grey: #bab9b9;
@@ -115,6 +115,10 @@ button:hover {
   -webkit-animation: scale-up-center 0.4s ease-out both;
   animation: scale-up-center 0.4s ease-out both;
   animation: color-change 0.4s ease-in;
+}
+
+button:disabled {
+  background-color: var(--button-disabled-color);
 }
 
 @-webkit-keyframes scale-up-center {

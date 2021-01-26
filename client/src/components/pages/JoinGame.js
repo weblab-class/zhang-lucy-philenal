@@ -8,7 +8,6 @@ import "./JoinGame.css";
 
 import { post } from "../../utilities";
 
-
 /**
  * JoinGame page asks the user to enter a unique ID, then joins
  * a game with said ID. 
@@ -94,7 +93,9 @@ class JoinGame extends Component {
                   </div>
                   <button 
                     className="JoinGame-startGame"
-                    onClick={this.joinGame}>
+                    onClick={this.joinGame}
+                    disabled={this.state.game_id.length == 0}
+                    >
                     join game
                   </button>
                   {(this.state.game_not_found) ? 
