@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
-import { Link } from "@reach/router";
 import { socket } from "../../client-socket.js";
-
+import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./GuessEntry.css";
-
-import { get, post, put } from "../../utilities";
 
 /**
  * Generic GuessEntry component

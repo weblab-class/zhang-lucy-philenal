@@ -1,15 +1,9 @@
-import React, { Component } from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
 import { navigate } from "@reach/router";
-// import { navigate } from "@reach/router"
-
-import TextEntry from "../modules/TextEntry.js";
+import React, { Component } from "react";
+import { post } from "../../utilities";
 import "../../utilities.css";
+import TextEntry from "../modules/TextEntry.js";
 import "./NewGame.css";
-
-import { get, post } from "../../utilities";
-
-
 
 /**
  * NewGame page asks the user to enter a unique ID, then creates

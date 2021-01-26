@@ -19,6 +19,8 @@ import { socket } from "../client-socket.js";
 import { get, post } from "../utilities";
 // import GameAlreadyStarted from "./modules/panels/GameAlreadyStarted.js";
 
+const ThemeContext = React.createContext('light');
+
 /**
  * Define the "App" component as a class.
  */
@@ -66,6 +68,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <ThemeContext.Provider value="dark">
         <Router>
           <HowToPlay
             path="/howtoplay"
@@ -84,6 +87,7 @@ class App extends Component {
           <Wall path="/wall" />
           <NotFound default />
         </Router>
+        </ThemeContext.Provider>
       </>
     );
   }

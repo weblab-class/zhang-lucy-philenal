@@ -6,6 +6,11 @@ import "./ToggleButton.css";
 const CheckedIcon = () => <>🌜</>;
 const UncheckedIcon = () => <>🌞</>;
 
+/**
+ * Credits: https://webomnizz.com/how-to-create-a-toggle-switch-button-in-react/
+ * 
+ * @param callback callback function 
+ */
 const ToggleButton = ( props ) => {
 
     const [toggle, setToggle] = useState(false);
@@ -18,6 +23,7 @@ const ToggleButton = ( props ) => {
     }, [defaultChecked]);
 
     const triggerToggle = () => {
+        console.log("triggered!");
         if ( disabled ) {
             return;
         }
@@ -46,7 +52,9 @@ const ToggleButton = ( props ) => {
     }, className);
 
     return (
-        <div onClick={triggerToggle} className={toggleClasses}>
+        <div 
+            onClick={triggerToggle} 
+            className={toggleClasses}>
             <div className="wrg-toggle-container">
                 <div className="wrg-toggle-check">
                     <span>{ getIcon('checked') }</span>

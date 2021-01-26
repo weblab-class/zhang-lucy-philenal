@@ -48,7 +48,7 @@
 
   --background-color: rgb(249, 235, 234);
   --border-color: rgb(100, 100, 100);
-  --text-color: /* rgb(100, 100, 100); */ var(--grey);
+  --text-color: var(--grey);
 
   --font-primary: 'Alata', sans-serif;
 
@@ -56,8 +56,8 @@
   --color-1-hover: rgb(255 170 170);
   --color-2: rgb(255, 216, 175);
   --color-2-hover: rgb(255, 202, 145);
-  --color-3: rgb(233, 232, 190);
-  --color-3-hover: rgb(245, 243, 155);
+  --color-3: rgb(230, 229, 162);
+  --color-3-hover: rgb(248, 246, 144);
   --color-4: rgb(211, 247, 201);
   --color-4-hover: rgb(195, 246, 181);
   --color-5: blanchedalmond;
@@ -134,13 +134,14 @@ button {
 /* used animista */
 button:hover {
   background-color: var(--button-color-hover);
-  -webkit-animation: scale-up-center 0.4s ease-out both;
-  animation: scale-up-center 0.4s ease-out both;
-  animation: color-change 0.4s ease-in;
+  -webkit-animation: scale-up-center 0.2s ease-out both;
+  animation: scale-up-center 0.2s ease-out both;
+  animation: color-change 0.2s ease-in;
 }
 
 button:disabled {
   background-color: var(--button-disabled-color);
+  cursor: default;
 }
 
 @-webkit-keyframes scale-up-center {
@@ -252,3 +253,9 @@ form {
   color: var(--primary--dim);
 }
 
+.LoadingScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40vh;
+}

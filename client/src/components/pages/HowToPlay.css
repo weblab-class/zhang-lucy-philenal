@@ -1,4 +1,7 @@
-/* Fill me in :) */
+p {
+    padding: 0.5rem 2rem;
+}
+
 .HowToPlay-pixelBox {
     height: 300px;
     width: 300px;
