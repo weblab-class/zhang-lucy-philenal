@@ -147,7 +147,6 @@ class CanvasPanel extends Component {
         console.log(err);
       });
     }
-    
   }
 
   updateOverlayText = (text) => {

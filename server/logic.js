@@ -9,7 +9,7 @@ const BOARD_WIDTH_BLOCKS = 20;
 const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
-const wordPacks = {
+const wordpacks = {
   "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
   "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
   "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
@@ -80,7 +80,7 @@ const newGame = (req) => {
   };
 
   let wordpackName = "basic";
-  let wordpack = shuffle(wordPacks[workpackName]);
+  let wordpack = shuffle(wordpacks[wordpackName]);
 
   const newGame = new Game({
     _id: req.body.game_id, // TODO: change this
@@ -100,7 +100,7 @@ const newGame = (req) => {
     session: null,
     round: null,
     turn: null,
-    wordpack: workpackName,
+    wordpack: wordpackName,
     word: wordpack[0],
     word_statuses: [],
     wordLength: wordpack[0].length,
@@ -229,7 +229,7 @@ const changeTurn = () => {
 }
 
 const getScore = (game) => {
-  return 100 * (game.num_correct / (game.num_incorrect + game.num_correct));
+  return Math.round(100 * (game.num_correct / (game.num_incorrect + game.num_correct)));
 }
 
 /* constants here */
