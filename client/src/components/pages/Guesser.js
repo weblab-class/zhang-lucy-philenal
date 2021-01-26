@@ -121,7 +121,6 @@ class Guesser extends Component {
             <PlayerPanelRight
               game_id={this.props.game_id}
               user_id={this.props.user_id}
-              // callback={this.props.callback}
               isGuesser={true}
             />
           </div>

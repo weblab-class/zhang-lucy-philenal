@@ -170,13 +170,11 @@ router.post("/user/leave", (req, res) => {
   });
 });
 
-//TODO: update logic when pixeler ends turn, or pixelsLeft = 0
-//
 router.post("/game/endTurn", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     // loop back if last player has gone already
     if (game.turn < game.players.length - 1) {
-      game.turn += 1; //adds turn
+      game.turn += 1; 
     }
     return game.save().then((updatedGame) => { //updates game document and then shouts the change
       socketManager.getIo().emit("endedTurn", 
@@ -339,7 +337,6 @@ router.get("/game/get", (req, res) => {
     }
   });
 });
-
 
 router.get("/game/players", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
@@ -630,7 +627,6 @@ router.post("/board/clear_pixels", (req, res) => {
       });
     }
   ).then((updatedGame) => {
-    // TODO: Fix this
     socketManager.getIo().emit("cleared_canvas", 
     {
       board: updatedGame.board, 

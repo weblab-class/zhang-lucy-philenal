@@ -117,6 +117,7 @@ class PixelBlock extends Component {
           filled: false,
           actualColor: "#FFFFFF",
         });
+        window.location.reload();
       }
     });
   }

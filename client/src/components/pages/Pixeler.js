@@ -77,6 +77,7 @@ class Pixeler extends Component {
 
     get("/api/game/canvas", {
       game_id: this.props.game_id,
+      user_id: this.props.user_id,
     }).then((res) => {
       if (res && this.is_mounted) {
         this.setState({canvas: res}, () => {

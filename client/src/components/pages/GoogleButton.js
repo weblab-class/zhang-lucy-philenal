@@ -7,9 +7,7 @@ import { socket } from "../../client-socket.js";
 import { get, post } from "../../utilities";
 import "./GoogleButton.css";
 
-//TODO: fix this, maybe add navbar
 class GoogleButton extends Component {
-  // makes props available in this component
   constructor(props) {
     super(props);
     this.state = {

@@ -64,7 +64,20 @@ export default function AlertDialog(props) {
 
   const handleClose = () => {
     setOpen(false);
+    window.location.reload();
   };
+
+  onKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      console.log('enter press here! ')
+      handleClose();
+      props.callback();
+    }
+  }
+  const nextWord = () => {
+    handleClose();
+    props.callback();
+  }
 
   const leaveGame = () => {
     post("/api/user/leave", {
@@ -112,7 +125,7 @@ export default function AlertDialog(props) {
             and haven't ended game */}
             {props.isGuesser && !props.endGame &&
             <DialogActions>
-              <button onClick={handleClose && props.callback} >
+              <button onClick={nextWord} >
               {props.callbackButtonText}
               </button>
             </DialogActions>

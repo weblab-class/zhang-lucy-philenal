@@ -96,7 +96,7 @@ const newGame = (req) => {
     board: newBoard,
     started: false,
     finished: false,
-    maxSessions: 1, // TODO: customize
+    maxSessions: 1,
     session: null,
     round: null,
     turn: null,
@@ -116,7 +116,6 @@ const newGame = (req) => {
   return newGame;
 }
 
-//TODO: make this random!!
 // only draw a word that hasn't been drawn yet
 const getNextWord = (gameSchema) => {
   return words[word_idx];

@@ -32,7 +32,7 @@ class Player extends Component {
             word: null,
             hiddenWord: null,
             correctGuess: false, //unhardcode??
-            turn: 0, //TODO: if turn exceeds number of players .. ?
+            turn: 0,
         };
     }
     
@@ -47,7 +47,10 @@ class Player extends Component {
             game_id: this.props.location.state.game_id,
             user_id: this.props.location.state.user_id,
         }).then((res) => {
-            this.setState({word: res.word});
+            this.setState({
+                word: res.word,
+                turn: res.turn,
+            });
         }).catch((err) => {
             console.log(err);
             navigate("/");

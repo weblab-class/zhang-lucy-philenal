@@ -3,18 +3,11 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./HowToPlay.css";
 
-
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 
 class HowToPlay extends Component {
   constructor(props) {
     super(props);
-    // Initialize Default State
-    this.state = {};
-  }
-
-  componentDidMount() {
   }
 
   render() {

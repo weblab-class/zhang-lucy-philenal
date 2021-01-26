@@ -68,8 +68,6 @@ class JoinGame extends Component {
   render() {
     return (
       <>
-            {/* TODO (philena) make this pretty! ^_^ and also make responsive*/}
-            {/* TODO add functionality for entering names too */}
             <div>hello, {this.props.location.state.user_name}!</div>
             <button onClick={()=>{navigate('/')}}>back</button>
             <div className="JoinGame-container">
