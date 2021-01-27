@@ -10,23 +10,23 @@ const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
 const wordpacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "apple", "orange", "cake", "mug", "dog", "tree", "spider", "bee", "eye", "wig", "beard", "rain", "door", "leaf", "taxi", "teeth", "ear", "face", "foot", "hand", "mask", "backpack", "castle", "makeup", "phone", "computer", "fork", "spoon", "chair", "hat", "coat", "scarf", "shoes", "socks", "plate", "bike", "car", "bus", "bottle", "tv", "brush", "zoom", "fan", "skirt", "math", "iron", "lamp", "biology", "mailbox", "bridge", "building", "grill", "chess", "camping", "balloon", "clown", "necklace", "clock", "mirror", "eraser", "camera"],
+  "basic (easy)": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "butterfly", "banana", "sleep", "apple", "orange", "cake", "mug", "dog", "tree", "spider", "bee", "eye", "wig", "beard", "rain", "door", "leaf", "taxi", "teeth", "ear", "face", "foot", "hand", "mask", "backpack", "castle", "makeup", "phone", "computer", "fork", "spoon", "chair", "hat", "coat", "scarf", "shoes", "socks", "plate", "bike", "car", "bus", "bottle", "tv", "brush", "zoom", "fan", "skirt", "math", "iron", "lamp", "biology", "mailbox", "bridge", "building", "grill", "chess", "camping", "balloon", "clown", "necklace", "clock", "mirror", "eraser", "camera"],
 
-  "food": ["burger", "fries", "taco", "egg", "corn", "lemon", "tofu", "sushi", "tomato", "potato", "cherry", "pasta", "apple", "grapes", "pear", "candy", "banana", "carrot", "onion", "bread", "cheese", "butter", "popcorn", "chips", "cookie", "cake", "nuts", "pepper", "ribs", "steak", "chicken", "fish", "shrimp", "crab", "kiwi", "avocado", "boba", "tea", "mushroom", "sandwich", "salad", "dumpling", "ham", "milk", "lemonade", "donut", "bacon", "hotdog", "waffle", "pancake", "muffin", "cereal"],
+  "food (easy)": ["burger", "fries", "taco", "egg", "corn", "lemon", "tofu", "sushi", "tomato", "potato", "cherry", "pasta", "apple", "grapes", "pear", "candy", "banana", "carrot", "onion", "bread", "cheese", "butter", "popcorn", "chips", "cookie", "cake", "nuts", "pepper", "ribs", "steak", "chicken", "fish", "shrimp", "crab", "kiwi", "avocado", "boba", "tea", "mushroom", "sandwich", "salad", "dumpling", "ham", "milk", "lemonade", "donut", "bacon", "hotdog", "waffle", "pancake", "muffin", "cereal"],
 
-  "animal": ["pig", "sheep", "bird", "dog", "cat", "cow", "horse", "chicken", "rat", "spider", "ant", "duck", "raccoon", "rabbit", "bee", "frog", "snake", "fish", "dolphin", "shark", "crab", "penguin", "seal", "bear", "wolf", "lion", "squirrel", "elephant", "camel", "dragon", "flamingo", "monkey", "giraffe", "peacock", "crane", "hippo", "dinosaur", "koala", "kangaroo", "sloth", "turtle", "panda", "moose", "swan", "starfish", "clam", "octopus", "seahorse", "unicorn", "snail", "pigeon", "eagle", "owl", "seagull", "turkey", "ladybug", "zebra", "cheetah", "gorilla"],
+  "nature (easy)": ["mountain", "river", "lake", "sun", "grass", "tree", "flower", "star", "moon", "cloud", "wind", "earth", "valley", "snow", "rain", "volcano", "desert", "forest", "rainbow", "tornado", "tsunami", "beach", "rock", "branch", "dirt", "acorn", "leaf", "seed", "fire", "cave", "cliff"],
 
-  "nature": ["mountain", "river", "lake", "sun", "grass", "tree", "flower", "star", "moon", "cloud", "wind", "earth", "valley", "snow", "rain", "volcano", "desert", "forest", "rainbow", "tornado", "tsunami", "beach", "rock", "branch", "dirt", "acorn", "leaf", "seed", "fire", "cave", "cliff"],
+  "animal (medium)": ["pig", "sheep", "bird", "dog", "cat", "cow", "horse", "chicken", "rat", "spider", "ant", "duck", "raccoon", "rabbit", "bee", "frog", "snake", "fish", "dolphin", "shark", "crab", "penguin", "seal", "bear", "wolf", "lion", "squirrel", "elephant", "camel", "dragon", "flamingo", "monkey", "giraffe", "peacock", "crane", "hippo", "dinosaur", "koala", "kangaroo", "sloth", "turtle", "panda", "moose", "swan", "starfish", "clam", "octopus", "seahorse", "unicorn", "snail", "pigeon", "eagle", "owl", "seagull", "turkey", "ladybug", "zebra", "cheetah", "gorilla"],
 
-  "expressions": ["happy", "sad", "mad", "annoyed", "angry", "confused", "scared", "shy", "jealous", "sleepy", "sick", "loving", "stressed", "neutral", "hurt", "silly", "smirk", "dizzy", "crazy"],
+  "expressions (medium)": ["happy", "sad", "mad", "annoyed", "angry", "confused", "scared", "shy", "jealous", "sleepy", "sick", "loving", "stressed", "neutral", "hurt", "silly", "smirk", "dizzy", "crazy"],
+  
+  "soft (medium)": ["pony", "rainbow", "friends", "love", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"],
 
-  "characters":["simpson", "arthur", "barnie", "elmo", "shrek", "bob", "saitama", "gon", "pikachu", "dora", "barbie", "rapunzel", "genie", "hinata",  "superman", "ironman", "flash", "batman", "snoopy", "mickey", "jerry", "tweety", "ferb", "elsa", "scooby", "winnie", "ariel", "popeye", "simba", "goofy", "doraemon", "totoro", "naruto", "aang", "pororo"],
+  "characters (hard)":["simpson", "arthur", "barnie", "elmo", "shrek", "bob", "saitama", "gon", "pikachu", "dora", "barbie", "rapunzel", "genie", "hinata",  "superman", "ironman", "flash", "batman", "snoopy", "mickey", "jerry", "tweety", "ferb", "elsa", "scooby", "winnie", "ariel", "popeye", "simba", "goofy", "doraemon", "totoro", "naruto", "aang", "pororo"],
 
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen", "rowing", "spark", "banana", "simmons"],
+  "mit (hard)": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen", "rowing", "spark", "banana", "simmons"],
 
-  "jank": [ "whip", "vibe", "bop", "jank", "stan", "bruh", "shook", "dab", "woah", "yeet", "dank", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "slaps", "bet", "fleek", "clout", "wig", "lit", "simp", "cap", "fam", "karen", "snatched", "extra", "basic", "ship", "vsco", "poggers", "noob", "flex", "bread"],
-
-  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
+  "jank (extreme)": [ "whip", "vibe", "bop", "jank", "stan", "bruh", "shook", "dab", "woah", "yeet", "dank", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "slaps", "bet", "fleek", "clout", "wig", "lit", "simp", "cap", "fam", "karen", "snatched", "extra", "basic", "ship", "vsco", "poggers", "noob", "flex", "bread"],
 };
 
 /* utils here */
@@ -92,7 +92,7 @@ const newGame = (req) => {
     pixels: newPixels,
   };
 
-  let wordpackName = "basic";
+  let wordpackName = "basic (easy)";
   let wordpack = shuffle(wordpacks[wordpackName]);
 
   const newGame = new Game({

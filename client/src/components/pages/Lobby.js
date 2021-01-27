@@ -23,7 +23,7 @@ class Lobby extends Component {
       players: [],
       sessions: 1,
       pixel_proportion: 0.4,
-      wordPack: "basic",
+      wordPack: "basic (easy)",
       wordPacks: null,
       host_id: null, //is host or not
     };
