@@ -5,7 +5,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import "../../utilities.css";
 import { socket } from "../../client-socket.js";
-
+//code adapted from material ui
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
