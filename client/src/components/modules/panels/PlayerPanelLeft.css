@@ -3,6 +3,7 @@
     color: var(--font-color-2);
     margin-bottom: var(--m);
 }
+
 /* word styling */
 .PlayerPanelLeft-word {
     /* color: var(--light-grey); */
@@ -27,6 +28,36 @@
     display: flex;
     justify-content: flex-start;
     width: 120px;
+}
+
+@media only screen and (max-width: 1150px) and (min-width: 450px) {
+   
+    .PlayerIcon-container {
+        margin-left: var(--m) !important;
+        margin-bottom: var(--m) !important;
+    }
+    .PlayerPanelLeft-header {
+        padding-left: 20px !important;
+    }
+    .PlayerPanelLeft-hide {
+        display: none !important;
+    }
+  }
+
+  @media only screen and (max-width: 449px) {
+    .PlayerPanelLeft-accordion{
+        display: block !important;
+    }
+    .PlayerIcon-container {
+        margin-left: var(--m) !important;
+        margin-bottom: var(--m) !important;
+    }
+    .PlayerPanelLeft-header {
+        padding-left: 20px !important;
+    }
+    .PlayerPanelLeft-hide {
+        display: none !important;
+    }
 }
 
 .PlayerIcon-backgroundWhite {

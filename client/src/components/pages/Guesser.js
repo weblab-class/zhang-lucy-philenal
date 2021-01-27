@@ -128,7 +128,7 @@ class Guesser extends Component {
           </div>}
         </div>
           <PlayerPanelTop/>
-          <div className="u-flex">
+          <div className="Player-container">
             <div className="Player-subPanel">
               {(this.state.pixelers) && 
               <PlayerPanelLeft 

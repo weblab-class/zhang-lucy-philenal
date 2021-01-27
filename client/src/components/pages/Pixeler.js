@@ -155,7 +155,7 @@ class Pixeler extends Component {
           </div>}
         </div>
           <PlayerPanelTop/>
-          <div className="u-flex">
+          <div className="Player-container">
             <div className="Player-subPanel">
               <PlayerPanelLeft 
                 game_id={this.props.game_id}

@@ -76,8 +76,11 @@
 .Lobby-startGame {
     margin-top: var(--l);
     padding: var(--s);
+    background-color: var(--button-color-2);
 }
-
+.Lobby-startGame:hover {
+    background-color: var(--button-color-hover-2);
+}
 .Lobby-player {
     font-size: var(--m);
     font-family: 'Roboto', sans-serif;
