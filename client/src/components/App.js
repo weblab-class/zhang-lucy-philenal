@@ -43,9 +43,12 @@ class App extends Component {
     if (toggle) {
       document.body.classList.add("dark");
       document.body.classList.remove("light");
+      localStorage.setItem('theme', "dark");
+
     } else {
       document.body.classList.add("light");
       document.body.classList.remove("dark");
+      localStorage.setItem('theme', "light");
     }
   }
 
@@ -56,7 +59,9 @@ class App extends Component {
   componentDidMount() {
     let theme = localStorage.getItem('theme') == "dark" ? true : false;
     if (theme) {
-      this.toggleDarkMode(true);
+      this.toggleDarkMode(theme);
+    } else {
+      this.toggleDarkMode(DEFAULT_DARK);
     }
     this.is_mounted = true;
     get("/api/whoami").then((user) => {
