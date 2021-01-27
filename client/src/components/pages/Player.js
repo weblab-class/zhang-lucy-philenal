@@ -141,7 +141,6 @@ class Player extends Component {
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
                 this.setState({
-                    word: updatedGame.game.word,
                     turn: updatedGame.turn,
                     players: updatedGame.players,
                     pixelers: updatedGame.pixelers,

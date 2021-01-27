@@ -305,7 +305,6 @@ router.post("/game/nextRound", (req, res) => {
       }
       socketManager.getIo().emit("nextWord", 
       {
-        game: updatedGame,
         game_id: updatedGame._id,
         turn: updatedGame.turn,
         players: updatedGame.players,
