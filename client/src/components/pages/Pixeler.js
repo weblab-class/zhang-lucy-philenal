@@ -172,7 +172,6 @@ class Pixeler extends Component {
               {(this.state.canvas.width) &&  <CanvasPanel 
                 canvas_height_blocks={this.state.canvas.width} 
                 canvas_width_blocks={this.state.canvas.height} 
-                canvas_pixels={this.state.canvas.pixels}
                 pixel_limit={this.state.pixel_limit}
                 game_id={this.props.game_id}
                 user_id={this.props.user_id}

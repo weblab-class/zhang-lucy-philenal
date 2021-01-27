@@ -243,7 +243,7 @@ router.post("/game/nextRound", (req, res) => {
             pixels: board.pixels,
             width: board.width,
             height: board.height,
-            num_filled: board.num_filled,
+            num_filled: 0,//board.num_filled,
             title: word,
           });
         } else if (status == "incorrect") {
@@ -251,7 +251,7 @@ router.post("/game/nextRound", (req, res) => {
             pixels: board.pixels,
             width: board.width,
             height: board.height,
-            num_filled: board.num_filled,
+            num_filled: 0,//board.num_filled,
             title: word,
           });
         }
@@ -355,6 +355,7 @@ router.get("/game/turn", (req, res) => {
     }
   });
 });
+
 router.get("/game/players", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
     let userIdPassed = req.query.user_id;
@@ -381,6 +382,37 @@ router.get("/game/players", (req, res) => {
   });
 });
 
+router.get("/game/num_filled", (req, res) => {
+  Game.findOne({ _id: req.query.game_id }).then((game) => {
+    let userIdPassed = req.query.user_id;
+    if (!userIdPassed) {
+      return res.status(400).send({msg: "please pass your user_id"});
+    }
+    let gameFound = game;
+    if (!gameFound) {
+      return res.status(400).send({msg: "invalid game ID"});
+    }
+    let userValidated = Logic.validateUser(game, req.query.user_id);
+    if (!userValidated) {
+      return res.status(404).send({msg: "invalid user ID"});
+    }
+    if (userIdPassed && gameFound && userValidated) {
+      console.log(game.num_filled);
+      for (let i = 0; i < game.num_filled.length; i++) {
+        if (game.num_filled[i].user_id == req.query.user_id) {
+          return res.status(200).send({
+            status: 200,
+            num_filled: game.num_filled[i].count,
+            msg: "success",
+          });
+        }
+      }
+      return res.status(404).send({msg: "invalid user ID"});
+
+    } 
+  });
+});
+
 
 router.get("/game/player_status", (req, res) => {
   console.log("player status...");
@@ -392,8 +424,6 @@ router.get("/game/player_status", (req, res) => {
     } 
     Game.find({ _id: users[0].game_id 
     }).then((games) => {
-      console.log("found games:");
-      console.log(games);
       if (games.length == 0) {
         res.send({status:"not in game"});
         return;
@@ -568,6 +598,14 @@ router.put("/game/start", (req, res) => {
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
       game.pixel_limit = req.body.pixel_limit;
+      game.num_filled = [];
+      for (let i = 0; i < game.players.length; i++) {
+        game.num_filled.push({
+          user_id: game.players[i]._id,
+          count: 0,
+        })
+      }
+
       console.log("game.words"+ game.words)
       game.save()
       .then((updatedGame) => {
@@ -585,38 +623,62 @@ router.put("/game/start", (req, res) => {
 router.put("/game/pixel", (req, res) => {
   Game.findOne({_id: req.body.game_id},
     function(err, game) {
-      if (game.pixel_limit <= req.body.num_filled) {
-        res.send({status: "error", msg: "exceeded limit"});
-        return;
+      console.log(game.num_filled);
+      let ok = false;
+      for (let i = 0; i < game.num_filled.length; i++) {
+        if (game.num_filled[i].user_id == req.body.user_id) {
+          if(game.num_filled[i].count >= game.pixel_limit) {
+            res.status(404).send({status: "error", msg: "exceeded limit"});
+            return;
+          } else {
+            game.num_filled[i].count += 1;
+            ok = true;
+            break;
+          }
+        }
       }
-    });
-
-  console.log(req.body);
-  let color =  req.body.pixel_filled ? req.body.pixel_color: "none";
-  //this was helpful: https://stackoverflow.com/questions/56527121/findoneandupdate-nested-object-in-array/56527476
-  Game.findOneAndUpdate(
-    {
-      "_id": req.body.game_id,
-    "board.pixels.id": req.body.pixel_id },
-    { $set: {
-      num_filled: req.body.num_filled,
-      "board.pixels.$.color" : color,
-      "board.pixels.$.filled": req.body.pixel_filled
+      if (!ok) {
+        res.status(400).send({status: "error", msg: `invalid user: ${req.body.user_id}`});
+        return;
+      } else {
+        game = Logic.updatePixel(game, req.body.pixel_id, req.body.pixel_color, req.body.pixel_filled);
+        game.save().then((updatedGame) => {
+          console.log("new pixel color " + req.body.pixel_color);
+          socketManager.getIo().emit("board_and_game_id", 
+          {
+            pixel_id: req.body.pixel_id,
+            pixel_id_filled: req.body.pixel_filled,
+            pixel_color: req.body.pixel_color,
+            board: updatedGame.board,
+            game_id: updatedGame._id,
+          });
+          let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+          res.send(game);
+        }).catch((err) => {
+          console.log(err);
+        })
       }
     }
-  ).then((updatedGame) => {
-    console.log("new pixel color " + req.body.pixel_color);
-    socketManager.getIo().emit("board_and_game_id", 
-    {
-      pixel_id: req.body.pixel_id,
-      pixel_id_filled: req.body.pixel_filled,
-      pixel_color: req.body.pixel_color,
-      board: updatedGame.board,
-      game_id: updatedGame._id,
-    });
-    let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
-    res.send(game);
-  });
+  );
+  // .then(()=>
+  //   {
+  //     console.log(req.body);
+  //     let color =  req.body.pixel_filled ? req.body.pixel_color: "none";
+  //     //this was helpful: https://stackoverflow.com/questions/56527121/findoneandupdate-nested-object-in-array/56527476
+  //     Game.findOneAndUpdate(
+  //       {
+  //         "_id": req.body.game_id,
+  //       "board.pixels.id": req.body.pixel_id },
+  //       { $set: {
+  //         // num_filled: req.body.num_filled,
+  //         "board.pixels.$.color" : color,
+  //         "board.pixels.$.filled": req.body.pixel_filled
+  //         }
+  //       }
+  //     )
+  //   }
+  // )
+  
 });
       
 router.post("/board/clear_pixels", (req, res) => {
@@ -629,7 +691,14 @@ router.post("/board/clear_pixels", (req, res) => {
       }
       console.log(game);
       // if (game && game.board) {
-      game.board.num_filled = 0;
+      game.num_filled = [];
+      for (let i = 0; i < game.players.length; i++) {
+        game.num_filled.push({
+          user_id: game.players[i]._id,
+          count: 0,
+        })
+      }
+
       for (let i = 0; i < game.board.pixels.length; i++) {
         game.board.pixels[i].color = "none";
         game.board.pixels[i].filled = false;

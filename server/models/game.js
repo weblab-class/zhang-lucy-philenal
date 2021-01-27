@@ -53,7 +53,10 @@ const GameSchema = new mongoose.Schema({
   guesser: UserSchema,
   num_correct: Number,
   num_incorrect: Number,
-  num_filled: Number,
+  num_filled: [{
+    user_id: String,
+    count: Number,
+  }],
   pixel_limit: Number,
 });
 

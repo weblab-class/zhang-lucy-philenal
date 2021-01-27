@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { GithubPicker } from 'react-color';
 import { socket } from "../../../client-socket.js";
-import { post } from "../../../utilities";
+import { get, post } from "../../../utilities";
 import AlertDialog from "../AlertDialog.js";
 import "../Canvas.css";
 import Canvas from "../Canvas.js";
@@ -17,7 +17,6 @@ import "./PlayerPanel.css";
  * @param user_id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
- * @param canvas_pixels array of pixel objects in the canvas
  * @param pixel_limit maximum pixels that a player can put
  * @param isGuesser - Boolean if player is guesser
  * @param isMyTurn - Boolean if it is player's turn
@@ -25,18 +24,11 @@ import "./PlayerPanel.css";
 class CanvasPanel extends Component {
   constructor(props) {
     super(props);
-    // let num_filled = 0;
-    // for (let i = 0; i < this.props.canvas_pixels.length; i++) {
-    //   if (this.props.canvas_pixels[i].filled) {
-    //     num_filled += 1;
-    //   };
-    // }
-
     // Initialize Default State
     this.state = {
       user_name: null,
       overlayText: "",
-      num_filled: 0,//num_filled,
+      num_filled: 0,
       almostEnd: false,
       theWordWas: "",
       background: '#F898A4',
@@ -47,6 +39,18 @@ class CanvasPanel extends Component {
   }
 
   componentDidMount() {
+    console.log("ehwath")
+    get("/api/game/num_filled", {
+      game_id: this.props.game_id,
+      user_id: this.props.user_id,
+    }).then((res) => {
+      console.log("NUM FLLED");
+      console.log(res);
+      this.setState({num_filled: res.num_filled});
+    }).catch((err) => {
+      console.log(`ERRRORO: ${err}`);
+    })
+
     socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
       if (this.props.game_id === updatedGame.game_id) { //if the game id sent out is ours
         if (!this.props.isMyTurn) { 
@@ -120,8 +124,14 @@ class CanvasPanel extends Component {
 
   onPixelClicked = (filled) => {
     if (filled) {
+      if (this.state.num_filled == undefined) {
+        this.setState({num_filled: 1});
+      }
       this.setState({num_filled: this.state.num_filled + 1});
     } else {
+      if (this.state.num_filled == undefined) {
+        this.setState({num_filled: 0});
+      }
       this.setState({num_filled: this.state.num_filled - 1});
     }
   }
@@ -180,10 +190,14 @@ class CanvasPanel extends Component {
   }
 
   render() {
-    if (this.state.num_filled && this.props.pixel_limit) {}
+      let pixels_remaining = 0;
       console.log(`Pixel Limit: ${this.props.pixel_limit}`);
       console.log(`Num Filled: ${this.state.num_filled}`);
-      let pixels_remaining = this.props.pixel_limit - this.state.num_filled;
+      if (this.state.num_filled == undefined) {
+        this.setState({num_filled: 0});
+      } else {
+        pixels_remaining = this.props.pixel_limit - this.state.num_filled;
+      }
       return (
         <>
         {/* show this only if at end of game */}
@@ -211,23 +225,19 @@ class CanvasPanel extends Component {
       />}
         
           <div className="CanvasPanel">
-            <div className="CanvasPanel-bigBigContainer">
-              <div className="CanvasPanel-bigContainer">
-                <div className="CanvasPanel-canvasContainer">
-                  <Canvas 
-                    background={this.state.background}
-                    canvas_height_blocks={this.props.canvas_height_blocks} 
-                    canvas_width_blocks={this.props.canvas_width_blocks} 
-                    game_id={this.props.game_id}
-                    user_id={this.props.user_id}
-                    isGuesser={this.props.isGuesser}
-                    isMyTurn={this.props.isMyTurn}
-                    pixels_remaining={pixels_remaining}
-                    pixel_limit={this.props.pixel_limit}
-                    onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
-                  />
-                </div>
-            </div>
+            <div className="CanvasPanel-canvasContainer">
+              <Canvas 
+                background={this.state.background}
+                canvas_height_blocks={this.props.canvas_height_blocks} 
+                canvas_width_blocks={this.props.canvas_width_blocks} 
+                game_id={this.props.game_id}
+                user_id={this.props.user_id}
+                isGuesser={this.props.isGuesser}
+                isMyTurn={this.props.isMyTurn}
+                pixels_remaining={pixels_remaining}
+                pixel_limit={this.props.pixel_limit}
+                onPixelClicked={this.props.isGuesser ? null: this.onPixelClicked}
+              />
             </div>
             <div className="CanvasPanel-footer">
                 {(this.props.isMyTurn && !this.props.isGuesser) && 
@@ -277,7 +287,8 @@ class CanvasPanel extends Component {
           </div>
         </>
       );
-  }
+    }
+  
 }
 
 export default CanvasPanel;

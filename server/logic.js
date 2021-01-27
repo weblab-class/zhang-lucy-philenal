@@ -122,7 +122,7 @@ const newGame = (req) => {
     guesser: null,
     num_correct: 0,
     num_incorrect: 0,
-    num_filled: 0,
+    num_filled: [],
     pixel_limit: undefined,
   });
 
@@ -207,19 +207,40 @@ const getReturnableGame = (game, user_id) => {
   return null;
 }
 
+const updatePixel = (game, pixel_id, color, pixel_filled) => {
+  let originalPixel = game.board.pixels[pixel_id];
+  game.board.pixels[pixel_id] = {
+    color: color,
+    filled: pixel_filled,
+    id: originalPixel.id,
+    key: originalPixel.key,
+  };
+  return game;
+
+}
+
 // Called AFTER startGame
 // 1. determine ordering of guessers/pixelers
 // go in chronological order for now
 // 2. determine words
 const initializeGame = (game) => {
   // game.players = shuffle(game.players);
-  game.guesser = game.players[0];
-  game.pixelers = game.players.slice(1,game.players.length);
 
-  game.words = shuffle(game.words);
-  game.word = game.words[0];
-  game.started = true;
-  return game;
+  // game.guesser = game.players[0];
+  // game.pixelers = game.players.slice(1,game.players.length);
+
+  // game.num_filled = [];
+  // for (let i = 0; i < game.players.length; i++) {
+  //   game.num_filled.push({
+  //     user_id: game.players[i]._id,
+  //     count: 0,
+  //   })
+  // }
+
+  // game.words = shuffle(game.words);
+  // game.word = game.words[0];
+  // game.started = true;
+  // return game;
 }
 
 
@@ -295,7 +316,7 @@ const removePlayer = (id) => {
 module.exports = {
     wordpacks,
     newGame,
-    initializeGame,
+    // initializeGame,
     getNextWord,
     gameState,
     addPlayer,
@@ -306,4 +327,5 @@ module.exports = {
     validatePixeler,
     shuffle,
     getScore,
+    updatePixel,
   };

@@ -34,7 +34,6 @@ class GuessEntry extends Component {
   componentDidMount() {
     this.is_mounted = true;
 
-    console.log(`Guess Entry: ${this.props.game_id}, then ${this.props.user_id}`);
     get ("/api/game/turn", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,

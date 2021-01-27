@@ -32,7 +32,6 @@ class Player extends Component {
             error: false,
             word: null,
             round: 1,
-            hiddenWord: null,
             correctGuess: false, //unhardcode??
             turn: 0,
             isLoading: true,
@@ -105,7 +104,8 @@ class Player extends Component {
 
         //listens for turn change, updates turn
         socket.on("endedTurn", (updatedGame)=>{
-            if (this.props.location.state.game_id === updatedGame.game_id && this.is_mounted)
+            if (this.props.location.state.game_id === updatedGame.game_id && 
+                this.is_mounted)
             {
                 this.setState({turn: updatedGame.turn}, ()=> {
                     console.log("the updated turn is " + this.state.turn);
@@ -140,50 +140,64 @@ class Player extends Component {
         socket.on("nextWord", (updatedGame) =>{
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
-                if (updatedGame.guesser._id == this.props.location.state.user_id && this.is_mounted) {
+                this.setState({
+                    word: updatedGame.game.word,
+                    turn: updatedGame.turn,
+                    players: updatedGame.players,
+                    pixelers: updatedGame.pixelers,
+                    guesser: updatedGame.guesser,
+                    round: updatedGame.round,
+                });
+                if (updatedGame.guesser._id == this.props.location.state.user_id && 
+                    this.is_mounted) {
                     console.log("you are the guesser!");
-                    this.setState({
-                        word: updatedGame.game.word,
-                        // hiddenWord: this.hideWord(updatedGame.game.word.length),
-                        turn: updatedGame.turn,
-                        players: updatedGame.players,
-                        pixelers: updatedGame.pixelers,
-                        guesser: updatedGame.guesser,
-                        round: updatedGame.round,
-                        player: "guesser"
-                    })
-                } else {
-                    for (let i = 0; i < this.state.pixelers.length; i++) {
-                        if(updatedGame.pixelers[i].id == this.props.location.state.user_id && this.is_mounted) {
-                            this.setState({
-                                word: updatedGame.game.word,
-                                // hiddenWord: this.hideWord(updatedGame.game.word.length),
-                                turn: updatedGame.turn,
-                                players: updatedGame.players,
-                                pixelers: updatedGame.pixelers,
-                                guesser: updatedGame.guesser,
-                                round: updatedGame.round,
-                                player: "pixeler"
-                            });
-                        } else {
-                            if (this.is_mounted) {
-                                this.setState({
-                                    word: updatedGame.game.word,
-                                    // hiddenWord: this.hideWord(updatedGame.game.word.length),
-                                    turn: updatedGame.turn,
-                                    players: updatedGame.players,
-                                    pixelers: updatedGame.pixelers,
-                                    guesser: updatedGame.guesser,
-                                    round: updatedGame.round,
-                                    player: "neither"
-                                });
-                            }
-                        }
-                    }
+                    this.setState({player: "guesser"});
+                } else if (this.is_mounted) {
+                    console.log("you are the pixeler!");
+                    this.setState({player: "pixeler"});
                 }
+
+                // if (updatedGame.guesser._id == this.props.location.state.user_id && 
+                //     this.is_mounted) {
+                //     console.log("you are the guesser!");
+                //     this.setState({
+                //         word: updatedGame.game.word,
+                //         turn: updatedGame.turn,
+                //         players: updatedGame.players,
+                //         pixelers: updatedGame.pixelers,
+                //         guesser: updatedGame.guesser,
+                //         round: updatedGame.round,
+                //         player: "guesser"
+                //     })
+                // } else {
+                //     for (let i = 0; i < this.state.pixelers.length; i++) {
+                //         if(updatedGame.pixelers[i].id == this.props.location.state.user_id && this.is_mounted) {
+                //             this.setState({
+                //                 word: updatedGame.game.word,
+                //                 turn: updatedGame.turn,
+                //                 players: updatedGame.players,
+                //                 pixelers: updatedGame.pixelers,
+                //                 guesser: updatedGame.guesser,
+                //                 round: updatedGame.round,
+                //                 player: "pixeler"
+                //             });
+                //         } else {
+                //             if (this.is_mounted) {
+                //                 this.setState({
+                //                     word: updatedGame.game.word,
+                //                     turn: updatedGame.turn,
+                //                     players: updatedGame.players,
+                //                     pixelers: updatedGame.pixelers,
+                //                     guesser: updatedGame.guesser,
+                //                     round: updatedGame.round,
+                //                     player: "neither"
+                //                 });
+                //             }
+                //         }
+                //     }
+                // }
                 /* this.setState({
                     word: updatedGame.game.word,
-                    // hiddenWord: this.hideWord(updatedGame.game.word.length),
                     turn: updatedGame.turn,
                     players: updatedGame.players,
                     pixelers: updatedGame.pixelers,
@@ -206,8 +220,8 @@ class Player extends Component {
                         this.setState({player: "neither"});
                     }
                 }) */
-            };
-        })
+            }
+        });
     }
     
     render() {

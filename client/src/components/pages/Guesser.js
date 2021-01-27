@@ -15,7 +15,6 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
  * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
  * @param {Number} turn
- * @param {String} hiddenWord is "_ _ _ " if not guessed correctly, but shows actual word if guessed correctly
  * @param {Callback} onCorrectGuess function
  * @param {Boolean} correctGuess
  * @param {Number} round -- starts at 1
