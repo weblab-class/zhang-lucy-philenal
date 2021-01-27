@@ -15,7 +15,6 @@ class GameAlreadyStarted extends Component {
   }
 
   render() {
-    // TODO (LHF): make this prettier (add margin in between)
     return (
       <>
         <div className="Start-title">

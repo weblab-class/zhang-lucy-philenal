@@ -28,7 +28,6 @@ export default function PlayerAccordion(props) {
   const classes = useStyles();
   const matches = useMediaQuery('(max-width:1150px)');
   if (matches){
-      console.log("EEE");
     return (
         <div className={classes.root}>
           <Accordion>

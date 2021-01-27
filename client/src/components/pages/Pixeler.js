@@ -69,7 +69,7 @@ class Pixeler extends Component {
           pixelers: res.pixelers, 
           guesser: res.guesser,
           pixel_limit: res.pixel_limit,
-        }, ()=>{console.log(this.state.pixel_limit)});
+        }, ()=>{});
       }
     })
     .catch((err) => {
@@ -82,7 +82,6 @@ class Pixeler extends Component {
     }).then((res) => {
       if (res && this.is_mounted) {
         this.setState({canvas: res}, () => {
-          console.log(this.state)
         });
       }
     })
@@ -95,20 +94,11 @@ class Pixeler extends Component {
         })
       }
     })
-    
+
   }
 
   leaveGame = () => {
     navigate("/");
-
-    // post("/api/user/leave", {
-    //   user_id: this.props.user_id,
-    //   game_id: this.props.game_id,
-    // }).then((res) => {
-    //   if (res.success) { 
-    //     navigate("/");
-    //   }
-    // })
   }
 
   clearCanvas = () => {
@@ -125,9 +115,6 @@ class Pixeler extends Component {
   }
 
   render() {
-    console.log("turn number " + this.props.turn);
-    console.log("user id " + this.props.user_id);
-    
     if (this.state.pixelers.length == 0 || this.state.user_name==null || this.props.turn==null || this.props.maxSessions==null || this.props.round==null){
       return (<div></div>)
     } else{

@@ -19,7 +19,6 @@
     justify-content: center;
     font-size: 70px;
     letter-spacing: 0.1em;
-  /* white */
     color: var(--text-color);
 
     -webkit-text-stroke-width: 0.2px;
@@ -30,7 +29,6 @@
 .HowToPlay-header {
     font-size: var(--l);
     color: var(--text-color);
-    /* margin-bottom: var(--m); */
     font-family: 'Alata', sans-serif;
     text-align: center;
 }

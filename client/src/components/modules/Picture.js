@@ -3,7 +3,6 @@ import "../../utilities.css";
 import "./Picture.css";
 import PixelBlock from "./PixelBlock.js";
 
-// TODO: Un-hardcode, have this be read in as a prop
 const CANVAS_WIDTH_PX = 200;
 const CANVAS_HEIGHT_PX = 200;
 
@@ -34,12 +33,8 @@ class Picture extends Component {
   render() {
     let pixels = [];
     if (this.props.pixels) {
-      // let filledPixels = this.props.pixels.map((p)=>{p.filled});
-      // console.log("re-rendering");
-      // console.log(this.props.pixels);
       for (let i = 0; i < this.props.picture_height_blocks * this.props.picture_width_blocks; i++) {
         pixels.push(
-        //   <div className="Picture-pixelBlockContainer">
             <PixelBlock 
               game_id={this.props.game_id}
               id={this.props.pixels[i].id} 

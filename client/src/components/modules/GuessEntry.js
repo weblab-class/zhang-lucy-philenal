@@ -38,10 +38,7 @@ class GuessEntry extends Component {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
     }).then((res) => {
-      console.log(res);
       if (res.turn && this.is_mounted) {
-        console.log(`Turn: ${res.turn}`);
-        console.log(`Players: ${res.numPlayers}`);
         this.setState({turn: res.turn}, () => {
           if (this.state.turn == res.numPlayers-1  && this.is_mounted) {
 
@@ -55,7 +52,6 @@ class GuessEntry extends Component {
       if (this.props.game_id === updatedGame.game_id)
       {
           this.setState({turn: updatedGame.turn}, ()=> {
-              console.log("the updated turn is " + this.state.turn);
             if (this.state.turn == updatedGame.players.length - 1  && this.is_mounted) {
               this.setState({showGiveUp: true});
             }
@@ -75,12 +71,10 @@ class GuessEntry extends Component {
   };
 
   onCorrectGuess = (event) => {
-    // TODO
   }
 
   onKeyPress = (event) => {
     if(event.key === 'Enter'){
-      console.log('enter press here! ')
       this.handleSubmit(event);
     }
   }

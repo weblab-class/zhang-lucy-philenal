@@ -37,7 +37,6 @@ class PixelBlock extends Component {
 
       // double clicking on an already filled block
       if (chosenColor == this.state.actualColor) {
-        // console.log("filled with " + chosenColor);
         this.setState(
           {
             actualColor: "none",
@@ -93,7 +92,6 @@ class PixelBlock extends Component {
       if (this.props.game_id === updatedGame.game_id
         && this.props.id === updatedGame.pixel_id
         && this.is_mounted) { //if the change was made to this pixel
-          console.log("this pixel is changed -- socket works for PixelBlock!");
           this.setState({
            filled: updatedGame.pixel_id_filled,
            actualColor: updatedGame.pixel_color,
