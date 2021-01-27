@@ -17,7 +17,7 @@ class MadeWithLuv extends Component {
     return (
       <>
         <div className="MadeWithLuv">
-          made with <span className="MadeWithLuv-heart" alt="Heart" ></span>
+          made with <span className="MadeWithLuv-heart" alt="Heart" ></span> by
           <br></br> lucy + philena
         </div>
       </>

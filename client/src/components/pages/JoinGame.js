@@ -22,6 +22,7 @@ class JoinGame extends Component {
     this.state = {
       game_id: "",
       game_not_found: false,
+      button_disabled: false,
     };
   }
 
@@ -37,6 +38,7 @@ class JoinGame extends Component {
   }
 
   joinGame = () => {
+    this.setState({button_disabled: true});
     console.log("join game!");
     post("api/game/join", {
       game_id: this.state.game_id,
@@ -95,7 +97,7 @@ class JoinGame extends Component {
                   <button 
                     className="JoinGame-startGame"
                     onClick={this.joinGame}
-                    disabled={this.state.game_id.length == 0}
+                    disabled={this.state.game_id.length == 0 || this.state.button_disabled}
                     >
                     join game
                   </button>
