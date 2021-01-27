@@ -57,6 +57,8 @@ const useStyles = makeStyles({
  * @param user_name
  * @param game_id
  */
+//code adapted from material-ui
+
 export default function AlertDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
