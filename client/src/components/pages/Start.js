@@ -96,7 +96,6 @@ class Start extends Component {
   }
 
   onClick = () => {
-    console.log("clicked!!");
     this.setState({isLoading: true, buttonDisabled: true})
   }
   
@@ -110,12 +109,9 @@ class Start extends Component {
       }, () => {
         this.setState({
           isLoading: false,
-        }, () => {
-          // window.location.reload();
-        })
+        });
       });
     })
-    
   }
 
   onLogout = (res) => {

@@ -212,7 +212,7 @@ const getReturnableGame = (game, user_id) => {
 // go in chronological order for now
 // 2. determine words
 const initializeGame = (game) => {
-  game.players = shuffle(game.players);
+  // game.players = shuffle(game.players);
   game.guesser = game.players[0];
   game.pixelers = game.players.slice(1,game.players.length);
 

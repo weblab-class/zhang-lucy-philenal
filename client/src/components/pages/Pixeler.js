@@ -176,7 +176,8 @@ class Pixeler extends Component {
                 pixel_limit={this.state.pixel_limit}
                 game_id={this.props.game_id}
                 user_id={this.props.user_id}
-                isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn]._id===this.props.user_id}
+                isMyTurn={this.props.turn < this.state.pixelers.length && 
+                    this.state.pixelers[this.props.turn]._id===this.props.user_id}
                 isGuesser={false}
                 clearCanvas={this.clearCanvas}
               />} 

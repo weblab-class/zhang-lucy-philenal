@@ -6,33 +6,18 @@
     text-align: center;
     font-size: 70px;
     letter-spacing: 0.1em;
-  /* white */
     color: var(--text-color);
 
     -webkit-text-stroke-width: 0.2px;
-
     -webkit-text-stroke-color:var(--text-color);
     padding: 1rem;
     padding-top: 0.1rem;
-    /* background-color: aqua; */
 }
 
 .PlayerPanelLeft {
     animation: fadeInAnimation ease 3s;
     animation-iteration-count: 1; 
     animation-fill-mode: forwards; 
-    /* position: absolute;
-    margin-right: 50px; */
-    /* display: flex;
-    flex-direction: column;
-    justify-content: right; */
-    /* justify-content: center; */
-    /* border-color: var(--button-color);
-    background-color: var(--button-color); */
-    /* border-width: .5em;
-    border-radius: 0.5em;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px; */
-    
     padding-left: var(--l);
     height: min-content;
     position: absolute;
@@ -40,7 +25,6 @@
     width: 250px;
     height: 100%;
     text-align: left;
-    /* background-color: blueviolet; */
 }
 
 .PlayerPanelRight {
@@ -50,8 +34,8 @@
     height: 100%;
     text-align: left;
     padding: 1rem;
-    /* background-color: brown; */
 }
+
 section {
     overflow: auto;
 }
@@ -64,10 +48,8 @@ section {
     
     text-align: center;
     padding: 1rem;
-    /* background-color: yellow; */
     width: 520px;
     height: 600px;
-    /* height: 100%; */
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -76,15 +58,10 @@ section {
 .CanvasPanel-palette {
     margin: var(--m);
 }
-/* @media (max-width: ){
-
-} */
 
 .CanvasPanel-bigBigContainer {
-    /* position: static; */
     height: 80vh;
     width: 500px;
-
 }
 
 .CanvasPanel-bigContainer {
@@ -115,10 +92,6 @@ section {
     width: 50px;
     border-radius: 0;
     border-color: var(--color-1);
-    
-    /* border-color: var(--border-color);
-    color: var(--border-color);
-    font-family: var(--font-primary); */
 }
 
 .CanvasPanel-footer {
@@ -127,16 +100,9 @@ section {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
-    /* background-color: aqua; */
-    /* z-index: 20; */
     margin-top: 3rem; 
-    /* TODO: fix */
 }
 
 .CanvasPanel-child {
     margin: var(--m);
 }
-
-/* .Canv */
-
-
