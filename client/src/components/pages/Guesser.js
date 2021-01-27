@@ -8,6 +8,7 @@ import CanvasPanel from "../modules/panels/CanvasPanel";
 import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import ToggleButton from '../modules/ToggleButton';
 
 /**
  * This is the page view of the Guesser
@@ -126,6 +127,7 @@ class Guesser extends Component {
                   </button>
               </div>
           </div>}
+          <div><ToggleButton/></div>
         </div>
           <PlayerPanelTop/>
           <div className="u-flex">
