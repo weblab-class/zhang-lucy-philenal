@@ -1,4 +1,8 @@
 .Picture {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
+    
     width: 200px;
     height: 200px;
     border:1px black;

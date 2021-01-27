@@ -95,50 +95,54 @@ class Guesser extends Component {
 
 
   render() {
-    return (
-      <>
-        <div className="Player-header">
-          <div>hello, {this.state.user_name}!</div>
-          <div>game id: {this.props.game_id}</div>
-        </div>      <button onClick={this.leaveGame}>leave game</button>
-        <PlayerPanelTop/>
-        <div className="u-flex">
-          <div className="Player-subPanel">
-            {(this.state.pixelers) && 
-            <PlayerPanelLeft 
-              pixelers={this.state.pixelers} 
-              guesser={this.state.guesser} 
-              word={this.props.word}
-              turn={this.props.turn}
-              game_id={this.props.game_id}
-              isGuesser={true}
-              leaveGame={this.leaveGame}
+    if (this.state.user_name==null || this.props.turn==null){
+      return (<div></div>)
+    } else{
+      return (
+        <>
+          <div className="Player-header">
+            <div className="u-welcome">hello, {this.state.user_name}!</div>
+            <div>game id: {this.props.game_id}</div>
+          </div>      <button onClick={this.leaveGame}>leave game</button>
+          <PlayerPanelTop/>
+          <div className="u-flex">
+            <div className="Player-subPanel">
+              {(this.state.pixelers) && 
+              <PlayerPanelLeft 
+                pixelers={this.state.pixelers} 
+                guesser={this.state.guesser} 
+                word={this.props.word}
+                turn={this.props.turn}
+                game_id={this.props.game_id}
+                isGuesser={true}
+                leaveGame={this.leaveGame}
+                />
+              }
+            </div>
+            <div className="Player-subContainer">
+              {(this.state.canvas.width) &&  
+              <CanvasPanel 
+                canvas_height_blocks={this.state.canvas.width} // TODO: remove
+                canvas_width_blocks={this.state.canvas.height} 
+                canvas_pixels={this.state.canvas.pixels}
+                game_id={this.props.game_id}
+                user_id={this.props.user_id}
+                isMyTurn={true} //TODO: unhardcode, make more secure
+                isGuesser={true} //TODO: unhardcode
+                correctGuess={this.props.correctGuess}
+              /> } 
+            </div>
+            <div className="Player-subPanel">
+              <PlayerPanelRight
+                game_id={this.props.game_id}
+                user_id={this.props.user_id}
+                isGuesser={true}
               />
-            }
+            </div>
           </div>
-          <div className="Player-subContainer">
-            {(this.state.canvas.width) &&  
-            <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} // TODO: remove
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id={this.props.game_id}
-              user_id={this.props.user_id}
-              isMyTurn={true} //TODO: unhardcode, make more secure
-              isGuesser={true} //TODO: unhardcode
-              correctGuess={this.props.correctGuess}
-            /> } 
-          </div>
-          <div className="Player-subPanel">
-            <PlayerPanelRight
-              game_id={this.props.game_id}
-              user_id={this.props.user_id}
-              isGuesser={true}
-            />
-          </div>
-        </div>
-      </>
-    );
+        </>
+      );
+    }
   }
 }
 

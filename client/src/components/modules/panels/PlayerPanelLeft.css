@@ -23,6 +23,9 @@
 }
 
 .PlayerIcon-backgroundWhite {
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
     width: 120px;
     background-color: rgb(255, 246, 232);
     padding: var(--s);

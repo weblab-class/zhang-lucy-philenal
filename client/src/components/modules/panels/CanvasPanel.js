@@ -102,8 +102,8 @@ class CanvasPanel extends Component {
             console.log("GAME ENDED")
             this.setState({
                 endGame: true,
-                overlayText: `Game over!\nScore: ${endGame.score.toString()}%`,
-                scoreText: endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
+                overlayText: `Score: ${endGame.score.toString()}%`,
+                scoreText: "you got: " + endGame.num_correct.toString() + " correct, " + endGame.num_incorrect.toString() + " wrong"
         })
         }
     })

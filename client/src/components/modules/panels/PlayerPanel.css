@@ -1,4 +1,8 @@
 .PlayerPanelTop {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
+
     text-align: center;
     font-size: 70px;
     letter-spacing: 0.1em;
@@ -13,6 +17,9 @@
 }
 
 .PlayerPanelLeft {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
     /* position: absolute;
     margin-right: 50px; */
     /* display: flex;
@@ -36,6 +43,9 @@
 }
 
 .PlayerPanelRight {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
     height: 100%;
     text-align: left;
     padding: 1rem;
@@ -47,6 +57,10 @@ section {
 
 
 .CanvasPanel {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
+    
     text-align: center;
     padding: 1rem;
     /* background-color: yellow; */

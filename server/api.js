@@ -222,6 +222,7 @@ router.get("/user/images", (req, res) => {
     };
 
     res.send({
+      user_name: user.name,
       correct: user.correct_imgs,
       incorrect: user.incorrect_imgs,
     });

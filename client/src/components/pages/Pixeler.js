@@ -127,7 +127,7 @@ class Pixeler extends Component {
       return (
         <>
           <div className="Player-header">
-            <div>hello, {this.state.user_name}!</div>
+            <div className="u-welcome">hello, {this.state.user_name}!</div>
             <div>game id: {this.props.game_id}</div>
           </div>
           <button onClick={this.leaveGame}>leave game</button>

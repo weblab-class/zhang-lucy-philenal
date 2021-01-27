@@ -13,7 +13,7 @@ import "../../utilities.css";
 /**
  * Wall page is the page that shows all the correctly guessed images
  * TODO: change the user schema to contain a list of all games you've played before
- * @param user_name
+ * 
  * @param user_id 
  */
 class Wall extends Component {
@@ -36,6 +36,7 @@ class Wall extends Component {
       this.setState({
         correct_pictures: pictures.correct,
         incorrect_pictures: pictures.incorrect,
+        user_name: pictures.user_name,
       }, () => {
         this.setState({isLoading: false})
       });
@@ -86,7 +87,8 @@ class Wall extends Component {
     }
 
     return (
-      <>    
+      <>
+      <div className="u-welcome">hello, {this.state.user_name}! </div>    
       <button onClick={()=>{navigate('/')}}>back</button>
       <div className="Wall-page">  
         <div className="Wall-container-fame">
