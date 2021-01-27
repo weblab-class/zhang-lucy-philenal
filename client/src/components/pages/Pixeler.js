@@ -33,6 +33,7 @@ class Pixeler extends Component {
       },
       pixelers: [],
       guesser: {},
+      leaveGameConfirmation: false,
     };
   }
 
@@ -94,14 +95,16 @@ class Pixeler extends Component {
   }
 
   leaveGame = () => {
-    post("/api/user/leave", {
-      user_id: this.props.user_id,
-      game_id: this.props.game_id,
-    }).then((res) => {
-      if (res.success) { 
-        navigate("/");
-      }
-    })
+    navigate("/");
+
+    // post("/api/user/leave", {
+    //   user_id: this.props.user_id,
+    //   game_id: this.props.game_id,
+    // }).then((res) => {
+    //   if (res.success) { 
+    //     navigate("/");
+    //   }
+    // })
   }
 
   clearCanvas = () => {
@@ -129,8 +132,26 @@ class Pixeler extends Component {
           <div className="Player-header">
             <div>hello, {this.state.user_name}!</div>
             <div>game id: {this.props.game_id}</div>
-          </div>
-          <button onClick={this.leaveGame}>leave game</button>
+          </div>      
+          <div className="Player-subheader">
+          <button onClick={()=>this.setState({leaveGameConfirmation: true})}>leave game</button>
+          {this.state.leaveGameConfirmation && 
+          <div className="Player-quitConfirmationContainer">
+              <div className="Player-quitConfirmationChild">
+                  are you sure?
+              </div>
+              <div className="Player-quitConfirmationChild">
+                  <button className="Player-quitConfirmationButton"
+                    onClick={this.leaveGame}>
+                      yes, leave
+                  </button>
+                  <button className="Player-quitConfirmationButton"
+                    onClick={()=>{this.setState({leaveGameConfirmation: false})}}>
+                      cancel
+                  </button>
+              </div>
+          </div>}
+        </div>
           <PlayerPanelTop/>
           <div className="u-flex">
             <div className="Player-subPanel">

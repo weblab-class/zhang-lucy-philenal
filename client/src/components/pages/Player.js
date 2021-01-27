@@ -36,7 +36,12 @@ class Player extends Component {
             turn: 0,
             isLoading: true,
         };
+        this.setInputState = this.setInputState.bind(this);
     }
+
+    setInputState(event) {
+        this.setState({ term: event.target.value });
+      }
 
     componentWillUnmount () {
         this.is_mounted = false;

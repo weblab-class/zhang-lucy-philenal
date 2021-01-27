@@ -113,7 +113,6 @@ class GuessEntry extends Component {
     return (
       <>
         <div className="GuessEntry-container">
-            {/* <form> */}
                 <div className="GuessEntry-child">
                     <input
                         type='text'
@@ -159,8 +158,6 @@ class GuessEntry extends Component {
                 <button onClick={this.onQuit}>
                     yes, I give up
                 </button>
-            {/* </div>
-            <div className="GuessEntry-quitConfirmationChild"> */}
                 <button onClick={()=>{this.setState({areYouSure: false})}}>
                     cancel
                 </button>

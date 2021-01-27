@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
 import { get, post } from "../../utilities";
 import "../../utilities.css";
+import "../pages/Player.css";
 import CanvasPanel from "../modules/panels/CanvasPanel";
 import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
@@ -26,6 +27,7 @@ class Guesser extends Component {
       //is it bad to set this as state when it's changing based off of pixeler moves
       canvas: {},
       word: "",
+      leaveGameConfirmation: false,
     };
   }
 
@@ -82,15 +84,16 @@ class Guesser extends Component {
   } */
 
   leaveGame = () => {
-    console.log(this.props);
-    post("/api/user/leave", {
-      user_id: this.props.user_id,
-      game_id: this.props.game_id,
-    }).then((res) => {
-      if (res.success) { 
-        navigate("/");
-      }
-    })
+    navigate("/");
+    // console.log(this.props);
+    // post("/api/user/leave", {
+    //   user_id: this.props.user_id,
+    //   game_id: this.props.game_id,
+    // }).then((res) => {
+    //   if (res.success) { 
+    //     navigate("/");
+    //   }
+    // })
   }
 
 
@@ -100,7 +103,26 @@ class Guesser extends Component {
         <div className="Player-header">
           <div>hello, {this.state.user_name}!</div>
           <div>game id: {this.props.game_id}</div>
-        </div>      <button onClick={this.leaveGame}>leave game</button>
+        </div>      
+        <div className="Player-subheader">
+          <button onClick={()=>this.setState({leaveGameConfirmation: true})}>leave game</button>
+          {this.state.leaveGameConfirmation && 
+          <div className="Player-quitConfirmationContainer">
+              <div className="Player-quitConfirmationChild">
+                  are you sure?
+              </div>
+              <div className="Player-quitConfirmationChild">
+                  <button className="Player-quitConfirmationButton"
+                    onClick={this.leaveGame}>
+                      yes, leave
+                  </button>
+                  <button className="Player-quitConfirmationButton"
+                    onClick={()=>{this.setState({leaveGameConfirmation: false})}}>
+                      cancel
+                  </button>
+              </div>
+          </div>}
+        </div>
         <PlayerPanelTop/>
         <div className="u-flex">
           <div className="Player-subPanel">

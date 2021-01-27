@@ -114,16 +114,14 @@ router.post("/game/new", (req, res) => {
 //sends username
 router.get("/user/name", (req, res) => {
   User.find({ _id: req.body.user_id }).then((user) => {
-    console.log("I GIVE U MY NAME")
     res.send(user.name)
   })
 })
 
 router.post("/user/leave", (req, res) => {
-  const filter = { _id: req.body.user_id };
   const update = { game_id: null };
   User.findOneAndUpdate(
-    filter, 
+    { _id: req.body.user_id }, 
     update, {
     new: true}
   ).then((res) => {
@@ -131,7 +129,6 @@ router.post("/user/leave", (req, res) => {
   });
 
   // TODO: update host
-  const filter2 = { _id: req.body.game_id };
   const update2 = {
     $pull:{ 
       players: { _id: req.body.user_id },
@@ -140,7 +137,7 @@ router.post("/user/leave", (req, res) => {
   };
 
   Game.findOneAndUpdate(
-    filter2, 
+    { _id: req.body.game_id }, 
     update2, 
     {"new": true},
     ).then((game)=>{
@@ -432,14 +429,6 @@ router.get("/game/canvas", (req, res) => {
 });
 
 router.post("/game/join", (req, res) => {
-  const filter = { _id: req.body.user_id };
-  const update = { game_id: req.body.game_id };
-  User.findOneAndUpdate(filter, update, {
-    new: true,
-  }).then((res)=>{
-    console.log(res);
-  });
-
   console.log(req.body);
   Game.findOne(
     {_id: req.body.game_id}, 
@@ -453,7 +442,11 @@ router.post("/game/join", (req, res) => {
             break;
           }
         }
+
         if (playerNotInGameYet) {
+          if (game.started) {
+            res.send({status: "error", msg: "game already started"})
+          }
           game.players = game.players.concat([{
             _id: req.body.user_id, 
             name: req.body.user_name,
@@ -474,6 +467,14 @@ router.post("/game/join", (req, res) => {
     ).then(()=>{res.send({status:"success"})})
   .catch((err) => {
     console.log(err);
+  });
+
+  const filter = { _id: req.body.user_id };
+  const update = { game_id: req.body.game_id };
+  User.findOneAndUpdate(filter, update, {
+    new: true,
+  }).then((res)=>{
+    console.log(res);
   });
  
 });
@@ -633,8 +634,6 @@ router.post("/board/clear_pixels", (req, res) => {
         game.board.pixels[i].filled = false;
       }
       game.save().then((res) => {
-        console.log("BACKEND CLEARING WORKS")
-        console.log("THIS IS THE GAME " + game)
         socketManager.getIo().emit("cleared_canvas", 
           {
             board: res.board, 

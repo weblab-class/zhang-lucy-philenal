@@ -1,4 +1,7 @@
 .PlayerPanelTop {
+    /* display: flex; */
+    /* justify-content: center; */
+    /* width: 100px; */
     text-align: center;
     font-size: 70px;
     letter-spacing: 0.1em;
@@ -9,6 +12,7 @@
 
     -webkit-text-stroke-color:var(--text-color);
     padding: 1rem;
+    padding-top: 0.1rem;
     /* background-color: aqua; */
 }
 
@@ -66,7 +70,7 @@ section {
 } */
 
 .CanvasPanel-bigBigContainer {
-    position: static;
+    /* position: static; */
     height: 80vh;
     width: 500px;
 
@@ -113,8 +117,8 @@ section {
     flex-wrap: nowrap;
     justify-content: space-between;
     /* background-color: aqua; */
-    z-index: 20;
-    margin-top: 32rem; 
+    /* z-index: 20; */
+    margin-top: 3rem; 
     /* TODO: fix */
 }
 

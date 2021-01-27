@@ -52,7 +52,10 @@ class JoinGame extends Component {
             game_id: this.state.game_id
           }
         });
-      } else {
+      } else if (res.status == "error" && res.msg == "game already started") {
+        navigate("/gamealreadystarted");
+      }
+      else {
         console.log("error, can't join game");
       }
     }).catch((err) => {

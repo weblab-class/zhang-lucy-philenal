@@ -24,8 +24,6 @@ class GuesserIcon extends Component {
       componentDidMount() {
         //listens for updated players
         socket.on("players_and_game_id", (updatedGame)=>{
-          console.log("THIS IS THE GAME ID" + updatedGame.game_id);
-          console.log("THIS IS MY GAME ID " + this.props.game_id);
           if (this.props.game_id === updatedGame.game_id)
           {   let inGame = false;
               for (let i=0; i < updatedGame.players.length; i ++){

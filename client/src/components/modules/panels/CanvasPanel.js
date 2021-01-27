@@ -25,18 +25,18 @@ import "./PlayerPanel.css";
 class CanvasPanel extends Component {
   constructor(props) {
     super(props);
-    let num_filled = 0;
-    for (let i = 0; i < this.props.canvas_pixels.length; i++) {
-      if (this.props.canvas_pixels[i].filled) {
-        num_filled += 1;
-      };
-    }
+    // let num_filled = 0;
+    // for (let i = 0; i < this.props.canvas_pixels.length; i++) {
+    //   if (this.props.canvas_pixels[i].filled) {
+    //     num_filled += 1;
+    //   };
+    // }
 
     // Initialize Default State
     this.state = {
       user_name: null,
       overlayText: "",
-      num_filled: num_filled,
+      num_filled: 0,//num_filled,
       almostEnd: false,
       theWordWas: "",
       background: '#F898A4',
