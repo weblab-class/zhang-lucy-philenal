@@ -83,6 +83,25 @@ section {
     top: 0;
     left: 0;
 }
+@media only screen and (max-width: 1150px) and (min-width: 450px) {
+    .CanvasPanel-canvasContainer {
+      height: 420px !important;
+      width: 420px !important;
+    }
+    .CanvasPanel {
+      width: 420px  !important;
+    }
+  }
+
+@media only screen and (max-width: 449px) {
+    .CanvasPanel-canvasContainer {
+    height: 340px !important;
+    width: 340px !important;
+    }
+    .CanvasPanel {
+    width: 340px  !important;
+    }
+  }
 
 .CanvasPanel-button {
     height: 50px;
@@ -103,3 +122,4 @@ section {
 .CanvasPanel-child {
     margin: var(--m);
 }
+

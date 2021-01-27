@@ -4,6 +4,7 @@ import { post } from "../../utilities";
 import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./JoinGame.css";
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 
 /**
  * JoinGame page asks the user to enter a unique ID, then joins
@@ -107,7 +108,7 @@ class JoinGame extends Component {
                   }
                 </div>
               </div>
-
+              <MadeWithLuv />
            {/*  <div className="JoinGame-container">
               <div className="JoinGame-linkContainer">
                   <h1>Join Game </h1>

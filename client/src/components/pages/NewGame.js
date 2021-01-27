@@ -4,7 +4,7 @@ import { post } from "../../utilities";
 import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./NewGame.css";
-
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 /**
  * NewGame page asks the user to enter a unique ID, then creates
  * a game with said ID. 
@@ -105,6 +105,7 @@ class NewGame extends Component {
                   )}
                 </div>
               </div>
+              <MadeWithLuv />
       </>
     );
     

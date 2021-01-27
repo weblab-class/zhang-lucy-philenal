@@ -42,36 +42,36 @@ class PlayerPanelLeft extends Component {
   }
 
   render() {
-    return (
-      <>
-        {(!this.state.error && this.props.guesser) && 
-        <div className="PlayerPanelLeft">
-          <div className="PlayerPanelLeft-header">word: 
-            <span className="PlayerPanelLeft-word">
-              {(this.props.word)}
-            </span>
+    if (!this.state.error && this.props.guesser){
+      return (
+        <>
+          <div className="PlayerPanelLeft">
+            <div className="PlayerPanelLeft-header">word: 
+              <span className="PlayerPanelLeft-word">
+                {(this.props.word)}
+              </span>
+            </div>
+            <div className="PlayerPanelLeft-header">round:  
+              <span className="PlayerPanelLeft-round">
+                {this.props.round} of {this.props.maxSessions}
+              </span>
+            </div>
+            <div className="PlayerPanelLeft-header">guesser:</div>
+            <GuesserIcon 
+              guesser_name={this.props.guesser.name} 
+              _id={this.props.guesser._id} 
+              game_id={this.props.game_id}
+              isMyTurn={this.props.turn===this.props.pixelers.length}/>
+            <div className="PlayerPanelLeft-header">pixelers:</div>
+            <PlayerOrder 
+              game_id={this.props.game_id}
+              pixelers={this.props.pixelers} 
+              turn={this.props.turn}
+            />
           </div>
-          <div className="PlayerPanelLeft-header">round:  
-            <span className="PlayerPanelLeft-round">
-              {this.props.round} of {this.props.maxSessions}
-            </span>
-          </div>
-          <div className="PlayerPanelLeft-header">guesser:</div>
-          <GuesserIcon 
-            guesser_name={this.props.guesser.name} 
-            _id={this.props.guesser._id} 
-            game_id={this.props.game_id}
-            isMyTurn={this.props.turn===this.props.pixelers.length}/>
-          <div className="PlayerPanelLeft-header">pixelers:</div>
-          <PlayerOrder 
-            game_id={this.props.game_id}
-            pixelers={this.props.pixelers} 
-            turn={this.props.turn}
-          />
-        </div>
-        }
-      </>
-    );
+        </>
+      );
+    }
   }
 }
 
