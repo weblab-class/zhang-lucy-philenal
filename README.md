@@ -3,6 +3,8 @@ A collaborative drawing game without competitive pressure. Find a group of frien
 
 - made with <3 by lucy and philena
 
+live at https://pixonary.herokuapp.com/
+
 ## resources used:
 to style google login/logout button: https://stackoverflow.com/questions/55023073/react-google-login-inline-styling
 the rest of the resources are documented within the files!
