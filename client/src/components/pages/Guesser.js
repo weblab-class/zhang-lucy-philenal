@@ -8,6 +8,7 @@ import CanvasPanel from "../modules/panels/CanvasPanel";
 import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
+import ToggleButton from '../modules/ToggleButton';
 
 /**
  * This is the page view of the Guesser
@@ -104,28 +105,38 @@ class Guesser extends Component {
     } else{
       return (
         <>
-          <div className="Player-header">
-          <div>hello, {this.state.user_name}!</div>
+        <div className="u-welcome">
+          <div>
+          hello, {this.state.user_name}!
+          </div>
+          <div>
           <div>game id: {this.props.game_id}</div>
-        </div>      
-        <div className="Player-subheader">
-          <button onClick={()=>this.setState({leaveGameConfirmation: true})}>leave game</button>
-          {this.state.leaveGameConfirmation && 
-          <div className="Player-quitConfirmationContainer">
-              <div className="Player-quitConfirmationChild">
-                  are you sure?
-              </div>
-              <div className="Player-quitConfirmationChild">
-                  <button className="Player-quitConfirmationButton"
-                    onClick={this.leaveGame}>
-                      yes, leave
-                  </button>
-                  <button className="Player-quitConfirmationButton"
-                    onClick={()=>{this.setState({leaveGameConfirmation: false})}}>
-                      cancel
-                  </button>
-              </div>
-          </div>}
+          </div>
+        </div>     
+        <div className="u-welcome">
+          <div className="Player-subheader">
+            <button 
+              disabled={this.state.leaveGameConfirmation}
+              onClick={()=>this.setState({leaveGameConfirmation: true})}
+            >leave game</button>
+            {this.state.leaveGameConfirmation && 
+            <div className="Player-quitConfirmationContainer">
+                <div className="Player-quitConfirmationChild">
+                    are you sure?
+                </div>
+                <div className="Player-quitConfirmationChild">
+                    <button className="Player-quitConfirmationButton"
+                      onClick={this.leaveGame}>
+                        yes, leave
+                    </button>
+                    <button className="Player-quitConfirmationButton"
+                      onClick={()=>{this.setState({leaveGameConfirmation: false})}}>
+                        cancel
+                    </button>
+                </div>
+            </div>}
+          </div>
+          <div><ToggleButton/></div>
         </div>
           <PlayerPanelTop/>
           <div className="Player-container">

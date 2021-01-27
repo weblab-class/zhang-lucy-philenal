@@ -1,6 +1,9 @@
 import { Link } from "@reach/router";
 import React, { Component } from "react";
 import "../../utilities.css";
+import "../../variables.scss";
+// import "../../utilities.scss";
+// import "../App.scss";
 import "./StartMenu.css";
 
 /**

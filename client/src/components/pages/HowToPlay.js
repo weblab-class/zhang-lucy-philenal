@@ -2,6 +2,7 @@ import { navigate } from "@reach/router";
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./HowToPlay.css";
+import ToggleButton from "../modules/ToggleButton";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 
@@ -13,8 +14,15 @@ class HowToPlay extends Component {
   render() {
     return (
       <>
-        <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
-        <button onClick={()=>{navigate('/')}}>back</button>
+        <div className={`u-welcome`}>
+          <div>
+            hello, {this.props.user_name}! 
+          </div>
+          <ToggleButton/>
+        </div>
+        <div className="u-back-button-container">
+              <button onClick={()=>{navigate('/')}}>back</button>
+            </div>     
         <div className="HowToPlay-container">
           <div className="HowToPlay-title">
             how to play

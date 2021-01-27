@@ -17,6 +17,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
 
+
 :root {
   --primary: #396dff;
   --primary--dim: #6987db;
@@ -49,13 +50,19 @@
   --l: 24px;
   --xl: 48px;
 
-  --background-color: rgb(249, 235, 234);
+  /*OLD */
+  /* --background-color: rgb(249, 235, 234);
   --border-color: rgb(100, 100, 100);
-  --text-color: /* rgb(100, 100, 100); */ var(--grey);
+  --text-color: var(--grey); */
+  /* --background-color: rgb(220, 15, 0);
+  --border-color: rgb(100, 100, 100);
+  --text-color: var(--grey); */
+
+  --line-color: rgba(100,100,100,0.2);
 
   --font-primary: 'Alata', sans-serif;
 
-  --color-1: rgb(253, 190, 190);
+  /* --color-1: rgb(253, 190, 190);
   --color-1-hover: rgb(255 170 170);
   --color-2: rgb(255, 216, 175);
   --color-2-hover: rgb(255, 202, 145);
@@ -64,7 +71,7 @@
   --color-4: rgb(211, 247, 201);
   --color-4-hover: rgb(195, 246, 181);
   --color-5: blanchedalmond;
-  --color-error: rgb(249, 55, 55);
+  --color-error: rgb(249, 55, 55); */
 
   --pixel-color-unfilled: var(--white);
   --pixel-color-filled: var(--dark-grey);
@@ -78,13 +85,12 @@ body {
   animation-iteration-count: 1; 
   animation-fill-mode: forwards; 
 
-  margin: 1rem;
+  margin: 0;
   padding: 0;
   font-family: 'Alata', sans-serif;
   font-weight: 100;
-  /* background-color: var(--light-grey);  */
-  background-color: var(--white); 
-  color: var(--grey);
+  background-color: var(--background-color); 
+  color: var(--text-color);
   font-size: var(--m);
   text-transform: lowercase;
 
@@ -115,7 +121,13 @@ li {
   font-family: 'Roboto', sans-serif;
   line-height: 1.75em;
 }
+
 .u-welcome {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1rem;
+  padding-bottom: 0;
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: 1; 
   animation-fill-mode: forwards; 
@@ -145,7 +157,7 @@ h3 {
 
 button {
   font-family: 'Alata', sans-serif;
-  color: var(--text-color);
+  color: var(--button-text-color);
   cursor: pointer;
   border: 0px;
   filter: contrast(100%);
@@ -158,14 +170,22 @@ button {
 }
 
 /* used animista */
-button:hover {
+/* button:hover {
+  background-color: var(--button-color-hover);
+  -webkit-animation: scale-up-center 0.2s ease-out both;
+  animation: scale-up-center 0.2s ease-out both;
+  animation: color-change 0.2s ease-in;
+} */
+
+button:active:hover:not([disabled]) {
   background-color: var(--button-color-hover);
   -webkit-animation: scale-up-center 0.2s ease-out both;
   animation: scale-up-center 0.2s ease-out both;
   animation: color-change 0.2s ease-in;
 }
 
-button:disabled {
+button[disabled], .button[disabled]:hover, .button[disabled]:focus, .button[disabled]:active {
+  color: var(--button-text-color);
   background-color: var(--button-disabled-color);
   cursor: default;
 }
@@ -227,11 +247,18 @@ form {
 }
 
 .u-color-grey {
-  background-color:  var(--text-color);
+  background-color:  var(--fake-grey-color);
 }
 .u-text-error {
   color: var(--color-error);
   white-space: normal;
+}
+
+.u-back-button-container {
+  margin: 0 1rem ;
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1; 
+  animation-fill-mode: forwards; 
 }
 
 .u-flex {

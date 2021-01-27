@@ -70,13 +70,10 @@
     padding: var(--s);
     background-color: var(--button-color-2);
 }
-.JoinGame-startGame:hover {
-    background-color: var(--button-color-hover-2);
-}
 
 .JoinGame-header {
     font-size: var(--l);
-    color: var(--font-color-2);
+    color: var(--font-color-3);
     margin-bottom: var(--m);
 }
 

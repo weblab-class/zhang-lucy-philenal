@@ -67,13 +67,23 @@
     padding: var(--s);
     background-color: var(--button-color-2);
 }
-.NewGame-startGame:hover {
-    background-color: var(--button-color-hover-2);
+
+
+.NewGame-startGame:disabled {
+    background-color: lightgray;
+    border-color: gray;
+    border-width: 2px;
+    color: gray;
 }
+
+
+/* .NewGame-startGame:hover {
+    background-color: var(--button-color-hover-2);
+} */
 
 .NewGame-header {
     font-size: var(--l);
-    color: var(--font-color-2);
+    color: var(--font-color-3);
     margin-bottom: var(--m);
 }
 

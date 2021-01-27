@@ -1,0 +1,62 @@
+.light {
+    --background-color: rgb(238, 238, 238);
+    --border-color: rgb(100, 100, 100);
+    --text-color: var(--grey);
+    --line-color: var(--grey);
+
+    --font-color-2: rgba(0, 0, 0, 0.54);
+    --font-color-3: rgba(0, 0, 0, 0.54);
+
+    --color-1: rgb(253, 190, 190);
+    --color-1-hover: rgb(255 170 170);
+    --color-2: rgb(255, 216, 175);
+    --color-2-hover: rgb(255, 202, 145);
+    --color-3: rgb(255, 254, 179);
+    --color-3-hover: rgb(250, 249, 139);
+    --color-4: rgb(211, 247, 201);
+    --color-4-hover: rgb(195, 246, 181);
+    --color-5: blanchedalmond;
+    --color-error: rgb(249, 55, 55);
+
+    --button-text-color: var(--text-color);
+    --button-disabled-color: lightgray;
+    /* --button-color: #fdf4f4; */
+    --button-color: #d8e7fa;
+    /* --button-color-hover: #f9dede; */
+    --button-color-hover: #a5caf8;
+    --button-color-2: white;
+
+    --fake-grey-color: var(--text-color);
+  }
+  
+  .dark {
+    --background-color: #222831;
+    --border-color: #414141;
+    --text-color: #eeeeee;
+    --line-color: rgb(218, 218, 217);
+
+    --font-color-2: #eeeeee;
+    --font-color-3: #414141;
+
+    --color-1:#120078;
+    --color-1-hover: #1b0a77;
+    --color-2: #9d0191;
+    --color-2-hover:#9f2294;
+    --color-3: #fd3a69;
+    --color-3-hover: #fd678a;
+    --color-4: #fecd1a;
+    --color-4-hover: #fad552;
+    --color-5: blanchedalmond;
+    --color-error: rgb(249, 55, 55);
+
+    --button-text-color: #393e46;
+    --button-disabled-color: lightgray;
+    /* --button-color: #fdf4f4; */
+    --button-color: #ffffff;
+    /* --button-color-hover: #f9dede; */
+    --button-color-hover: #b6b6b6;
+    --button-color-2: white;
+
+    --fake-grey-color: #393e46;
+  }
+  

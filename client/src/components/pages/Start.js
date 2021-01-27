@@ -1,12 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, useState} from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import ReactLoading from 'react-loading';
 import { get } from "../../utilities";
-import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
 import StartMenu from "../modules/StartMenu.js";
+import ToggleButton from '../modules/ToggleButton';
 import "./Start.css";
+import "../../utilities.css";
+// import "../../utilities.scss";
+// import "../../variables.scss";
+// import "../App.scss";
 
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
@@ -21,12 +25,15 @@ const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.goo
 class Start extends Component {
   constructor(props) {
     super(props);
+    // console.log("CONTEXT");
+    // console.log(this.context);
     // Initialize Default State
     this.state = {
       loggedIn: false,
       user_id: null,
       isLoading: true,
       buttonDisabled: false,
+      theme: "light"
     };
   }
 
@@ -35,11 +42,12 @@ class Start extends Component {
   }
 
   componentDidMount() {
+
+    
     this.is_mounted = true;
     // TODO: figure out if we need to do duplicate calls of this
     console.log(this.props);
     get("/api/whoami").then((user) => {
-      // console.log("whoami");
       console.log(user);
       if (user._id && this.is_mounted) {
         // they are registed in the database, and currently logged in.
@@ -127,34 +135,43 @@ class Start extends Component {
   }
 
   render() {
+
     if (this.props.user_id) {
       return (
         <>
           {this.state.isLoading ?
-            <div className="LoadingScreen"> 
+            <div className={`LoadingScreen`}> 
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
-            <div className="Start-background">
-              <div className="u-welcome">hello, {this.props.user_name}! 
-                <GoogleLogout
-                    clientId={GOOGLE_CLIENT_ID}
-                    buttonText="Logout"
-                    onLogoutSuccess={this.onLogout}
-                    onFailure={(err) => console.log(err)}
-                    render={(renderProps) => (
-                    <span
-                      onClick={renderProps.onClick}
-                      className="Start-googleButton u-pointer"
-                      >
-                        logout
-                      </span>
-                    )}
-                  /></div>
+            <div className={`Start-background`}>
+              <div className={`u-welcome`}>
+                <div>
+                  hello, {this.props.user_name}! 
+                  <GoogleLogout
+                      clientId={GOOGLE_CLIENT_ID}
+                      buttonText="Logout"
+                      onLogoutSuccess={this.onLogout}
+                      onFailure={(err) => console.log(err)}
+                      render={(renderProps) => (
+                      <span
+                        onClick={renderProps.onClick}
+                        className="Start-googleButton u-pointer"
+                        >
+                          logout
+                        </span>
+                      )}
+                    />
+                </div>
+                <ToggleButton/>
+              </div>
+                
+                
                 <div className="Start-title">
                     <PlayerPanelTop/>
                 </div>
                 <div className="Start-startMenu">
                     <StartMenu 
+                      className={this.state.theme}
                       user_id={this.props.user_id} 
                       user_name={this.props.user_name}/>
                 </div>

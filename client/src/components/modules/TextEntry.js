@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
+import "../../variables.scss";
 import "./StartMenu.css";
 import "./TextEntry.css";
 

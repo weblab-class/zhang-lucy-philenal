@@ -5,6 +5,8 @@ import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./NewGame.css";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
+import ToggleButton from "../modules/ToggleButton";
+
 /**
  * NewGame page asks the user to enter a unique ID, then creates
  * a game with said ID. 
@@ -70,8 +72,17 @@ class NewGame extends Component {
   render() {
     return (
       <>
-            <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
-            <button onClick={()=>{navigate('/')}}>back</button>
+            <div className="u-welcome">
+              <div>
+              hello, {this.props.location.state.user_name}!
+              </div>
+              <div>
+              <ToggleButton/>
+              </div>
+            </div>
+            <div className="u-back-button-container">
+              <button onClick={()=>{navigate('/')}}>back</button>
+            </div>            
             <div className="NewGame-container">
                 <div className="NewGame-title">
                   new game

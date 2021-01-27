@@ -10,7 +10,7 @@
     border: 1.5px solid var(--light-grey);
     height: 2em;
     outline: 0;
-    background: transparent;
+    background: var(--background-color);
 }
 
 .TextEntry-underline:hover {

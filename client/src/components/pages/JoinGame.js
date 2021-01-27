@@ -1,10 +1,10 @@
 import { navigate } from "@reach/router";
 import React, { Component } from "react";
 import { post } from "../../utilities";
-import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./JoinGame.css";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
+import ToggleButton from "../modules/ToggleButton";
 
 /**
  * JoinGame page asks the user to enter a unique ID, then joins
@@ -70,8 +70,17 @@ class JoinGame extends Component {
   render() {
     return (
       <>
-            <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
-            <button onClick={()=>{navigate('/')}}>back</button>
+            <div className="u-welcome">
+              <div>
+              hello, {this.props.location.state.user_name}!
+              </div>
+              <div>
+              <ToggleButton/>
+              </div>
+            </div>
+            <div className="u-back-button-container">
+              <button onClick={()=>{navigate('/')}}>back</button>
+            </div>
             <div className="JoinGame-container">
                 <div className="JoinGame-title">
                   join game

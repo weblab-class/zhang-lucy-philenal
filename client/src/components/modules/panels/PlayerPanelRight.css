@@ -5,7 +5,7 @@
     top: var(--m);
     align-self: flex-start;
     font-size: var(--l);
-    color: var(--font-color-2);
+    color: var(--font-color-3);
     margin-bottom: var(--m);
 }
 
@@ -85,7 +85,7 @@ section {
 .PlayerPanelRight-chatMessage {
     margin: 0;
     padding: 0.25rem;
-    color: var(--font-color-2);
+    color: var(--font-color-3);
     font-family: 'Roboto', sans-serif;
 }
 

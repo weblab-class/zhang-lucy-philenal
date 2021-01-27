@@ -12,7 +12,7 @@
     border: 1.5px solid var(--light-grey);
     height: 2em;
     outline: 0;
-    background: transparent;
+    background: var(--background-color);
 }
 
 .GuessEntry-underline:hover {
@@ -55,7 +55,7 @@
 }
 
 .GuessEntry-quitConfirmationChild {
-    color: var(--text-color);
+    color: var(--font-color-3);
 }
 
 /* .GuessEntry-button disabled{
