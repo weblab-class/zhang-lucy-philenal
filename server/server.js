@@ -23,6 +23,7 @@ const http = require("http");
 const express = require("express"); // backend framework for our node server.
 const session = require("express-session"); // library that stores info about each connected user
 const mongoose = require("mongoose"); // library to connect to MongoDB
+mongoose.set('useFindAndModify', false);
 const path = require("path"); // provide utilities for working with file and directory paths
 
 require("dotenv").config();

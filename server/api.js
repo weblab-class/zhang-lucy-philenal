@@ -12,7 +12,7 @@ const BOARD_WIDTH_BLOCKS = 20;
 const BOARD_HEIGHT_BLOCKS = 20;
 
 var mongoose = require('mongoose');
-
+mongoose.set('useFindAndModify', false);
 const express = require("express");
 
 // import models so we can interact with the database
@@ -120,52 +120,95 @@ router.post("/user/leave", (req, res) => {
     update, {
     new: true}
   ).then((res) => {
-    console.log(res);
-  });
+    console.log("USER LEFTTTTTTTTTTTTTTTT")
+      console.log(res);
+      let newGuesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
+      Game.findOneAndUpdate(
+        {
+          _id: req.body.game_id,
+        },
+        { $pull:{ 
+          players: { _id: req.body.user_id },
+          pixelers: { _id: req.body.user_id }
+          },
+        $push: { recently_left: res},
+        $set: { guesser: newGuesser } 
+        },
+        {"new": true}
+      ).then((game)=>{
+        console.log("YES IT WORKKKKKKKKKKKKKS");
+        socketManager.getIo().emit("players_and_game_id", 
+              {
+                recently_left: game.recently_left,
+                players: game.players, 
+                game_id: game._id,
+              });
+        console.log("I EMMITED CHANGED PLYERS " + game);
 
-  // TODO: update host
-  const update2 = {
-    $pull:{ 
-      players: { _id: req.body.user_id },
-      pixelers: { _id: req.body.user_id }
-    }
-  };
-
-  Game.findOneAndUpdate(
-    { _id: req.body.game_id }, 
-    update2, 
-    {"new": true},
-    ).then((game)=>{
-      console.log("here");
-      console.log(game);
-      res.send({"success": true});
-  }).catch((err) => {
-    console.log("Error with user/leave");
-    console.log(err);
-  });
-
-  Game.findOne(filter2, 
-    function (err, game) {
-      console.log(game);
-      game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
-      game.save(function (err) {
-          if(err) {
-              console.error('ERROR!');
-          }
-      });
-    }
-  ).then((res) => {
-    socketManager.getIo().emit("players_and_game_id", 
-          {
-            players: res.players, 
-            game_id: res._id,
-          });
-    console.log("I EMMITED CHANGED PLYERS " + res);
-  }).catch((err) => {
-    console.log("Error with user/leave");
-    console.log(err);
+        console.log("here");
+        console.log(game);
+        res.send({"success": true});
+    }).catch((err) => {
+      console.log("Error with user/leave");
+      console.log(err);
+    });
   });
 });
+     // TODO: update host
+ /*    const update2 = {
+      $pull:{ 
+        players: { _id: req.body.user_id },
+        pixelers: { _id: req.body.user_id }
+      }
+    };
+
+    const filter2 = {
+      _id: req.body.game_id
+    }
+ */
+    
+    /* Game.findOneAndUpdate(
+      { _id: req.body.game_id }, 
+      update2, 
+      {"new": true},
+      ).then((game)=>{
+        console.log("here");
+        console.log(game);
+        res.send({"success": true});
+    }).catch((err) => {
+      console.log("Error with user/leave");
+      console.log(err);
+    });
+
+    Game.findOne(filter2, 
+      function (err, game) {
+        console.log(game);
+        game.recently_left = game.recently_left.concat(res);
+        console.log("RECENTLY LEFT YEEETED " + game.recently_left);
+        game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
+        game.save(function (err) {
+            if(err) {
+                console.error('ERROR!');
+            }
+        });
+      }
+    ).then((res) => {
+      console.log("YES IT WORKKKKKKKKKKKKKS");
+      socketManager.getIo().emit("players_and_game_id", 
+            {
+              recently_left: game.recently_left,
+              players: res.players, 
+              game_id: res._id,
+            });
+      console.log("I EMMITED CHANGED PLYERS " + res);
+    }).catch((err) => {
+      console.log("Error with user/leave");
+      console.log(err);
+    });
+  });
+ */
+ 
+
 
 router.post("/game/endTurn", (req, res) => {
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
@@ -454,10 +497,23 @@ router.post("/game/join", (req, res) => {
             game_id: req.body.game_id,
           }]);
         }
-      
+        
+        //if recently left, take away from recently left list
+        let index = -1;
+        for (let i=0; i < game.recently_left.length; i ++){
+          if (game.recently_left[i]._id == req.body.user_id){
+            index = i;
+          }
+        }
+
+        if (index != -1){
+          game.recently_left.splice(index, 1);
+        }
+
         game.save().then((res) => {
           socketManager.getIo().emit("players_and_game_id", 
           {
+            recently_left: game.recently_left,
             players: res.players, 
             game_id: res._id
           });

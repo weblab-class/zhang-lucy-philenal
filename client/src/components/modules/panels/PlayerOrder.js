@@ -23,7 +23,7 @@ class PlayerOrder extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          currentPlayers: null,
+          recently_left: [],
         };
       }
 
@@ -32,8 +32,8 @@ class PlayerOrder extends Component {
          socket.on("players_and_game_id", (updatedGame)=>{
           if (this.props.game_id === updatedGame.game_id)
           {
-              this.setState({currentPlayers: updatedGame.players}, ()=> {
-                  console.log("the updated players " + this.state.currentPlayers);
+              this.setState({recently_left: updatedGame.recently_left}, ()=> {
+                  console.log("recently left players; " + this.state.recently_left);
               })
           };
       });
@@ -50,7 +50,7 @@ class PlayerOrder extends Component {
                 isMyTurn={index===this.props.turn}
                 //if someone joined/left game, then check if it's in the current players list. 
                 //if nothing is changed, then it's still in current player
-                inGame={this.state.currentPlayers!=null ? this.state.currentPlayers.includes(pixeler): true}
+                inGame={!this.state.recently_left.includes(pixeler)}
               />
             ); 
           });

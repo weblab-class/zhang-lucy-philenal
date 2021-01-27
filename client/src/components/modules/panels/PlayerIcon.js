@@ -27,11 +27,17 @@ class PlayerIcon extends Component {
       }
 
       render() {
-      
-        let colorClass = "PlayerIcon-icon "
+        let backgroundGrey = 'PlayerIcon-container ';
+        let colorClass = "PlayerIcon-icon ";
+        
         if (!this.props.inGame){
-          colorClass = colorClass + "u-color-grey"
-        } else if (this.props.order % 4 == 0){
+          backgroundGrey = backgroundGrey + "PlayerIcon-backgroundGrey"
+        } else if (this.props.isMyTurn){
+          backgroundGrey = backgroundGrey + "PlayerIcon-backgroundWhite"
+        } else {
+        }
+
+        if (this.props.order % 4 == 0){
           colorClass = colorClass + "u-color-1"
         } else if (this.props.order % 4 == 1){
           colorClass = colorClass + "u-color-2"
@@ -42,9 +48,7 @@ class PlayerIcon extends Component {
         }
 
         return (
-            <div className={this.props.isMyTurn ? 
-              'PlayerIcon-backgroundWhite' : 
-              'PlayerIcon-container'}> {/* turns white if it's your turn */}
+            <div className={backgroundGrey}> {/* turns white if it's your turn */}
                 <div className="PlayerIcon-left">
                   <div className="PlayerIcon-order">{this.props.order}</div>
                   <div className={colorClass}></div>

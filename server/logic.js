@@ -111,6 +111,7 @@ const newGame = (req) => {
     finished: false,
     maxSessions: 1,
     session: 0,
+    recently_left: [],
     round: 1,
     turn: 0,
     wordpack: wordpackName,

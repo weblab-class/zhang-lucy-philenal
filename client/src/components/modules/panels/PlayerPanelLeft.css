@@ -28,6 +28,18 @@
     justify-content: flex-start;
     width: 120px;
 }
+.PlayerIcon-backgroundGrey {
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
+    width: 120px;
+    background-color: var(--light-grey);
+    padding: var(--s);
+    border-color:  var(--light-grey);
+    border-width: .5em;
+    border-radius: 0.5em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
+}
 
 .PlayerIcon-backgroundWhite {
     animation: fadeInAnimation ease 1s;
