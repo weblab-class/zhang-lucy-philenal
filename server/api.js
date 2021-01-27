@@ -31,12 +31,7 @@ const router = express.Router();
 const socketManager = require("./server-socket");
 
 //word pack
-const wordPacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "cake", "flower", "house", "happy", "mango", "tree"],
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
-  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
-  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
-};
+const wordPacks = Logic.wordpacks;
 
 const sessionValues = [1,2,3,4,5];
 
@@ -44,7 +39,7 @@ const sessionValues = [1,2,3,4,5];
 // the users. For example, an easy game with 400 pixels on the canvas and 
 // 3 players (2 pixelers 1 guesser) give the players (400 * 0.5 * 1/2) pixels 
 // each [100 px].
-const difficulties = {"easy": 0.4, "medium": 0.3, "hard": 0.2};
+const difficulties = {"many (easy)": 0.4, "some (medium)": 0.3, "few (hard)": 0.2};
 
 //sends list of possible wordpacks
 router.get("/game/wordPacks", (_, res)=> {
@@ -114,16 +109,14 @@ router.post("/game/new", (req, res) => {
 //sends username
 router.get("/user/name", (req, res) => {
   User.find({ _id: req.body.user_id }).then((user) => {
-    console.log("I GIVE U MY NAME")
     res.send(user.name)
   })
 })
 
 router.post("/user/leave", (req, res) => {
-  const filter = { _id: req.body.user_id };
   const update = { game_id: null };
   User.findOneAndUpdate(
-    filter, 
+    { _id: req.body.user_id }, 
     update, {
     new: true}
   ).then((res) => {
@@ -131,7 +124,6 @@ router.post("/user/leave", (req, res) => {
   });
 
   // TODO: update host
-  const filter2 = { _id: req.body.game_id };
   const update2 = {
     $pull:{ 
       players: { _id: req.body.user_id },
@@ -140,7 +132,7 @@ router.post("/user/leave", (req, res) => {
   };
 
   Game.findOneAndUpdate(
-    filter2, 
+    { _id: req.body.game_id }, 
     update2, 
     {"new": true},
     ).then((game)=>{
@@ -166,9 +158,9 @@ router.post("/user/leave", (req, res) => {
     socketManager.getIo().emit("players_and_game_id", 
           {
             players: res.players, 
-            game_id: res._id
+            game_id: res._id,
           });
-    console.log(res);
+    console.log("I EMMITED CHANGED PLYERS " + res);
   }).catch((err) => {
     console.log("Error with user/leave");
     console.log(err);
@@ -222,6 +214,7 @@ router.get("/user/images", (req, res) => {
     };
 
     res.send({
+      user_name: user.name,
       correct: user.correct_imgs,
       incorrect: user.incorrect_imgs,
     });
@@ -250,7 +243,7 @@ router.post("/game/nextRound", (req, res) => {
             pixels: board.pixels,
             width: board.width,
             height: board.height,
-            num_filled: board.num_filled,
+            num_filled: 0,//board.num_filled,
             title: word,
           });
         } else if (status == "incorrect") {
@@ -258,7 +251,7 @@ router.post("/game/nextRound", (req, res) => {
             pixels: board.pixels,
             width: board.width,
             height: board.height,
-            num_filled: board.num_filled,
+            num_filled: 0,//board.num_filled,
             title: word,
           });
         }
@@ -268,7 +261,10 @@ router.post("/game/nextRound", (req, res) => {
 
     // get the next word
     game.word_idx += 1;
-
+    //if the (# of players) words have been played, round ended
+    if ((game.word_idx) % game.players.length == 0){
+      game.round +=1
+    }
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
       game.finished = true;
@@ -297,6 +293,7 @@ router.post("/game/nextRound", (req, res) => {
     game.guesser = game.players[0];
     game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
+    game.guesses=[];
 
     game.save().then((updatedGame) => { //updates game document and then shouts the change
 
@@ -314,6 +311,7 @@ router.post("/game/nextRound", (req, res) => {
         players: updatedGame.players,
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
+        round: updatedGame.round,
         status: "not end",
         almostEnd: almostEnd
       });
@@ -357,6 +355,7 @@ router.get("/game/turn", (req, res) => {
     }
   });
 });
+
 router.get("/game/players", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
     let userIdPassed = req.query.user_id;
@@ -383,6 +382,37 @@ router.get("/game/players", (req, res) => {
   });
 });
 
+router.get("/game/num_filled", (req, res) => {
+  Game.findOne({ _id: req.query.game_id }).then((game) => {
+    let userIdPassed = req.query.user_id;
+    if (!userIdPassed) {
+      return res.status(400).send({msg: "please pass your user_id"});
+    }
+    let gameFound = game;
+    if (!gameFound) {
+      return res.status(400).send({msg: "invalid game ID"});
+    }
+    let userValidated = Logic.validateUser(game, req.query.user_id);
+    if (!userValidated) {
+      return res.status(404).send({msg: "invalid user ID"});
+    }
+    if (userIdPassed && gameFound && userValidated) {
+      console.log(game.num_filled);
+      for (let i = 0; i < game.num_filled.length; i++) {
+        if (game.num_filled[i].user_id == req.query.user_id) {
+          return res.status(200).send({
+            status: 200,
+            num_filled: game.num_filled[i].count,
+            msg: "success",
+          });
+        }
+      }
+      return res.status(404).send({msg: "invalid user ID"});
+
+    } 
+  });
+});
+
 
 router.get("/game/player_status", (req, res) => {
   console.log("player status...");
@@ -394,8 +424,6 @@ router.get("/game/player_status", (req, res) => {
     } 
     Game.find({ _id: users[0].game_id 
     }).then((games) => {
-      console.log("found games:");
-      console.log(games);
       if (games.length == 0) {
         res.send({status:"not in game"});
         return;
@@ -432,14 +460,6 @@ router.get("/game/canvas", (req, res) => {
 });
 
 router.post("/game/join", (req, res) => {
-  const filter = { _id: req.body.user_id };
-  const update = { game_id: req.body.game_id };
-  User.findOneAndUpdate(filter, update, {
-    new: true,
-  }).then((res)=>{
-    console.log(res);
-  });
-
   console.log(req.body);
   Game.findOne(
     {_id: req.body.game_id}, 
@@ -453,7 +473,11 @@ router.post("/game/join", (req, res) => {
             break;
           }
         }
+
         if (playerNotInGameYet) {
+          if (game.started) {
+            res.send({status: "error", msg: "game already started"})
+          }
           game.players = game.players.concat([{
             _id: req.body.user_id, 
             name: req.body.user_name,
@@ -474,6 +498,14 @@ router.post("/game/join", (req, res) => {
     ).then(()=>{res.send({status:"success"})})
   .catch((err) => {
     console.log(err);
+  });
+
+  const filter = { _id: req.body.user_id };
+  const update = { game_id: req.body.game_id };
+  User.findOneAndUpdate(filter, update, {
+    new: true,
+  }).then((res)=>{
+    console.log(res);
   });
  
 });
@@ -502,7 +534,7 @@ router.put("/game/guess", (req, res) => {
           game.num_correct += 1;
           game.word_statuses.push("correct");
         }
-        // TODO: increment turn/word
+
         game.save().then((updatedGame) => {
           if (correct) {
             res.send({message: "correct"});
@@ -561,12 +593,20 @@ router.put("/game/start", (req, res) => {
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
       game.wordPack = req.body.wordPack;
-      game.words = wordPacks[game.wordPack];
+      game.words = Logic.shuffle(wordPacks[game.wordPack]); //TODO: Logic.shuffle()
       game.word = game.words[0];
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
       game.pixel_limit = req.body.pixel_limit;
+      game.num_filled = [];
+      for (let i = 0; i < game.players.length; i++) {
+        game.num_filled.push({
+          user_id: game.players[i]._id,
+          count: 0,
+        })
+      }
 
+      console.log("game.words"+ game.words)
       game.save()
       .then((updatedGame) => {
         //TODO: (philena) change this to socket room for higher efficiency!!!!
@@ -583,38 +623,62 @@ router.put("/game/start", (req, res) => {
 router.put("/game/pixel", (req, res) => {
   Game.findOne({_id: req.body.game_id},
     function(err, game) {
-      if (game.pixel_limit <= req.body.num_filled) {
-        res.send({status: "error", msg: "exceeded limit"});
-        return;
+      console.log(game.num_filled);
+      let ok = false;
+      for (let i = 0; i < game.num_filled.length; i++) {
+        if (game.num_filled[i].user_id == req.body.user_id) {
+          if(game.num_filled[i].count >= game.pixel_limit) {
+            res.status(404).send({status: "error", msg: "exceeded limit"});
+            return;
+          } else {
+            game.num_filled[i].count += 1;
+            ok = true;
+            break;
+          }
+        }
       }
-    });
-
-  console.log(req.body);
-  let color =  req.body.pixel_filled ? req.body.pixel_color: "none";
-  //this was helpful: https://stackoverflow.com/questions/56527121/findoneandupdate-nested-object-in-array/56527476
-  Game.findOneAndUpdate(
-    {
-      "_id": req.body.game_id,
-    "board.pixels.id": req.body.pixel_id },
-    { $set: {
-      num_filled: req.body.num_filled,
-      "board.pixels.$.color" : color,
-      "board.pixels.$.filled": req.body.pixel_filled
+      if (!ok) {
+        res.status(400).send({status: "error", msg: `invalid user: ${req.body.user_id}`});
+        return;
+      } else {
+        game = Logic.updatePixel(game, req.body.pixel_id, req.body.pixel_color, req.body.pixel_filled);
+        game.save().then((updatedGame) => {
+          console.log("new pixel color " + req.body.pixel_color);
+          socketManager.getIo().emit("board_and_game_id", 
+          {
+            pixel_id: req.body.pixel_id,
+            pixel_id_filled: req.body.pixel_filled,
+            pixel_color: req.body.pixel_color,
+            board: updatedGame.board,
+            game_id: updatedGame._id,
+          });
+          let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+          res.send(game);
+        }).catch((err) => {
+          console.log(err);
+        })
       }
     }
-  ).then((updatedGame) => {
-    console.log("new pixel color " + req.body.pixel_color);
-    socketManager.getIo().emit("board_and_game_id", 
-    {
-      pixel_id: req.body.pixel_id,
-      pixel_id_filled: req.body.pixel_filled,
-      pixel_color: req.body.pixel_color,
-      board: updatedGame.board,
-      game_id: updatedGame._id,
-    });
-    let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
-    res.send(game);
-  });
+  );
+  // .then(()=>
+  //   {
+  //     console.log(req.body);
+  //     let color =  req.body.pixel_filled ? req.body.pixel_color: "none";
+  //     //this was helpful: https://stackoverflow.com/questions/56527121/findoneandupdate-nested-object-in-array/56527476
+  //     Game.findOneAndUpdate(
+  //       {
+  //         "_id": req.body.game_id,
+  //       "board.pixels.id": req.body.pixel_id },
+  //       { $set: {
+  //         // num_filled: req.body.num_filled,
+  //         "board.pixels.$.color" : color,
+  //         "board.pixels.$.filled": req.body.pixel_filled
+  //         }
+  //       }
+  //     )
+  //   }
+  // )
+  
 });
       
 router.post("/board/clear_pixels", (req, res) => {
@@ -627,14 +691,19 @@ router.post("/board/clear_pixels", (req, res) => {
       }
       console.log(game);
       // if (game && game.board) {
-      game.board.num_filled = 0;
+      game.num_filled = [];
+      for (let i = 0; i < game.players.length; i++) {
+        game.num_filled.push({
+          user_id: game.players[i]._id,
+          count: 0,
+        })
+      }
+
       for (let i = 0; i < game.board.pixels.length; i++) {
         game.board.pixels[i].color = "none";
         game.board.pixels[i].filled = false;
       }
       game.save().then((res) => {
-        console.log("BACKEND CLEARING WORKS")
-        console.log("THIS IS THE GAME " + game)
         socketManager.getIo().emit("cleared_canvas", 
           {
             board: res.board, 

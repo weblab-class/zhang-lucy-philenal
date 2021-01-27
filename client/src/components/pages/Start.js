@@ -111,7 +111,6 @@ class Start extends Component {
   }
 
   onClick = () => {
-    console.log("clicked!!");
     this.setState({isLoading: true, buttonDisabled: true})
   }
   
@@ -125,12 +124,9 @@ class Start extends Component {
       }, () => {
         this.setState({
           isLoading: false,
-        }, () => {
-          // window.location.reload();
-        })
+        });
       });
     })
-    
   }
 
   onLogout = (res) => {
@@ -153,7 +149,7 @@ class Start extends Component {
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
             <div className="Start-background">
-              <div>hello, {this.props.user_name}! 
+              <div className="u-welcome">hello, {this.props.user_name}! 
                 <GoogleLogout
                     clientId={GOOGLE_CLIENT_ID}
                     buttonText="Logout"

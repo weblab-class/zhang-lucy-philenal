@@ -31,8 +31,10 @@
   --yellow: #fafdc7;
   --green: #caf9c5;
   --button-disabled-color: lightgray;
-  --button-color: /* rgb(251 245 221); */#fdf4f4;
-  --button-color-hover: #f9dede;
+  /* --button-color: #fdf4f4; */
+  --button-color: #d8e7fa;
+  /* --button-color-hover: #f9dede; */
+  --button-color-hover: #a5caf8;
   --button-color-2: white;
 
   --light-grey: #bab9b9;
@@ -56,8 +58,8 @@
   --color-1-hover: rgb(255 170 170);
   --color-2: rgb(255, 216, 175);
   --color-2-hover: rgb(255, 202, 145);
-  --color-3: rgb(230, 229, 162);
-  --color-3-hover: rgb(248, 246, 144);
+  --color-3: rgb(255, 254, 179);
+  --color-3-hover: rgb(250, 249, 139);
   --color-4: rgb(211, 247, 201);
   --color-4-hover: rgb(195, 246, 181);
   --color-5: blanchedalmond;
@@ -99,7 +101,17 @@ body {
       opacity: 1; 
    } 
 } 
-
+.u-welcome {
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1; 
+  animation-fill-mode: forwards; 
+}
+/* .ReactLoading-bar {
+  padding: var(--m);
+  margin: var(--m);
+  height: 20px;
+  width: 20px;
+} */
 h2 {
 
   letter-spacing: 0.1em;
@@ -195,6 +207,9 @@ form {
 }
 .u-color-4:hover {
   background-color: var(--color-4-hover);
+}
+.u-color-6 {
+  background-color: var(--button-color-hover);
 }
 
 .u-color-grey {

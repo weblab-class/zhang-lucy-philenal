@@ -23,7 +23,7 @@ class Lobby extends Component {
       players: [],
       sessions: 1,
       pixel_proportion: 0.4,
-      wordPack: "basic",
+      wordPack: "basic (easy)",
       wordPacks: null,
       host_id: null, //is host or not
     };
@@ -187,7 +187,7 @@ class Lobby extends Component {
         <> 
               {/* <div><GoogleButton/></div> */}
             
-              <div>hello, {this.props.location.state.user_name}!</div>
+              <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
               <button onClick={this.leaveGame}>leave game</button>
               <div className="Lobby-container">
                 <div className="Lobby-title">

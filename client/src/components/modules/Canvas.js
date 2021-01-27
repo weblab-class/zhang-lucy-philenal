@@ -4,6 +4,7 @@ import { get, put } from "../../utilities";
 import "../../utilities.css";
 import "./Canvas.css";
 import PixelBlock from "./PixelBlock.js";
+import ReactLoading from 'react-loading';
 
 //TODO: media query resize for responsive canvas
 // TODO: Un-hardcode, have this be read in as a prop
@@ -52,16 +53,16 @@ class Canvas extends Component {
       });
     }
 
-
     put("/api/game/pixel", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
       pixel_id: id,
       pixel_color: actualColor,
       pixel_filled: filled,
-      num_filled: this.state.filled_blocks,
+      // num_filled: this.state.filled_blocks,
     }).then((res) => {
       if (res.status == "error") {
+        // if (res.msg == "exceeded limit") 
         console.log(`error: ${res.msg}`);
       } else {
         console.log(res);

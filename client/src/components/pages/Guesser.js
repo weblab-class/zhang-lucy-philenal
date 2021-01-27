@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
 import { get, post } from "../../utilities";
 import "../../utilities.css";
+import "../pages/Player.css";
 import CanvasPanel from "../modules/panels/CanvasPanel";
 import PlayerPanelLeft from "../modules/panels/PlayerPanelLeft";
 import PlayerPanelRight from "../modules/panels/PlayerPanelRight";
@@ -14,9 +15,10 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
  * ~@param game_id The ID of the game~ (no longer)
  * @param user_id The ID of the particular player
  * @param {Number} turn
- * @param {String} hiddenWord is "_ _ _ " if not guessed correctly, but shows actual word if guessed correctly
  * @param {Callback} onCorrectGuess function
  * @param {Boolean} correctGuess
+ * @param {Number} round -- starts at 1
+ * @param {Number} maxSessions
  */
 class Guesser extends Component {
   constructor(props) {
@@ -26,6 +28,7 @@ class Guesser extends Component {
       //is it bad to set this as state when it's changing based off of pixeler moves
       canvas: {},
       word: "",
+      leaveGameConfirmation: false,
     };
   }
 
@@ -82,62 +85,89 @@ class Guesser extends Component {
   } */
 
   leaveGame = () => {
-    console.log(this.props);
-    post("/api/user/leave", {
-      user_id: this.props.user_id,
-      game_id: this.props.game_id,
-    }).then((res) => {
-      if (res.success) { 
-        navigate("/");
-      }
-    })
+    navigate("/");
+    // console.log(this.props);
+    // post("/api/user/leave", {
+    //   user_id: this.props.user_id,
+    //   game_id: this.props.game_id,
+    // }).then((res) => {
+    //   if (res.success) { 
+    //     navigate("/");
+    //   }
+    // })
   }
 
 
   render() {
-    return (
-      <>
-        <div className="Player-header">
+    if (this.state.user_name==null || this.props.turn==null || this.props.maxSessions==null || this.props.round==null){
+      return (<div></div>)
+    } else{
+      return (
+        <>
+          <div className="Player-header">
           <div>hello, {this.state.user_name}!</div>
           <div>game id: {this.props.game_id}</div>
-        </div>      <button onClick={this.leaveGame}>leave game</button>
-        <PlayerPanelTop/>
-        <div className="u-flex">
-          <div className="Player-subPanel">
-            {(this.state.pixelers) && 
-            <PlayerPanelLeft 
-              pixelers={this.state.pixelers} 
-              guesser={this.state.guesser} 
-              word={this.props.word}
-              turn={this.props.turn}
-              isGuesser={true}
-              leaveGame={this.leaveGame}
-              />
-            }
-          </div>
-          <div className="Player-subContainer">
-            {(this.state.canvas.width) &&  
-            <CanvasPanel 
-              canvas_height_blocks={this.state.canvas.width} // TODO: remove
-              canvas_width_blocks={this.state.canvas.height} 
-              canvas_pixels={this.state.canvas.pixels}
-              game_id={this.props.game_id}
-              user_id={this.props.user_id}
-              isMyTurn={true} //TODO: unhardcode, make more secure
-              isGuesser={true} //TODO: unhardcode
-              correctGuess={this.props.correctGuess}
-            /> } 
-          </div>
-          <div className="Player-subPanel">
-            <PlayerPanelRight
-              game_id={this.props.game_id}
-              user_id={this.props.user_id}
-              isGuesser={true}
-            />
-          </div>
+        </div>      
+        <div className="Player-subheader">
+          <button onClick={()=>this.setState({leaveGameConfirmation: true})}>leave game</button>
+          {this.state.leaveGameConfirmation && 
+          <div className="Player-quitConfirmationContainer">
+              <div className="Player-quitConfirmationChild">
+                  are you sure?
+              </div>
+              <div className="Player-quitConfirmationChild">
+                  <button className="Player-quitConfirmationButton"
+                    onClick={this.leaveGame}>
+                      yes, leave
+                  </button>
+                  <button className="Player-quitConfirmationButton"
+                    onClick={()=>{this.setState({leaveGameConfirmation: false})}}>
+                      cancel
+                  </button>
+              </div>
+          </div>}
         </div>
-      </>
-    );
+          <PlayerPanelTop/>
+          <div className="u-flex">
+            <div className="Player-subPanel">
+              {(this.state.pixelers) && 
+              <PlayerPanelLeft 
+                pixelers={this.state.pixelers} 
+                guesser={this.state.guesser} 
+                word={this.props.word}
+                turn={this.props.turn}
+                game_id={this.props.game_id}
+                isGuesser={true}
+                leaveGame={this.leaveGame}
+                round={this.props.round}
+                maxSessions={this.props.maxSessions}
+                />
+              }
+            </div>
+            <div className="Player-subContainer">
+              {(this.state.canvas.width) &&  
+              <CanvasPanel 
+                canvas_height_blocks={this.state.canvas.width} // TODO: remove
+                canvas_width_blocks={this.state.canvas.height} 
+                canvas_pixels={this.state.canvas.pixels}
+                game_id={this.props.game_id}
+                user_id={this.props.user_id}
+                isMyTurn={true} //TODO: unhardcode, make more secure
+                isGuesser={true} //TODO: unhardcode
+                correctGuess={this.props.correctGuess}
+              /> } 
+            </div>
+            <div className="Player-subPanel">
+              <PlayerPanelRight
+                game_id={this.props.game_id}
+                user_id={this.props.user_id}
+                isGuesser={true}
+              />
+            </div>
+          </div>
+        </>
+      );
+    }
   }
 }
 

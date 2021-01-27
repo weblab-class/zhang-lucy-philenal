@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import PlayerIcon from "./PlayerIcon.js";
 import "../../../utilities.css";
 import "./PlayerPanelLeft.css";
+import { socket } from "../../../client-socket.js";
 /**
  * @typedef UserObject
  * @property {String} _id of player
@@ -22,10 +23,20 @@ class PlayerOrder extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          currentPlayers: null,
         };
       }
 
       componentDidMount() {
+         //listens for updated players
+         socket.on("players_and_game_id", (updatedGame)=>{
+          if (this.props.game_id === updatedGame.game_id)
+          {
+              this.setState({currentPlayers: updatedGame.players}, ()=> {
+                  console.log("the updated players " + this.state.currentPlayers);
+              })
+          };
+      });
       }
 
       render() {
@@ -37,6 +48,9 @@ class PlayerOrder extends Component {
                 playername={pixeler.name}
                 order={index+1}
                 isMyTurn={index===this.props.turn}
+                //if someone joined/left game, then check if it's in the current players list. 
+                //if nothing is changed, then it's still in current player
+                inGame={this.state.currentPlayers!=null ? this.state.currentPlayers.includes(pixeler): true}
               />
             ); 
           });

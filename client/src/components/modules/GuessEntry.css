@@ -41,14 +41,17 @@
 }
 
 .GuessEntry-quitConfirmationContainer {
+    border-radius: 0.5em;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: flex-end;
-    background-color: blanchedalmond;
+    background-color: rgb(255, 246, 232);
     margin-top: .75rem;
     padding: 0.25rem;
+    border-radius: var(--s);
+
 }
 
 .GuessEntry-quitConfirmationChild {

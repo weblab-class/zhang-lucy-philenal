@@ -34,7 +34,6 @@ class GuessEntry extends Component {
   componentDidMount() {
     this.is_mounted = true;
 
-    console.log(`Guess Entry: ${this.props.game_id}, then ${this.props.user_id}`);
     get ("/api/game/turn", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
@@ -113,7 +112,6 @@ class GuessEntry extends Component {
     return (
       <>
         <div className="GuessEntry-container">
-            {/* <form> */}
                 <div className="GuessEntry-child">
                     <input
                         type='text'
@@ -159,8 +157,6 @@ class GuessEntry extends Component {
                 <button onClick={this.onQuit}>
                     yes, I give up
                 </button>
-            {/* </div>
-            <div className="GuessEntry-quitConfirmationChild"> */}
                 <button onClick={()=>{this.setState({areYouSure: false})}}>
                     cancel
                 </button>

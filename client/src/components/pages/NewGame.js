@@ -67,7 +67,7 @@ class NewGame extends Component {
   render() {
     return (
       <>
-            <div>hello, {this.props.location.state.user_name}!</div>
+            <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
             <button onClick={()=>{navigate('/')}}>back</button>
             <div className="NewGame-container">
                 <div className="NewGame-title">

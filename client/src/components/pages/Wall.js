@@ -13,7 +13,7 @@ import "../../utilities.css";
 /**
  * Wall page is the page that shows all the correctly guessed images
  * TODO: change the user schema to contain a list of all games you've played before
- * @param user_name
+ * 
  * @param user_id 
  */
 class Wall extends Component {
@@ -36,6 +36,7 @@ class Wall extends Component {
       this.setState({
         correct_pictures: pictures.correct,
         incorrect_pictures: pictures.incorrect,
+        user_name: pictures.user_name,
       }, () => {
         this.setState({isLoading: false})
       });
@@ -84,47 +85,52 @@ class Wall extends Component {
         </div>
       );
     }
-
-    return (
-      <>    
-      <button onClick={()=>{navigate('/')}}>back</button>
-      <div className="Wall-page">  
-        <div className="Wall-container-fame">
-          <div className="Wall-title-fame">hall of fame</div>
-          <div className="Wall-rowPixel">
-            <div className="Wall-pixels u-color-1"></div>
-            <div className="Wall-pixels u-color-2"></div>
-            <div className="Wall-pixels u-color-3"></div>
-            <div className="Wall-pixels u-color-4"></div>
-          </div>
-          {this.state.isLoading ? 
-            <div className="LoadingScreen"> 
-                <ReactLoading type={"bars"} color={"grey"} />
-            </div>  : 
-          <div className="Wall-gallery">
-            {correct_pictures}
+    if (this.state.user_name ==null){
+      return (<div></div>)
+    } else {
+      return (
+        <>
+        <div className="u-welcome">hello, {this.state.user_name}! </div>    
+        <button onClick={()=>{navigate('/')}}>back</button>
+        <div className="Wall-page">  
+          <div className="Wall-container-fame">
+            <div className="Wall-title-fame">hall of fame</div>
+            <div className="Wall-rowPixel">
+              <div className="Wall-pixels u-color-1"></div>
+              <div className="Wall-pixels u-color-2"></div>
+              <div className="Wall-pixels u-color-3"></div>
+              <div className="Wall-pixels u-color-4"></div>
+            </div>
+            {this.state.isLoading ? 
+              <div className="LoadingScreen"> 
+                  <ReactLoading type={"bars"} color={"grey"} className={"ReactLoading-bar"}/>
+              </div>  : 
+            <div className="Wall-gallery">
+              {correct_pictures}
+            </div> 
+            }
           </div> 
-          }
-        </div> 
-        <div className="Wall-container-shame">
-          <div className="Wall-title-shame">wall of shame</div>
-          <div className="Wall-rowPixel">
-            <div className="Wall-pixels u-color-grey"></div>
-            <div className="Wall-pixels u-color-grey"></div>
-            <div className="Wall-pixels u-color-grey"></div>
-            <div className="Wall-pixels u-color-grey"></div>
+          <div className="Wall-container-shame">
+            <div className="Wall-title-shame">wall of shame</div>
+            <div className="Wall-rowPixel">
+              <div className="Wall-pixels u-color-grey"></div>
+              <div className="Wall-pixels u-color-grey"></div>
+              <div className="Wall-pixels u-color-grey"></div>
+              <div className="Wall-pixels u-color-grey"></div>
+            </div>
+            {this.state.isLoading ? 
+              <div className="LoadingScreen"> 
+                  <ReactLoading type={"bars"} color={"grey"} />
+              </div> : 
+            <div className="Wall-gallery">
+              {incorrect_pictures}
+            </div>}
           </div>
-          {this.state.isLoading ? 
-            <div className="LoadingScreen"> 
-                <ReactLoading type={"bars"} color={"grey"} />
-            </div> : 
-          <div className="Wall-gallery">
-            {incorrect_pictures}
-          </div>}
         </div>
-      </div>
-      </>
-    );
+        </>
+      );
+    }
+    
   }
 }
 

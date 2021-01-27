@@ -16,7 +16,9 @@ class PlayerPanelTop extends Component {
   render() {
     return (
       <>
-        <div className="PlayerPanelTop">pixonary</div>
+        <div className="PlayerPanelTop">
+          pixonary
+        </div>
       </>
     );
   }

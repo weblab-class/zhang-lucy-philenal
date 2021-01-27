@@ -13,6 +13,7 @@ import "./PlayerPanelLeft.css";
  * @param {String} _id don't necessarily need this?
  * @param {Boolean} isMyTurn
  * @param {Number} order
+ * @param {Boolean} inGame -- if pixeler in game or not
  */
 
 class PlayerIcon extends Component {
@@ -28,7 +29,9 @@ class PlayerIcon extends Component {
       render() {
       
         let colorClass = "PlayerIcon-icon "
-        if (this.props.order % 4 == 0){
+        if (!this.props.inGame){
+          colorClass = colorClass + "u-color-grey"
+        } else if (this.props.order % 4 == 0){
           colorClass = colorClass + "u-color-1"
         } else if (this.props.order % 4 == 1){
           colorClass = colorClass + "u-color-2"

@@ -52,7 +52,10 @@ class JoinGame extends Component {
             game_id: this.state.game_id
           }
         });
-      } else {
+      } else if (res.status == "error" && res.msg == "game already started") {
+        navigate("/gamealreadystarted");
+      }
+      else {
         console.log("error, can't join game");
       }
     }).catch((err) => {
@@ -64,7 +67,7 @@ class JoinGame extends Component {
   render() {
     return (
       <>
-            <div>hello, {this.props.location.state.user_name}!</div>
+            <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
             <button onClick={()=>{navigate('/')}}>back</button>
             <div className="JoinGame-container">
                 <div className="JoinGame-title">

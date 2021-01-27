@@ -10,10 +10,23 @@ const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
 const wordpacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
-  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
-  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
+  "basic (easy)": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "butterfly", "banana", "sleep", "apple", "orange", "cake", "mug", "dog", "tree", "spider", "bee", "eye", "wig", "beard", "rain", "door", "leaf", "taxi", "teeth", "ear", "face", "foot", "hand", "mask", "backpack", "castle", "makeup", "phone", "computer", "fork", "spoon", "chair", "hat", "coat", "scarf", "shoes", "socks", "plate", "bike", "car", "bus", "bottle", "tv", "brush", "zoom", "fan", "skirt", "math", "iron", "lamp", "biology", "mailbox", "bridge", "building", "grill", "chess", "camping", "balloon", "clown", "necklace", "clock", "mirror", "eraser", "camera"],
+
+  "food (easy)": ["burger", "fries", "taco", "egg", "corn", "lemon", "tofu", "sushi", "tomato", "potato", "cherry", "pasta", "apple", "grapes", "pear", "candy", "banana", "carrot", "onion", "bread", "cheese", "butter", "popcorn", "chips", "cookie", "cake", "nuts", "pepper", "ribs", "steak", "chicken", "fish", "shrimp", "crab", "kiwi", "avocado", "boba", "tea", "mushroom", "sandwich", "salad", "dumpling", "ham", "milk", "lemonade", "donut", "bacon", "hotdog", "waffle", "pancake", "muffin", "cereal"],
+
+  "nature (easy)": ["mountain", "river", "lake", "sun", "grass", "tree", "flower", "star", "moon", "cloud", "wind", "earth", "valley", "snow", "rain", "volcano", "desert", "forest", "rainbow", "tornado", "tsunami", "beach", "rock", "branch", "dirt", "acorn", "leaf", "seed", "fire", "cave", "cliff"],
+
+  "animal (medium)": ["pig", "sheep", "bird", "dog", "cat", "cow", "horse", "chicken", "rat", "spider", "ant", "duck", "raccoon", "rabbit", "bee", "frog", "snake", "fish", "dolphin", "shark", "crab", "penguin", "seal", "bear", "wolf", "lion", "squirrel", "elephant", "camel", "dragon", "flamingo", "monkey", "giraffe", "peacock", "crane", "hippo", "dinosaur", "koala", "kangaroo", "sloth", "turtle", "panda", "moose", "swan", "starfish", "clam", "octopus", "seahorse", "unicorn", "snail", "pigeon", "eagle", "owl", "seagull", "turkey", "ladybug", "zebra", "cheetah", "gorilla"],
+
+  "expressions (medium)": ["happy", "sad", "mad", "annoyed", "angry", "confused", "scared", "shy", "jealous", "sleepy", "sick", "loving", "stressed", "neutral", "hurt", "silly", "smirk", "dizzy", "crazy"],
+  
+  "soft (medium)": ["pony", "rainbow", "friends", "love", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"],
+
+  "characters (hard)":["simpson", "arthur", "barnie", "elmo", "shrek", "bob", "saitama", "gon", "pikachu", "dora", "barbie", "rapunzel", "genie", "hinata",  "superman", "ironman", "flash", "batman", "snoopy", "mickey", "jerry", "tweety", "ferb", "elsa", "scooby", "winnie", "ariel", "popeye", "simba", "goofy", "doraemon", "totoro", "naruto", "aang", "pororo"],
+
+  "mit (hard)": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen", "rowing", "spark", "banana", "simmons"],
+
+  "jank (extreme)": [ "whip", "vibe", "bop", "jank", "stan", "bruh", "shook", "dab", "woah", "yeet", "dank", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "slaps", "bet", "fleek", "clout", "wig", "lit", "simp", "cap", "fam", "karen", "snatched", "extra", "basic", "ship", "vsco", "poggers", "noob", "flex", "bread"],
 };
 
 /* utils here */
@@ -50,7 +63,7 @@ const shuffle = (array) => {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
+  console.log(array);
   return array;
 }
 
@@ -79,7 +92,7 @@ const newGame = (req) => {
     pixels: newPixels,
   };
 
-  let wordpackName = "basic";
+  let wordpackName = "basic (easy)";
   let wordpack = shuffle(wordpacks[wordpackName]);
 
   const newGame = new Game({
@@ -98,7 +111,7 @@ const newGame = (req) => {
     finished: false,
     maxSessions: 1,
     session: 0,
-    round: 0,
+    round: 1,
     turn: 0,
     wordpack: wordpackName,
     word: wordpack[0],
@@ -109,7 +122,7 @@ const newGame = (req) => {
     guesser: null,
     num_correct: 0,
     num_incorrect: 0,
-    num_filled: 0,
+    num_filled: [],
     pixel_limit: undefined,
   });
 
@@ -194,19 +207,40 @@ const getReturnableGame = (game, user_id) => {
   return null;
 }
 
+const updatePixel = (game, pixel_id, color, pixel_filled) => {
+  let originalPixel = game.board.pixels[pixel_id];
+  game.board.pixels[pixel_id] = {
+    color: color,
+    filled: pixel_filled,
+    id: originalPixel.id,
+    key: originalPixel.key,
+  };
+  return game;
+
+}
+
 // Called AFTER startGame
 // 1. determine ordering of guessers/pixelers
 // go in chronological order for now
 // 2. determine words
 const initializeGame = (game) => {
-  game.players = shuffle(game.players);
-  game.guesser = game.players[0];
-  game.pixelers = game.players.slice(1,game.players.length);
+  // game.players = shuffle(game.players);
 
-  game.words = shuffle(game.words);
-  game.word = game.words[0];
-  game.started = true;
-  return game;
+  // game.guesser = game.players[0];
+  // game.pixelers = game.players.slice(1,game.players.length);
+
+  // game.num_filled = [];
+  // for (let i = 0; i < game.players.length; i++) {
+  //   game.num_filled.push({
+  //     user_id: game.players[i]._id,
+  //     count: 0,
+  //   })
+  // }
+
+  // game.words = shuffle(game.words);
+  // game.word = game.words[0];
+  // game.started = true;
+  // return game;
 }
 
 
@@ -280,8 +314,9 @@ const removePlayer = (id) => {
 
 
 module.exports = {
+    wordpacks,
     newGame,
-    initializeGame,
+    // initializeGame,
     getNextWord,
     gameState,
     addPlayer,
@@ -290,5 +325,7 @@ module.exports = {
     getReturnableGame,
     validateUser,
     validatePixeler,
+    shuffle,
     getScore,
+    updatePixel,
   };

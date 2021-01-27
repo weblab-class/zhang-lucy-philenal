@@ -20,6 +20,8 @@ import "./Player.css";
  * @param {PlayerObject[]} players
  * ~~@param {String} word~~
  * @param {Number} turn
+ * @param {Number} round -- starts at 1
+ * @param {Number} maxSessions
  */
 class Pixeler extends Component {
   constructor(props) {
@@ -33,6 +35,7 @@ class Pixeler extends Component {
       },
       pixelers: [],
       guesser: {},
+      leaveGameConfirmation: false,
     };
   }
 
@@ -94,14 +97,16 @@ class Pixeler extends Component {
   }
 
   leaveGame = () => {
-    post("/api/user/leave", {
-      user_id: this.props.user_id,
-      game_id: this.props.game_id,
-    }).then((res) => {
-      if (res.success) { 
-        navigate("/");
-      }
-    })
+    navigate("/");
+
+    // post("/api/user/leave", {
+    //   user_id: this.props.user_id,
+    //   game_id: this.props.game_id,
+    // }).then((res) => {
+    //   if (res.success) { 
+    //     navigate("/");
+    //   }
+    // })
   }
 
   clearCanvas = () => {
@@ -121,24 +126,45 @@ class Pixeler extends Component {
     console.log("turn number " + this.props.turn);
     console.log("user id " + this.props.user_id);
     
-    if (this.state.pixelers.length == 0 || this.props.turn==null){
+    if (this.state.pixelers.length == 0 || this.state.user_name==null || this.props.turn==null || this.props.maxSessions==null || this.props.round==null){
       return (<div></div>)
     } else{
       return (
         <>
           <div className="Player-header">
-            <div>hello, {this.state.user_name}!</div>
+            <div className="u-welcome">hello, {this.state.user_name}!</div>
             <div>game id: {this.props.game_id}</div>
-          </div>
-          <button onClick={this.leaveGame}>leave game</button>
+          </div>      
+          <div className="Player-subheader">
+          <button onClick={()=>this.setState({leaveGameConfirmation: true})}>leave game</button>
+          {this.state.leaveGameConfirmation && 
+          <div className="Player-quitConfirmationContainer">
+              <div className="Player-quitConfirmationChild">
+                  are you sure?
+              </div>
+              <div className="Player-quitConfirmationChild">
+                  <button className="Player-quitConfirmationButton"
+                    onClick={this.leaveGame}>
+                      yes, leave
+                  </button>
+                  <button className="Player-quitConfirmationButton"
+                    onClick={()=>{this.setState({leaveGameConfirmation: false})}}>
+                      cancel
+                  </button>
+              </div>
+          </div>}
+        </div>
           <PlayerPanelTop/>
           <div className="u-flex">
             <div className="Player-subPanel">
               <PlayerPanelLeft 
+                game_id={this.props.game_id}
                 guesser={this.state.guesser} 
                 pixelers={this.state.pixelers} 
                 word={this.state.word} 
                 turn={this.props.turn} 
+                round={this.props.round}
+                maxSessions={this.props.maxSessions}
                 leaveGame={this.leaveGame}
                 />
             </div>
@@ -146,11 +172,11 @@ class Pixeler extends Component {
               {(this.state.canvas.width) &&  <CanvasPanel 
                 canvas_height_blocks={this.state.canvas.width} 
                 canvas_width_blocks={this.state.canvas.height} 
-                canvas_pixels={this.state.canvas.pixels}
                 pixel_limit={this.state.pixel_limit}
                 game_id={this.props.game_id}
                 user_id={this.props.user_id}
-                isMyTurn={this.props.turn < this.state.pixelers.length && this.state.pixelers[this.props.turn]._id===this.props.user_id}
+                isMyTurn={this.props.turn < this.state.pixelers.length && 
+                    this.state.pixelers[this.props.turn]._id===this.props.user_id}
                 isGuesser={false}
                 clearCanvas={this.clearCanvas}
               />} 
