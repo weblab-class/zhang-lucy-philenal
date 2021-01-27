@@ -29,7 +29,7 @@
 
 .HowToPlay-header {
     font-size: var(--l);
-    color: var(--font-color-2);
+    color: var(--font-color-3);
     /* margin-bottom: var(--m); */
     font-family: 'Alata', sans-serif;
     text-align: center;
@@ -59,7 +59,7 @@
     
     font-family: 'Roboto', sans-serif;
     font-size: var(--m);  
-    color: var(--text-color);
+    color: var(--font-color-3);
     white-space: normal;
 
     justify-content: center;

@@ -54,7 +54,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.toggleDarkMode(DEFAULT_DARK);
+    let theme = localStorage.getItem('theme') == "dark" ? true : false;
+    if (theme) {
+      this.toggleDarkMode(true);
+    }
     this.is_mounted = true;
     get("/api/whoami").then((user) => {
       console.log("whoami");
