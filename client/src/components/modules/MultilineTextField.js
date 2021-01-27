@@ -57,7 +57,7 @@ export default function MultilineTextField(props) {
     post("/api/game/changedWordPack", {
       wordPack: event.target.value,
       game_id: props.game_id
-    }).then(()=> console.log("I changed my word pack"))
+    }).then(()=> {})
   };
 
  //changes the number of sessions
@@ -66,17 +66,16 @@ export default function MultilineTextField(props) {
     post("/api/game/changedSessions", {
       sessions: event.target.value,
       game_id: props.game_id
-    }).then(()=> console.log("I changed my sessions"))
+    }).then(()=> {})
   }
 
   //changes the difficulty
   const handleDifficultyChange = (event) => {
-    console.log(`DIFFICULTY PROP: ${event.target.value}`);
     setDifficulty(event.target.value);
     post("/api/game/changedDifficulty", {
       pixel_proportion: event.target.value,
       game_id: props.game_id
-    }).then(()=> console.log("I changed my difficulty"))
+    }).then(()=> {})
   }
 
   return (

@@ -63,7 +63,6 @@ const shuffle = (array) => {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-  console.log(array);
   return array;
 }
 
@@ -96,7 +95,7 @@ const newGame = (req) => {
   let wordpack = shuffle(wordpacks[wordpackName]);
 
   const newGame = new Game({
-    _id: req.body.game_id, // TODO: change this
+    _id: req.body.game_id,
     host_id: req.body.user_id,
     players: [{
       name: req.body.user_name, 
@@ -150,7 +149,6 @@ const validateUser = (game, user_id) => {
 
 const validatePixeler = (game, user_id) => {
   if (!game || !game.players || !game.pixelers) {
-    console.log("hereeeee");
     return false;
   }
 

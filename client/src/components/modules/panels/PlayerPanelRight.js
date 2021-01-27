@@ -78,15 +78,9 @@ class PlayerPanelRight extends Component {
         user_id: this.props.user_id,
         guess: the_guess,
       }).then((res) => {
-        console.log(res);
-        if(res.message == "correct") {
-          console.log("correct!!");
-          // this.props.callback(the_guess);
-        } else {
-          console.log(res);
-          console.log("incorrect");
-          // TODO: maybe hints if they are close?
-        }
+        // if(res.message == "correct") {
+        // } else {
+        // }
       }).catch((err) => {
         console.log(err);
       })
@@ -95,7 +89,6 @@ class PlayerPanelRight extends Component {
   }
 
   render() {
-    // TODO: cap the number of guesses
     let guesses = []
     for (let i = this.state.guesses.length-1; i > -1 ; i--) {
       guesses.push(

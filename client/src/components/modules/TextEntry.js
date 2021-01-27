@@ -45,7 +45,6 @@ class TextEntry extends Component {
 
   onKeyPress = (event) => {
     if(event.key === 'Enter'){
-      console.log('enter press here! ')
       this.handleSubmit(event);
     }
   }

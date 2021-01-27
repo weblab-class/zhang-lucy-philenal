@@ -28,7 +28,6 @@ class NewGame extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
   }
 
   onGameIDEntry = (game_id) => {
@@ -51,8 +50,6 @@ class NewGame extends Component {
     })
     .then((res) => {
       if (res.status == "success") {
-        console.log("new game");
-        console.log(res);
         navigate("/lobby", {state: {
           user_id: this.props.location.state.user_id,  
           user_name: this.props.location.state.user_name,  

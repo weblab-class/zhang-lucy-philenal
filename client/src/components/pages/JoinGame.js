@@ -16,7 +16,6 @@ import ToggleButton from "../modules/ToggleButton";
 class JoinGame extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
 
     // Initialize Default State
     this.state = {
@@ -39,15 +38,12 @@ class JoinGame extends Component {
 
   joinGame = () => {
     this.setState({button_disabled: true});
-    console.log("join game!");
     post("api/game/join", {
       game_id: this.state.game_id,
       user_id: this.props.location.state.user_id,
       user_name: this.props.location.state.user_name,
     }).then((res) => {
-      console.log(res);
       if (res.status == "success") {
-        console.log(res);
         navigate("/lobby", {state: 
           {
             user_id: this.props.location.state.user_id,  

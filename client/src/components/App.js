@@ -19,12 +19,9 @@ import "./App.scss";
 import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
-// import GameAlreadyStarted from "./modules/panels/GameAlreadyStarted.js";
 
 const DEFAULT_DARK = false;
 
-// const [theme, setTheme] = useState('light');
-// console.log(theme);
 /**
  * Define the "App" component as a class.
  */

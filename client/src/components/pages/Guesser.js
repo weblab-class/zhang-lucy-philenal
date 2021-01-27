@@ -87,15 +87,7 @@ class Guesser extends Component {
 
   leaveGame = () => {
     navigate("/");
-    // console.log(this.props);
-    // post("/api/user/leave", {
-    //   user_id: this.props.user_id,
-    //   game_id: this.props.game_id,
-    // }).then((res) => {
-    //   if (res.success) { 
-    //     navigate("/");
-    //   }
-    // })
+    
   }
 
 
@@ -158,13 +150,13 @@ class Guesser extends Component {
             <div className="Player-subContainer">
               {(this.state.canvas.width) &&  
               <CanvasPanel 
-                canvas_height_blocks={this.state.canvas.width} // TODO: remove
+                canvas_height_blocks={this.state.canvas.width} 
                 canvas_width_blocks={this.state.canvas.height} 
                 canvas_pixels={this.state.canvas.pixels}
                 game_id={this.props.game_id}
                 user_id={this.props.user_id}
-                isMyTurn={true} //TODO: unhardcode, make more secure
-                isGuesser={true} //TODO: unhardcode
+                isMyTurn={true} 
+                isGuesser={true}
                 correctGuess={this.props.correctGuess}
               /> } 
             </div>

@@ -51,7 +51,6 @@ class Lobby extends Component {
     });
 
     get("/api/game/difficulties").then((res) => {
-      console.log(res);
       if (this.is_mounted) {
         this.setState({difficulties: res}, ()=>console.log(res))
       }
@@ -61,7 +60,6 @@ class Lobby extends Component {
       game_id: this.props.location.state.game_id,
       user_id: this.props.location.state.user_id,
     }).then((res) => {
-      console.log(res);
 
       if (res.status == 200 && this.is_mounted) {
         this.setState({
@@ -69,14 +67,10 @@ class Lobby extends Component {
           host_id: res.host_id,
          });
         if (res.started === true) {
-          console.log("started...");
           navigate("/player", {state: {
             user_id: this.props.location.state.user_id, 
             game_id: this.props.location.state.game_id
           }});
-
-          // TODO: figure out how to join late?
-          // navigate("/pixeler", {state: {user_id: this.props.location.state.user_id, game_id: this.props.location.state.game_id}});
         } 
       } else {
         console.log(`Error: ${res.msg}`);
@@ -124,15 +118,13 @@ class Lobby extends Component {
       if (this.props.location.state.game_id === res.game_id && this.is_mounted) {
         this.setState({
           pixel_proportion: res.pixel_proportion
-        }, ()=>console.log(this.state.pixel_proportion))
+        }, ()=>{})
       }
     })
 
     //listens for if game already started and navigates to pixeler page if so 
     socket.on("game_id_started", (game_id) => {
-      console.log("started socket works! and props game id " + this.props.location.state.game_id + " and game id " + game_id);
       if (this.props.location.state.game_id === game_id && this.is_mounted) { //if game that started is your game_id
-        // TODO: maybe
         navigate("/player", {state: {
           user_id: this.props.location.state.user_id, 
           game_id: this.props.location.state.game_id,
@@ -143,7 +135,6 @@ class Lobby extends Component {
   }
 
   startGame = () => {
-    // TODO: Don't hardcode
     let pixel_limit = Math.round(400 * this.state.pixel_proportion / this.state.players.length);
     put("/api/game/start", {
       game_id: this.props.location.state.game_id,

@@ -6,8 +6,6 @@ import "./Canvas.css";
 import PixelBlock from "./PixelBlock.js";
 import ReactLoading from 'react-loading';
 
-//TODO: media query resize for responsive canvas
-// TODO: Un-hardcode, have this be read in as a prop
 const CANVAS_WIDTH_PX = 500;
 const CANVAS_HEIGHT_PX = 500;
 
@@ -62,10 +60,8 @@ class Canvas extends Component {
       // num_filled: this.state.filled_blocks,
     }).then((res) => {
       if (res.status == "error") {
-        // if (res.msg == "exceeded limit") 
         console.log(`error: ${res.msg}`);
       } else {
-        console.log(res);
       }
     }).catch((err) => {
       console.log(err);
@@ -80,8 +76,6 @@ class Canvas extends Component {
       user_id: this.props.user_id,
     }).then((res) => {
       if (res) {
-        console.log("canvas got!/")
-        console.log(res);
         if (this.is_mounted){
           this.setState({
             pixels: res.pixels,
@@ -102,7 +96,6 @@ class Canvas extends Component {
 
     socket.on("cleared_canvas", (updatedGame) => {
       if (this.props.game_id === updatedGame._id && this.is_mounted) { //if the game id sent out is ours
-        console.log("IT SHOULD BE CLEARED")
         this.setState({pixels: updatedGame.board.pixels});
       }
     });

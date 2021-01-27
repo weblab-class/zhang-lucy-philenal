@@ -47,11 +47,9 @@ class Player extends Component {
         this.is_mounted = false;
     }
     
-    // TODO: add game started/finished check
     componentDidMount() {
         this.is_mounted = true;
         
-        console.log(this.props);
         if (!this.props.location.state.user_id) {
             navigate("/")
         }
@@ -74,13 +72,9 @@ class Player extends Component {
         get("/api/game/player_status", {
             user_id: this.props.location.state.user_id,
         }).then((res) => {
-            console.log(res);
             if (res.length == 0) {
-                // TODO? figure out props probably
-                console.log(res);
                 navigate("/");
             } else {
-                console.log(`You are the ${res.status}!`);
                 if (res.status == "guesser" || res.status == "pixeler") {
                     console.log(`Error: ${this.state.error}`)
                     if (this.is_mounted) {
@@ -149,86 +143,18 @@ class Player extends Component {
                 });
                 if (updatedGame.guesser._id == this.props.location.state.user_id && 
                     this.is_mounted) {
-                    console.log("you are the guesser!");
                     this.setState({player: "guesser"});
                 } else if (this.is_mounted) {
-                    console.log("you are the pixeler!");
                     this.setState({player: "pixeler"});
                 }
-
-                // if (updatedGame.guesser._id == this.props.location.state.user_id && 
-                //     this.is_mounted) {
-                //     console.log("you are the guesser!");
-                //     this.setState({
-                //         word: updatedGame.game.word,
-                //         turn: updatedGame.turn,
-                //         players: updatedGame.players,
-                //         pixelers: updatedGame.pixelers,
-                //         guesser: updatedGame.guesser,
-                //         round: updatedGame.round,
-                //         player: "guesser"
-                //     })
-                // } else {
-                //     for (let i = 0; i < this.state.pixelers.length; i++) {
-                //         if(updatedGame.pixelers[i].id == this.props.location.state.user_id && this.is_mounted) {
-                //             this.setState({
-                //                 word: updatedGame.game.word,
-                //                 turn: updatedGame.turn,
-                //                 players: updatedGame.players,
-                //                 pixelers: updatedGame.pixelers,
-                //                 guesser: updatedGame.guesser,
-                //                 round: updatedGame.round,
-                //                 player: "pixeler"
-                //             });
-                //         } else {
-                //             if (this.is_mounted) {
-                //                 this.setState({
-                //                     word: updatedGame.game.word,
-                //                     turn: updatedGame.turn,
-                //                     players: updatedGame.players,
-                //                     pixelers: updatedGame.pixelers,
-                //                     guesser: updatedGame.guesser,
-                //                     round: updatedGame.round,
-                //                     player: "neither"
-                //                 });
-                //             }
-                //         }
-                //     }
-                // }
-                /* this.setState({
-                    word: updatedGame.game.word,
-                    turn: updatedGame.turn,
-                    players: updatedGame.players,
-                    pixelers: updatedGame.pixelers,
-                    guesser: updatedGame.guesser,
-                }, ()=> {
-                    // console.log("the turn is " + 
-                    // this.state.turn + " the updated word is " + 
-                    // this.state.word + " with hidden word " + 
-                    // this.state.wo);
-                    if (this.state.guesser._id == this.props.location.state.user_id) {
-                        console.log("you are the guesser!");
-                        this.setState({player: "guesser"});
-                    } else {
-                        for (let i = 0; i < this.state.pixelers.length; i++) {
-                            if(this.state.pixelers[i].id == this.props.location.state.user_id) {
-                                this.setState({player: "pixeler"});
-                                return;
-                            }
-                        }
-                        this.setState({player: "neither"});
-                    }
-                }) */
+     
             }
         });
     }
     
     render() {
-        console.log(this.state);
-        console.log(this.props);
-        if (this.state.error) { //if there's error 
+        if (this.state.error) {  
             return(<><Start/></>);
-        //if state hasn't been altered for player yet
         } else if (!this.state.player || !this.state.game_id) { 
             return (<div className="LoadingScreen"> 
                 <ReactLoading type={"bars"} color={"grey"} />
@@ -238,11 +164,9 @@ class Player extends Component {
                 <> 
                     {this.state.player == "guesser" ? 
                     <Guesser 
-                        /* callback={this.onCorrectGuess}  */
                         word={this.state.word} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
-                        // user_name={this.props.location.state.user_name}
                         turn={this.state.turn}
                         round={this.state.round}
                         maxSessions={this.state.maxSessions} /> :
@@ -251,14 +175,12 @@ class Player extends Component {
                         word={this.state.word} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
-                        // user_name={this.props.location.state.user_name}
                         turn={this.state.turn}
                         round={this.state.round}
                         maxSessions={this.state.maxSessions} />}
                 </>
             );
         }
-        
     }
 }
 

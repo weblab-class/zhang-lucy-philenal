@@ -69,14 +69,12 @@ export default function AlertDialog(props) {
     }
 },[props.overlayText]);
 
-//TODO: don't reload if game ended o.o
   const handleClose = () => {
     setOpen(false);
   };
 
   const onKeyPress = (event) => {
     if(event.key === 'Enter'){
-      console.log('enter press here! ')
       handleClose();
       props.callback();
     }

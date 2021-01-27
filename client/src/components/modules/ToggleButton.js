@@ -28,7 +28,6 @@ const ToggleButton = ( props ) => {
     }, [theme]);
 
     const triggerToggle = () => {
-        console.log("triggered!");
         if ( disabled ) {
             return;
         }

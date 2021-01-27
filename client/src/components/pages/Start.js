@@ -25,9 +25,6 @@ const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.goo
 class Start extends Component {
   constructor(props) {
     super(props);
-    // console.log("CONTEXT");
-    // console.log(this.context);
-    // Initialize Default State
     this.state = {
       loggedIn: false,
       user_id: null,
@@ -42,15 +39,10 @@ class Start extends Component {
   }
 
   componentDidMount() {
-
-    
     this.is_mounted = true;
-    // TODO: figure out if we need to do duplicate calls of this
-    console.log(this.props);
     get("/api/whoami").then((user) => {
       console.log(user);
       if (user._id && this.is_mounted) {
-        // they are registed in the database, and currently logged in.
         this.setState({ 
           user_id: user._id, 
           user_name: user.name,
@@ -60,48 +52,6 @@ class Start extends Component {
         isLoading: false,
       });
     });
-        
-    //     get("/api/game/player_status", {
-    //       // game_id: this.props.location.state.game_id,
-    //       user_id: user._id,
-    //   }).then((res) => {
-    //       console.log(res);
-    //       if (res.length == 0) {
-    //           // TODO? figure out props probably
-    //           navigate("/");
-    //       } else {
-    //           console.log(`You are the ${res.status}!`);
-    //           if (res.status == "guesser" || res.status == "pixeler") {
-    //               console.log(this.state.error)
-    //               this.setState({ player: res.status });
-    //               navigate("/player", {state: 
-    //                 {
-    //                   user_id: user._id,  
-    //                   // user_name: this.props.location.state.user_name,  
-    //                   game_id: res.game_id,
-    //                 }
-    //               });
-    //           } else {
-    //               console.log("error");
-    //               this.setState({ error: true });
-    //               navigate("/");
-    //           }
-    //       }
-    //   }).catch((err) => {
-    //       console.log(err);
-    //   });
-
-    //   }
-    //   // if (user.game_id) {
-    //   //   // they are already in a game
-    //   //   console.log(user);
-    //   //   navigate("/lobby", {state: {
-    //   //     user_id: this.state.user_id,  
-    //   //     user_name: this.state.user_name,  
-    //   //     game_id: user.game_id,
-    //   //   }});
-    //   // }
-    // });
   }
 
   onClick = () => {

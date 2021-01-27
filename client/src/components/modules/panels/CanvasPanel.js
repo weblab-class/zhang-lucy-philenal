@@ -39,16 +39,13 @@ class CanvasPanel extends Component {
   }
 
   componentDidMount() {
-    console.log("ehwath")
     get("/api/game/num_filled", {
       game_id: this.props.game_id,
       user_id: this.props.user_id,
     }).then((res) => {
-      console.log("NUM FLLED");
-      console.log(res);
       this.setState({num_filled: res.num_filled});
     }).catch((err) => {
-      console.log(`ERRRORO: ${err}`);
+      console.log(`Error: ${err}`);
     })
 
     socket.on("board_and_game_id", (updatedGame) => { //if it's not my turn and someone drew a pixel
@@ -93,7 +90,6 @@ class CanvasPanel extends Component {
     socket.on("nextWord", (res) => {
       
       if (res.almostEnd) {
-        console.log("ALMOST ENDED ? " + res.almostEnd)
         this.setState({almostEnd: true})
       }
       window.location.reload();
@@ -103,7 +99,6 @@ class CanvasPanel extends Component {
     //if game ended, show the pop up!!
     socket.on("endGame", (endGame) => {
         if (this.props.game_id === endGame.game_id) {
-            console.log("GAME ENDED")
             this.setState({
                 endGame: true,
                 overlayText: `Score: ${endGame.score.toString()}%`,
@@ -143,9 +138,6 @@ class CanvasPanel extends Component {
       {
         game_id: this.props.game_id,
         user_id: this.props.user_id,
-      }).then((game) =>
-      {
-        console.log("You ended your turn. Now the turn number is " + game.turn)
       }).catch((err) => {
         console.log(err);
       });

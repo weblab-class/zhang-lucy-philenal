@@ -31,13 +31,9 @@ class Wall extends Component {
   }
 
   componentDidMount() {
-    // get("/api/user/name", {
-    //   user_id: this.props.location.state.user_id
-    // })
     get("/api/user/images", {
       user_id: this.props.location.state.user_id
     }).then((pictures) => {
-      console.log(pictures);
       this.setState({
         correct_pictures: pictures.correct,
         incorrect_pictures: pictures.incorrect,
