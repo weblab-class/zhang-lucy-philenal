@@ -22,9 +22,9 @@ const wordpacks = {
 
   "characters":["simpson", "arthur", "barnie", "elmo", "shrek", "bob", "saitama", "gon", "pikachu", "dora", "barbie", "rapunzel", "genie", "hinata", "cinderella", "superman", "ironman", "spiderman", "flash", "batman", "teletubby", "snoopy", "mickey", "spongebob", "jerry", "tweety", "ferb", "elsa", "scooby", "winnie", "ariel", "tinkerbell", "popeye", "simba", "goofy", "xiyangyang", "doraemon", "totoro", "naruto", "aang", "pororo"],
 
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
+  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen", "rowing", "spark", "banana", "simmons"],
 
-  "jank": ["fortnite", "jank", "bruh", "dab", "woah", "yeet", "dank", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "vsco", "poggers", "noob", "flex"],
+  "jank": ["fortnite", "whip", "vibe", "bop", "jank", "stan", "bruh", "shook", "dab", "woah", "yeet", "dank", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "slaps", "bet", "fleek", "clout", "wig", "lit", "simp", "cap", "fam", "karen", "snatched", "extra", "basic", "ship", "vsco", "poggers", "noob", "flex", "bread"],
 
   "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
 };
