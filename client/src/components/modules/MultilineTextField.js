@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MultilineTextField(props) {
 
   const classes = useStyles();
-  const [wordPack, setWordPack] = React.useState('basic');
+  const [wordPack, setWordPack] = React.useState('basic (easy)');
   const [sessionValue, setSessions] = React.useState(1);
   const [difficulty, setDifficulty] = React.useState('0.4');
 
@@ -119,7 +119,7 @@ export default function MultilineTextField(props) {
           select
           value={difficulty}
           onChange={handleDifficultyChange}
-          helperText="difficulty level"
+          helperText="pixels per player"
           variant="outlined"
         >
           {Object.keys(props.difficulties).map((key) => (
