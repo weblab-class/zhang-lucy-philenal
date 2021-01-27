@@ -38,7 +38,7 @@ class HowToPlay extends Component {
             <div>
             pictionary + tag-team + pixels <br></br>{/* that allows players to collaboratively draw a word for the guesser to guess -- all with pixels! */}
             <br></br> 
-            <i>=chef's kiss</i>{/* for each word, players will be assigned to be either a pixeler or guesser. the pixelers are ordered randomly such that they can only pixel on the shared canvas on their turn, while the guesser can guess the word at any point in time. */}
+            <i>= chef's kiss</i>{/* for each word, players will be assigned to be either a pixeler or guesser. the pixelers are ordered randomly such that they can only pixel on the shared canvas on their turn, while the guesser can guess the word at any point in time. */}
               </div>
             </div>
             

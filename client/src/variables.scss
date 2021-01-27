@@ -1,4 +1,6 @@
 .light {
+    --dark-grey: #999999;
+
     --background-color: rgb(238, 238, 238);
     --border-color: rgb(100, 100, 100);
     --text-color: var(--grey);
@@ -30,6 +32,7 @@
   }
   
   .dark {
+    --dark-grey: #000000e1;
     --background-color: #222831;
     --border-color: #414141;
     --text-color: #eeeeee;

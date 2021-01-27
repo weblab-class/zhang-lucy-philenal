@@ -118,7 +118,7 @@
   }
 
 .Wall-overlay-shame {
-    background-color: var(--text-color);
+    background-color: var(--dark-grey);
 }
 
 .Wall-pictureContainer {
@@ -136,5 +136,5 @@
 }
 
 .Wall-pictureContainer:hover .Wall-overlay-shame {
-    opacity: 0.7;
+    opacity: 0.9;
 }
