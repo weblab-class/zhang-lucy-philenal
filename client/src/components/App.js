@@ -11,7 +11,7 @@ import GameAlreadyStarted from "./pages/GameAlreadyStarted.js";
 import Pixeler from "./pages/Pixeler.js";
 import Player from "./pages/Player.js";
 import Wall from "./pages/Wall.js";
-
+import ThemeContext from "./modules/ThemeContext";
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -19,7 +19,6 @@ import { socket } from "../client-socket.js";
 import { get, post } from "../utilities";
 // import GameAlreadyStarted from "./modules/panels/GameAlreadyStarted.js";
 
-const ThemeContext = React.createContext('light');
 
 /**
  * Define the "App" component as a class.
@@ -28,6 +27,7 @@ class App extends Component {
   // makes props available in this component
   constructor(props) {
     super(props);
+
     this.state = {
       user_id: undefined,
     };

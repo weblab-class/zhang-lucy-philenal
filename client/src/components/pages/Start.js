@@ -7,6 +7,7 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import StartMenu from "../modules/StartMenu.js";
 import ToggleButton from '../modules/ToggleButton';
 import "./Start.css";
+import ThemeContext from "../modules/ThemeContext";
 
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
@@ -21,8 +22,8 @@ const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.goo
 class Start extends Component {
   constructor(props) {
     super(props);
-    contextType = ThemeContext;
-
+    // console.log("CONTEXT");
+    // console.log(this.context);
     // Initialize Default State
     this.state = {
       loggedIn: false,
@@ -100,7 +101,7 @@ class Start extends Component {
 
   toggleDarkMode = (toggle) => {
     console.log(toggle);
-    console.log(contextType);
+    // console.log(contextType);
     let theme = toggle ? "dark" : "light";
     if (toggle) {
 
