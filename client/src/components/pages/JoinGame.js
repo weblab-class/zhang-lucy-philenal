@@ -1,9 +1,13 @@
 import { navigate } from "@reach/router";
 import React, { Component } from "react";
 import { post } from "../../utilities";
-import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./JoinGame.css";
+import "../../utilities.scss";
+import "../../variables.scss";
+import "../App.scss";
+import ToggleButton from '../modules/ToggleButton';
+
 
 /**
  * JoinGame page asks the user to enter a unique ID, then joins
@@ -68,7 +72,11 @@ class JoinGame extends Component {
     return (
       <>
             <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
+            <div className="u-back-button-container">
             <button onClick={()=>{navigate('/')}}>back</button>
+            </div>
+            <ToggleButton/>
+            
             <div className="JoinGame-container">
                 <div className="JoinGame-title">
                   join game

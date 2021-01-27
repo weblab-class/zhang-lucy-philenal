@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState} from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Start from "./pages/Start.js";
@@ -11,15 +11,20 @@ import GameAlreadyStarted from "./pages/GameAlreadyStarted.js";
 import Pixeler from "./pages/Pixeler.js";
 import Player from "./pages/Player.js";
 import Wall from "./pages/Wall.js";
-import ThemeContext from "./modules/ThemeContext";
 import "../utilities.css";
+import "../variables.scss";
+import "./App.scss";
+
 
 import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
 // import GameAlreadyStarted from "./modules/panels/GameAlreadyStarted.js";
 
+const DEFAULT_DARK = false;
 
+// const [theme, setTheme] = useState('light');
+// console.log(theme);
 /**
  * Define the "App" component as a class.
  */
@@ -29,8 +34,19 @@ class App extends Component {
     super(props);
 
     this.state = {
+      theme: "",
       user_id: undefined,
     };
+  }
+
+  toggleDarkMode = (toggle) => {
+    if (toggle) {
+      document.body.classList.add("dark");
+      document.body.classList.remove("light");
+    } else {
+      document.body.classList.add("light");
+      document.body.classList.remove("dark");
+    }
   }
 
   componentWillUnmount () {
@@ -38,6 +54,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.toggleDarkMode(DEFAULT_DARK);
     this.is_mounted = true;
     get("/api/whoami").then((user) => {
       console.log("whoami");
@@ -66,28 +83,33 @@ class App extends Component {
   };
 
   render() {
+
     return (
       <>
-        <ThemeContext.Provider value="dark">
-        <Router>
-          <HowToPlay
-            path="/howtoplay"
-          />
-          <Start path="/"
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}
-            user_id={this.state.user_id}
-            user_name={this.state.user_name}
-          />
-          <Lobby path="/lobby"/>
-          <JoinGame path="/joingame" />
-          <NewGame path="/newgame" />
-          <GameAlreadyStarted path="/gamealreadystarted"/>
-          <Player path="/player" />
-          <Wall path="/wall" />
-          <NotFound default />
-        </Router>
-        </ThemeContext.Provider>
+        <div className={`App ${this.state.theme}`}>
+          <Router>
+            <HowToPlay
+              path="/howtoplay"
+            />
+            <Start 
+              className="dark"
+              toggleDarkMode={this.toggleDarkMode}
+              defaultDark={DEFAULT_DARK}
+              path="/"
+              handleLogin={this.handleLogin}
+              handleLogout={this.handleLogout}
+              user_id={this.state.user_id}
+              user_name={this.state.user_name}
+            />
+            <Lobby path="/lobby"/>
+            <JoinGame path="/joingame" />
+            <NewGame path="/newgame" />
+            <GameAlreadyStarted path="/gamealreadystarted"/>
+            <Player path="/player" />
+            <Wall path="/wall" />
+            <NotFound default />
+          </Router>
+        </div>
       </>
     );
   }

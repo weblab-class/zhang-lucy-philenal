@@ -1,13 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, useState} from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import ReactLoading from 'react-loading';
 import { get } from "../../utilities";
-import "../../utilities.css";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import StartMenu from "../modules/StartMenu.js";
 import ToggleButton from '../modules/ToggleButton';
-import "./Start.css";
-import ThemeContext from "../modules/ThemeContext";
+import "./Start.scss";
+import "../../utilities.scss";
+import "../../variables.scss";
+import "../App.scss";
 
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
@@ -30,6 +31,7 @@ class Start extends Component {
       user_id: null,
       isLoading: true,
       buttonDisabled: false,
+      theme: "light"
     };
   }
 
@@ -38,11 +40,12 @@ class Start extends Component {
   }
 
   componentDidMount() {
+
+    
     this.is_mounted = true;
     // TODO: figure out if we need to do duplicate calls of this
     console.log(this.props);
     get("/api/whoami").then((user) => {
-      // console.log("whoami");
       console.log(user);
       if (user._id && this.is_mounted) {
         // they are registed in the database, and currently logged in.
@@ -99,17 +102,6 @@ class Start extends Component {
     // });
   }
 
-  toggleDarkMode = (toggle) => {
-    console.log(toggle);
-    // console.log(contextType);
-    let theme = toggle ? "dark" : "light";
-    if (toggle) {
-
-    } else {
-
-    }
-  }
-
   onClick = () => {
     this.setState({isLoading: true, buttonDisabled: true})
   }
@@ -141,15 +133,16 @@ class Start extends Component {
   }
 
   render() {
+
     if (this.props.user_id) {
       return (
         <>
           {this.state.isLoading ?
-            <div className="LoadingScreen"> 
+            <div className={`LoadingScreen ${this.state.theme}`}> 
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
-            <div className="Start-background">
-              <div className="u-welcome">hello, {this.props.user_name}! 
+            <div className={`Start-background ${this.state.theme}`}>
+              <div className={`u-welcome ${this.state.theme}`}>hello, {this.props.user_name}! 
                 <GoogleLogout
                     clientId={GOOGLE_CLIENT_ID}
                     buttonText="Logout"
@@ -164,13 +157,14 @@ class Start extends Component {
                       </span>
                     )}
                   />
-                <ToggleButton onChange={this.toggleDarkMode}/>
+                <ToggleButton/>
                 </div>
                 <div className="Start-title">
                     <PlayerPanelTop/>
                 </div>
                 <div className="Start-startMenu">
                     <StartMenu 
+                      className={this.state.theme}
                       user_id={this.props.user_id} 
                       user_name={this.props.user_name}/>
                 </div>

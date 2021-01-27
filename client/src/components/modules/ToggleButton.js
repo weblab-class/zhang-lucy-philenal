@@ -12,15 +12,20 @@ const UncheckedIcon = () => <>🌞</>;
  * @param callback callback function 
  */
 const ToggleButton = ( props ) => {
+    let theme = localStorage.getItem('theme') == "dark" ? true : false;
 
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(theme);
     const { defaultChecked, onChange, disabled, className } = props;
 
     useEffect(() => {
-        if (defaultChecked) {
-            setToggle(defaultChecked)
+        if (theme) {
+            setToggle(theme);
+            document.body.classList.add("dark");
+            document.body.classList.remove("light");
+            localStorage.setItem('theme', "dark");
         }
-    }, [defaultChecked]);
+        // triggerToggle();
+    }, [theme]);
 
     const triggerToggle = () => {
         console.log("triggered!");
@@ -28,11 +33,23 @@ const ToggleButton = ( props ) => {
             return;
         }
 
+        if (toggle) {
+            document.body.classList.add("light");
+            document.body.classList.remove("dark");
+            localStorage.setItem('theme', "light");
+
+          } else {
+            document.body.classList.add("dark");
+            document.body.classList.remove("light");
+            localStorage.setItem('theme', "dark");
+
+        }
+
         setToggle(!toggle);
 
-        if ( typeof onChange === 'function' ) {
-            onChange(!toggle);
-        }
+        // if ( typeof onChange === 'function' ) {
+        //     onChange(!toggle);
+        // }
     }
 
     const getIcon = (type) => {

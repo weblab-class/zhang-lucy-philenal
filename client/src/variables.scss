@@ -1,0 +1,53 @@
+.light {
+    --background-color: rgb(238, 238, 238);
+    --border-color: rgb(100, 100, 100);
+    --text-color: var(--grey);
+    --line-color: var(--grey);
+
+
+    --color-1: rgb(253, 190, 190);
+    --color-1-hover: rgb(255 170 170);
+    --color-2: rgb(255, 216, 175);
+    --color-2-hover: rgb(255, 202, 145);
+    --color-3: rgb(255, 254, 179);
+    --color-3-hover: rgb(250, 249, 139);
+    --color-4: rgb(211, 247, 201);
+    --color-4-hover: rgb(195, 246, 181);
+    --color-5: blanchedalmond;
+    --color-error: rgb(249, 55, 55);
+
+    --button-disabled-color: lightgray;
+    /* --button-color: #fdf4f4; */
+    --button-color: #d8e7fa;
+    /* --button-color-hover: #f9dede; */
+    --button-color-hover: #a5caf8;
+    --button-color-2: white;
+
+  }
+  
+  .dark {
+    --background-color: rgb(40, 40, 40);
+    --border-color: rgb(160, 160, 160);
+    --text-color: rgb(254, 254, 240);
+    --line-color: rgb(218, 218, 217);
+
+    --color-1: rgb(253, 190, 190);
+    --color-1-hover: rgb(255 170 170);
+    --color-2: rgb(255, 216, 175);
+    --color-2-hover: rgb(255, 202, 145);
+    --color-3: rgb(255, 254, 179);
+    --color-3-hover: rgb(250, 249, 139);
+    --color-4: rgb(211, 247, 201);
+    --color-4-hover: rgb(195, 246, 181);
+    --color-5: blanchedalmond;
+    --color-error: rgb(249, 55, 55);
+
+    --button-disabled-color: lightgray;
+    /* --button-color: #fdf4f4; */
+    --button-color: #d8e7fa;
+    /* --button-color-hover: #f9dede; */
+    --button-color-hover: #a5caf8;
+    --button-color-2: white;
+
+  }
+  

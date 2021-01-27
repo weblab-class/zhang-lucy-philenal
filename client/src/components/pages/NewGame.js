@@ -4,6 +4,7 @@ import { post } from "../../utilities";
 import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./NewGame.css";
+import ToggleButton from '../modules/ToggleButton';
 
 /**
  * NewGame page asks the user to enter a unique ID, then creates
@@ -69,6 +70,7 @@ class NewGame extends Component {
       <>
             <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
             <button onClick={()=>{navigate('/')}}>back</button>
+            <ToggleButton/>
             <div className="NewGame-container">
                 <div className="NewGame-title">
                   new game
