@@ -101,7 +101,7 @@ body {
 
 }
 
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 390px) {
   body {
       resize: vertical;
       }
@@ -269,7 +269,15 @@ form {
 .u-flexColumn {
   display: flex;
   flex-direction: column;
+  
 }
+@media only screen and (max-width: 1150px) {
+  .u-flexColumn {
+    margin-left: var(--m);
+    margin-bottom: var(--m);
+      }
+    }
+
 
 .u-flex-justifyCenter {
   justify-content: center;

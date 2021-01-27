@@ -5,7 +5,7 @@ import GuesserIcon from "./GuesserIcon.js";
 import PlayerOrder from "./PlayerOrder.js";
 import "./PlayerPanel.css";
 import "./PlayerPanelLeft.css";
-
+import PlayerAccordion from "../PlayerAccordion.js";
 
 /**
  * Component to render the left panel
@@ -45,7 +45,17 @@ class PlayerPanelLeft extends Component {
     if (!this.state.error && this.props.guesser){
       return (
         <>
-          <div className="PlayerPanelLeft">
+          <PlayerAccordion
+          word={this.props.word}
+          round={this.props.round}
+          maxSessions={this.props.maxSessions}
+          guesser={this.props.guesser}
+          turn={this.props.turn}
+          pixelers={this.props.pixelers}
+          game_id={this.props.game_id}
+          />
+        
+          <div className="PlayerPanelLeft PlayerPanelLeft-hide">
             <div className="PlayerPanelLeft-header">word: 
               <span className="PlayerPanelLeft-word">
                 {(this.props.word)}

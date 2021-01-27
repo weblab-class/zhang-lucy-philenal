@@ -255,7 +255,6 @@ class Player extends Component {
                         turn={this.state.turn}
                         round={this.state.round}
                         maxSessions={this.state.maxSessions} />}
-                    <MadeWithLuv />
                 </>
             );
         }

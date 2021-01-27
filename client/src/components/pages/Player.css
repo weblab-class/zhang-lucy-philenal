@@ -1,11 +1,17 @@
 .Player-subPanel {
+    padding-top: var(--m);
     position:relative;
     width: 10vw;
     height: 80vh;
     flex-grow: 1;
     flex-basis: 0;
 }
-
+@media only screen and (max-width: 1150px){
+    .Player-subPanel {
+        position:static !important;
+        width: 93vw!important;
+    }
+  }
 .Player-canvas {
     flex-grow: 1;
     flex-basis: 0;
@@ -35,7 +41,7 @@
     align-items: flex-end;
     background-color: rgb(255, 246, 232);
     /* margin-top: .75rem; */
-    padding: 0.3rem;
+    padding: 0.6rem;
     border-radius: var(--s);
 }
 

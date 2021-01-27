@@ -13,6 +13,9 @@
     padding: 1rem;
     padding-top: 0.1rem;
 }
+.Player-container {
+    display: flex;
+}
 
 .PlayerPanelLeft {
     animation: fadeInAnimation ease 3s;
@@ -90,6 +93,12 @@ section {
     }
     .CanvasPanel {
       width: 420px  !important;
+      height: 600px !important;
+      margin: auto !important;
+    }
+    .Player-container {
+        flex-direction: column !important;
+        justify-content: center !important;
     }
   }
 
@@ -100,6 +109,12 @@ section {
     }
     .CanvasPanel {
     width: 340px  !important;
+    height: 600px !important;
+    margin: auto !important;
+    }
+    .Player-container {
+        flex-direction: column !important;
+        justify-content: center !important;
     }
   }
 

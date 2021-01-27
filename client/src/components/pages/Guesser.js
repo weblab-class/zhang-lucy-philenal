@@ -115,7 +115,10 @@ class Guesser extends Component {
         </div>     
         <div className="u-welcome">
           <div className="Player-subheader">
-            <button onClick={()=>this.setState({leaveGameConfirmation: true})}>leave game</button>
+            <button 
+              disabled={this.state.leaveGameConfirmation}
+              onClick={()=>this.setState({leaveGameConfirmation: true})}
+            >leave game</button>
             {this.state.leaveGameConfirmation && 
             <div className="Player-quitConfirmationContainer">
                 <div className="Player-quitConfirmationChild">
@@ -136,7 +139,7 @@ class Guesser extends Component {
           <div><ToggleButton/></div>
         </div>
           <PlayerPanelTop/>
-          <div className="u-flex">
+          <div className="Player-container">
             <div className="Player-subPanel">
               {(this.state.pixelers) && 
               <PlayerPanelLeft 

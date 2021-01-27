@@ -42,6 +42,17 @@ section {
     display: flex;
 
 }
+
+@media only screen and (max-width: 1150px) {
+   
+    .PlayerPanelRight {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .PlayerPanelRight-chatBoxContainer {
+        margin: auto !important;
+    }
+  }
 .PlayerPanelRight-chatBoxContainer {
     animation: fadeInAnimation ease 3s;
     animation-iteration-count: 1; 
