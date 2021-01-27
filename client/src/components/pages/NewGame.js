@@ -5,6 +5,8 @@ import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./NewGame.css";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
+import ToggleButton from "../modules/ToggleButton";
+
 /**
  * NewGame page asks the user to enter a unique ID, then creates
  * a game with said ID. 

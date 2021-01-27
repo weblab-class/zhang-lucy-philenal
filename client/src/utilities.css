@@ -58,7 +58,7 @@
   --border-color: rgb(100, 100, 100);
   --text-color: var(--grey); */
 
-  --line-color: rgba(100,100,100,0.2)
+  --line-color: rgba(100,100,100,0.2);
 
   --font-primary: 'Alata', sans-serif;
 
@@ -122,6 +122,10 @@ li {
   line-height: 1.75em;
 }
 .u-welcome {
+  display: flex;
+  justify-content: space-between;
+  
+  padding: 1rem;
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: 1; 
   animation-fill-mode: forwards; 
@@ -151,7 +155,7 @@ h3 {
 
 button {
   font-family: 'Alata', sans-serif;
-  color: var(--text-color);
+  color: var(--button-text-color);
   cursor: pointer;
   border: 0px;
   filter: contrast(100%);
@@ -172,6 +176,7 @@ button:hover {
 }
 
 button:disabled {
+  color: var(--button-text-color);
   background-color: var(--button-disabled-color);
   cursor: default;
 }
@@ -233,7 +238,7 @@ form {
 }
 
 .u-color-grey {
-  background-color:  var(--text-color);
+  background-color:  var(--fake-grey-color);
 }
 .u-text-error {
   color: var(--color-error);

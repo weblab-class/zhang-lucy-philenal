@@ -4,6 +4,7 @@ import { post } from "../../utilities";
 import TextEntry from "../modules/TextEntry.js";
 import "./JoinGame.css";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
+import ToggleButton from "../modules/ToggleButton";
 
 /**
  * JoinGame page asks the user to enter a unique ID, then joins

@@ -6,10 +6,11 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
 import StartMenu from "../modules/StartMenu.js";
 import ToggleButton from '../modules/ToggleButton';
-import "./Start.scss";
-import "../../utilities.scss";
-import "../../variables.scss";
-import "../App.scss";
+import "./Start.css";
+import "../../utilities.css";
+// import "../../utilities.scss";
+// import "../../variables.scss";
+// import "../App.scss";
 
 const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 /**
@@ -143,23 +144,29 @@ class Start extends Component {
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
             <div className={`Start-background ${this.state.theme}`}>
-              <div className={`u-welcome ${this.state.theme}`}>hello, {this.props.user_name}! 
-                <GoogleLogout
-                    clientId={GOOGLE_CLIENT_ID}
-                    buttonText="Logout"
-                    onLogoutSuccess={this.onLogout}
-                    onFailure={(err) => console.log(err)}
-                    render={(renderProps) => (
-                    <span
-                      onClick={renderProps.onClick}
-                      className="Start-googleButton u-pointer"
-                      >
-                        logout
-                      </span>
-                    )}
-                  />
-                <ToggleButton/>
+              <div className={`u-welcome ${this.state.theme}`}>
+                <div>
+                  hello, {this.props.user_name}! 
+                  <GoogleLogout
+                      clientId={GOOGLE_CLIENT_ID}
+                      buttonText="Logout"
+                      onLogoutSuccess={this.onLogout}
+                      onFailure={(err) => console.log(err)}
+                      render={(renderProps) => (
+                      <span
+                        onClick={renderProps.onClick}
+                        className="Start-googleButton u-pointer"
+                        >
+                          logout
+                        </span>
+                      )}
+                    />
                 </div>
+                
+                <ToggleButton/>
+              </div>
+                
+                
                 <div className="Start-title">
                     <PlayerPanelTop/>
                 </div>
