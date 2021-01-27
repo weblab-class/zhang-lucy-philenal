@@ -8,7 +8,7 @@ import Pixeler from "./Pixeler";
 import "./Player.css";
 import Start from "./Start";
 import ReactLoading from 'react-loading';
-
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 /**
  * This is the page view of a player, either Pixeler or Guesser. Keeps track of 
  * turn number, and word.
@@ -141,7 +141,6 @@ class Player extends Component {
             if (this.props.location.state.game_id === updatedGame.game_id)
             {
                 this.setState({
-                    word: updatedGame.game.word,
                     turn: updatedGame.turn,
                     players: updatedGame.players,
                     pixelers: updatedGame.pixelers,
@@ -256,6 +255,7 @@ class Player extends Component {
                         turn={this.state.turn}
                         round={this.state.round}
                         maxSessions={this.state.maxSessions} />}
+                    <MadeWithLuv />
                 </>
             );
         }

@@ -5,6 +5,7 @@ import { get } from "../../utilities";
 import Picture from "../modules/Picture";
 import "./Wall.css";
 import "../../utilities.css";
+import MadeWithLuv from "../modules/MadeWithLuv";
 
 //when click on picture (make picture a button), open up a modal with larger view picture
 //change picture.width + height? with transitionsModal + the name of word
@@ -127,6 +128,7 @@ class Wall extends Component {
             </div>}
           </div>
         </div>
+        <MadeWithLuv />
         </>
       );
     }

@@ -3,11 +3,7 @@ import React, { Component } from "react";
 import { post } from "../../utilities";
 import TextEntry from "../modules/TextEntry.js";
 import "./JoinGame.css";
-import "../../utilities.scss";
-import "../../variables.scss";
-import "../App.scss";
-import ToggleButton from '../modules/ToggleButton';
-
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 
 /**
  * JoinGame page asks the user to enter a unique ID, then joins
@@ -25,6 +21,7 @@ class JoinGame extends Component {
     this.state = {
       game_id: "",
       game_not_found: false,
+      button_disabled: false,
     };
   }
 
@@ -40,6 +37,7 @@ class JoinGame extends Component {
   }
 
   joinGame = () => {
+    this.setState({button_disabled: true});
     console.log("join game!");
     post("api/game/join", {
       game_id: this.state.game_id,
@@ -102,7 +100,7 @@ class JoinGame extends Component {
                   <button 
                     className="JoinGame-startGame"
                     onClick={this.joinGame}
-                    disabled={this.state.game_id.length == 0}
+                    disabled={this.state.game_id.length == 0 || this.state.button_disabled}
                     >
                     join game
                   </button>
@@ -115,7 +113,7 @@ class JoinGame extends Component {
                   }
                 </div>
               </div>
-
+              <MadeWithLuv />
            {/*  <div className="JoinGame-container">
               <div className="JoinGame-linkContainer">
                   <h1>Join Game </h1>

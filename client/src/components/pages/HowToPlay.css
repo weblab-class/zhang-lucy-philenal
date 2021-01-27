@@ -1,7 +1,86 @@
-p {
-    padding: 0.5rem 2rem;
+/* Fill me in :) */
+.HowToPlay-container {
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    justify-content: center;
+}
+.HowToPlay-grid {
+    display: flex;
+    margin: auto;
+    width: 70%;
+}
+.HowToPlay-title {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-size: 70px;
+    letter-spacing: 0.1em;
+  /* white */
+    color: var(--text-color);
+
+    -webkit-text-stroke-width: 0.2px;
+
+    -webkit-text-stroke-color:var(--text-color);
 }
 
+.HowToPlay-header {
+    font-size: var(--l);
+    color: var(--font-color-2);
+    /* margin-bottom: var(--m); */
+    font-family: 'Alata', sans-serif;
+    text-align: center;
+}
+
+.HowToPlay-rowPixel {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: var(--m);
+}
+.HowToPlay-pixels {
+    border-color: white;
+    height: 15px;
+    width: 15px;
+    margin: var(--s);
+    border-radius: .25em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
+}
+.HowToPlay {
+    text-align: center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    justify-content: center;
+    
+    font-family: 'Roboto', sans-serif;
+    font-size: var(--m);  
+    color: var(--text-color);
+    white-space: normal;
+
+    justify-content: center;
+    border: 0px;
+    background-color: white;
+    padding: var(--m) var(--l);
+    margin-top: var(--m);
+    display: flex;
+    flex-direction: column;
+      
+
+    border: solid;
+    border-width: var(--s);
+    border-color: white;
+    border-radius: var(--s);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 16px;
+}
+.HowToPlay-bold {
+    font-family: 'Alata', sans-serif;
+    font-size: var(--ml);
+}
 .HowToPlay-pixelBox {
     height: 300px;
     width: 300px;
@@ -11,11 +90,12 @@ p {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px;
     border-color: white;
 
+    white-space: normal;
     font-family: var(--font-primary);
     color: var(--text-color);
     display: flex;
     flex-direction: column;
-    padding: var(--l);
+    padding: var(--xl);
     margin: var(--l);
 }
 

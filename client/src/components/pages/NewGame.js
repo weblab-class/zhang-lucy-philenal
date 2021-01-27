@@ -4,8 +4,7 @@ import { post } from "../../utilities";
 import "../../utilities.css";
 import TextEntry from "../modules/TextEntry.js";
 import "./NewGame.css";
-import ToggleButton from '../modules/ToggleButton';
-
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 /**
  * NewGame page asks the user to enter a unique ID, then creates
  * a game with said ID. 
@@ -22,6 +21,7 @@ class NewGame extends Component {
       game_id: "",
       valid: false,
       error: false,
+      button_disabled: false,
     };
   }
 
@@ -40,6 +40,8 @@ class NewGame extends Component {
   }
 
   newGame = (event) => {
+    this.setState({button_disabled: true});
+
     post("/api/game/new", {
       user_id: this.props.location.state.user_id, 
       user_name: this.props.location.state.user_name, 
@@ -96,7 +98,7 @@ class NewGame extends Component {
                   <button 
                     className="NewGame-startGame"
                     onClick={this.newGame}
-                    disabled={this.state.game_id.length == 0}
+                    disabled={this.state.game_id.length == 0 || this.state.button_disabled}
                     >
                     new game
                   </button>
@@ -107,6 +109,7 @@ class NewGame extends Component {
                   )}
                 </div>
               </div>
+              <MadeWithLuv />
       </>
     );
     

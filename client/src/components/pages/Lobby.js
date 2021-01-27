@@ -5,7 +5,7 @@ import { get, post, put } from "../../utilities";
 import "../../utilities.css";
 import MultilineTextField from "../modules/MultilineTextField.js";
 import "./Lobby.css";
-
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 /**
  * Lobby page is what the user travels to after making/joining
  * a game. The host can start the game.
@@ -237,7 +237,7 @@ class Lobby extends Component {
                       }
                 </div>
               </div>
-              
+              <MadeWithLuv />
 
         </>
       );

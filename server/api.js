@@ -144,7 +144,8 @@ router.post("/user/leave", (req, res) => {
     console.log(err);
   });
 
-  Game.findOne(filter2, 
+  Game.findOne(
+    { _id: req.body.game_id }, 
     function (err, game) {
       console.log(game);
       game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;

@@ -32,11 +32,11 @@
   --yellow: #fafdc7;
   --green: #caf9c5;
   --button-disabled-color: lightgray;
-  /* --button-color: #fdf4f4; */
-  --button-color: #d8e7fa;
-  /* --button-color-hover: #f9dede; */
-  --button-color-hover: #a5caf8;
-  --button-color-2: white;
+  --button-color: #fdf4f4;
+  --button-color-2: #d8e7fa;
+  --button-color-hover: #f9dede;
+  --button-color-hover-2: #a5caf8;
+  --button-color-3: white;
 
   --light-grey: #bab9b9;
   --grey: #8a8888;
@@ -46,6 +46,7 @@
   --xs: 4px;
   --s: 8px;
   --m: 16px;
+  --ml: 20px;
   --l: 24px;
   --xl: 48px;
 
@@ -95,9 +96,16 @@ body {
 
   background-size: 100px 100px;
   background-image:
-  linear-gradient(to right, var(--line-color) 1px, transparent 1px), 
-  linear-gradient(to bottom, var(--line-color) 1px, transparent 1px);
+  linear-gradient(to right, rgba(100,100,100,0.2) 1px, transparent 1px), 
+  linear-gradient(to bottom, rgba(100,100,100,0.2) 1px, transparent 1px);
+
 }
+
+@media only screen and (max-width: 350px) {
+  body {
+      resize: vertical;
+      }
+    }
 
 @keyframes fadeInAnimation { 
   0% { 
@@ -106,7 +114,13 @@ body {
   100% { 
       opacity: 1; 
    } 
-} 
+}
+
+li {
+  padding: var(--xs) var(--xs) var(--xs) 0;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.75em;
+}
 .u-welcome {
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: 1; 

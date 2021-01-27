@@ -87,3 +87,25 @@
     visibility: hidden;
 }
 
+.PlayerPanelLeft {
+
+}
+/* @media only screen and (max-width: 1150px) and (min-width: 450px) {
+    .PlayerPanelLeft-toggle {
+      height: 420px !important;
+      width: 420px !important;
+    }
+    .CanvasPanel {
+      width: 420px  !important;
+    }
+  }
+
+@media only screen and (max-width: 449px) {
+    .CanvasPanel-canvasContainer {
+    height: 340px !important;
+    width: 340px !important;
+    }
+    .CanvasPanel {
+    width: 340px  !important;
+    }
+  } */

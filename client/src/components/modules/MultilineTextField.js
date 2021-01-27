@@ -17,6 +17,7 @@ import { get, post, put} from "../../utilities";
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
+      fontFamily: 'Alata',
       margin: theme.spacing(1),
       width: '10ch',
       /* color: rgb(100, 100, 100), */

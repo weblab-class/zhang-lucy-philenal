@@ -3,6 +3,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import ReactLoading from 'react-loading';
 import { get } from "../../utilities";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
+import MadeWithLuv from "../modules/MadeWithLuv.js";
 import StartMenu from "../modules/StartMenu.js";
 import ToggleButton from '../modules/ToggleButton';
 import "./Start.scss";
@@ -168,6 +169,7 @@ class Start extends Component {
                       user_id={this.props.user_id} 
                       user_name={this.props.user_name}/>
                 </div>
+                <MadeWithLuv />
               </div>
           }
         </>
@@ -204,6 +206,7 @@ class Start extends Component {
           </div>
         </div>
         }
+        <MadeWithLuv/>
         </>
       );
     }
