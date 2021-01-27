@@ -10,9 +10,22 @@ const BOARD_HEIGHT_BLOCKS = 20;
 
 // hardcoded wordpacks
 const wordpacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep"],
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
-  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
+  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "apple", "orange", "cake", "watermelon", "mug", "dog", "tree", "spider", "butterfly", "bee", "eye", "wig", "beard", "rain", "door", "leaf", "taxi", "teeth", "ear", "face", "foot", "hand", "sanitizer", "mask", "backpack", "castle", "makeup", "phone", "computer", "chopsticks", "fork", "spoon", "chair", "hat", "coat", "scarf", "shoes", "socks", "sunglasses", "plate", "umbrella", "bike", "car", "bus", "bottle", "tv", "brush", "zoom", "fan", "skirt", "math", "chemistry", "hairdryer", "iron", "lamp", "biology", "lightbulb", "mailbox", "bridge", "building", "grill", "chess", "camping", "balloon", "clown", "necklace", "clock", "mirror", "eraser", "camera"],
+
+  "food": ["burger", "fries", "taco", "egg", "corn", "lemon", "tofu", "sushi", "tomato", "potato", "cherry", "pasta", "pineapple", "apple", "grapes", "pear", "candy", "banana", "carrot", "onion", "bread", "cheese", "butter", "popcorn", "chips", "cookie", "cake", "nuts", "pepper", "ribs", "steak", "chicken", "fish", "shrimp", "crab", "kiwi", "avocado", "boba", "tea", "mushroom", "sandwich", "salad", "dumpling", "ham", "milk", "lemonade", "donut", "bacon", "hotdog", "waffle", "pancake", "muffin", "cereal", "strawberry", "blueberry"],
+
+  "animal": ["pig", "sheep", "bird", "dog", "cat", "cow", "horse", "chicken", "rat", "spider", "ant", "duck", "raccoon", "rabbit", "bee", "frog", "snake", "alligator", "fish", "butterfly", "dolphin", "shark", "crab", "penguin", "seal", "bear", "wolf", "lion", "squirrel", "elephant", "camel", "dragon", "flamingo", "monkey", "giraffe", "peacock", "crane", "hippo", "dinosaur", "koala", "kangaroo", "sloth", "turtle", "panda", "moose", "swan", "jellyfish", "starfish", "clam", "octopus", "seahorse", "unicorn", "snail", "centipede", "pigeon", "eagle", "owl", "seagull", "turkey", "ladybug", "zebra", "cheetah", "gorilla"],
+
+  "nature": ["mountain", "river", "lake", "sun", "grass", "tree", "flower", "star", "moon", "cloud", "wind", "earth", "waterfall", "valley", "snow", "rain", "volcano", "desert", "forest", "rainbow", "lightning", "tornado", "tsunami", "earthquake", "beach", "rock", "branch", "dirt", "acorn", "leaf", "seed", "fire", "cave", "cliff"],
+
+  "expressions": ["happy", "sad", "mad", "annoyed", "angry", "confused", "disgusted", "scared", "shy", "embarrassed", "constipated", "relieved", "jealous", "sleepy", "sick", "loving", "stressed", "neutral", "surprised", "hurt", "silly", "smirk", "dizzy", "crazy"],
+
+  "characters":["simpson", "arthur", "barnie", "elmo", "shrek", "bob", "saitama", "gon", "pikachu", "dora", "barbie", "rapunzel", "genie", "hinata", "cinderella", "superman", "ironman", "spiderman", "flash", "batman", "teletubby", "snoopy", "mickey", "spongebob", "jerry", "tweety", "ferb", "elsa", "scooby", "winnie", "ariel", "tinkerbell", "popeye", "simba", "goofy", "xiyangyang", "doraemon", "totoro", "naruto", "aang", "pororo"],
+
+  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen", "rowing", "spark", "banana", "simmons"],
+
+  "jank": ["fortnite", "whip", "vibe", "bop", "jank", "stan", "bruh", "shook", "dab", "woah", "yeet", "dank", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "slaps", "bet", "fleek", "clout", "wig", "lit", "simp", "cap", "fam", "karen", "snatched", "extra", "basic", "ship", "vsco", "poggers", "noob", "flex", "bread"],
+
   "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
 };
 
@@ -50,7 +63,7 @@ const shuffle = (array) => {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
+  console.log(array);
   return array;
 }
 
@@ -98,7 +111,7 @@ const newGame = (req) => {
     finished: false,
     maxSessions: 1,
     session: 0,
-    round: 0,
+    round: 1,
     turn: 0,
     wordpack: wordpackName,
     word: wordpack[0],
@@ -280,6 +293,7 @@ const removePlayer = (id) => {
 
 
 module.exports = {
+    wordpacks,
     newGame,
     initializeGame,
     getNextWord,

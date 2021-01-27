@@ -54,7 +54,7 @@ class GoogleButton extends Component {
     return (
       <>
       {this.state.loggedIn ? 
-      <div>hello, {this.props.user_name}! 
+      <div className="u-welcome">hello, {this.props.user_name}! 
       {/* custom styling for google login: https://stackoverflow.com/questions/55023073/react-google-login-inline-styling */}
       <GoogleLogout
           clientId={GOOGLE_CLIENT_ID}
@@ -70,7 +70,7 @@ class GoogleButton extends Component {
             </span>
           )}
         /></div>:
-        <div>hello! 
+        <div className="u-welcome">hello! 
           <GoogleLogin
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Login"

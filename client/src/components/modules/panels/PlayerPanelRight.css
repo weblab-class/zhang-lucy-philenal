@@ -43,6 +43,9 @@ section {
 
 }
 .PlayerPanelRight-chatBoxContainer {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
     background-color: rgb(255, 246, 232);
     padding: 1rem;
     width: 200px;

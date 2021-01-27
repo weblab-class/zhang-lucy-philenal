@@ -20,6 +20,8 @@ import "./Player.css";
  * @param {PlayerObject[]} players
  * ~~@param {String} word~~
  * @param {Number} turn
+ * @param {Number} round -- starts at 1
+ * @param {Number} maxSessions
  */
 class Pixeler extends Component {
   constructor(props) {
@@ -124,13 +126,13 @@ class Pixeler extends Component {
     console.log("turn number " + this.props.turn);
     console.log("user id " + this.props.user_id);
     
-    if (this.state.pixelers.length == 0 || this.props.turn==null){
+    if (this.state.pixelers.length == 0 || this.state.user_name==null || this.props.turn==null || this.props.maxSessions==null || this.props.round==null){
       return (<div></div>)
     } else{
       return (
         <>
           <div className="Player-header">
-            <div>hello, {this.state.user_name}!</div>
+            <div className="u-welcome">hello, {this.state.user_name}!</div>
             <div>game id: {this.props.game_id}</div>
           </div>      
           <div className="Player-subheader">
@@ -161,6 +163,8 @@ class Pixeler extends Component {
                 pixelers={this.state.pixelers} 
                 word={this.state.word} 
                 turn={this.props.turn} 
+                round={this.props.round}
+                maxSessions={this.props.maxSessions}
                 leaveGame={this.leaveGame}
                 />
             </div>

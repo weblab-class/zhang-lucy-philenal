@@ -31,12 +31,7 @@ const router = express.Router();
 const socketManager = require("./server-socket");
 
 //word pack
-const wordPacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "cake", "flower", "house", "happy", "mango", "tree"],
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
-  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
-  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
-};
+const wordPacks = Logic.wordpacks;
 
 const sessionValues = [1,2,3,4,5];
 
@@ -219,6 +214,7 @@ router.get("/user/images", (req, res) => {
     };
 
     res.send({
+      user_name: user.name,
       correct: user.correct_imgs,
       incorrect: user.incorrect_imgs,
     });
@@ -265,7 +261,10 @@ router.post("/game/nextRound", (req, res) => {
 
     // get the next word
     game.word_idx += 1;
-
+    //if the (# of players) words have been played, round ended
+    if ((game.word_idx) % game.players.length == 0){
+      game.round +=1
+    }
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
       game.finished = true;
@@ -294,6 +293,7 @@ router.post("/game/nextRound", (req, res) => {
     game.guesser = game.players[0];
     game.pixelers = game.players.slice(1,game.players.length);
     game.turn = 0; //resets game, people restart
+    game.guesses=[];
 
     game.save().then((updatedGame) => { //updates game document and then shouts the change
 
@@ -311,6 +311,7 @@ router.post("/game/nextRound", (req, res) => {
         players: updatedGame.players,
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
+        round: updatedGame.round,
         status: "not end",
         almostEnd: almostEnd
       });
@@ -503,7 +504,7 @@ router.put("/game/guess", (req, res) => {
           game.num_correct += 1;
           game.word_statuses.push("correct");
         }
-        // TODO: increment turn/word
+
         game.save().then((updatedGame) => {
           if (correct) {
             res.send({message: "correct"});
@@ -562,12 +563,12 @@ router.put("/game/start", (req, res) => {
       game.pixelers = game.players.slice(1,game.players.length);
       game.started = true;
       game.wordPack = req.body.wordPack;
-      game.words = wordPacks[game.wordPack]; //TODO: Logic.shuffle()
+      game.words = Logic.shuffle(wordPacks[game.wordPack]); //TODO: Logic.shuffle()
       game.word = game.words[0];
       game.word_length = game.word.length;
       game.maxSessions = req.body.sessions;
       game.pixel_limit = req.body.pixel_limit;
-
+      console.log("game.words"+ game.words)
       game.save()
       .then((updatedGame) => {
         //TODO: (philena) change this to socket room for higher efficiency!!!!

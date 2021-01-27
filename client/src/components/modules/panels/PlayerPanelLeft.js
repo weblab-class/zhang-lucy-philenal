@@ -17,7 +17,8 @@ import "./PlayerPanelLeft.css";
  * @param {Boolean} isGuesser
  * @param {String} word* - only if isGuesser=false
  * @param leaveGame callback function
- * 
+ * @param {Number} round -- starts at 1
+ * @param {Number} maxSessions
  * DIDNT ADD THE PROPS BELOW!!! THESE ARE NOT ACTUAL PROPS
  * @param {String} user_id - we can get all of the above from this
  * @param {String} game_id
@@ -48,6 +49,11 @@ class PlayerPanelLeft extends Component {
           <div className="PlayerPanelLeft-header">word: 
             <span className="PlayerPanelLeft-word">
               {(this.props.word)}
+            </span>
+          </div>
+          <div className="PlayerPanelLeft-header">round:  
+            <span className="PlayerPanelLeft-round">
+              {this.props.round} of {this.props.maxSessions}
             </span>
           </div>
           <div className="PlayerPanelLeft-header">guesser:</div>

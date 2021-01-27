@@ -28,6 +28,12 @@ const useStyles = makeStyles({
     fontSize: '24px',
     flex: '1 1 auto',
   },
+  title2: {
+    color: 'rgba(0, 0, 0, 0.54)',
+    padding: '16px 24px 0px 24px',
+    fontSize: '24px',
+    flex: '1 1 auto',
+  },
   paper: {
     
    /*  color: 'rgb(100, 100, 100) !important', */
@@ -115,6 +121,7 @@ export default function AlertDialog(props) {
       >
           <Fade in={open}>
           <div className={classes.paper}>
+          {props.endGame && <div className={classes.title2}>game over!</div> }
             <div className={classes.title}>{props.overlayText}</div>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">

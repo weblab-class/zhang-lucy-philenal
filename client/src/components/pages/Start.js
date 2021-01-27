@@ -138,7 +138,7 @@ class Start extends Component {
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
             <div className="Start-background">
-              <div>hello, {this.props.user_name}! 
+              <div className="u-welcome">hello, {this.props.user_name}! 
                 <GoogleLogout
                     clientId={GOOGLE_CLIENT_ID}
                     buttonText="Logout"
