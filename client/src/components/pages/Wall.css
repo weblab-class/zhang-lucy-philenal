@@ -1,4 +1,4 @@
-/* text overlay adapted from: */
+/* text overlay adapted from:https://stackoverflow.com/questions/49037463/css-text-overlay-on-full-image */
 @media only screen and (max-width: 1110px) {
     .Wall-page {
         flex-direction: column !important;
