@@ -33,6 +33,14 @@
     text-align: center;
 }
 
+.HowToPlay-header-2 {
+    font-size: var(--l);
+    color: var(--font-color-3);
+    font-family: 'Alata', sans-serif;
+    text-align: center;
+    padding-bottom: .75rem;
+}
+
 .HowToPlay-rowPixel {
     display: flex;
     flex-direction: row;

@@ -269,8 +269,6 @@ const getScore = (game) => {
 /* constants here */
 
 /* game state */
-// TODO: I think game state should be the same as GameSchema? -lz
-// OH
 const gameState = {
     //fill me in -- not sure whether to key players with id or order
    /*  games: {}, //object of game objects */
