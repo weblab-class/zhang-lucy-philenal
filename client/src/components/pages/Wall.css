@@ -32,6 +32,7 @@
     font-size: 70px;
     letter-spacing: 0.1em;
     -webkit-text-stroke-width: 0.2px;
+    white-space: nowrap;
 }
 
 .Wall-title-shame {

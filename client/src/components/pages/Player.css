@@ -35,12 +35,12 @@
     align-items: flex-end;
     background-color: rgb(255, 246, 232);
     /* margin-top: .75rem; */
-    padding: 0.25rem;
+    padding: 0.3rem;
     border-radius: var(--s);
 }
 
 .Player-quitConfirmationChild {
-    color: var(--text-color);
+    color: var(--font-color-3);
 }
 .Player-quitConfirmationButton {
     margin: .1rem;

@@ -81,13 +81,13 @@
 .Lobby-player {
     font-size: var(--m);
     font-family: 'Roboto', sans-serif;
-    color: var(--font-color-2);
+    color: var(--font-color-3);
     padding-top: var(--m);
 }
 
 .Lobby-header {
     font-size: var(--l);
-    color: var(--font-color-2)
+    color: var(--font-color-3)
 }
 
 .Lobby-entireColumn {
@@ -102,7 +102,7 @@
     margin-top: var(--m);
     margin-bottom: var(--m);
     font-size: var(--m);
-    color: var(--font-color-2);
+    color: var(--font-color-3);
 }
 
 .Lobby-column {

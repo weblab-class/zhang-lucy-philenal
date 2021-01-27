@@ -20,7 +20,9 @@ class HowToPlay extends Component {
           </div>
           <ToggleButton/>
         </div>
-        <button onClick={()=>{navigate('/')}}>back</button>
+        <div className="u-back-button-container">
+              <button onClick={()=>{navigate('/')}}>back</button>
+            </div>     
         <div className="HowToPlay-container">
           <div className="HowToPlay-title">
             how to play

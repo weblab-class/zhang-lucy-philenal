@@ -65,7 +65,7 @@ router.get("/game/width_height", (_, res)=> {
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   if (!req.user) {
     // not logged in
     return res.send({});
@@ -90,7 +90,7 @@ router.post("/game/new", (req, res) => {
   User.findOneAndUpdate(filter, update, {
     new: true,
   }).then((res)=>{
-    console.log(res);
+    // console.log(res);
   });
 
   const newGame = Logic.newGame(req);
@@ -120,7 +120,7 @@ router.post("/user/leave", (req, res) => {
     update, {
     new: true}
   ).then((res) => {
-    console.log(res);
+    // console.log(res);
   });
 
   // TODO: update host
@@ -136,8 +136,8 @@ router.post("/user/leave", (req, res) => {
     update2, 
     {"new": true},
     ).then((game)=>{
-      console.log("here");
-      console.log(game);
+      // console.log("here");
+      // console.log(game);
       res.send({"success": true});
   }).catch((err) => {
     console.log("Error with user/leave");
@@ -147,7 +147,7 @@ router.post("/user/leave", (req, res) => {
   Game.findOne(
     { _id: req.body.game_id }, 
     function (err, game) {
-      console.log(game);
+      // console.log(game);
       game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
       game.save(function (err) {
           if(err) {
@@ -161,7 +161,7 @@ router.post("/user/leave", (req, res) => {
             players: res.players, 
             game_id: res._id,
           });
-    console.log("I EMMITED CHANGED PLYERS " + res);
+    // console.log("I EMMITED CHANGED PLYERS " + res);
   }).catch((err) => {
     console.log("Error with user/leave");
     console.log(err);
@@ -201,14 +201,14 @@ router.post("/game/onQuit", (req, res)=>{
       theWordWas: "the word was: " + game.word,
       word: game.word
     })
-    console.log("GAME WORD " + game.word)
+    // console.log("GAME WORD " + game.word)
   })
   
 })
 
 router.get("/user/images", (req, res) => {
   User.findOne({_id: req.query.user_id}).then((user) => {
-    console.log(user);
+    // console.log(user);
     if (!user) {
       res.status(404).send({msg: "user not found"});
       return;
@@ -229,7 +229,7 @@ router.post("/game/nextRound", (req, res) => {
   // Update all users with the image
   
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
-    console.log(game.word);
+    // console.log(game.word);
     // for async idk
     let word = game.word;
     let status = game.word_statuses[game.word_statuses.length - 1];
@@ -323,7 +323,7 @@ router.post("/game/nextRound", (req, res) => {
 });
 
 router.get("/user/get", (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
   
   User.find({ _id: req.query.user_id }).then((users) => {
     res.send(users);
@@ -398,7 +398,7 @@ router.get("/game/num_filled", (req, res) => {
       return res.status(404).send({msg: "invalid user ID"});
     }
     if (userIdPassed && gameFound && userValidated) {
-      console.log(game.num_filled);
+      // console.log(game.num_filled);
       for (let i = 0; i < game.num_filled.length; i++) {
         if (game.num_filled[i].user_id == req.query.user_id) {
           return res.status(200).send({
@@ -416,8 +416,8 @@ router.get("/game/num_filled", (req, res) => {
 
 
 router.get("/game/player_status", (req, res) => {
-  console.log("player status...");
-  console.log(req.query);
+  // console.log("player status...");
+  // console.log(req.query);
   User.find({_id: req.query.user_id}).then((users) => {
     if (users.length == 0 || !users[0].game_id) {
       res.send({status:"not in game"});
@@ -429,7 +429,7 @@ router.get("/game/player_status", (req, res) => {
         res.send({status:"not in game"});
         return;
       } 
-      console.log(`USER: ${req.query.user_id}`);
+      // console.log(`USER: ${req.query.user_id}`);
       if (games[0].guesser && games[0].guesser._id == req.query.user_id) {
         res.send({ game_id: games[0]._id, status: "guesser" });
         return;
@@ -461,7 +461,7 @@ router.get("/game/canvas", (req, res) => {
 });
 
 router.post("/game/join", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   Game.findOne(
     {_id: req.body.game_id}, 
     function (err, game) {
@@ -512,7 +512,7 @@ router.post("/game/join", (req, res) => {
 });
 
 router.put("/game/guess", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   Game.find({ _id: req.body.game_id })
   .then((games) => {
     const noGamesFound = games.length == 0;

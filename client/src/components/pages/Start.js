@@ -140,11 +140,11 @@ class Start extends Component {
       return (
         <>
           {this.state.isLoading ?
-            <div className={`LoadingScreen ${this.state.theme}`}> 
+            <div className={`LoadingScreen`}> 
                 <ReactLoading type={"bars"} color={"grey"} />
             </div> :
-            <div className={`Start-background ${this.state.theme}`}>
-              <div className={`u-welcome ${this.state.theme}`}>
+            <div className={`Start-background`}>
+              <div className={`u-welcome`}>
                 <div>
                   hello, {this.props.user_name}! 
                   <GoogleLogout
@@ -162,7 +162,6 @@ class Start extends Component {
                       )}
                     />
                 </div>
-                
                 <ToggleButton/>
               </div>
                 

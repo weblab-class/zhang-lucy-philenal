@@ -178,9 +178,10 @@ class CanvasPanel extends Component {
         }).then((res) => {
           if (res && res.board) {
             console.log("I CLEARED MY PIXELS")
-            this.setState({pixels: res.board.pixels});
+            this.setState({pixels: res.board.pixels}, ()=>{
+              window.location.reload();
+            });
             
-            window.location.reload();
           }
         }).catch((err) => {
           console.log(err);

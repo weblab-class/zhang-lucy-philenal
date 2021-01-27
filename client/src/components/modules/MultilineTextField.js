@@ -20,19 +20,19 @@ const useStyles = makeStyles((theme) => ({
       fontFamily: 'Alata',
       margin: theme.spacing(1),
       width: '10ch',
-      /* color: rgb(100, 100, 100), */
+      /* color: var(--border-color), */
     },
     '& .MuiInputBase-root': {
       fontFamily: 'Alata',
-      color: 'rgb(100, 100, 100)',
+      color: 'var(--border-color)',
     },
     '& .MuiMenuItem-root': {
       fontFamily: 'Alata',
-      color: 'rgb(100, 100, 100)',
+      color: 'var(--border-color)',
     },
     '& .MuiListItem-root': {
       fontFamily: 'Alata',
-      color: 'rgb(100, 100, 100)',
+      color: 'var(--border-color)',
     },
   },
 }));

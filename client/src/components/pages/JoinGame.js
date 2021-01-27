@@ -70,12 +70,17 @@ class JoinGame extends Component {
   render() {
     return (
       <>
-            <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
-            <div className="u-back-button-container">
-            <button onClick={()=>{navigate('/')}}>back</button>
+            <div className="u-welcome">
+              <div>
+              hello, {this.props.location.state.user_name}!
+              </div>
+              <div>
+              <ToggleButton/>
+              </div>
             </div>
-            <ToggleButton/>
-            
+            <div className="u-back-button-container">
+              <button onClick={()=>{navigate('/')}}>back</button>
+            </div>
             <div className="JoinGame-container">
                 <div className="JoinGame-title">
                   join game

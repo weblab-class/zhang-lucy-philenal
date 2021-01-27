@@ -36,6 +36,7 @@
     width: 120px;
     background-color: rgb(255, 246, 232);
     padding: var(--s);
+    color: var(--font-color-3);
     border-color: rgb(255, 246, 232);
     border-width: .5em;
     border-radius: 0.5em;

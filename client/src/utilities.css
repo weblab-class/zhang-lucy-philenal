@@ -62,7 +62,7 @@
 
   --font-primary: 'Alata', sans-serif;
 
-  --color-1: rgb(253, 190, 190);
+  /* --color-1: rgb(253, 190, 190);
   --color-1-hover: rgb(255 170 170);
   --color-2: rgb(255, 216, 175);
   --color-2-hover: rgb(255, 202, 145);
@@ -71,7 +71,7 @@
   --color-4: rgb(211, 247, 201);
   --color-4-hover: rgb(195, 246, 181);
   --color-5: blanchedalmond;
-  --color-error: rgb(249, 55, 55);
+  --color-error: rgb(249, 55, 55); */
 
   --pixel-color-unfilled: var(--white);
   --pixel-color-filled: var(--dark-grey);
@@ -121,11 +121,13 @@ li {
   font-family: 'Roboto', sans-serif;
   line-height: 1.75em;
 }
+
 .u-welcome {
   display: flex;
   justify-content: space-between;
-  
+
   padding: 1rem;
+  padding-bottom: 0;
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: 1; 
   animation-fill-mode: forwards; 
@@ -168,14 +170,21 @@ button {
 }
 
 /* used animista */
-button:hover {
+/* button:hover {
+  background-color: var(--button-color-hover);
+  -webkit-animation: scale-up-center 0.2s ease-out both;
+  animation: scale-up-center 0.2s ease-out both;
+  animation: color-change 0.2s ease-in;
+} */
+
+button:active:hover:not([disabled]) {
   background-color: var(--button-color-hover);
   -webkit-animation: scale-up-center 0.2s ease-out both;
   animation: scale-up-center 0.2s ease-out both;
   animation: color-change 0.2s ease-in;
 }
 
-button:disabled {
+button[disabled], .button[disabled]:hover, .button[disabled]:focus, .button[disabled]:active {
   color: var(--button-text-color);
   background-color: var(--button-disabled-color);
   cursor: default;
@@ -243,6 +252,13 @@ form {
 .u-text-error {
   color: var(--color-error);
   white-space: normal;
+}
+
+.u-back-button-container {
+  margin: 0 1rem ;
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1; 
+  animation-fill-mode: forwards; 
 }
 
 .u-flex {

@@ -2,10 +2,12 @@ import { navigate } from "@reach/router";
 import React, { Component } from "react";
 import { socket } from "../../client-socket.js";
 import { get, post, put } from "../../utilities";
-import "../../utilities.css";
 import MultilineTextField from "../modules/MultilineTextField.js";
-import "./Lobby.css";
+import ToggleButton from "../modules/ToggleButton";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
+import "../../utilities.css";
+import "./Lobby.css";
+
 /**
  * Lobby page is what the user travels to after making/joining
  * a game. The host can start the game.
@@ -186,9 +188,18 @@ class Lobby extends Component {
       return (
         <> 
               {/* <div><GoogleButton/></div> */}
-            
-              <div className="u-welcome">hello, {this.props.location.state.user_name}!</div>
+              <div className="u-welcome">
+                <div>
+                hello, {this.props.location.state.user_name}!
+                </div>
+                <div>
+                <ToggleButton/>
+                </div>
+              </div>            
+
+              <div className="u-back-button-container">
               <button onClick={this.leaveGame}>leave game</button>
+              </div>   
               <div className="Lobby-container">
                 <div className="Lobby-title">
                   lobby

@@ -6,6 +6,7 @@ import Picture from "../modules/Picture";
 import "./Wall.css";
 import "../../utilities.css";
 import MadeWithLuv from "../modules/MadeWithLuv";
+import ToggleButton from "../modules/ToggleButton";
 
 //when click on picture (make picture a button), open up a modal with larger view picture
 //change picture.width + height? with transitionsModal + the name of word
@@ -30,6 +31,9 @@ class Wall extends Component {
   }
 
   componentDidMount() {
+    // get("/api/user/name", {
+    //   user_id: this.props.location.state.user_id
+    // })
     get("/api/user/images", {
       user_id: this.props.location.state.user_id
     }).then((pictures) => {
@@ -91,8 +95,17 @@ class Wall extends Component {
     } else {
       return (
         <>
-        <div className="u-welcome">hello, {this.state.user_name}! </div>    
-        <button onClick={()=>{navigate('/')}}>back</button>
+          <div className="u-welcome">
+              <div>
+              hello, {this.state.user_name}!
+              </div>
+              <div>
+              <ToggleButton/>
+              </div>
+            </div>
+          <div className="u-back-button-container">
+              <button onClick={()=>{navigate('/')}}>back</button>
+            </div>
         <div className="Wall-page">  
           <div className="Wall-container-fame">
             <div className="Wall-title-fame">hall of fame</div>

@@ -90,6 +90,7 @@ class App extends Component {
           <Router>
             <HowToPlay
               path="/howtoplay"
+              user_name={this.state.user_name}
             />
             <Start 
               className="dark"
@@ -106,7 +107,7 @@ class App extends Component {
             <NewGame path="/newgame" />
             <GameAlreadyStarted path="/gamealreadystarted"/>
             <Player path="/player" />
-            <Wall path="/wall" />
+            <Wall path="/wall" user_name={this.state.user_name}/>
             <NotFound default />
           </Router>
         </div>
