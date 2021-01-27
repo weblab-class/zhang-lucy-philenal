@@ -32,7 +32,7 @@ class CanvasPanel extends Component {
       almostEnd: false,
       theWordWas: "",
       background: '#F898A4',
-      colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#ffffff', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
+      colorPalette: ['#F898A4', '#FCDA9C', '#F7FAA1', '#B4F6A4', '#9BE0F1', '#A2ACEB', '#e4e3d5', '#ece0d1', '	#e0a899', '#aa6f73', '#a39193', '#66545e'],
       endGame: false,
       scoreText:"",
     };
