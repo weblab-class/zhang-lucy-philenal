@@ -119,7 +119,6 @@ router.post("/user/leave", (req, res) => {
   ).then((res) => {
   });
 
-  // TODO: update host
   const update2 = {
     $pull:{ 
       players: { _id: req.body.user_id },
@@ -212,11 +211,8 @@ router.get("/user/images", (req, res) => {
 })
 
 //updates game with next word in list
-//TODO: if no other word left in list, don't do this?? => end game
-//TODO: make nextWord random using Logic.getNextWord()
 router.post("/game/nextRound", (req, res) => {
   // Update all users with the image
-  
   Game.findOne({ _id: req.body.game_id }).then((game) => { //find game
     let word = game.word;
     let status = game.word_statuses[game.word_statuses.length - 1];

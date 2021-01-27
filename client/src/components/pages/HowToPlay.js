@@ -34,7 +34,7 @@ class HowToPlay extends Component {
             <div className="NewGame-pixels u-color-4"></div>
           </div>
           <div className="HowToPlay">
-            <div className="HowToPlay-header"> pixonary</div> 
+            <div className="HowToPlay-header-2"> pixonary</div> 
             <div>
             pictionary + tag-team + pixels <br></br>{/* that allows players to collaboratively draw a word for the guesser to guess -- all with pixels! */}
             <br></br> 
