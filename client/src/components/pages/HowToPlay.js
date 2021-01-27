@@ -80,7 +80,7 @@ class HowToPlay extends Component {
                 </ul>
               </div>
             </div>
-            <div className="HowToPlay-pixelBox u-color-4">
+              <div className="HowToPlay-pixelBox u-color-4">
                 <div className="u-flex u-flex-justifyCenter">
                 <div className="HowToPlay-header">wall</div> 
                 </div>
