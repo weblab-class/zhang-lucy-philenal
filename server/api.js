@@ -31,12 +31,7 @@ const router = express.Router();
 const socketManager = require("./server-socket");
 
 //word pack
-const wordPacks = {
-  "basic": ["car", "pencil", "pizza", "rainbow", "sun", "recycle", "book", "baby", "pig", "banana", "sleep", "cake", "flower", "house", "happy", "mango", "tree"],
-  "mit": ["tim", "hose", "urop", "dance", "weblab", "borderline", "poker", "sing", "flour", "boston", "ocw", "dome", "ramen"],
-  "jank": ["bruh", "dab", "woah", "yeet", "dawg", "yolo", "boomer", "fetch", "goat", "gucci", "salty", "tea", "fleek", "wig", "lit", "cap", "fam", "karen", "ship", "noob", "flex"],
-  "soft": ["pony", "rainbow", "friends", "love", "lofi", "flower", "cat", "dog", "bunny", "cloud", "boba", "dream", "polaroid", "smile"]
-};
+const wordPacks = Logic.wordpacks;
 
 const sessionValues = [1,2,3,4,5];
 
@@ -269,7 +264,10 @@ router.post("/game/nextRound", (req, res) => {
 
     // get the next word
     game.word_idx += 1;
-
+    //if the (# of players) words have been played, round ended
+    if ((game.word_idx) % game.players.length == 0){
+      game.round +=1
+    }
     // END GAME
     if (game.word_idx >= game.maxSessions * game.players.length) {
       game.finished = true;
@@ -316,6 +314,7 @@ router.post("/game/nextRound", (req, res) => {
         players: updatedGame.players,
         pixelers: updatedGame.pixelers,
         guesser: updatedGame.guesser,
+        round: updatedGame.round,
         status: "not end",
         almostEnd: almostEnd
       });

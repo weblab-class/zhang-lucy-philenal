@@ -7,12 +7,19 @@
 .PlayerPanelLeft-word {
     /* color: var(--light-grey); */
     margin-left: var(--s);
+    white-space: nowrap;
 }
 
 .PlayerPanelLeft-hiddenWord {
     margin-bottom: var(--l);
+    white-space: nowrap;
 }
 
+.PlayerPanelLeft-round {
+    margin-left: var(--s);
+    color: var(--grey);
+    font-size: var(--m);
+}
 /* player icon styling */
 
 .PlayerIcon-container {

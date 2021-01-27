@@ -111,7 +111,7 @@ const newGame = (req) => {
     finished: false,
     maxSessions: 1,
     session: 0,
-    round: 0,
+    round: 1,
     turn: 0,
     wordpack: wordpackName,
     word: wordpack[0],
@@ -293,6 +293,7 @@ const removePlayer = (id) => {
 
 
 module.exports = {
+    wordpacks,
     newGame,
     initializeGame,
     getNextWord,

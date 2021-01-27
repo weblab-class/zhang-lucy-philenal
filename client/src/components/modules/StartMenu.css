@@ -1,4 +1,5 @@
 .StartMenu-button {
+    
     height: 5rem;
     width: 5rem;
     border-radius: 5px;
@@ -40,6 +41,9 @@
   }
 
 .StartMenu-buttonsRow{
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1; 
+    animation-fill-mode: forwards; 
     display: flex;
     justify-content: space-evenly;
     width: 65%;

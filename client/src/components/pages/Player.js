@@ -31,6 +31,7 @@ class Player extends Component {
             player: null,
             error: false,
             word: null,
+            round: 1,
             hiddenWord: null,
             correctGuess: false, //unhardcode??
             turn: 0,
@@ -58,6 +59,8 @@ class Player extends Component {
             this.setState({
                 word: res.word,
                 turn: res.turn,
+                round: res.round,
+                maxSessions: res.maxSessions,
             });
         }).catch((err) => {
             console.log(err);
@@ -141,6 +144,7 @@ class Player extends Component {
                         players: updatedGame.players,
                         pixelers: updatedGame.pixelers,
                         guesser: updatedGame.guesser,
+                        round: updatedGame.round,
                         player: "guesser"
                     })
                 } else {
@@ -153,6 +157,7 @@ class Player extends Component {
                                 players: updatedGame.players,
                                 pixelers: updatedGame.pixelers,
                                 guesser: updatedGame.guesser,
+                                round: updatedGame.round,
                                 player: "pixeler"
                             });
                         } else {
@@ -164,6 +169,7 @@ class Player extends Component {
                                     players: updatedGame.players,
                                     pixelers: updatedGame.pixelers,
                                     guesser: updatedGame.guesser,
+                                    round: updatedGame.round,
                                     player: "neither"
                                 });
                             }
@@ -219,14 +225,18 @@ class Player extends Component {
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
                         // user_name={this.props.location.state.user_name}
-                        turn={this.state.turn} /> :
+                        turn={this.state.turn}
+                        round={this.state.round}
+                        maxSessions={this.state.maxSessions} /> :
                         
                     <Pixeler 
                         word={this.state.word} 
                         game_id={this.state.game_id} 
                         user_id={this.props.location.state.user_id} 
                         // user_name={this.props.location.state.user_name}
-                        turn={this.state.turn}/>}
+                        turn={this.state.turn}
+                        round={this.state.round}
+                        maxSessions={this.state.maxSessions} />}
                 </>
             );
         }

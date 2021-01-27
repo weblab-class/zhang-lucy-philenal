@@ -17,6 +17,8 @@ import PlayerPanelTop from "../modules/panels/PlayerPanelTop";
  * @param {String} hiddenWord is "_ _ _ " if not guessed correctly, but shows actual word if guessed correctly
  * @param {Callback} onCorrectGuess function
  * @param {Boolean} correctGuess
+ * @param {Number} round -- starts at 1
+ * @param {Number} maxSessions
  */
 class Guesser extends Component {
   constructor(props) {
@@ -95,7 +97,7 @@ class Guesser extends Component {
 
 
   render() {
-    if (this.state.user_name==null || this.props.turn==null){
+    if (this.state.user_name==null || this.props.turn==null || this.props.maxSessions==null || this.props.round==null){
       return (<div></div>)
     } else{
       return (
@@ -116,6 +118,8 @@ class Guesser extends Component {
                 game_id={this.props.game_id}
                 isGuesser={true}
                 leaveGame={this.leaveGame}
+                round={this.props.round}
+                maxSessions={this.props.maxSessions}
                 />
               }
             </div>
