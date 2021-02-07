@@ -8,6 +8,7 @@ import "./CanvasPanel.css";
 import "../Canvas.css";
 // import "./CanvasPanel.css";
 import Canvas from "../Canvas.js";
+
 import { post } from "../../../utilities";
 
 

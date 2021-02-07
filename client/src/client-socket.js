@@ -12,3 +12,6 @@ socket.on("connect", () => {
 
 //TODO: sends message to server with move you made (what pixel you drew on canvas)
 /*  */
+export const drew = (data) => {
+  socket.emit("drew", data);
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { socket } from "../../client-socket.js";
+import { socket, drew } from "../../client-socket.js";
 import { usePersistentCanvas, clear, draw } from './Hooks.js'
 import { useState, useEffect, useRef } from "react";
 import { post } from "../../utilities";
@@ -11,38 +11,52 @@ import { post } from "../../utilities";
  * 
  */
 function NewCanvas(props) {
-  const [location, setLocation, canvasRef] = usePersistentCanvas()
+  const [location, setLocation, canvasRef, rect] = usePersistentCanvas()
 
   function handleCanvasClick(e, color) {
     if (props.isMyTurn && !props.isGuesser) { //only set state if it's ur turn and ure not guesser 
-      let location = { x: Math.floor(e.clientX), y: Math.floor(e.clientY), color: color, game_id: props.game_id, isMyTurn: props.isMyTurn, isGuesser: props.isGuesser}
+      let location = { x: Math.floor(e.clientX - rect.left), y: Math.floor(e.clientY - rect.top), color: color, game_id: props.game_id, isMyTurn: props.isMyTurn, isGuesser: props.isGuesser}
       console.log("I AM SETTING LOCATION")
+      drew(location);
       setLocation(location)
     }
   }
   
-socket.on("clicked", (clicked) => {
+socket.on("iDrew", (data) => {
+  console.log("OIAJOSJDA" + data.x)
       console.log("SOCKET WORKSSS")
-        if (clicked.game_id === props.game_id){
-            listenCanvasClick(clicked.location)
+        if (data.game_id === props.game_id){
+          console.log("data" + data)
+            listenCanvasClick(data)
         }
         
     });
+
   useEffect(() => {
     //listens for if someone clicked on canvas/changed a pixel on YOUR CANVAS
     
 
     /* return () => socket.disconnect(); */ //for reasons in https://www.valentinog.com/blog/socket-react/
-  }, []); //hook only runs once
+  }, [location]); //hook only runs once
 
   function listenCanvasClick(location1) {
-    /* console.log("I AM BEING LISTENED OH NO BUT YAEY THE SOCKET WORK HEHE"); */
     let listenerLocation = { x: location1.x, y: location1.y, color: location1.color, game_id: props.game_id, isMyTurn: props.isMyTurn, isGuesser: props.isGuesser};
 
-    setLocation(listenerLocation);
+    if (!isEqual(location1)){
+      setLocation(listenerLocation);
+    }
+    
     
   }
 
+  function isEqual(location1) {
+    console.log("IT AINT EQUAL ?" + location1 + location)
+    if (location1.x == location.x && location1.y == location.y && location1.color == location.color){
+      console.log("true");
+      return true
+    }
+    return false
+  }
   //lets not worry about this for now uh o.o
 /*   function handleClear() {
     setLocation(null)
@@ -62,7 +76,7 @@ socket.on("clicked", (clicked) => {
         ref={canvasRef}
         width="500"
         height="500"
-        onClick={(e) => {handleCanvasClick(e, props.color); }}
+        onClick={(e) => {console.log("I CLIEKED"); handleCanvasClick(e, props.color); }}
       />
     </>
   )

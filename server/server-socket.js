@@ -48,6 +48,12 @@ module.exports = {
         const user = getUserFromSocketID(socket.id);
         removeUser(user, socket);
       });
+      socket.on("drew", (data) => {
+        /* const user = getUserFromSocketID(socket.id);
+        if (user) logic.movePlayer(user._id, dir); */
+        console.log(data)
+        io.emit("iDrew", data);
+      });
     });
   },
 
