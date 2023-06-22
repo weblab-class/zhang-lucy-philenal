@@ -4,7 +4,6 @@ import "../../utilities.css";
 import "./HowToPlay.css";
 import ToggleButton from "../modules/ToggleButton";
 import MadeWithLuv from "../modules/MadeWithLuv.js";
-const GOOGLE_CLIENT_ID = "556090196938-vtf380cpnsqvbdvdhhq94ph113roaube.apps.googleusercontent.com";
 
 class HowToPlay extends Component {
   constructor(props) {
