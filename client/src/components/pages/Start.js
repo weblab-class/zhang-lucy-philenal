@@ -143,21 +143,23 @@ class Start extends Component {
           </div>
           <div className="Start-loginButtonContainer">
           {this.props.user_id ? (
-            <GoogleLogout
-              clientId={GOOGLE_CLIENT_ID}
-              buttonText="Logout"
-              onLogoutSuccess={this.onLogout}
-              onFailure={(err) => console.log(err)}
-            />
+            // <GoogleLogout
+            //   clientId={GOOGLE_CLIENT_ID}
+            //   buttonText="Logout"
+            //   onLogoutSuccess={this.onLogout}
+            //   onFailure={(err) => console.log(err)}
+            // />
+            <div class="g-signout2" data-onsuccess="onLogout"></div>
           ) : (
-            <GoogleLogin
-              clientId={GOOGLE_CLIENT_ID}
-              buttonText="login to start"
-              onSuccess={this.onLogin}
-              disabled={this.state.buttonDisabled}
-              onRequest={this.onClick}
-              onFailure={(err) => console.log(err)}
-            />
+            // <GoogleLogin
+            //   clientId={GOOGLE_CLIENT_ID}
+            //   buttonText="login to start"
+            //   onSuccess={this.onLogin}
+            //   disabled={this.state.buttonDisabled}
+            //   onRequest={this.onClick}
+            //   onFailure={(err) => console.log(err)}
+            // />
+            <div class="g-signin2" data-onsuccess="onLogin"></div>
           )}
           </div>
         </div>

@@ -73,8 +73,8 @@ class App extends Component {
   }
 
   handleLogin = (res) => {
+    const userToken = googleUser.getAuthResponse().id_token;
     console.log(`Logged in as ${res.profileObj.name}`);
-    const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
       this.setState({ user_id: user._id, user_name: res.profileObj.name});
       post("/api/initsocket", { socketid: socket.id });
