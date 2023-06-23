@@ -178,7 +178,6 @@ class Lobby extends Component {
       } 
       return (
         <> 
-              {/* <div><GoogleButton/></div> */}
               <div className="u-welcome">
                 <div>
                 hello, {this.props.location.state.user_name}!

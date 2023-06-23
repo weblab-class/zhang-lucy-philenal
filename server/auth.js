@@ -1,7 +1,5 @@
 const { OAuth2Client } = require("google-auth-library");
 const User = require("./models/user");
-const socketManager = require("./server-socket");
-
 // create a new OAuth client used to verify google sign-in
 const CLIENT_ID = "556090196938-aq68ifs953on2phsnv7kl6nc59t5h0gf.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
@@ -19,12 +17,12 @@ function verify(token) {
 // gets user from DB, or makes a new account if it doesn't exist yet
 function getOrCreateUser(user) {
   // the "sub" field means "subject", which is a unique identifier for each user
-  return User.findOne({ _id: user.sub }).then((existingUser) => {
+  return User.findOne({ googleid: user.sub }).then((existingUser) => {
     if (existingUser) return existingUser;
 
     const newUser = new User({
-      name: user.name,
-      _id: user.sub,
+        name: user.name,
+        _id: user.sub,
     });
 
     return newUser.save();

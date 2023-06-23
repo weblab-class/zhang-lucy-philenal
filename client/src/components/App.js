@@ -1,5 +1,6 @@
 import React, { Component, useState} from "react";
 import { Router } from "@reach/router";
+import jwt_decode from "jwt-decode";
 import NotFound from "./pages/NotFound.js";
 import Start from "./pages/Start.js";
 import HowToPlay from "./pages/HowToPlay.js";
@@ -73,10 +74,11 @@ class App extends Component {
   }
 
   handleLogin = (res) => {
-    const userToken = googleUser.getAuthResponse().id_token;
-    console.log(`Logged in as ${res.profileObj.name}`);
+    const userToken = res.credential
+    const decodedCredential = jwt_decode(userToken);
+    console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ user_id: user._id, user_name: res.profileObj.name});
+      this.setState({ user_id: user._id, user_name: decodedCredential.name});
       post("/api/initsocket", { socketid: socket.id });
     });
   };

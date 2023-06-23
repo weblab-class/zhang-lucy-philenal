@@ -1,5 +1,5 @@
 import React, { Component, useState} from "react";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
 import ReactLoading from 'react-loading';
 import { get } from "../../utilities";
 import PlayerPanelTop from "../modules/panels/PlayerPanelTop.js";
@@ -8,9 +8,6 @@ import StartMenu from "../modules/StartMenu.js";
 import ToggleButton from '../modules/ToggleButton';
 import "./Start.css";
 import "../../utilities.css";
-// import "../../utilities.scss";
-// import "../../variables.scss";
-// import "../App.scss";
 
 const GOOGLE_CLIENT_ID = "556090196938-aq68ifs953on2phsnv7kl6nc59t5h0gf.apps.googleusercontent.com";
 /**
@@ -73,9 +70,9 @@ class Start extends Component {
     })
   }
 
-  onLogout = (res) => {
+  onLogout = () => {
     this.setState({isLoading: true}, () => {
-      this.props.handleLogout(res);
+      this.props.handleLogout();
       this.setState({
         user_id: null, 
         loggedIn: false,
@@ -97,20 +94,14 @@ class Start extends Component {
               <div className={`u-welcome`}>
                 <div>
                   hello, {this.props.user_name}! 
-                  <GoogleLogout
-                      clientId={GOOGLE_CLIENT_ID}
-                      buttonText="Logout"
-                      onLogoutSuccess={this.onLogout}
-                      onFailure={(err) => console.log(err)}
-                      render={(renderProps) => (
-                      <span
-                        onClick={renderProps.onClick}
-                        className="Start-googleButton u-pointer"
-                        >
-                          logout
-                        </span>
-                      )}
-                    />
+                    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                      <button className="Start-googleButton u-pointer" onClick={() => {
+                          googleLogout();
+                          this.onLogout();
+                        }}>
+                        logout
+                      </button>
+                    </GoogleOAuthProvider>
                 </div>
                 <ToggleButton/>
               </div>
@@ -134,36 +125,29 @@ class Start extends Component {
       return (
         <>
         {this.state.isLoading ?
-        <div className="LoadingScreen"> 
-            <ReactLoading type={"bars"} color={"grey"} />
-        </div> :
-        <div>
-          <div className="Start-title">
-            <PlayerPanelTop/>
-          </div>
-          <div className="Start-loginButtonContainer">
-          {this.props.user_id ? (
-            // <GoogleLogout
-            //   clientId={GOOGLE_CLIENT_ID}
-            //   buttonText="Logout"
-            //   onLogoutSuccess={this.onLogout}
-            //   onFailure={(err) => console.log(err)}
-            // />
-            <div class="g-signout2" data-onsuccess="onLogout"></div>
-          ) : (
-            // <GoogleLogin
-            //   clientId={GOOGLE_CLIENT_ID}
-            //   buttonText="login to start"
-            //   onSuccess={this.onLogin}
-            //   disabled={this.state.buttonDisabled}
-            //   onRequest={this.onClick}
-            //   onFailure={(err) => console.log(err)}
-            // />
-            <div class="g-signin2" data-onsuccess="onLogin"></div>
-          )}
-          </div>
-        </div>
-        }
+          <div className="LoadingScreen"> 
+              <ReactLoading type={"bars"} color={"grey"} />
+          </div> :
+                  <div>
+                    <div className="Start-title">
+                      <PlayerPanelTop/>
+                    </div>
+                    <div className="Start-loginButtonContainer">
+                    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                    {this.props.user_id ? (
+                      <button className="Start-googleButton u-pointer" onClick={() => {
+                        googleLogout();
+                        this.onLogout();
+                      }}>
+                        logout
+                      </button>
+                    ) : (
+                      <GoogleLogin onSuccess={this.onLogin} onError={(err) => console.log(err)} />
+                    )}
+                  </GoogleOAuthProvider>
+                    </div>
+                  </div>
+          }
         <MadeWithLuv/>
         </>
       );
