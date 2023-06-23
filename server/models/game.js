@@ -22,7 +22,6 @@ const BoardSchema  = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema({
   name: String,
-  _id: String,
   game_id: String,
   correct_imgs: [BoardSchema], // board id's  
   googleid: String,
@@ -54,7 +53,7 @@ const GameSchema = new mongoose.Schema({
   num_correct: Number,
   num_incorrect: Number,
   num_filled: [{
-    user_id: String,
+    _id: String,
     count: Number,
   }],
   pixel_limit: Number,

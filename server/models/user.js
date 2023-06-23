@@ -16,7 +16,7 @@ const BoardSchema  = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema({
   name: String,
-  _id: String,
+  googleid: String,
   game_id: String,
   correct_imgs: [BoardSchema],
   incorrect_imgs: [BoardSchema],

@@ -14,7 +14,7 @@ import MadeWithLuv from "../modules/MadeWithLuv.js";
  * turn number, and word.
  * 
  * @param game_id The ID of the game
- * @param user_id The google ID of the particular player
+ * @param _id The google ID of the particular player
  * 
   * Proptypes
  * @param {PlayerObject[]} players
@@ -23,7 +23,7 @@ class Player extends Component {
     constructor(props) {
         super(props);
 
-        if (!this.props.location.state || !this.props.location.state.user_id) {
+        if (!this.props.location.state || !this.props.location.state._id) {
             navigate("/");
         }
         // Initialize Default State
@@ -50,13 +50,13 @@ class Player extends Component {
     componentDidMount() {
         this.is_mounted = true;
         
-        if (!this.props.location.state.user_id) {
+        if (!this.props.location.state._id) {
             navigate("/")
         }
 
         get("/api/game/get", {
             game_id: this.props.location.state.game_id,
-            user_id: this.props.location.state.user_id,
+            _id: this.props.location.state._id,
         }).then((res) => {
             this.setState({
                 word: res.word,
@@ -70,7 +70,7 @@ class Player extends Component {
         })
 
         get("/api/game/player_status", {
-            user_id: this.props.location.state.user_id,
+            _id: this.props.location.state._id,
         }).then((res) => {
             if (res.length == 0) {
                 navigate("/");
@@ -141,7 +141,7 @@ class Player extends Component {
                     guesser: updatedGame.guesser,
                     round: updatedGame.round,
                 });
-                if (updatedGame.guesser._id == this.props.location.state.user_id && 
+                if (updatedGame.guesser._id == this.props.location.state._id && 
                     this.is_mounted) {
                     this.setState({player: "guesser"});
                 } else if (this.is_mounted) {
@@ -166,7 +166,7 @@ class Player extends Component {
                     <Guesser 
                         word={this.state.word} 
                         game_id={this.state.game_id} 
-                        user_id={this.props.location.state.user_id} 
+                        _id={this.props.location.state._id} 
                         turn={this.state.turn}
                         round={this.state.round}
                         maxSessions={this.state.maxSessions} /> :
@@ -174,7 +174,7 @@ class Player extends Component {
                     <Pixeler 
                         word={this.state.word} 
                         game_id={this.state.game_id} 
-                        user_id={this.props.location.state.user_id} 
+                        _id={this.props.location.state._id} 
                         turn={this.state.turn}
                         round={this.state.round}
                         maxSessions={this.state.maxSessions} />}

@@ -53,7 +53,7 @@ const useStyles = makeStyles({
  * @param theWordWas - what to put in paragraph text
  * @param callback
  * @param callbackButtonText
- * @param user_id
+ * @param _id
  * @param user_name
  * @param game_id
  */
@@ -86,7 +86,7 @@ export default function AlertDialog(props) {
 
   const leaveGame = () => {
     post("/api/user/leave", {
-      user_id: props.user_id,
+      _id: props._id,
       game_id: props.game_id,
     }).then((res) => {
       if (res.success) { 
@@ -97,12 +97,12 @@ export default function AlertDialog(props) {
 
   const goToWall = () => {
     post("/api/user/leave", {
-      user_id: props.user_id,
+      _id: props._id,
       game_id: props.game_id,
     }).then((res) => {
       if (res.success) { 
         navigate("/wall", {state: {
-          user_id: props.user_id, 
+          _id: props._id, 
           user_name: props.user_name
         }});
       }

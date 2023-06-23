@@ -33,7 +33,7 @@ class App extends Component {
 
     this.state = {
       theme: "",
-      user_id: undefined,
+      _id: undefined,
     };
   }
 
@@ -67,7 +67,7 @@ class App extends Component {
       console.log(user);
       if (user._id && this.is_mounted) {
         // they are registed in the database, and currently logged in.
-        this.setState({ user_id: user._id });
+        this.setState({ _id: user._id });
         this.setState({ user_name: user.name });
       }
     });
@@ -78,14 +78,14 @@ class App extends Component {
     const decodedCredential = jwt_decode(userToken);
     console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ user_id: user._id, user_name: decodedCredential.name});
+      this.setState({ _id: user._id, user_name: decodedCredential.name});
       post("/api/initsocket", { socketid: socket.id });
     });
   };
 
   handleLogout = () => {
     console.log("logged out")
-    this.setState({ user_id: undefined, user_name: undefined });
+    this.setState({ _id: undefined, user_name: undefined });
     post("/api/logout");
   };
 
@@ -106,7 +106,7 @@ class App extends Component {
               path="/"
               handleLogin={this.handleLogin}
               handleLogout={this.handleLogout}
-              user_id={this.state.user_id}
+              _id={this.state._id}
               user_name={this.state.user_name}
             />
             <Lobby path="/lobby"/>

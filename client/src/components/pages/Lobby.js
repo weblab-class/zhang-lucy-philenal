@@ -13,7 +13,7 @@ import "./Lobby.css";
  * a game. The host can start the game.
  * 
  * @param game_id created in NewGame by the host (what the host inputted)
- * @param user_id google id
+ * @param _id google id
  * @param user_name google name
  */
 class Lobby extends Component {
@@ -58,7 +58,7 @@ class Lobby extends Component {
 
     get("/api/game/players", {
       game_id: this.props.location.state.game_id,
-      user_id: this.props.location.state.user_id,
+      _id: this.props.location.state._id,
     }).then((res) => {
 
       if (res.status == 200 && this.is_mounted) {
@@ -68,7 +68,7 @@ class Lobby extends Component {
          });
         if (res.started === true) {
           navigate("/player", {state: {
-            user_id: this.props.location.state.user_id, 
+            _id: this.props.location.state._id, 
             game_id: this.props.location.state.game_id
           }});
         } 
@@ -126,7 +126,7 @@ class Lobby extends Component {
     socket.on("game_id_started", (game_id) => {
       if (this.props.location.state.game_id === game_id && this.is_mounted) { //if game that started is your game_id
         navigate("/player", {state: {
-          user_id: this.props.location.state.user_id, 
+          _id: this.props.location.state._id, 
           game_id: this.props.location.state.game_id,
           user_name: this.props.location.state.user_name,
         }});
@@ -138,14 +138,14 @@ class Lobby extends Component {
     let pixel_limit = Math.round(400 * this.state.pixel_proportion / this.state.players.length);
     put("/api/game/start", {
       game_id: this.props.location.state.game_id,
-      user_id: this.props.location.state.user_id,
+      _id: this.props.location.state._id,
       sessions: this.state.sessions,
       wordPack: this.state.wordPack,
       pixel_limit: pixel_limit,
     }).then((res) => {
       if (res.status == "success") {
         navigate("/player", {state: {
-          user_id: this.props.location.state.user_id, 
+          _id: this.props.location.state._id, 
           game_id: this.props.location.state.game_id,
           user_name: this.props.location.state.user_name,
           }});
@@ -157,7 +157,7 @@ class Lobby extends Component {
 
   leaveGame = () => {
     post("/api/user/leave", {
-      user_id: this.props.location.state.user_id,
+      _id: this.props.location.state._id,
       game_id: this.props.location.state.game_id,
     }).then((res) => {
       if (res.success) { 
@@ -202,7 +202,7 @@ class Lobby extends Component {
                 </div>
                 <div className="Lobby-entireColumn">
                   <div className="Lobby">
-                    {(this.props.location.state.user_id === this.state.host_id) ?
+                    {(this.props.location.state._id === this.state.host_id) ?
                       <div>
                       <div className="Lobby-header Lobby-margin">
                         settings:
@@ -227,7 +227,7 @@ class Lobby extends Component {
                         {players}
                       </div>
                   </div>
-                {(this.props.location.state.user_id === this.state.host_id) ? 
+                {(this.props.location.state._id === this.state.host_id) ? 
                           <button 
                           className="Lobby-startGame"
                           onClick={this.startGame}

@@ -7,7 +7,7 @@ import "./GuessEntry.css";
 /**
  * Generic GuessEntry component
  * @param game_id
- * @param user_id
+ * @param _id
  * @param callback callback function to parent component (onGuessEntry --> sets state of guess in parent)
  * @param className the styling
  * @param onSubmit submitGuess() --> api calls to document guess in PlayerPanelRight.js
@@ -36,7 +36,7 @@ class GuessEntry extends Component {
 
     get ("/api/game/turn", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (res.turn && this.is_mounted) {
         this.setState({turn: res.turn}, () => {

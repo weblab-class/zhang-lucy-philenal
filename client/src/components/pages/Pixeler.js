@@ -16,7 +16,7 @@ import "./Player.css";
  * between this Pixeler and the Guesser
  * 
  * @param game_id The ID of the game
- * @param user_id The ID of the particular player
+ * @param _id The ID of the particular player
  * 
   * Proptypes
  * @param {PlayerObject[]} players
@@ -49,7 +49,7 @@ class Pixeler extends Component {
     this.is_mounted = true;
 
     get("api/user/get", {
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (this.is_mounted) {
         this.setState({
@@ -60,7 +60,7 @@ class Pixeler extends Component {
 
     get("/api/game/get", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (this.is_mounted) {
         this.setState({
@@ -78,7 +78,7 @@ class Pixeler extends Component {
 
     get("/api/game/canvas", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (res && this.is_mounted) {
         this.setState({canvas: res}, () => {
@@ -104,7 +104,7 @@ class Pixeler extends Component {
   clearCanvas = () => {
     post("/api/board/clear_pixels", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (res && res.board) {
         this.setState({pixels: res.board.pixels});
@@ -172,9 +172,9 @@ class Pixeler extends Component {
                 canvas_width_blocks={this.state.canvas.height} 
                 pixel_limit={this.state.pixel_limit}
                 game_id={this.props.game_id}
-                user_id={this.props.user_id}
+                _id={this.props._id}
                 isMyTurn={this.props.turn < this.state.pixelers.length && 
-                    this.state.pixelers[this.props.turn]._id===this.props.user_id}
+                    this.state.pixelers[this.props.turn]._id===this.props._id}
                 isGuesser={false}
                 clearCanvas={this.clearCanvas}
               />} 
@@ -182,7 +182,7 @@ class Pixeler extends Component {
             <div className="Player-subPanel">
               <PlayerPanelRight
                 game_id={this.props.game_id}
-                user_id={this.props.user_id}
+                _id={this.props._id}
                 isGuesser={false}
               />
             </div>

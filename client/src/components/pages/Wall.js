@@ -16,7 +16,7 @@ import ToggleButton from "../modules/ToggleButton";
  * Wall page is the page that shows all the correctly guessed images
  * TODO: change the user schema to contain a list of all games you've played before
  * 
- * @param user_id 
+ * @param _id 
  */
 class Wall extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Wall extends Component {
 
   componentDidMount() {
     get("/api/user/images", {
-      user_id: this.props.location.state.user_id
+      _id: this.props.location.state._id
     }).then((pictures) => {
       this.setState({
         correct_pictures: pictures.correct,

@@ -10,7 +10,7 @@ import ToggleButton from "../modules/ToggleButton";
  * JoinGame page asks the user to enter a unique ID, then joins
  * a game with said ID. 
  * Props are passed down from the Link in StartMenu, so we should use this.props.location.state.___ to reference.
- * @param user_id 
+ * @param _id 
  * @param user_name google name
  */
 class JoinGame extends Component {
@@ -40,13 +40,13 @@ class JoinGame extends Component {
     this.setState({button_disabled: true});
     post("api/game/join", {
       game_id: this.state.game_id,
-      user_id: this.props.location.state.user_id,
+      _id: this.props.location.state._id,
       user_name: this.props.location.state.user_name,
     }).then((res) => {
       if (res.status == "success") {
         navigate("/lobby", {state: 
           {
-            user_id: this.props.location.state.user_id,  
+            _id: this.props.location.state._id,  
             user_name: this.props.location.state.user_name,  
             game_id: this.state.game_id
           }

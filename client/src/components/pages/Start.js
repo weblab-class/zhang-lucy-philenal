@@ -14,7 +14,7 @@ const GOOGLE_CLIENT_ID = "556090196938-aq68ifs953on2phsnv7kl6nc59t5h0gf.apps.goo
  * Start is the main page after the user logs in. Contains the StartMenu component
  * 
  * (props passed from google login/logout)
- * @param user_id google id
+ * @param _id google id
  * @param user_name google name
  * @param handleLogin function
  * @param handleLogout function
@@ -24,7 +24,7 @@ class Start extends Component {
     super(props);
     this.state = {
       loggedIn: false,
-      user_id: null,
+      _id: null,
       isLoading: true,
       buttonDisabled: false,
       theme: "light"
@@ -41,7 +41,7 @@ class Start extends Component {
       console.log(user);
       if (user._id && this.is_mounted) {
         this.setState({ 
-          user_id: user._id, 
+          _id: user._id, 
           user_name: user.name,
         });
       }
@@ -59,7 +59,7 @@ class Start extends Component {
     this.setState({isLoading: true}, () => {
       this.props.handleLogin(res);
       this.setState({
-        user_id: "temp", 
+        _id: "temp", 
         loggedIn: true,
         buttonDisabled: true,
       }, () => {
@@ -74,7 +74,7 @@ class Start extends Component {
     this.setState({isLoading: true}, () => {
       this.props.handleLogout();
       this.setState({
-        user_id: null, 
+        _id: null, 
         loggedIn: false,
         isLoading: false,
       });
@@ -83,7 +83,7 @@ class Start extends Component {
 
   render() {
 
-    if (this.props.user_id) {
+    if (this.props._id) {
       return (
         <>
           {this.state.isLoading ?
@@ -113,7 +113,7 @@ class Start extends Component {
                 <div className="Start-startMenu">
                     <StartMenu 
                       className={this.state.theme}
-                      user_id={this.props.user_id} 
+                      _id={this.props._id} 
                       user_name={this.props.user_name}/>
                 </div>
                 <MadeWithLuv />
@@ -134,7 +134,7 @@ class Start extends Component {
                     </div>
                     <div className="Start-loginButtonContainer">
                     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-                    {this.props.user_id ? (
+                    {this.props._id ? (
                       <button className="Start-googleButton u-pointer" onClick={() => {
                         googleLogout();
                         this.onLogout();

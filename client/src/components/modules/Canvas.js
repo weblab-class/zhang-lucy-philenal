@@ -53,7 +53,7 @@ class Canvas extends Component {
 
     put("/api/game/pixel", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
       pixel_id: id,
       pixel_color: actualColor,
       pixel_filled: filled,
@@ -73,7 +73,7 @@ class Canvas extends Component {
     this.is_mounted = true;
     get("/api/game/canvas", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (res) {
         if (this.is_mounted){

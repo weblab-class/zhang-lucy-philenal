@@ -84,7 +84,7 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/game/new", (req, res) => {
-  const filter = { _id: req.body.user_id };
+  const filter = { _id: req.body._id };
   const update = { game_id: req.body.game_id };
   User.findOneAndUpdate(filter, update, {
     new: true,
@@ -105,7 +105,7 @@ router.post("/game/new", (req, res) => {
 
 //sends username
 router.get("/user/name", (req, res) => {
-  User.find({ _id: req.body.user_id }).then((user) => {
+  User.find({ _id: req.body._id }).then((user) => {
     res.send(user.name)
   })
 })
@@ -113,7 +113,7 @@ router.get("/user/name", (req, res) => {
 router.post("/user/leave", (req, res) => {
   const update = { game_id: null };
   User.findOneAndUpdate(
-    { _id: req.body.user_id }, 
+    { _id: req.body._id }, 
     update, {
     new: true}
   ).then((res) => {
@@ -121,8 +121,8 @@ router.post("/user/leave", (req, res) => {
 
   const update2 = {
     $pull:{ 
-      players: { _id: req.body.user_id },
-      pixelers: { _id: req.body.user_id }
+      players: { _id: req.body._id },
+      pixelers: { _id: req.body._id }
     }
   };
 
@@ -140,7 +140,7 @@ router.post("/user/leave", (req, res) => {
   Game.findOne(
     { _id: req.body.game_id }, 
     function (err, game) {
-      game.guesser = (game.guesser && game.guesser._id == req.body.user_id) ? null : game.guesser;
+      game.guesser = (game.guesser && game.guesser._id == req.body._id) ? null : game.guesser;
       game.save(function (err) {
           if(err) {
               console.error('ERROR!');
@@ -172,7 +172,7 @@ router.post("/game/endTurn", (req, res) => {
         players: updatedGame.players, 
         game_id: updatedGame._id,
       });
-      let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+      let game = Logic.getReturnableGame(updatedGame, req.body._id);
       res.send(game);
     })
   })
@@ -196,7 +196,7 @@ router.post("/game/onQuit", (req, res)=>{
 })
 
 router.get("/user/images", (req, res) => {
-  User.findOne({_id: req.query.user_id}).then((user) => {
+  User.findOne({_id: req.query._id}).then((user) => {
     if (!user) {
       res.status(404).send({msg: "user not found"});
       return;
@@ -299,23 +299,23 @@ router.post("/game/nextRound", (req, res) => {
         status: "not end",
         almostEnd: almostEnd
       });
-      let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+      let game = Logic.getReturnableGame(updatedGame, req.body._id);
       res.send(game);
     })
   })
 });
 
 router.get("/user/get", (req, res) => {
-  User.find({ _id: req.query.user_id }).then((users) => {
+  User.find({ _id: req.query._id }).then((users) => {
     res.send(users);
   });
 });
 
 router.get("/game/get", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((games) => {
-    let userValidated = Logic.validateUser(games[0], req.query.user_id);
+    let userValidated = Logic.validateUser(games[0], req.query._id);
     if (userValidated && games.length > 0) {
-      let game = Logic.getReturnableGame(games[0], req.query.user_id);
+      let game = Logic.getReturnableGame(games[0], req.query._id);
       res.send(game);
     } else {
       res.send({status: "error"});
@@ -326,7 +326,7 @@ router.get("/game/get", (req, res) => {
 
 router.get("/game/turn", (req, res) => {
   Game.find({ _id: req.query.game_id }).then((games) => {
-    let userValidated = Logic.validateUser(games[0], req.query.user_id);
+    let userValidated = Logic.validateUser(games[0], req.query._id);
     if (userValidated && games.length > 0) {
       res.send({
         turn: games[0].turn,
@@ -340,15 +340,15 @@ router.get("/game/turn", (req, res) => {
 
 router.get("/game/players", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
-    let userIdPassed = req.query.user_id;
+    let userIdPassed = req.query._id;
     if (!userIdPassed) {
-      return res.status(400).send({msg: "please pass your user_id"});
+      return res.status(400).send({msg: "please pass your _id"});
     }
     let gameFound = game;
     if (!gameFound) {
       return res.status(400).send({msg: "invalid game ID"});
     }
-    let userValidated = Logic.validateUser(game, req.query.user_id);
+    let userValidated = Logic.validateUser(game, req.query._id);
     if (!userValidated) {
       return res.status(404).send({msg: "invalid user ID"});
     }
@@ -366,21 +366,21 @@ router.get("/game/players", (req, res) => {
 
 router.get("/game/num_filled", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
-    let userIdPassed = req.query.user_id;
+    let userIdPassed = req.query._id;
     if (!userIdPassed) {
-      return res.status(400).send({msg: "please pass your user_id"});
+      return res.status(400).send({msg: "please pass your _id"});
     }
     let gameFound = game;
     if (!gameFound) {
       return res.status(400).send({msg: "invalid game ID"});
     }
-    let userValidated = Logic.validateUser(game, req.query.user_id);
+    let userValidated = Logic.validateUser(game, req.query._id);
     if (!userValidated) {
       return res.status(404).send({msg: "invalid user ID"});
     }
     if (userIdPassed && gameFound && userValidated) {
       for (let i = 0; i < game.num_filled.length; i++) {
-        if (game.num_filled[i].user_id == req.query.user_id) {
+        if (game.num_filled[i]._id == req.query._id) {
           return res.status(200).send({
             status: 200,
             num_filled: game.num_filled[i].count,
@@ -395,7 +395,7 @@ router.get("/game/num_filled", (req, res) => {
 });
 
 router.get("/game/player_status", (req, res) => {
-  User.find({_id: req.query.user_id}).then((users) => {
+  User.find({_id: req.query._id}).then((users) => {
     if (users.length == 0 || !users[0].game_id) {
       res.send({status:"not in game"});
       return;
@@ -406,13 +406,13 @@ router.get("/game/player_status", (req, res) => {
         res.send({status:"not in game"});
         return;
       } 
-      if (games[0].guesser && games[0].guesser._id == req.query.user_id) {
+      if (games[0].guesser && games[0].guesser._id == req.query._id) {
         res.send({ game_id: games[0]._id, status: "guesser" });
         return;
       } 
 
       for (let i = 0; i < games[0].players.length; i++) {
-        if (games[0].players[i]._id == req.query.user_id) {
+        if (games[0].players[i]._id == req.query._id) {
           res.send({ game_id: games[0]._id, status: "pixeler" });
           return;
         }
@@ -428,7 +428,7 @@ router.get("/game/player_status", (req, res) => {
 
 router.get("/game/canvas", (req, res) => {
   Game.findOne({ _id: req.query.game_id }).then((game) => {
-    let userValidated = Logic.validateUser(game, req.query.user_id);
+    let userValidated = Logic.validateUser(game, req.query._id);
     if (!userValidated) {
       return res.status(404).send({msg: "invalid user ID"});
     }
@@ -444,7 +444,7 @@ router.post("/game/join", (req, res) => {
       if (game && game.players) {
         let playerNotInGameYet = true;
         for (let i = 0; i < game.players.length; i++) {
-          if (game.players[i]._id == req.body.user_id) {
+          if (game.players[i]._id == req.body._id) {
             playerNotInGameYet = false;
             break;
           }
@@ -455,7 +455,7 @@ router.post("/game/join", (req, res) => {
             res.send({status: "error", msg: "game already started"})
           }
           game.players = game.players.concat([{
-            _id: req.body.user_id, 
+            _id: req.body._id, 
             name: req.body.user_name,
             game_id: req.body.game_id,
           }]);
@@ -476,7 +476,7 @@ router.post("/game/join", (req, res) => {
     console.log(err);
   });
 
-  const filter = { _id: req.body.user_id };
+  const filter = { _id: req.body._id };
   const update = { game_id: req.body.game_id };
   User.findOneAndUpdate(filter, update, {
     new: true,
@@ -490,7 +490,7 @@ router.put("/game/guess", (req, res) => {
   .then((games) => {
     const noGamesFound = games.length == 0;
     const emptyGuess = req.body.guess.length == 0;
-    const invalidUser = req.body.user_id != games[0].guesser._id;
+    const invalidUser = req.body._id != games[0].guesser._id;
     
     if (noGamesFound || emptyGuess || invalidUser ) {
       res.status(400).send({ msg: "you are not allowed to guess here" });
@@ -574,7 +574,7 @@ router.put("/game/start", (req, res) => {
       game.num_filled = [];
       for (let i = 0; i < game.players.length; i++) {
         game.num_filled.push({
-          user_id: game.players[i]._id,
+          _id: game.players[i]._id,
           count: 0,
         })
       }
@@ -595,7 +595,7 @@ router.put("/game/pixel", (req, res) => {
     function(err, game) {
       let ok = false;
       for (let i = 0; i < game.num_filled.length; i++) {
-        if (game.num_filled[i].user_id == req.body.user_id) {
+        if (game.num_filled[i]._id == req.body._id) {
           if(game.num_filled[i].count >= game.pixel_limit) {
             res.status(404).send({status: "error", msg: "exceeded limit"});
             return;
@@ -607,7 +607,7 @@ router.put("/game/pixel", (req, res) => {
         }
       }
       if (!ok) {
-        res.status(400).send({status: "error", msg: `invalid user: ${req.body.user_id}`});
+        res.status(400).send({status: "error", msg: `invalid user: ${req.body._id}`});
         return;
       } else {
         game = Logic.updatePixel(game, req.body.pixel_id, req.body.pixel_color, req.body.pixel_filled);
@@ -620,7 +620,7 @@ router.put("/game/pixel", (req, res) => {
             board: updatedGame.board,
             game_id: updatedGame._id,
           });
-          let game = Logic.getReturnableGame(updatedGame, req.body.user_id);
+          let game = Logic.getReturnableGame(updatedGame, req.body._id);
           res.send(game);
         }).catch((err) => {
           console.log(err);
@@ -643,7 +643,7 @@ router.post("/board/clear_pixels", (req, res) => {
       game.num_filled = [];
       for (let i = 0; i < game.players.length; i++) {
         game.num_filled.push({
-          user_id: game.players[i]._id,
+          _id: game.players[i]._id,
           count: 0,
         })
       }

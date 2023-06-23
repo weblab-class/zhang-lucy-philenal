@@ -22,7 +22,7 @@ function getOrCreateUser(user) {
 
     const newUser = new User({
         name: user.name,
-        _id: user.sub,
+        googleid: user.sub,
     });
 
     return newUser.save();

@@ -9,16 +9,10 @@
     margin-top: 30vh;
 }
 
-.Start-titleContainer{
-    
-}
-
 .Start-googleButton {
+    text-decoration: none;
     margin: 0px var(--m);
     text-decoration: underline;
-}
-.Start-loginWelcomeMessage {
-
 }
 
 .Start-loginButtonContainer {

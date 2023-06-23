@@ -20,7 +20,7 @@ import PlayerAccordion from "../PlayerAccordion.js";
  * @param {Number} round -- starts at 1
  * @param {Number} maxSessions
  * DIDNT ADD THE PROPS BELOW!!! THESE ARE NOT ACTUAL PROPS
- * @param {String} user_id - we can get all of the above from this
+ * @param {String} _id - we can get all of the above from this
  * @param {String} game_id
  */
 

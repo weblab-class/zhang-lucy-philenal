@@ -8,7 +8,7 @@ import "./StartMenu.css";
 
 /**
  * StartMenu is contained in the Start.js page. It has buttons that go to New Game, Join Game, Wall, Rules.
- * @param user_id google id
+ * @param _id google id
  * @param user_name google name
  */
 class StartMenu extends Component {
@@ -29,7 +29,7 @@ class StartMenu extends Component {
           <div className="StartMenu-buttonsRow">
               <div className="StartMenu-linkContainer">
                   <Link to="/howtoplay" state={{
-                    user_id: this.props.user_id,
+                    _id: this.props._id,
                     user_name: this.props.user_name,
                   }}
                   >
@@ -39,7 +39,7 @@ class StartMenu extends Component {
               </div>
               <div className="StartMenu-linkContainer">
                   <Link to="/newgame" state={{
-                    user_id: this.props.user_id,
+                    _id: this.props._id,
                     user_name: this.props.user_name,
                   }}>
                     <button className="StartMenu-button u-color-2 u-pointer"></button>
@@ -48,7 +48,7 @@ class StartMenu extends Component {
               </div>
               <div className="StartMenu-linkContainer">
                   <Link to="/joingame" state={{
-                    user_id: this.props.user_id,
+                    _id: this.props._id,
                     user_name: this.props.user_name,
                   }}>
                     <button className="StartMenu-button u-color-3 u-pointer"></button>
@@ -57,7 +57,7 @@ class StartMenu extends Component {
               </div>
               <div className="StartMenu-linkContainer">
                   <Link to="/wall" state={{
-                    user_id: this.props.user_id,
+                    _id: this.props._id,
                     user_name: this.props.user_name,
                   }}>
                     <button className="StartMenu-button u-color-4 u-pointer"></button>

@@ -46,7 +46,7 @@ const useStyles = makeStyles({
 @param theWordWas - what to put in paragraph text
 @param callback
 @param callbackButtonText
-@param user_id
+@param _id
 @param user_name
 @param game_id
  */

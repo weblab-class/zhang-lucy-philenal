@@ -14,7 +14,7 @@ import "./PlayerPanel.css";
  * Calls endTurn when button pressed
  * 
  * @param game_id
- * @param user_id
+ * @param _id
  * @param canvas_width_blocks the width of the canvas in blocks
  * @param canvas_height_blocks the height of the canvas in blocks
  * @param pixel_limit maximum pixels that a player can put
@@ -41,7 +41,7 @@ class CanvasPanel extends Component {
   componentDidMount() {
     get("/api/game/num_filled", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       this.setState({num_filled: res.num_filled});
     }).catch((err) => {
@@ -137,7 +137,7 @@ class CanvasPanel extends Component {
       post("/api/game/endTurn",
       {
         game_id: this.props.game_id,
-        user_id: this.props.user_id,
+        _id: this.props._id,
       }).catch((err) => {
         console.log(err);
       });
@@ -152,7 +152,7 @@ class CanvasPanel extends Component {
     post("api/game/nextRound", 
     {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((game) => {
       if (game.status == "end") {
       } else {
@@ -166,7 +166,7 @@ class CanvasPanel extends Component {
         console.log("Next word is " + game.word);
         post("/api/board/clear_pixels", {
           game_id: this.props.game_id,
-          user_id: this.props.user_id,
+          _id: this.props._id,
         }).then((res) => {
           if (res && res.board) {
             console.log("I CLEARED MY PIXELS")
@@ -199,7 +199,7 @@ class CanvasPanel extends Component {
           endGame={this.state.endGame}
           overlayText={this.state.overlayText}
           theWordWas={this.state.scoreText}
-          user_id={this.props.user_id}
+          _id={this.props._id}
           user_name={this.state.user_name}
           game_id={this.props.game_id}
           isGuesser={this.props.isGuesser}
@@ -212,7 +212,7 @@ class CanvasPanel extends Component {
         overlayText={this.state.overlayText} 
         theWordWas={this.state.theWordWas}
         callback={this.nextWord}
-        user_id={this.props.user_id}
+        _id={this.props._id}
         game_id={this.props.game_id}
         callbackButtonText={this.state.almostEnd ? "end game": "next word"}
       />}
@@ -224,7 +224,7 @@ class CanvasPanel extends Component {
                 canvas_height_blocks={this.props.canvas_height_blocks} 
                 canvas_width_blocks={this.props.canvas_width_blocks} 
                 game_id={this.props.game_id}
-                user_id={this.props.user_id}
+                _id={this.props._id}
                 isGuesser={this.props.isGuesser}
                 isMyTurn={this.props.isMyTurn}
                 pixels_remaining={pixels_remaining}

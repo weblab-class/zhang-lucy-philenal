@@ -96,14 +96,14 @@ const newGame = (req) => {
 
   const newGame = new Game({
     _id: req.body.game_id,
-    host_id: req.body.user_id,
+    host_id: req.body._id,
     players: [{
       name: req.body.user_name, 
-      _id: req.body.user_id
+      _id: req.body._id
     }],
     pixelers: [{
       name: req.body.user_name, 
-      _id: req.body.user_id
+      _id: req.body._id
     }],
     board: newBoard,
     started: false,
@@ -134,34 +134,34 @@ const getNextWord = (gameSchema) => {
 }
 
 // Returns true if user is in the game, false otherwise
-const validateUser = (game, user_id) => {
+const validateUser = (game, _id) => {
   if (!game || !game.players) {
     return false;
   }
   
   for (let i = 0; i < game.players.length; i++) {
-    if (game.players[i]._id == user_id) {
+    if (game.players[i]._id == _id) {
       return true;
     }
   }
   return false;
 }
 
-const validatePixeler = (game, user_id) => {
+const validatePixeler = (game, _id) => {
   if (!game || !game.players || !game.pixelers) {
     return false;
   }
 
   let ok = false;
   for (let i = 0; i < game.players.length; i++) {
-    if (game.players[i]._id == user_id) {
+    if (game.players[i]._id == _id) {
       ok = true;
     }
   }
   if (!ok) return false;
 
   for (let i = 0; i < game.pixelers.length; i++) {
-    if (game.pixelers[i]._id == user_id) {
+    if (game.pixelers[i]._id == _id) {
       return true;
     }
   }
@@ -171,7 +171,7 @@ const validatePixeler = (game, user_id) => {
 // Called by /game/new, /game/get, any API that needs to hide
 // certain fields
 // Fields to hide: words, word.
-const getReturnableGame = (game, user_id) => {
+const getReturnableGame = (game, _id) => {
   if (game && game.word && game.pixelers && game.words) {
     // always hide the word list
     game.words = null;
@@ -180,7 +180,7 @@ const getReturnableGame = (game, user_id) => {
     if (game.pixelers) {
       // if the user is pixeler, don't hide word
       for (let i = 0; i < game.pixelers.length; i++) {
-        if (game.pixelers[i]._id == user_id) {
+        if (game.pixelers[i]._id == _id) {
           return game;
         }
       }
@@ -217,32 +217,6 @@ const updatePixel = (game, pixel_id, color, pixel_filled) => {
 
 }
 
-// Called AFTER startGame
-// 1. determine ordering of guessers/pixelers
-// go in chronological order for now
-// 2. determine words
-const initializeGame = (game) => {
-  // game.players = shuffle(game.players);
-
-  // game.guesser = game.players[0];
-  // game.pixelers = game.players.slice(1,game.players.length);
-
-  // game.num_filled = [];
-  // for (let i = 0; i < game.players.length; i++) {
-  //   game.num_filled.push({
-  //     user_id: game.players[i]._id,
-  //     count: 0,
-  //   })
-  // }
-
-  // game.words = shuffle(game.words);
-  // game.word = game.words[0];
-  // game.started = true;
-  // return game;
-}
-
-
-
 const playersIdToPlayersList = () => {
   //makes a new array of players with {_id, playerInfo: }
   const players = [];
@@ -253,15 +227,6 @@ const playersIdToPlayersList = () => {
   return players;
 }
 
-//updates turn 
-const changeTurn = () => {
-  // prev
-  gameState.players[gameState.turn].isMyTurn = false;
-  gameState.turn +=1;
-  gameState.players[gameState.turn].isMyTurn = true;
-
-}
-
 const getScore = (game) => {
   return Math.round(100 * (game.num_correct / (game.num_incorrect + game.num_correct)));
 }
@@ -270,22 +235,9 @@ const getScore = (game) => {
 
 /* game state */
 const gameState = {
-    //fill me in -- not sure whether to key players with id or order
-   /*  games: {}, //object of game objects */
     winner: false, //if guesser correctly guessed --> team won
     players: [], // based off of order
-    // order -> {  //what turn you're supposed to go on
-    //     color: icon color/design, 
-    //     isGuesser: Boolean,
-    //     id: Number
-    //     isMyTurn: Boolean
-    // }
     playersId: {}, //based off of playerid
-    // id -> {  //what turn you're supposed to go on
-    //     color: icon color/design, 
-    //     isGuesser: Boolean,
-    //     isMyTurn: Boolean
-    // }
     turn: 1, //what turn you're currently on
     board: {}, //the board/canvas of game
 

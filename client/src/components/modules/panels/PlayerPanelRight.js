@@ -11,7 +11,7 @@ import "./PlayerPanelRight.css";
  * for the guesser and a settings bar
  * Proptypes
  * @param game_id
- * @param user_id google name
+ * @param _id google name
  * @param callback function (onCorrectGuess)
  */
 class PlayerPanelRight extends Component {
@@ -33,7 +33,7 @@ class PlayerPanelRight extends Component {
     this.is_mounted = true;
     get("api/game/get", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (!res) {
         console.log("game not found");
@@ -75,7 +75,7 @@ class PlayerPanelRight extends Component {
       console.log(`Submitting guess for ${the_guess}...`);
       put("api/game/guess", {
         game_id: this.props.game_id,
-        user_id: this.props.user_id,
+        _id: this.props._id,
         guess: the_guess,
       }).then((res) => {
         // if(res.message == "correct") {
@@ -117,7 +117,7 @@ class PlayerPanelRight extends Component {
                 <GuessEntry 
                   className="PlayerPanelRight-guessTextEntry" 
                   game_id={this.props.game_id}
-                  user_id={this.props.user_id}
+                  _id={this.props._id}
                   callback={this.onGuessEntry}
                   onSubmit={this.submitGuess}
                   />

@@ -14,7 +14,7 @@ import ToggleButton from '../modules/ToggleButton';
  * This is the page view of the Guesser
  * 
  * ~@param game_id The ID of the game~ (no longer)
- * @param user_id The ID of the particular player
+ * @param _id The ID of the particular player
  * @param {Number} turn
  * @param {Callback} onCorrectGuess function
  * @param {Boolean} correctGuess
@@ -41,7 +41,7 @@ class Guesser extends Component {
     this.is_mounted = true;
 
     get("api/user/get", {
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (this.is_mounted) {
         this.setState({
@@ -52,7 +52,7 @@ class Guesser extends Component {
 
     get("/api/game/get", {
       game_id: this.props.game_id,
-      user_id: this.props.user_id,
+      _id: this.props._id,
     }).then((res) => {
       if (this.is_mounted){
         this.setState({
@@ -154,7 +154,7 @@ class Guesser extends Component {
                 canvas_width_blocks={this.state.canvas.height} 
                 canvas_pixels={this.state.canvas.pixels}
                 game_id={this.props.game_id}
-                user_id={this.props.user_id}
+                _id={this.props._id}
                 isMyTurn={true} 
                 isGuesser={true}
                 correctGuess={this.props.correctGuess}
@@ -163,7 +163,7 @@ class Guesser extends Component {
             <div className="Player-subPanel">
               <PlayerPanelRight
                 game_id={this.props.game_id}
-                user_id={this.props.user_id}
+                _id={this.props._id}
                 isGuesser={true}
               />
             </div>
